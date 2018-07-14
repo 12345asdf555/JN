@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.DataStatisticsMapper">
+
+	<resultMap id="dataMap" type="com.spring.model.DataStatistics">
+		<id property="id" column="fid"></id> 
+        <result property="name" column="fname"></result>
+        <result property="insid" column="insid"></result>
+        <result property="insname" column="insname"></result>
+        <result property="total" column="total"></result>  
+        <result property="num" column="num"></result>  
+       	<result property="machinenum" column="machinenum"></result>
+       	<result property="junctionnum" column="junctionnum"></result>
+       	<result property="worktime" column="worktime"></result>
+        <result property="wireweight" column="fwire_weight"></result>
+       	<result property="speed" column="fspeed"></result>
+       	<result property="airflow" column="fair_flow_volume"></result>
+       	<result property="standbypower" column="fstandby_power"></result>
+       	<result property="electricity" column="electricity"></result>
+       	<result property="voltage" column="voltage"></result>
+       	<result property="serialnumber" column="serialnumber"></result>
+       	<result property="valuename" column="fvaluename"></result>
+       	<result property="time" column="time"></result>
+       	<result property="welderno" column="welderno"></result>
+       	<result property="hour" column="hour"></result>
+	</resultMap>
+	
+	<!-- 获取项目部焊机总数 -->
+	<select id="getItemMachineCount" resultMap="dataMap">
+		select * from (
+		select i.fid,i.fname,count(w.fid) total from tb_insframework i 
+		inner join tb_welding_machine w on w.finsframework_id=i.fid 
+		where i.ftype=23 
+		<if test="parent!=null and parent!=''">
+			and i.fparent=#{parent}
+		</if>
+		group by i.fid
+		UNION
+		select i.fid,i.fname,0 total from tb_insframework  i 
+		where i.ftype=23 
+		<if test="parent!=null and parent!=''">
+			and i.fparent=#{parent}
+		</if>
+		and i.fid not in 
+		(select i.fid from tb_insframework i 
+		inner join tb_welding_machine w on w.finsframework_id=i.fid 
+		where i.ftype=23 
+		<if test="parent!=null and parent!=''">
+			and i.fparent=#{parent}
+		</if>
+		 group by i.fid )
+		)temp order by fid
+	</select>
+	
+	<!-- 获取开机焊机数 -->
+	<select id="getStartingUpMachineNum" resultType="java.lang.Integer">
+		select count(*) from(
+		select fmachine_id from tb_work where 1=1
+		<if test="itemid!=null and itemid!=''">
+			and fitemid= #{itemid}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		UNION 
+		select fmachine_id from tb_standby where 1=1
+		<if test="itemid!=null and itemid!=''">
+			and fitemid= #{itemid}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		UNION
+		select fmachine_id from tb_alarm where 1=1
+		<if test="itemid!=null and itemid!=''">
+			and fitemid= #{itemid}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		)temp
+		
+	</select>
+	
+	<!-- 获取工作的焊机数-->
+	<select id="getWorkMachineNum" resultMap="dataMap">
+		select count(DISTINCT(fmachine_id)) machinenum
+		from tb_work where 1=1
+		<if test="itemid!=null and itemid!=''">
+			and fitemid= #{itemid}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.welderno!=null and dto.welderno!=''">
+				and fwelder_id = #{dto.welderno}
+			</if>
+			<if test="dto.machineid!=null and dto.machineid!=''">
+				and fmachine_id = #{dto.machineid}
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+	</select>
+	
+	<!-- 获取工作的焊口数-->
+	<select id="getWorkJunctionNum" resultMap="dataMap">
+		select count(fjunction_id) junctionnum from(
+		select fjunction_id from tb_work where 1=1
+		<if test="itemid!=null and itemid!=''">
+			and fitemid= #{itemid}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.welderno!=null and dto.welderno!=''">
+				and fwelder_id = #{dto.welderno}
+			</if>
+			<if test="dto.machineid!=null and dto.machineid!=''">
+				and fmachine_id = #{dto.machineid}
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		union
+		select fjunction_id from tb_standby where 1=1
+		<if test="itemid!=null and itemid!=''">
+			and fitemid= #{itemid}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.welderno!=null and dto.welderno!=''">
+				and fwelder_id = #{dto.welderno}
+			</if>
+			<if test="dto.machineid!=null and dto.machineid!=''">
+				and fmachine_id = #{dto.machineid}
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		)temp
+	</select>
+	
+	
+	<!-- 获取开机总时长 -->
+	<select id="getStaringUpTime" resultType="java.math.BigInteger">
+		select sum(num) from(
+		select sum(fworktime) num from tb_work where 1=1
+		<if test="itemid!=null and itemid!=''">
+			and fitemid= #{itemid}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.junctionno!=null and dto.junctionno!=''">
+				and fjunction_id = #{dto.junctionno}
+			</if>
+			<if test="dto.welderno!=null and dto.welderno!=''">
+				and fwelder_id = #{dto.welderno}
+			</if>
+			<if test="dto.machineid!=null and dto.machineid!=''">
+				and fmachine_id = #{dto.machineid}
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		UNION ALL
+		select sum(fstandbytime) num from tb_standby where 1=1
+		<if test="itemid!=null and itemid!=''">
+			and fitemid= #{itemid}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.junctionno!=null and dto.junctionno!=''">
+				and fjunction_id = #{dto.junctionno}
+			</if>
+			<if test="dto.welderno!=null and dto.welderno!=''">
+				and fwelder_id = #{dto.welderno}
+			</if>
+			<if test="dto.machineid!=null and dto.machineid!=''">
+				and fmachine_id = #{dto.machineid}
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		UNION ALL
+		select sum(falarmtime) num from tb_alarm where 1=1
+		<if test="itemid!=null and itemid!=''">
+			and fitemid= #{itemid}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.junctionno!=null and dto.junctionno!=''">
+				and fjunction_id = #{dto.junctionno}
+			</if>
+			<if test="dto.welderno!=null and dto.welderno!=''">
+				and fwelder_id = #{dto.welderno}
+			</if>
+			<if test="dto.machineid!=null and dto.machineid!=''">
+				and fmachine_id = #{dto.machineid}
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		)temp
+	</select>
+	
+	<!-- 获取焊丝重量，送丝速度，气流量，待机功率-->
+	<select id="getParameter" resultMap="dataMap">
+		SELECT fwire_weight,fspeed,fair_flow_volume,fstandby_power from tb_parameter
+	</select>
+	
+	<!-- 待机时长 -->
+	<select id="getStandytime" resultType="java.math.BigInteger">
+		select sum(fstandbytime) worktime from tb_standby where 1=1 
+		<if test="itemid!=null and itemid!=''">
+			and fitemid= #{itemid}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.junctionno!=null and dto.junctionno!=''">
+				and fjunction_id = #{dto.junctionno}
+			</if>
+			<if test="dto.welderno!=null and dto.welderno!=''">
+				and fwelder_id = #{dto.welderno}
+			</if>
+			<if test="dto.machineid!=null and dto.machineid!=''">
+				and fmachine_id = #{dto.machineid}
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+	</select>
+	
+	<!-- 焊接时长及平均电流电压 -->
+	<select id="getWorkTimeAndEleVol" resultMap="dataMap">
+		SELECT * from (
+		select avg(felectricity) electricity,avg(fvoltage) voltage,sum(fworktime) worktime from tb_work where 1=1 
+		<if test="itemid!=null and itemid!=''">
+			and fitemid= #{itemid}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.junctionno!=null and dto.junctionno!=''">
+				and fjunction_id = #{dto.junctionno}
+			</if>
+			<if test="dto.welderno!=null and dto.welderno!=''">
+				and fwelder_id = #{dto.welderno}
+			</if>
+			<if test="dto.machineid!=null and dto.machineid!=''">
+				and fmachine_id = #{dto.machineid}
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		)temp
+	</select>
+
+	<!-- 查询所有焊机id，编号，组织机构id及名称 -->
+	<select id="getAllMachine" resultMap="dataMap">
+		SELECT m.fid,m.fequipment_no fname,i.fid insid,fname insname FROM tb_welding_machine m inner join tb_insframework i on i.fid = m.finsframework_id where ftype=23
+		<if test="item!=null and item!=''">
+			and i.fid = #{item}
+		</if>
+	</select>
+	
+	<!--查询所有焊工编号，姓名 -->
+	<select id="getAllWelder" resultMap="dataMap">
+		SELECT fwelder_no serialnumber,fname FROM tb_welder
+	</select>
+	
+	<!-- 查询所有焊缝编号，组织机构名称 -->
+	<select id="getAllJunction" resultMap="dataMap">
+		SELECT fwelded_junction_no serialnumber,i.fid,i.fname FROM tb_welded_junction j INNER join tb_insframework i on i.fid = j.fitemId where 1=1
+		<if test="junctionno!=null and junctionno!=''">
+			and fwelded_junction_no like #{junctionno}
+		</if>
+	</select>
+	
+	<!-- 查询所有项目部组织机构 -->
+	<select id="getAllInsframe"  resultMap="dataMap">
+		SELECT fid,fname FROM tb_insframework where ftype=23
+	</select>
+	
+	<!-- 查询组织机构正常焊接时长 -->
+	<select id="getWeldItemInCount"  resultMap="dataMap">
+		select * from (
+		select i.fid,i.fname,SUM(w.fworktime) insid from tb_insframework i 
+		inner join tb_work w on w.fitemid=i.fid
+		where i.ftype=23
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and w.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and w.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		group by i.fid
+		UNION
+		select i.fid,i.fname,0 id from tb_insframework  i 
+		where i.ftype=23 
+		and i.fid not in 
+		(select i.fid from tb_insframework i 
+		inner join tb_work w on w.fitemid=i.fid 
+		where i.ftype=23
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and w.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and w.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		group by i.fid )
+		)temp
+	</select>
+	
+	<!-- 查询组织机构超规范焊接时长 -->
+	<select id="getWeldItemOutCount"  resultMap="dataMap">
+		select * from (
+		select i.fid,i.fname,SUM(w.falarmtime) insid from tb_insframework i 
+		inner join tb_alarm w on w.fitemid=i.fid
+		where i.ftype=23
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and w.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and w.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		group by i.fid
+		UNION
+		select i.fid,i.fname,0 insid from tb_insframework  i 
+		where i.ftype=23 
+		and i.fid not in 
+		(select i.fid from tb_insframework i 
+		inner join tb_alarm w on w.fitemid=i.fid 
+		where i.ftype=23
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and w.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and w.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		group by i.fid )
+		)temp
+	</select>
+	
+	<!-- 查询焊机正常焊接时长 -->
+	<select id="getWeldMachineInCount"  resultMap="dataMap">
+		select * from (
+		SELECT m.fequipment_no fname,fname insname,SUM(w.fworktime) insid FROM tb_welding_machine m 
+		inner join tb_insframework i on i.fid = m.finsframework_id 
+		INNER JOIN tb_work w ON w.fmachine_id=m.fid 
+		where 1=1
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and w.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and w.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		<if test="itemid!=null and itemid!=''">
+			and m.finsframework_id= #{itemid}
+		</if>
+		GROUP BY m.fid
+		UNION
+		SELECT m.fequipment_no fname,i.fname insname,0 insid FROM tb_welding_machine m 
+		inner join tb_insframework i on i.fid = m.finsframework_id where
+		    m.fid NOT IN (SELECT m.fid FROM tb_welding_machine m 
+		    inner join tb_insframework i on i.fid = m.finsframework_id 
+		    INNER JOIN tb_work w ON w.fmachine_id=m.fid where 1=1 
+			<if test="dto!=null and dto!=''">
+				<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+					and w.fstarttime &gt;= #{dto.dtoTime1}
+				</if>
+				<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+					and w.fendtime &lt;= #{dto.dtoTime2}
+				</if>
+			</if>
+			<if test="itemid!=null and itemid!=''">
+				and m.finsframework_id= #{itemid}
+			</if>
+		    GROUP BY m.fid )
+			<if test="itemid!=null and itemid!=''">
+				and m.finsframework_id= #{itemid}
+			</if>
+		)temp 
+	</select>
+	
+	<!-- 查询焊机超规范焊接时长 -->
+	<select id="getWeldMachineOutCount"  resultMap="dataMap">
+		select * from (
+		SELECT m.fequipment_no fname,fname insname,SUM(w.falarmtime) insid FROM tb_welding_machine m 
+		inner join tb_insframework i on i.fid = m.finsframework_id 
+		INNER JOIN tb_alarm w ON w.fmachine_id=m.fid 
+		where 1=1
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and w.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and w.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY m.fid
+		UNION
+		SELECT m.fequipment_no fname,i.fname insname,0 insid FROM tb_welding_machine m 
+		inner join tb_insframework i on i.fid = m.finsframework_id where
+		    m.fid NOT IN (SELECT m.fid FROM tb_welding_machine m 
+		    inner join tb_insframework i on i.fid = m.finsframework_id 
+		    INNER JOIN tb_alarm w ON w.fmachine_id=m.fid where 1=1
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and w.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and w.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		    GROUP BY m.fid )
+		)temp 
+	</select>
+	
+	<!-- 查询焊工正常焊接时长 -->
+	<select id="getWeldPersonInCount"  resultMap="dataMap">
+		select * from 
+		( SELECT w.fwelder_no insname,w.fname,SUM(a.fworktime) insid FROM tb_welder w 
+		 inner join tb_work a on a.fwelder_id=w.fwelder_no 
+		 where 1=1
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and a.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and a.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		 GROUP BY w.fid 
+		 UNION 
+		 SELECT w.fwelder_no insname,w.fname,0 insid FROM tb_welder w
+		 where w.fid NOT IN (
+		 SELECT w.fid FROM tb_welder w 
+		 inner join tb_work a on a.fwelder_id=w.fwelder_no 
+		 where 1=1
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and a.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and a.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY w.fid ) 
+		)temp 
+	</select>
+	
+	<!-- 查询焊工超规范焊接时长 -->
+	<select id="getWeldPersonOutCount"  resultMap="dataMap">
+		select * from 
+		( SELECT w.fwelder_no insname,w.fname,SUM(a.falarmtime) insid FROM tb_welder w 
+		 inner join tb_alarm a on a.fwelder_id=w.fwelder_no 
+		 where 1=1
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and a.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and a.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		 GROUP BY w.fid 
+		 UNION 
+		 SELECT w.fwelder_no insname,w.fname,0 insid FROM tb_welder w
+		 where w.fid NOT IN (
+		 SELECT w.fid FROM tb_welder w 
+		 inner join tb_alarm a on a.fwelder_id=w.fwelder_no 
+		 where 1=1
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and a.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and a.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY w.fid ) 
+		)temp 
+	</select>
+	
+		<!-- 查询工件正常焊接时长 -->
+	<select id="getWeldPieceInCount"  resultMap="dataMap">
+		select * from (
+		SELECT j.fwelded_junction_no insname,SUM(a.fworktime) insid FROM tb_welded_junction j 
+		INNER JOIN tb_work a ON j.fwelded_junction_no=a.fjunction_id WHERE 1=1 
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and a.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and a.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		<if test="junctionno!=null and junctionno!=''">
+			and j.fwelded_junction_no like #{junctionno}
+		</if>
+		    GROUP BY j.fid
+		UNION
+		SELECT j.fwelded_junction_no insname,0 insid FROM tb_welded_junction j where
+		    j.fid NOT IN (
+		    SELECT j.fid FROM tb_welded_junction j 
+		    INNER JOIN tb_work a ON j.fwelded_junction_no=a.fjunction_id WHERE 1=1 
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and a.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and a.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		<if test="junctionno!=null and junctionno!=''">
+			and j.fwelded_junction_no like #{junctionno}
+		</if>
+		    GROUP BY j.fid)
+		<if test="junctionno!=null and junctionno!=''">
+			and j.fwelded_junction_no like #{junctionno}
+		</if>
+		)temp 
+	</select>
+	
+	<!-- 查询工件超规范焊接时长 -->
+	<select id="getWeldPieceOutCount"  resultMap="dataMap">
+		select * from (
+		SELECT j.fwelded_junction_no insname,SUM(a.falarmtime) insid FROM tb_welded_junction j 
+		INNER JOIN tb_alarm a ON j.fwelded_junction_no=a.fjunction_id WHERE 1=1 
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and a.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and a.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		<if test="junctionno!=null and junctionno!=''">
+			and j.fwelded_junction_no like #{junctionno}
+		</if>
+		    GROUP BY j.fid   
+		UNION
+		SELECT j.fwelded_junction_no insname,0 insid FROM tb_welded_junction j 
+		where j.fid NOT IN (
+		SELECT j.fid FROM tb_welded_junction j 
+		INNER JOIN tb_alarm a ON j.fwelded_junction_no=a.fjunction_id 
+		WHERE 1=1 
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and a.fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and a.fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		<if test="junctionno!=null and junctionno!=''">
+			and j.fwelded_junction_no like #{junctionno}
+		</if>
+		    GROUP BY j.fid)
+		<if test="junctionno!=null and junctionno!=''">
+			and j.fwelded_junction_no like #{junctionno}
+		</if>
+		)temp 
+	</select>
+	
+	<!-- 故障报表 -->
+	<select id="getFauit"  resultMap="dataMap">
+		SELECT m.fid,m.fequipment_no fname,i.fname insname,d.fvaluename,sum(falarmtime) num FROM tb_warn l 
+		INNER JOIN tb_welding_machine m on m.fid = l.fmachine_id 
+		INNER JOIN tb_insframework i on i.fid = m.finsframework_id 
+		INNER JOIN tb_dictionary d on d.fvalue = l.fstatus
+		where d.ftypeid=15 
+		<if test="value>0">
+			and d.fvalue=#{value}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		group by m.fid
+	</select>
+	
+	<!-- 故障报表 -->
+	<select id="getFauitDetail"  resultMap="dataMap">
+		SELECT m.fequipment_no fname,i.fname insname,d.fvaluename,FWeldTime time FROM tb_live_data l 
+		INNER JOIN tb_welding_machine m ON m.fid = l.fmachine_id 
+		INNER JOIN tb_insframework i on i.fid = m.finsframework_id 
+		INNER join tb_dictionary d on d.fvalue=l.fstatus 
+		where d.ftypeid=15
+		<if test="id!=null and id!=''">
+			and fmachine_id=#{id}
+		</if>
+		<if test="value>0">
+			and d.fvalue=#{value}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and FWeldTime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and FWeldTime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+	</select>
+	
+	<!-- 	焊工工作排行榜 -->
+	<select id="getWorkRank" resultMap="dataMap">
+		select sum(fworktime) /60/60 hour,w.fname,w.fwelder_no welderno,i.fname insname FROM  tb_work l  left JOIN  tb_welder w on w.fwelder_no = l.fwelder_id 
+		INNER join tb_insframework i on i.fid = l.fitemid INNER join tb_insframework ins on ins.fid = i.fparent 
+		where fstarttime &gt;= #{time} and fendtime &lt; date_sub(date_sub(#{time},interval -1 day),interval 0 minute)
+		<if test="parent!=null and parent!=''">
+			AND ins.fid=#{parent}
+		</if>
+		group by w.fname ORDER by hour 
+		LIMIT 10
+	</select>
+	
+	<!-- 获取工作的焊机数-->
+	<select id="getWorkMachineCount" resultMap="dataMap">
+		select count(DISTINCT(fmachine_id)) machinenum
+		from tb_work where 1=1
+		<if test="itemid!=null and itemid!=''">
+			and fitemid= #{itemid}
+		</if>
+		and fstarttime &gt;= #{time} and fendtime &lt; date_sub(date_sub(#{time},interval -1 day),interval 0 minute)
+	</select>
+	
+	<!-- 查询组织机构正常焊接时长 -->
+	<select id="getItemWeldTime"  resultMap="dataMap">
+		select * from (select i.fid,i.fname,SUM(fworktime)/60/60 hour,DATE_FORMAT( fstarttime,'%Y-%m-%d' ) time from tb_insframework i 
+		inner join tb_work w on w.fitemid=i.fid
+		where i.ftype=23
+		<if test="dto!=null and dto!=''">
+			<if test="dto.parent!=null and dto.parent!=''">
+				and i.fparent &gt;= #{dto.parent}
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		group by i.fid,time
+		)temp
+	</select>
+
+	<!-- 查询组织机构超规范焊接时长 -->
+	<select id="getItemOverProofTime"  resultMap="dataMap">
+		select * from (
+		select i.fid,i.fname,SUM(w.falarmtime)/60/60 hour,DATE_FORMAT( fstarttime,'%Y-%m-%d' ) time from tb_insframework i 
+		inner join tb_alarm w on w.fitemid=i.fid
+		where i.ftype=23
+		<if test="dto!=null and dto!=''">
+			<if test="dto.parent!=null and dto.parent!=''">
+				and i.fparent &gt;= #{dto.parent}
+			</if>
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		group by i.fid,time
+		)temp
+	</select>
+</mapper>

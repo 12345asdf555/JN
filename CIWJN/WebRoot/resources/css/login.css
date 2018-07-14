@@ -1,0 +1,72 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: SpringSoftBold;
+    background-image: url(../images/weldmesback.jpg);
+    background-repeat: no-repeat;
+	background-size:100%;
+	background-color: #1c1c1c;
+}
+
+#bodydiv{
+	height:280px;
+	width:480px;
+	position:fixed; 
+	margin:auto;
+	left:0;
+	right:0;
+	top:-40;
+	bottom:0;
+	-webkit-box-shadow: #fff 0px 0px 50px;  
+    -moz-box-shadow: #fff 0px 0px 50px;  
+    box-shadow: #fff  0px 0px 50px;  
+    opacity:0.8;
+    filter:alpha(opacity=80); /* 针对 IE8 以及更早的版本 */
+
+}
+
+#logindiv{
+    background-image: url(../images/weldmeslogin.jpg);
+    background-repeat: no-repeat;
+	background-size:100% 100%;
+	margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#logindiv #formdiv{
+	margin-top:90px;
+	margin-left:100px;
+	width:80%;
+}
+
+table td{
+	color: #fff;
+	font-size:20px;
+	text-align: right;
+}
+
+table td input{
+	height:30px;
+	width:200px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	background-color: 	#00008B;
+	border: 1px solid #4665cb;
+	color:#ffffff;
+}
+
+#loginbutton{
+	height:30px;
+	color:#ffffff;
+	font-size:20px;
+	border:0;
+	margin-top:15px;
+	width:200px;
+	background: #2752de;
+}
