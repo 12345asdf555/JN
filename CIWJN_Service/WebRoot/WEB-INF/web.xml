@@ -31,14 +31,14 @@
   <listener>
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
-  <context-param>
+<!--   <context-param>
     <param-name>13</param-name>
     <param-value>http://121.196.222.216:8080/Company_Service/companyWebService?wsdl</param-value>
   </context-param>
   <context-param>
     <param-name>17</param-name>
     <param-value>http://121.196.222.216:8080/Item_Service/itemWebService?wsdl</param-value>
-  </context-param>
+  </context-param> -->
   <welcome-file-list>
     <welcome-file>/index.jsp</welcome-file>
   </welcome-file-list>

@@ -36,6 +36,10 @@ public class WelderServiceImpl implements WelderService {
 				obj.put("WELDERNO",jutil.setValue(list.get(i).getWelderno()));
 				obj.put("ITEMID",jutil.setValue(list.get(i).getIid()));
 				obj.put("ITEMNAME",jutil.setValue(list.get(i).getIname()));
+				obj.put("PHONE",jutil.setValue(list.get(i).getPhone()));
+				obj.put("CARDNUM",jutil.setValue(list.get(i).getCardnum()));
+				obj.put("LEVEL",jutil.setValue(list.get(i).getLevel()));
+				obj.put("QUALITY",jutil.setValue(list.get(i).getQuality()));
 				ary.add(obj);
 			}
 			return JSON.toJSONString(ary);
@@ -115,6 +119,33 @@ public class WelderServiceImpl implements WelderService {
 				obj.put("NAME",jutil.setValue(list.getName()));
 				obj.put("WELDERNO",jutil.setValue(list.getWelderno()));
 				obj.put("ITEMNAME",jutil.setValue(list.getIname()));
+				obj.put("PHONE",jutil.setValue(list.getPhone()));
+				obj.put("CARDNUM",jutil.setValue(list.getCardnum()));
+				obj.put("LEVEL",jutil.setValue(list.getLevel()));
+				obj.put("QUALITY",jutil.setValue(list.getQuality()));
+			}
+			return JSON.toJSONString(obj);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Object getWelderByNum(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONObject obj = new JSONObject();
+			Welder list = wm.getWelderByNum(json.getString("WELDERNO"));
+			if(list!=null){
+				obj.put("ID", jutil.setValue(list.getId()));
+				obj.put("NAME",jutil.setValue(list.getName()));
+				obj.put("WELDERNO",jutil.setValue(list.getWelderno()));
+				obj.put("ITEMNAME",jutil.setValue(list.getIname()));
+				obj.put("PHONE",jutil.setValue(list.getPhone()));
+				obj.put("CARDNUM",jutil.setValue(list.getCardnum()));
+				obj.put("LEVEL",jutil.setValue(list.getLevel()));
+				obj.put("QUALITY",jutil.setValue(list.getQuality()));
 			}
 			return JSON.toJSONString(obj);
 		}catch(Exception e){

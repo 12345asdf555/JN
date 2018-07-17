@@ -21,4 +21,6 @@ public interface WelderMapper extends Mapper<Welder> {
 	int getWeldernoCount(@Param("wno")String wno);
 	
 	Welder getWelderById(@Param("id")BigInteger id);
+	
+	Welder getWelderByNum(@Param("welderno")String welderno);
 }

@@ -10,15 +10,15 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-	<bean id="blocWebService" class="com.sshome.ssmcxf.webservice.impl.BlocWebServiceImpl"/>
+	<bean id="ciwjnWebService" class="com.sshome.ssmcxf.webservice.impl.CIWJNWebServiceImpl"/>
 	<bean id="inInterceptor" class="com.sshome.ssmcxf.webservice.impl.AuthInterceptor"/>
 	
 	
 	<!-- 	address的名称就是访问的WebService的name -->
-	<jaxws:server id="blocService" serviceClass="com.sshome.ssmcxf.webservice.BlocWebService" address="blocWebService">
+	<jaxws:server id="ciejnService" serviceClass="com.sshome.ssmcxf.webservice.CIWJNWebService" address="cIWJNWebService">
     	<jaxws:serviceBean>
 			<!--  要暴露的 bean 的引用 -->
-        	<ref bean="blocWebService"/>
+        	<ref bean="ciwjnWebService"/>
     	</jaxws:serviceBean>
     	<jaxws:inInterceptors>
     	    <!-- 拦截处理用户名密码 -->
