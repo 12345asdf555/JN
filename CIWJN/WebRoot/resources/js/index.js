@@ -170,6 +170,10 @@ function openWps(){
 	addTab("工艺管理","wps/AllWps");
 }
 
+function openWeldTask(){
+	addTab("工序计划管理","weldtask/goWeldTask");
+}
+
 function openSpe(){
 	addTab("规范管理","wps/AllSpe");
 }

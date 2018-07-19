@@ -661,6 +661,70 @@ function searchWJ(){
 	searchStr="";
 }
 
+//新增焊口查询条件
+function newSearchWT(){
+	fillcontent();
+	newSearch();
+	searchWTCombobox();
+	initSearch();
+}
+
+//焊口下拉框
+function searchWTCombobox(){
+	var optionFields = 
+		"<option value='fwelded_junction_no'>编号</option>" +
+		"<option value='fserial_no'>序列号</option>" +
+		"<option value='fpipeline_no'>管线号</option>" +
+		"<option value='froom_no'>房间号</option>" +
+		"<option value='funit'>机组</option>" +
+		"<option value='farea'>区域</option>" +
+		"<option value='fsystems'>系统</option>" +
+		"<option value='fchildren'>子项</option>" +
+		"<option value='fexternal_diameter'>上游外径</option>" +
+		"<option value='fnextExternal_diameter'>下游外径</option>" +
+		"<option value='fwall_thickness'>上游壁厚</option>" +
+		"<option value='fnextwall_thickness'>下游壁厚</option>" +
+		"<option value='fmaterial'>上游材质</option>" +
+		"<option value='fnext_material'>下游材质</option>" +
+		"<option value='fdyne'>达因</option>" +
+		"<option value='fspecification'>规格</option>" +
+		"<option value='fname'>所属项目</option>" +
+		"<option value='fmax_electricity'>电流上限</option>" +
+		"<option value='fmin_electricity'>电流下限</option>" +
+		"<option value='fmax_valtage'>电压上限</option>" +
+		"<option value='fmin_valtage'>电压下限</option>" +
+		"<option value='felectricity_unit'>电流单位</option>" +
+		"<option value='fvaltage_unit'>电压单位</option>" +
+		"<option value='fstart_time'>开始时间</option>" +
+		"<option value='fend_time'>完成时间</option>" +
+		"<option value='fcreatetime'>创建时间</option>" +
+		"<option value='	fupdatetime'>修改时间</option>" +
+		"<option value='fupdatecount'>修改次数</option>";
+	$(".fields").html(optionFields);
+	createSearchCombobox();
+}
+
+
+//进入焊口查询
+function insertsearchWT(){
+	$("#searchdiv").dialog("open");
+	searchWTCombobox();
+	initSearch();
+}
+
+//焊口执行查询
+function searchWT(){
+	fillcontent();
+	if(!getContent()){
+		return; 
+	}
+	$('#weldTaskTable').datagrid('load', {
+		"searchStr" : searchStr
+	});
+	$("#searchdiv").dialog("close");
+	searchStr="";
+}
+
 //删除用户查询条件
 function removeSerachByUser(){
 	if(index == 0){
