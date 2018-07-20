@@ -22,31 +22,24 @@ function weldedJunctionDatagrid(){
 			align : "left",
 			hidden:true
 		}, {
-			field : '',
-			title : '工序任务号',
-//			width : 90,
-			halign : "center",
-			align : "left"
-		},{
 			field : 'weldedJunctionno',
-			title : '编号',
+			title : '任务编号',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'serialNo',
-			title : '序列号',
+			title : '任务描述',
 //			width : 90,
 			halign : "center",
 			align : "left",
 //			hidden:true
 		}, {
 			field : 'pipelineNo',
-			title : '管线号',
+			title : '焊工工号',
 //			width : 90,
 			halign : "center",
-			align : "left",
-			hidden:true
+			align : "left"
 		}, {
 			field : 'roomNo',
 			title : '房间号',
@@ -94,68 +87,78 @@ function weldedJunctionDatagrid(){
 			title : '上游外径',
 //			width : 90,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'nextexternaldiameter',
 			title : '下游外径',
 //			width : 90,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'wallThickness',
 			title : '上游壁厚',
 //			width : 90,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'nextwall_thickness',
 			title : '下游璧厚',
 //			width : 90,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'material',
 			title : '上游材质',
 //			width : 90,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'next_material',
 			title : '下游材质',
 //			width : 90,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'specification',
 			title : '规格',
 //			width : 90,
 			halign : "center",
 			align : "left",
-//			hidden:true
+			hidden:true
 		}, {
 			field : 'maxElectricity',
 			title : '电流上限',
 //			width : 90,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'minElectricity',
 			title : '电流下限',
 //			width : 90,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'maxValtage',
 			title : '电压上限',
 //			width : 90,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'minValtage',
 			title : '电压下限',
 //			width : 90,
 			halign : "center",
-			align : "left"
+			align : "left",
+			hidden:true
 		}, {
 			field : 'itemname',
 			title : '所属项目',
