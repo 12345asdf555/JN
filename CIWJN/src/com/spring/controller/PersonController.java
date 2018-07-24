@@ -4,7 +4,9 @@ import java.math.BigInteger;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
+import javax.xml.namespace.QName;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,8 +23,8 @@ import com.spring.service.PersonService;
 import com.spring.service.WeldingMachineService;
 import com.spring.util.IsnullUtil;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JSONArray;
 
 @Controller
 @RequestMapping(value = "/welders",produces = { "text/json;charset=UTF-8" })
@@ -300,4 +302,42 @@ public class PersonController {
 		return obj.toString();
 	}
 	
-}
+	/**
+	 * 获取焊工信息(不含分页)
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getWelderNoPage")
+	@ResponseBody
+	public String getWelderNoPage(HttpServletRequest request){
+			JSONObject json = new JSONObject();
+			JSONArray rows = new JSONArray();
+			JSONObject obj = new JSONObject();
+			IsnullUtil iutil = new IsnullUtil();
+			//客户端执行操作
+			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+			iutil.Authority(client);
+			String obj1 = "{\"CLASSNAME\":\"welderWebServiceImpl\",\"METHOD\":\"getWelderAll\"}";
+			String obj2 = "{\"STR\":\"\"}";
+			try {
+			   Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"),
+						new Object[] { obj1,obj2 });
+			   String restr = objects[0].toString();
+		       JSONArray ary = JSONArray.fromObject(restr);
+		       for(int i=0;i<ary.size();i++){
+		       String str = ary.getString(i);
+		       JSONObject js = JSONObject.fromObject(str);
+		       json.put("id", js.getString("ID"));
+		       json.put("welderno", js.getString("WELDERNO"));
+		       rows.add(json);
+		       }
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			obj.put("ary", rows);
+			return obj.toString();
+		}
+
+	}

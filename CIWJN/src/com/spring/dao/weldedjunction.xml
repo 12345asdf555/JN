@@ -61,10 +61,15 @@
 	</resultMap>
 	
 	<select id="getWeldedJunctionAll" resultMap="wjMap" parameterType="java.lang.String">
-		SELECT j. * , i.fid iid, i.fname iname FROM tb_welded_junction j LEFT JOIN tb_insframework i ON j.fitemId = i.fid WHERE 1 =1
+	SELECT j.fid,j.fwelded_junction_no,j.fserial_no,j.fexternal_diameter,j.fstart_time,j.fend_time,j.fdyne,i.fid iid,w.fwelder_no fpipeline_no,d.fvaluename froom_no,i.fname iname FROM tb_welded_junction j 
+	INNER JOIN tb_welder w ON j.fdyne=w.fid 
+	INNER JOIN tb_dictionary d ON w.Fqualification=d.fvalue 
+	INNER JOIN tb_insframework i ON j.fitemId = i.fid 
+	WHERE 1=1 AND ftypeid=7 
 		<if test="str!=null and str!=''">
 			and ${str}
 		</if>
+	ORDER BY j.fid
 	</select>
 	
 	<select id="getJunctionByWelder" resultMap="wjMap">

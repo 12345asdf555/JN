@@ -31,7 +31,7 @@ public class JunctionWebServiceImpl implements JunctionWebService {
 	}
 
 	@Override
-	public BigInteger addJunction(String object) {
+	public boolean addJunction(String object) {
 		return jws.addJunction(object);
 	}
 
@@ -45,4 +45,27 @@ public class JunctionWebServiceImpl implements JunctionWebService {
 		return jws.deleteJunction(object);
 	}
 
+	@Override
+	public Object getTaskResultAll(String object) {
+		// TODO Auto-generated method stub
+		return jws.getTaskResultAll(object);
+	}
+
+	@Override
+	public boolean addTaskResult(String object) {
+		// TODO Auto-generated method stub
+		return jws.addTaskResult(object);
+	}
+
+	@Override
+	public boolean updateTaskResult(String object) {
+		// TODO Auto-generated method stub
+		return jws.updateTaskResult(object);
+	}
+
+	@Override
+	public boolean deleteTaskResult(String object) {
+		// TODO Auto-generated method stub
+		return jws.deleteTaskResult(object);
+	}
 }

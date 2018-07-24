@@ -37,28 +37,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				obj.put("SERIALNO",jutil.setValue(list.get(i).getSerialNo()));
 				obj.put("PIPELINENO",jutil.setValue(list.get(i).getPipelineNo()));
 				obj.put("ROOMNO",jutil.setValue(list.get(i).getRoomNo()));
-				obj.put("UNIT",jutil.setValue(list.get(i).getUnit()));
-				obj.put("AREA",jutil.setValue(list.get(i).getArea()));
-				obj.put("SYSTEMS",jutil.setValue(list.get(i).getSystems()));
-				obj.put("CHILDREN",jutil.setValue(list.get(i).getChildren()));
 				obj.put("DYNE",jutil.setValue(list.get(i).getDyne()));
-				obj.put("SPECIFICATION",jutil.setValue(list.get(i).getSpecification()));
-				obj.put("MAXELECTRICITY",jutil.setValue(list.get(i).getMaxElectricity()));
-				obj.put("MINELECTRICITY",jutil.setValue(list.get(i).getMinElectricity()));
-				obj.put("MAXVALTAGE",jutil.setValue(list.get(i).getMaxValtage()));
-				obj.put("MINVALTAGE",jutil.setValue(list.get(i).getMinValtage()));
-				obj.put("MATERIAL",jutil.setValue(list.get(i).getMaterial()));
-				obj.put("NEXTMATERIAL",jutil.setValue(list.get(i).getNext_material()));
-				obj.put("EXTERNALDIAMETER",jutil.setValue(list.get(i).getExternalDiameter()));
-				obj.put("NEXTEXTERNALDIAMETER",jutil.setValue(list.get(i).getNextexternaldiameter()));
-				obj.put("WALLTHICKNESS",jutil.setValue(list.get(i).getWallThickness()));
-				obj.put("NEXTWALLTHICKNESS",jutil.setValue(list.get(i).getNextwall_thickness()));
-				obj.put("ELECTRICITYUNIT",jutil.setValue(list.get(i).getElectricity_unit()));
-				obj.put("VALTAGEUNIT",jutil.setValue(list.get(i).getValtage_unit()));
-				obj.put("STARTTIME",jutil.setValue(list.get(i).getStartTime()));
-				obj.put("ENDTIME",jutil.setValue(list.get(i).getEndTime()));
-				obj.put("CREATETIME",jutil.setValue(list.get(i).getCreatTime()));
-				obj.put("UPDATETIME",jutil.setValue(list.get(i).getUpdateTime()));
 				obj.put("UPDATECOUNT",jutil.setValue(list.get(i).getUpdatecount()));
 				obj.put("ITEMID",jutil.setValue(list.get(i).getItemid().getId()));
 				obj.put("ITEMNAME",jutil.setValue(list.get(i).getItemid().getName()));
@@ -83,28 +62,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				obj.put("SERIALNO",jutil.setValue(list.getSerialNo()));
 				obj.put("PIPELINENO",jutil.setValue(list.getPipelineNo()));
 				obj.put("ROOMNO",jutil.setValue(list.getRoomNo()));
-				obj.put("UNIT",jutil.setValue(list.getUnit()));
-				obj.put("AREA",jutil.setValue(list.getArea()));
-				obj.put("SYSTEMS",jutil.setValue(list.getSystems()));
-				obj.put("CHILDREN",jutil.setValue(list.getChildren()));
 				obj.put("DYNE",jutil.setValue(list.getDyne()));
-				obj.put("SPECIFICATION",jutil.setValue(list.getSpecification()));
-				obj.put("MAXELECTRICITY",jutil.setValue(list.getMaxElectricity()));
-				obj.put("MINELECTRICITY",jutil.setValue(list.getMinElectricity()));
-				obj.put("MAXVALTAGE",jutil.setValue(list.getMaxValtage()));
-				obj.put("MINVALTAGE",jutil.setValue(list.getMinValtage()));
-				obj.put("MATERIAL",jutil.setValue(list.getMaterial()));
-				obj.put("NEXTMATERIAL",jutil.setValue(list.getNext_material()));
-				obj.put("EXTERNALDIAMETER",jutil.setValue(list.getExternalDiameter()));
-				obj.put("NEXTEXTERNALDIAMETER",jutil.setValue(list.getNextexternaldiameter()));
-				obj.put("WALLTHICKNESS",jutil.setValue(list.getWallThickness()));
-				obj.put("NEXTWALLTHICKNESS",jutil.setValue(list.getNextwall_thickness()));
-				obj.put("ELECTRICITYUNIT",jutil.setValue(list.getElectricity_unit()));
-				obj.put("VALTAGEUNIT",jutil.setValue(list.getValtage_unit()));
-				obj.put("STARTTIME",jutil.setValue(list.getStartTime()));
-				obj.put("ENDTIME",jutil.setValue(list.getEndTime()));
-				obj.put("CREATETIME",jutil.setValue(list.getCreatTime()));
-				obj.put("UPDATETIME",jutil.setValue(list.getUpdateTime()));
 				obj.put("UPDATECOUNT",jutil.setValue(list.getUpdatecount()));
 				obj.put("ITEMID",jutil.setValue(list.getItemid().getId()));
 				obj.put("ITEMNAME",jutil.setValue(list.getItemid().getName()));
@@ -128,33 +86,14 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 	}
 
 	@Override
-	public BigInteger addJunction(String object) {
+	public boolean addJunction(String object) {
 		try{
 			JSONObject json = JSONObject.fromObject(object);
 			WeldedJunction wj = new WeldedJunction();
 			wj.setWeldedJunctionno(json.getString("JUNCTIONNO"));
 			wj.setSerialNo(json.getString("SERIALNO"));
-			wj.setPipelineNo(json.getString("PIPELINENO"));
-			wj.setRoomNo(json.getString("ROOMNO"));
-			wj.setUnit(json.getString("UNIT"));
-			wj.setArea(json.getString("AREA"));
-			wj.setSystems(json.getString("SYSTEMS"));
-			wj.setChildren(json.getString("CHILDREN"));
 			wj.setDyne(json.getInt("DYNE"));
-			wj.setSpecification(json.getString("SPECIFICATION"));
-			wj.setMaxElectricity(json.getDouble("MAXELECTRICITY"));
-			wj.setMinElectricity(json.getDouble("MINELECTRICITY"));
-			wj.setMaxValtage(json.getDouble("MAXVALTAGE"));
-			wj.setMinValtage(json.getDouble("MINVALTAGE"));
-			wj.setMaterial(json.getString("MATERIAL"));
-			wj.setNext_material(json.getString("NEXTMATERIAL"));
 			wj.setExternalDiameter(json.getString("EXTERNALDIAMETER"));
-			wj.setNextexternaldiameter(json.getString("NEXTEXTERNALDIAMETER"));
-			wj.setWallThickness(json.getString("WALLTHICKNESS"));
-			wj.setNextwall_thickness(json.getString("NEXTWALLTHICKNESS"));
-			wj.setElectricity_unit(json.getString("ELECTRICITYUNIT"));
-			wj.setValtage_unit(json.getString("VALTAGEUNIT"));
-			wj.setStartTime(json.getString("STARTTIME"));
 			String starttime =json.getString("STARTTIME");
 			if(starttime!=null && !"".equals(starttime)){
 				wj.setStartTime(starttime);
@@ -163,18 +102,13 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			if(endtime!=null && !"".equals(endtime)){
 				wj.setEndTime(endtime);
 			}
-			wj.setCreator(json.getString("CREATOR"));
 			Insframework itemid = new Insframework();
 			itemid.setId(new BigInteger(json.getString("INSFID")));
 			wj.setItemid(itemid);
-			if(wjm.addJunction(wj)){
-				return wj.getId();
-			}else{
-				return null;
-			}
+			return wjm.addJunction(wj);
 		}catch(Exception e){
 			e.printStackTrace();
-			return null;
+			return false;
 		}
 	}
 
@@ -186,26 +120,8 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			wj.setId(new BigInteger(json.getString("ID")));
 			wj.setWeldedJunctionno(json.getString("JUNCTIONNO"));
 			wj.setSerialNo(json.getString("SERIALNO"));
-			wj.setPipelineNo(json.getString("PIPELINENO"));
-			wj.setRoomNo(json.getString("ROOMNO"));
-			wj.setUnit(json.getString("UNIT"));
-			wj.setArea(json.getString("AREA"));
-			wj.setSystems(json.getString("SYSTEMS"));
-			wj.setChildren(json.getString("CHILDREN"));
 			wj.setDyne(json.getInt("DYNE"));
-			wj.setSpecification(json.getString("SPECIFICATION"));
-			wj.setMaxElectricity(json.getDouble("MAXELECTRICITY"));
-			wj.setMinElectricity(json.getDouble("MINELECTRICITY"));
-			wj.setMaxValtage(json.getDouble("MAXVALTAGE"));
-			wj.setMinValtage(json.getDouble("MINVALTAGE"));
-			wj.setMaterial(json.getString("MATERIAL"));
-			wj.setNext_material(json.getString("NEXTMATERIAL"));
 			wj.setExternalDiameter(json.getString("EXTERNALDIAMETER"));
-			wj.setNextexternaldiameter(json.getString("NEXTEXTERNALDIAMETER"));
-			wj.setWallThickness(json.getString("WALLTHICKNESS"));
-			wj.setNextwall_thickness(json.getString("NEXTWALLTHICKNESS"));
-			wj.setElectricity_unit(json.getString("ELECTRICITYUNIT"));
-			wj.setValtage_unit(json.getString("VALTAGEUNIT"));
 			String starttime =json.getString("STARTTIME");
 			if(starttime!=null && !"".equals(starttime)){
 				wj.setStartTime(starttime);
@@ -214,7 +130,6 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			if(endtime!=null && !"".equals(endtime)){
 				wj.setEndTime(endtime);
 			}
-			wj.setModifier(json.getString("MODIFITER"));
 			Insframework itemid = new Insframework();
 			itemid.setId(new BigInteger(json.getString("INSFID")));
 			wj.setItemid(itemid);
@@ -230,6 +145,83 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 		try{
 			JSONObject json = JSONObject.fromObject(object);
 			return wjm.deleteJunction(new BigInteger(json.getString("ID")));
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public Object getTaskResultAll(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			JSONObject obj = new JSONObject();
+			JSONArray ary = new JSONArray();
+			List<WeldedJunction> list = wjm.getTaskResultAll(json.getString("STR"));
+			for(int i=0;i<list.size();i++){
+				obj.put("ID", jutil.setValue(list.get(i).getId()));
+				obj.put("TASKNO",jutil.setValue(list.get(i).getWeldedJunctionno()));
+				obj.put("WELDERNAME",jutil.setValue(list.get(i).getSerialNo()));
+				obj.put("MACHINENO",jutil.setValue(list.get(i).getPipelineNo()));
+				obj.put("OPERATETYPENAME",jutil.setValue(list.get(i).getRoomNo()));
+				obj.put("RESULT",jutil.setValue(list.get(i).getArea()));
+				obj.put("RESULTNAME",jutil.setValue(list.get(i).getUnit()));
+				ary.add(obj);
+			}
+			return JSON.toJSONString(ary);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	
+	}
+
+	@Override
+	public boolean addTaskResult(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			WeldedJunction wj = new WeldedJunction();
+			wj.setTaskid(new BigInteger(json.getString("TASKID")));
+			wj.setWelderid(new BigInteger(json.getString("WELDERID")));
+			wj.setMachineid(new BigInteger(json.getString("MACHINEID")));
+			wj.setDyne(Integer.valueOf(json.getString("OPERATETYPEID")));
+			wj.setOperatorid(new BigInteger(json.getString("OPERATORID")));
+			wj.setUpdatecount(Integer.valueOf(json.getString("RESULTID")));
+			wj.setArea(json.getString("RESULT"));
+			wjm.addTaskResult(wj);
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean updateTaskResult(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			WeldedJunction wj = new WeldedJunction();
+			wj.setId(new BigInteger(json.getString("ID")));
+			wj.setTaskid(new BigInteger(json.getString("TASKID")));
+			wj.setWelderid(new BigInteger(json.getString("WELDERID")));
+			wj.setMachineid(new BigInteger(json.getString("MACHINEID")));
+			wj.setDyne(Integer.valueOf(json.getString("OPERATETYPEID")));
+			wj.setOperatorid(new BigInteger(json.getString("OPERATORID")));
+			wj.setUpdatecount(Integer.valueOf(json.getString("RESULTID")));
+			wj.setArea(json.getString("RESULT"));
+			wjm.updateTaskResult(wj);
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean deleteTaskResult(String object) {
+		try{
+			JSONObject json = JSONObject.fromObject(object);
+			return wjm.deleteTaskResult(new BigInteger(json.getString("ID")));
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;

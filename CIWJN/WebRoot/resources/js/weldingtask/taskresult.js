@@ -22,195 +22,63 @@ function weldedJunctionDatagrid(){
 			align : "left",
 			hidden:true
 		}, {
-			field : '',
-			title : '工序任务号',
+			field : 'weldedJunctionno',
+			title : '任务编号',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		},{
-			field : 'weldedJunctionno',
-			title : '编号',
+			field : 'welderno',
+			title : '焊工编号',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'serialNo',
-			title : '序列号',
+			field : 'machineno',
+			title : '焊机编号',
 //			width : 90,
 			halign : "center",
 			align : "left",
 //			hidden:true
 		}, {
-			field : 'pipelineNo',
-			title : '管线号',
+			field : 'junctionid',
+			title : '任务ID',
 //			width : 90,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
-			field : 'roomNo',
-			title : '房间号',
+			field : 'welderid',
+			title : '焊工id',
 //			width : 90,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
-			field : 'itemid',
-			title : '项目id',
+			field : 'machineid',
+			title : '焊机id',
 //			width : 90,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
-			field : 'unit',
-			title : '机组',
-//			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
-		}, {
-			field : 'area',
-			title : '区域',
-//			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
-		}, {
-			field : 'systems',
-			title : '系统',
-//			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
-		}, {
-			field : 'children',
-			title : '子项',
-//			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
-		}, {
-			field : 'externalDiameter',
-			title : '上游外径',
+			field : 'operatetype',
+			title : '任务状态',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'nextexternaldiameter',
-			title : '下游外径',
+			field : 'result',
+			title : '任务评价',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'wallThickness',
-			title : '上游壁厚',
+			field : 'resultlevel',
+			title : '任务等级',
 //			width : 90,
 			halign : "center",
 			align : "left"
-		}, {
-			field : 'nextwall_thickness',
-			title : '下游璧厚',
-//			width : 90,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'material',
-			title : '上游材质',
-//			width : 90,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'next_material',
-			title : '下游材质',
-//			width : 90,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'specification',
-			title : '规格',
-//			width : 90,
-			halign : "center",
-			align : "left",
-//			hidden:true
-		}, {
-			field : 'maxElectricity',
-			title : '电流上限',
-//			width : 90,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'minElectricity',
-			title : '电流下限',
-//			width : 90,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'maxValtage',
-			title : '电压上限',
-//			width : 90,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'minValtage',
-			title : '电压下限',
-//			width : 90,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'itemname',
-			title : '所属项目',
-//			width : 150,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'startTime',
-			title : '开始时间',
-			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
-		}, {
-			field : 'endTime',
-			title : '完成时间',
-			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
-		}, {
-			field : 'creatTime',
-			title : '创建时间',
-			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
-		}, {
-			field : 'updateTime',
-			title : '修改时间',
-			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
-		}, {
-			field : 'updatecount',
-			title : '修改次数',
-			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
-		}, {
-			field : 'valtage_unit',
-			title : '电压单位',
-			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
-		}, {
-			field : 'electricity_unit',
-			title : '电流单位',
-			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
 		}, {
 			field : 'edit',
 			title : '编辑',

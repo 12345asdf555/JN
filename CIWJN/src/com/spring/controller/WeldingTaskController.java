@@ -5,7 +5,10 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import org.apache.cxf.endpoint.Client;
+import javax.xml.namespace.QName;
 
+import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -116,37 +119,18 @@ public class WeldingTaskController {
 		try{
 			for(WeldedJunction w:list){
 				json.put("id", w.getId());
-				json.put("weldedJunctionno", w.getWeldedJunctionno().substring(2, 8));
+				json.put("weldedJunctionno", w.getWeldedJunctionno());
 				json.put("serialNo", w.getSerialNo());
 				json.put("pipelineNo", w.getPipelineNo());
 				json.put("roomNo", w.getRoomNo());
-				json.put("unit", w.getUnit());
-				json.put("area", w.getArea());
-				json.put("systems", w.getSystems());
-				json.put("children", w.getChildren());
-				json.put("externalDiameter", w.getExternalDiameter());
-				json.put("wallThickness", w.getWallThickness());
-				json.put("dyne", w.getDyne());
-				json.put("specification", w.getSpecification());
-				json.put("maxElectricity", w.getMaxElectricity());
-				json.put("minElectricity", w.getMinElectricity());
-				json.put("maxValtage", w.getMaxValtage());
-				json.put("minValtage", w.getMinValtage());
-				json.put("material", w.getMaterial());
-				json.put("nextexternaldiameter", w.getNextexternaldiameter());
 				if( w.getItemid()!=null && !"".equals( w.getItemid())){
 					json.put("itemname", w.getItemid().getName());
 					json.put("itemid", w.getItemid().getId());
 				}
-				json.put("startTime", w.getStartTime());
-				json.put("endTime", w.getEndTime());
-				json.put("creatTime", w.getCreatTime());
-				json.put("updateTime", w.getUpdateTime());
-				json.put("updatecount", w.getUpdatecount());
-				json.put("nextwall_thickness", w.getNextwall_thickness());
-				json.put("next_material", w.getNext_material());
-				json.put("electricity_unit", w.getElectricity_unit());
-				json.put("valtage_unit", w.getValtage_unit());
+				json.put("dyne", w.getDyne());
+				json.put("quaid", w.getExternalDiameter());
+				json.put("startttime",w.getStartTime());
+				json.put("endtime", w.getEndTime());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -208,125 +192,90 @@ public class WeldingTaskController {
 	@RequestMapping("/addWeldTask")
 	@ResponseBody
 	public String addWeldTask(HttpServletRequest request){
-		WeldedJunction wj = new WeldedJunction();
 		JSONObject obj = new JSONObject();
 		try{
-			MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			wj.setCreater(new BigInteger(user.getId()+""));
-			wj.setUpdater(new BigInteger(user.getId()+""));
-			wj.setWeldedJunctionno("00"+request.getParameter("weldedJunctionno"));
-			wj.setSerialNo(request.getParameter("serialNo"));
-			wj.setUnit(request.getParameter("unit"));
-			wj.setArea(request.getParameter("area"));
-			wj.setSystems(request.getParameter("systems"));
-			wj.setChildren(request.getParameter("children"));
-			wj.setDyne(0);
-			wj.setSpecification(request.getParameter("specification"));
-			wj.setPipelineNo(request.getParameter("pipelineNo"));
-			wj.setRoomNo(request.getParameter("roomNo"));
-			wj.setExternalDiameter(request.getParameter("externalDiameter"));
-			wj.setNextexternaldiameter(request.getParameter("nextexternaldiameter"));
-			wj.setWallThickness(request.getParameter("wallThickness"));
-			wj.setNextwall_thickness(request.getParameter("nextwall_thickness"));
-			wj.setMaterial(request.getParameter("material"));
-			wj.setNext_material(request.getParameter("next_material"));
-			wj.setMaxElectricity(Double.parseDouble(request.getParameter("maxElectricity")));
-			wj.setMinElectricity(Double.parseDouble(request.getParameter("minElectricity")));
-			wj.setMaxValtage(Double.parseDouble(request.getParameter("maxValtage")));
-			wj.setMinValtage(Double.parseDouble(request.getParameter("minValtage")));
-			wj.setElectricity_unit(request.getParameter("electricity_unit"));
-			wj.setValtage_unit(request.getParameter("valtage_unit"));
-			String starttime = request.getParameter("startTime");
-			String endtime = request.getParameter("endTime");
-			if(iutil.isNull(starttime)){
-				wj.setStartTime(starttime);
+			//客户端执行操作
+			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+			iutil.Authority(client);
+			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"addJunction\"}";
+			String obj2 = "{\"JUNCTIONNO\":\""+request.getParameter("weldedJunctionno")+"\",\"SERIALNO\":\""+request.getParameter("serialNo")+"\",\"DYNE\":\""+request.getParameter("fwelderid")+"\"," +
+					"\"INSFID\":\""+request.getParameter("fitemid")+"\",\"STARTTIME\":\""+request.getParameter("dtoTime1")+"\",\"ENDTIME\":\""+request.getParameter("dtoTime2")+"\",\"EXTERNALDIAMETER\":\""+request.getParameter("quali")+"\"}";
+			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
+			if(objects[0].toString().equals("true")){
+				obj.put("success", true);
+			}else if(!objects[0].toString().equals("false")){
+				obj.put("success", true);
+				obj.put("msg", objects[0].toString());
+			}else{
+				obj.put("success", false);
+				obj.put("errorMsg", "操作失败！");
 			}
-			if(iutil.isNull(endtime)){
-				wj.setEndTime(endtime);
-			}
-			String itemid = request.getParameter("itemid");
-			if(iutil.isNull(itemid)){
-				wj.setInsfid(new BigInteger(itemid));
-			}
-			wjm.addJunction(wj);
-			obj.put("success", true);
 		}catch(Exception e){
-			e.printStackTrace();
 			obj.put("success", false);
 			obj.put("errorMsg", e.getMessage());
 		}
 		return obj.toString();
-	}
-	
+}
 
 	@RequestMapping("/editWeldTask")
 	@ResponseBody
 	public String editWeldTask(HttpServletRequest request){
-		WeldedJunction wj = new WeldedJunction();
 		JSONObject obj = new JSONObject();
 		try{
-			MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			wj.setUpdater(new BigInteger(user.getId()+""));
-			wj.setId(new BigInteger(request.getParameter("id")));
-			wj.setWeldedJunctionno("00"+request.getParameter("weldedJunctionno"));
-			wj.setSerialNo(request.getParameter("serialNo"));
-			wj.setUnit(request.getParameter("unit"));
-			wj.setArea(request.getParameter("area"));
-			wj.setSystems(request.getParameter("systems"));
-			wj.setChildren(request.getParameter("children"));
-			wj.setDyne(0);
-			wj.setSpecification(request.getParameter("specification"));
-			wj.setPipelineNo(request.getParameter("pipelineNo"));
-			wj.setRoomNo(request.getParameter("roomNo"));
-			wj.setExternalDiameter(request.getParameter("externalDiameter"));
-			wj.setNextexternaldiameter(request.getParameter("nextexternaldiameter"));
-			wj.setWallThickness(request.getParameter("wallThickness"));
-			wj.setNextwall_thickness(request.getParameter("nextwall_thickness"));
-			wj.setMaterial(request.getParameter("material"));
-			wj.setNext_material(request.getParameter("next_material"));
-			wj.setMaxElectricity(Double.parseDouble(request.getParameter("maxElectricity")));
-			wj.setMinElectricity(Double.parseDouble(request.getParameter("minElectricity")));
-			wj.setMaxValtage(Double.parseDouble(request.getParameter("maxValtage")));
-			wj.setMinValtage(Double.parseDouble(request.getParameter("minValtage")));
-			wj.setElectricity_unit(request.getParameter("electricity_unit"));
-			wj.setValtage_unit(request.getParameter("valtage_unit"));
-			String starttime = request.getParameter("startTime");
-			String endtime = request.getParameter("endTime");
-			if(iutil.isNull(starttime)){
-				wj.setStartTime(starttime);
+			//客户端执行操作
+			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+			iutil.Authority(client);
+			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"updateJunction\"}";
+			String obj2 = "{\"ID\":\""+request.getParameter("id")+"\",\"JUNCTIONNO\":\""+request.getParameter("weldedJunctionno")+"\",\"SERIALNO\":\""+request.getParameter("serialNo")+"\",\"DYNE\":\""+request.getParameter("fwelderid")+"\"," +
+					"\"INSFID\":\""+request.getParameter("fitemid")+"\",\"STARTTIME\":\""+request.getParameter("dtoTime1")+"\",\"ENDTIME\":\""+request.getParameter("dtoTime2")+"\",\"EXTERNALDIAMETER\":\""+request.getParameter("quali")+"\"}";
+			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
+			if(objects[0].toString().equals("true")){
+				obj.put("success", true);
+			}else if(!objects[0].toString().equals("false")){
+				obj.put("success", true);
+				obj.put("msg", objects[0].toString());
+			}else{
+				obj.put("success", false);
+				obj.put("errorMsg", "操作失败！");
 			}
-			if(iutil.isNull(endtime)){
-				wj.setEndTime(endtime);
-			}
-			String itemid = request.getParameter("itemid");
-			if(iutil.isNull(itemid)){
-				wj.setInsfid(new BigInteger(itemid));
-			}
-			wjm.updateJunction(wj);
-			obj.put("success", true);
 		}catch(Exception e){
 			e.printStackTrace();
 			obj.put("success", false);
 			obj.put("errorMsg", e.getMessage());
 		}
 		return obj.toString();
-	}
-	
+}
 
 	@RequestMapping("/removeWeldTask")
 	@ResponseBody
 	public String removeWeldTask(HttpServletRequest request){
 		JSONObject obj = new JSONObject();
 		try{
-			wjm.deleteJunction(new BigInteger(request.getParameter("id")));
-			obj.put("success", true);
+			//客户端执行操作
+			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+			iutil.Authority(client);
+			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"deleteJunction\"}";
+			String obj2 = "{\"ID\":\""+request.getParameter("id")+"\",\"INSFID\":\""+request.getParameter("insfid")+"\"}";
+			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
+			if(objects[0].toString().equals("true")){
+				obj.put("success", true);
+			}else if(!objects[0].toString().equals("false")){
+				obj.put("success", true);
+				obj.put("msg", objects[0].toString());
+			}else{
+				obj.put("success", false);
+				obj.put("errorMsg", "操作失败！");
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 			obj.put("success", false);
 			obj.put("errorMsg", e.getMessage());
 		}
 		return obj.toString();
-	}
+}
 	
 	@RequestMapping("/wjNoValidate")
 	@ResponseBody

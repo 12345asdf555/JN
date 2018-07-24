@@ -45,7 +45,10 @@
 	</resultMap>
 	
 	<select id="getWeldedJunctionAll" resultMap="wjMap" parameterType="java.lang.String">
-		SELECT j. * , i.fid iid, i.fname iname FROM tb_welded_junction j INNER JOIN tb_insframework i ON j.fitemId = i.fid WHERE 1 =1
+		SELECT j.fid,j.fwelded_junction_no,j.fserial_no,j.dyne,j.fitemId,w.fwelder_no fpipeline_no,d.fvaluename froom_no,i.fname iname FROM tb_welded_junction j 
+		INNER JOIN tb_welder w ON j.dyne=w.fid 
+		INNER JOIN tb_dictionary d ON w.Fqualification=d.fvalue 
+		INNER JOIN tb_insframework i ON j.fitemId = i.fid WHERE 1=1
 		<if test="str!=null and str!=''">
 			and ${str}
 		</if>
@@ -60,16 +63,36 @@
 	</select>
 	
 	<insert id="addJunction" parameterType="com.spring.model.WeldedJunction" useGeneratedKeys="true" keyProperty="id">
-		insert into tb_welded_junction(fwelded_junction_no,fserial_no,fpipeline_no,froom_no,funit,farea,fsystems,fchildren,fexternal_diameter,fwall_thickness,fdyne,fspecification,fmax_electricity,fmin_electricity,felectricity_unit,fmax_valtage,fmin_valtage,fvaltage_unit,fitemId,Fmaterial,fnextExternal_diameter,fnextwall_thickness,Fnext_material,fstart_time,fend_time, fcreator, 	fcreatetime,fupdatecount) 
-		values(#{weldedJunctionno},#{serialNo},#{pipelineNo},#{roomNo},#{unit},#{area},#{systems},#{children},#{externalDiameter},#{wallThickness},#{dyne},#{specification},#{maxElectricity},#{minElectricity},#{electricity_unit},#{maxValtage},#{minValtage},#{valtage_unit},#{itemid.id},#{material},#{nextexternaldiameter},#{nextwall_thickness},#{next_material},#{startTime},#{endTime},#{creator},now(),0);
+		insert into tb_welded_junction(fwelded_junction_no,fserial_no,fdyne,fexternal_diameter,fitemId,fstart_time,fend_time) 
+		values(#{weldedJunctionno},#{serialNo},#{dyne},#{itemid.id},#{externalDiameter},#{startTime},#{endTime});
 	</insert>
 	
 	<update id="updateJunction" parameterType="com.spring.model.WeldedJunction">
-		update tb_welded_junction set fwelded_junction_no=#{weldedJunctionno},fserial_no=#{serialNo},fpipeline_no=#{pipelineNo},froom_no=#{roomNo},funit=#{unit},farea=#{area},fsystems=#{systems},fchildren=#{children},fexternal_diameter=#{externalDiameter},fwall_thickness=#{wallThickness},fdyne=#{dyne},
-		fspecification=#{specification},fmax_electricity=#{maxElectricity},fmin_electricity=#{minElectricity},felectricity_unit=#{electricity_unit},fmax_valtage=#{maxValtage},fmin_valtage=#{minValtage},fvaltage_unit=#{valtage_unit},fitemId=#{itemid.id},Fmaterial=#{material},fnextExternal_diameter=#{nextexternaldiameter},fnextwall_thickness=#{nextwall_thickness},Fnext_material=#{next_material},fstart_time=#{startTime},fend_time=#{endTime},fmodifier=#{modifier},fupdatetime=now(),fupdatecount=fupdatecount+1 where fid=#{id};
+		update tb_welded_junction set fwelded_junction_no=#{weldedJunctionno},fserial_no=#{serialNo},fdyne=#{dyne},
+		fitemId=#{itemid.id} where fid=#{id},fstart_time=#{startTime},fend_time=#{endTime},fexternal_diameter=#{externalDiameter};
 	</update>
 	
 	<delete id="deleteJunction" parameterType="java.math.BigInteger">
 		delete from tb_welded_junction where fid=#{id}
+	</delete>
+	
+	<select id="getTaskResultAll" resultMap="wjMap" parameterType="java.lang.String">
+		SELECT j. * , i.fid iid, i.fname iname FROM tb_welded_junction j INNER JOIN tb_insframework i ON j.fitemId = i.fid WHERE 1 =1
+		<if test="str!=null and str!=''">
+			and ${str}
+		</if>
+	</select>
+	
+	<insert id="addTaskResult" parameterType="com.spring.model.WeldedJunction" useGeneratedKeys="true" keyProperty="id">
+		insert into tb_taskresult(ftaskid,fwelderid,fmachineid,foperatedate,foperatetype,foperator,fresult,fresultid) 
+		values(#{taskid},#{welderid},#{machineid},now(),#{dyne},#{operatorid},#{area},#{updatecount});
+	</insert>
+	
+	<update id="updateTaskResult" parameterType="com.spring.model.WeldedJunction">
+		update tb_taskresult set ftaskid=#{taskid},fwelderid=#{welderid},fmachineid=#{machineid},foperatedate=now(),foperatetype=#{dyne},foperator=#{operatorid},fresult=#{area},fresultid=#{updatecount} where fid=#{id};
+	</update>
+	
+	<delete id="deleteTaskResult" parameterType="java.math.BigInteger">
+		delete from tb_taskresult where fid=#{id}
 	</delete>
 </mapper>

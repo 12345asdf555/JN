@@ -314,7 +314,7 @@ $(function(){
 								async : false,
 								url : 'weldedjunction/wjNoValidate',
 								data : {
-									"wjno" : "00"+value
+									"wjno" : value
 								},
 								success : function(data){
 									result = data;
@@ -325,7 +325,7 @@ $(function(){
 							return true;
 						}
 					},
-					message : '焊缝编号已经被占用'
+					message : '任务编号已经被占用'
 				},
 				
 				checkLength : {

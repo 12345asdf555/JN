@@ -29,7 +29,7 @@ public interface WeldedJunctionService {
 	 * 新增焊缝
 	 * @param object
 	 */
-	BigInteger addJunction(String object);
+	boolean addJunction(String object);
 
 	/**
 	 * 修改焊缝
@@ -42,4 +42,29 @@ public interface WeldedJunctionService {
 	 * @param object
 	 */
 	boolean deleteJunction(String object);
+	
+	/**
+	 * 查询所有任务执行结果
+	 * @param object
+	 * @return
+	 */
+	Object getTaskResultAll(String object);
+	
+	/**
+	 * 新增任务执行结果
+	 * @param object
+	 */
+	boolean addTaskResult(String object);
+
+	/**
+	 * 修改任务执行结果
+	 * @param object
+	 */
+	boolean updateTaskResult(String object);
+
+	/**
+	 * 删除任务执行结果
+	 * @param object
+	 */
+	boolean deleteTaskResult(String object);
 }

@@ -41,6 +41,10 @@ public class WeldedJunction {
 	private String next_material;
 	private String electricity_unit;
 	private String valtage_unit;
+	private BigInteger taskid;
+	private BigInteger welderid;
+	private BigInteger machineid;
+	private BigInteger operatorid;
 	@Transient
 	private Insframework itemid;//所属项目（新增字段）
 
@@ -232,6 +236,30 @@ public class WeldedJunction {
 	}
 	public void setNext_material(String next_material) {
 		this.next_material = next_material;
+	}
+	public BigInteger getTaskid() {
+		return taskid;
+	}
+	public void setTaskid(BigInteger taskid) {
+		this.taskid = taskid;
+	}
+	public BigInteger getWelderid() {
+		return welderid;
+	}
+	public void setWelderid(BigInteger welderid) {
+		this.welderid = welderid;
+	}
+	public BigInteger getMachineid() {
+		return machineid;
+	}
+	public void setMachineid(BigInteger machineid) {
+		this.machineid = machineid;
+	}
+	public BigInteger getOperatorid() {
+		return operatorid;
+	}
+	public void setOperatorid(BigInteger operatorid) {
+		this.operatorid = operatorid;
 	}
 	
 }

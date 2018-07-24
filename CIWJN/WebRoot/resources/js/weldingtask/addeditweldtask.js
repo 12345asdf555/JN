@@ -1,13 +1,15 @@
 $(function(){
 	InsframeworkCombobox();
+	WelderCombobox();
 	$('#dlg').dialog( {
 		onClose : function() {
 			$('#itemid').combobox('clear');
+			$('#pipelineNo').combobox('clear');
 			$("#fm").form("disableValidation");
 		}
 	});
 	$("#fm").form("disableValidation");
-	$("#weldedJunctionno").textbox('textbox').blur(function(){
+/*	$("#weldedJunctionno").textbox('textbox').blur(function(){
 		var wjno = $("#weldedJunctionno").val();
 		var len = wjno.length;
 		if(len!=6){
@@ -16,7 +18,7 @@ $(function(){
 			}
 		}
 		$("#weldedJunctionno").textbox('setValue',wjno);
-	});
+	});*/
 })
 
 var url = "";
@@ -24,7 +26,7 @@ var flag = 1;
 function addWeldedjunction(){
 	flag = 1;
 	$('#dlg').window( {
-		title : "新增焊缝",
+		title : "新增任务",
 		modal : true
 	});
 	$('#dlg').window('open');
@@ -50,14 +52,19 @@ function editWeldedjunction(){
 
 //提交
 function save(){
+	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
+	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
+	var fwelderid = $('#pipelineNo').combobox('getValue');
+	var fitemid = $('#itemid').combobox('getValue');
+	var quali = $('#quali').combobox('getValue');
 	var messager = "";
 	var url2 = "";
 	if(flag==1){
 		messager = "新增成功！";
-		url2 = url;
+		url2 = url+"?fitemid="+fitemid+"&fwelderid="+fwelderid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&quali="+quali;
 	}else{
 		messager = "修改成功！";
-		url2 = url;
+		url2 = url+"&fitemid="+fitemid+"&fwelderid="+fwelderid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&quali="+quali;
 	}
 	$('#fm').form('submit', {
 		url : url2,
@@ -109,5 +116,30 @@ function InsframeworkCombobox(){
       }  
 	}); 
 	$("#itemid").combobox();
+}
+
+//所有焊工
+function WelderCombobox(){
+	$.ajax({  
+    type : "post",  
+    async : false,
+    url : "welders/getWelderNoPage",  
+    data : {},  
+    dataType : "json", //返回数据形式为json  
+    success : function(result) {  
+        if (result) {
+            var optionStr = '';
+            for (var i = 0; i < result.ary.length; i++) {  
+                optionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+                        + result.ary[i].welderno + "</option>";
+            }
+            $("#pipelineNo").html(optionStr);
+        }  
+    },  
+    error : function(errorMsg) {  
+        alert("数据请求失败，请联系系统管理员!");  
+    }  
+	}); 
+	$("#pipelineNo").combobox();
 }
 
