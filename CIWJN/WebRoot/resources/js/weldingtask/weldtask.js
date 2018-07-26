@@ -126,7 +126,7 @@ function importWeldingMachine(){
 		return false;
 	}else{
 		$('#importfm').form('submit', {
-			url : "import/importWeldedJunction",
+			url : "import/importWeldTask",
 			success : function(result) {
 				if(result){
 					var result = eval('(' + result + ')');

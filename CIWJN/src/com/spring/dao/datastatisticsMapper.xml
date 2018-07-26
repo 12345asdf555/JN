@@ -684,7 +684,7 @@
 		where i.ftype=23
 		<if test="dto!=null and dto!=''">
 			<if test="dto.parent!=null and dto.parent!=''">
-				and i.fparent &gt;= #{dto.parent}
+				and i.fparent = #{dto.parent}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -705,7 +705,7 @@
 		where i.ftype=23
 		<if test="dto!=null and dto!=''">
 			<if test="dto.parent!=null and dto.parent!=''">
-				and i.fparent &gt;= #{dto.parent}
+				and i.fparent = #{dto.parent}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}

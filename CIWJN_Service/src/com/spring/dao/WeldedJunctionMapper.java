@@ -10,7 +10,7 @@ import com.spring.model.WeldedJunction;
 import tk.mybatis.mapper.common.Mapper;
 
 public interface WeldedJunctionMapper extends Mapper<WeldedJunction>{
-	List<WeldedJunction> getWeldedJunctionAll(@Param("str")String str);
+	List<WeldedJunction> getWeldedJunctionAll();
 	
 	WeldedJunction getWeldedJunctionById(@Param("id")BigInteger id);
 	

@@ -26,9 +26,9 @@ public class WeldingMachineServiceImpl implements WeldingMachineService {
 	private InsframeworkMapper im;
 	
 	@Override
-	public List<WeldingMachine> getWeldingMachineAll(BigInteger parent,String str) {
+	public List<WeldingMachine> getWeldingMachineAll() {
 		try{
-			return wmm.getWeldingMachineAll(parent,str);
+			return wmm.getWeldingMachineAll();
 		}catch(Exception e){
 			return null;
 		}

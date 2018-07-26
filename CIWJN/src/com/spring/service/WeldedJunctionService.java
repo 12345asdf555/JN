@@ -10,7 +10,7 @@ import com.spring.page.Page;
 public interface WeldedJunctionService {
 	
 	/**
-	 * 查询所有焊口
+	 * 查询所有任务
 	 */
 	List<WeldedJunction> getWeldedJunctionAll(Page page, String str);
 	
@@ -73,4 +73,9 @@ public interface WeldedJunctionService {
 	 * 时间段内焊接结束时间
 	 */
 	String getLasttime(WeldDto dto, BigInteger machineid, String welderid,String junid);
+	
+	/**
+	 * 查询任务执行
+	 */
+	List<WeldedJunction> getTaskResultAll(Page page, String str);
 }

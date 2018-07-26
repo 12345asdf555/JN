@@ -38,19 +38,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	<div class="functiondiv">
 			<div>
 				<a href="javascript:addWeldedjunction();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-import">导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
 				<a href="javascript:insertsearchWT();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
 			</div>
 		</div>
-		
-		<div id="importdiv" class="easyui-dialog" style="width:300px; height:200px;" closed="true">
-			<form id="importfm" method="post" class="easyui-form" data-options="novalidate:true" enctype="multipart/form-data"> 
-				<div>
-					<span><input type="file" name="file" id="file"></span>
-					<input type="button" value="上传" onclick="importWeldingMachine()" class="upButton"/>
-				</div>
-			</form>
-		</div>
+
 	    <table id="weldTaskTable" style="table-layout: fixed; width:100%;"></table>
 	    
 	    <!-- 自定义多条件查询 -->
@@ -74,19 +65,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="fitem">
 					<lable><span class="required">*</span>任务编号</lable>
 					<input type="hidden" id="oldno" />
-					<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno" data-options="validType:['wjNoValidate'],required:true" />
-				</div>
-				<div class="fitem">
-					<lable><span class="required">*</span>任务描述</lable>
-					<input class="easyui-textbox" id="serialNo" name="serialNo" data-options="required:true"/>
+					<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno" data-options="validType:['wjNoValidate'],required:true" readonly="readonly" />
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>焊工编号</lable>
 					<select class="easyui-combobox" id="pipelineNo"  name="pipelineNo" data-options="required:true,editable:false"></select>
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>所属项目</lable>
-					<select class="easyui-combobox" id="itemid"  name="itemid" data-options="required:true,editable:false"></select>
+					<lable><span class="required">*</span>焊机编号</lable>
+					<select class="easyui-combobox" id="machineNo"  name="machineNo" data-options="required:true,editable:false"></select>
 				</div>
 			</form>
 		</div>
@@ -101,19 +88,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="fitem">
 					<lable><span class="required">*</span>任务编号</lable>
 					<input type="hidden" id="oldno" />
-					<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno" readonly="readonly"/>
-				</div>
-				<div class="fitem">
-					<lable><span class="required">*</span>任务描述</lable>
-					<input class="easyui-textbox" id="serialNo" name="serialNo" readonly="readonly"/>
+					<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno" data-options="validType:['wjNoValidate'],required:true" readonly="readonly" />
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>焊工编号</lable>
-					<select class="easyui-combobox" id="pipelineNo"  name="pipelineNo" readonly="readonly"></select>
+					<select class="easyui-combobox" id="pipelineNo"  name="pipelineNo" data-options="required:true,editable:false"></select>
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>所属项目</lable>
-					<select class="easyui-combobox" id="itemname"  name="itemname" readonly="readonly"></select>
+					<lable><span class="required">*</span>焊机编号</lable>
+					<select class="easyui-combobox" id="machineNo"  name="machineNo" data-options="required:true,editable:false"></select>
 				</div>
 			</form>
 		</div>

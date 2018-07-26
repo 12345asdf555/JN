@@ -10,7 +10,7 @@ import com.spring.model.WeldingMachine;
 import tk.mybatis.mapper.common.Mapper;
 
 public interface WeldingMachineMapper extends Mapper<WeldingMachine>{
-	List<WeldingMachine> getWeldingMachineAll(@Param("parent") BigInteger parent,@Param("str") String str);
+	List<WeldingMachine> getWeldingMachineAll();
 	
 	List<WeldingMachine> getEquipmentno();
 	

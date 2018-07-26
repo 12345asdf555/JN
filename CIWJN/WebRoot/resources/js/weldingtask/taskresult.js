@@ -10,7 +10,7 @@ function weldedJunctionDatagrid(){
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
-		url : "weldtask/getWeldTaskList",
+		url : "weldtask/getTaskResultList",
 		singleSelect : true,
 		rownumbers : true,
 		showPageList : false,
@@ -22,26 +22,26 @@ function weldedJunctionDatagrid(){
 			align : "left",
 			hidden:true
 		}, {
-			field : 'weldedJunctionno',
+			field : 'taskNo',
 			title : '任务编号',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		},{
-			field : 'welderno',
+			field : 'welderNo',
 			title : '焊工编号',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'machineno',
+			field : 'machineNo',
 			title : '焊机编号',
 //			width : 90,
 			halign : "center",
 			align : "left",
 //			hidden:true
 		}, {
-			field : 'junctionid',
+			field : 'taskid',
 			title : '任务ID',
 //			width : 90,
 			halign : "center",
@@ -62,24 +62,42 @@ function weldedJunctionDatagrid(){
 			align : "left",
 			hidden:true
 		}, {
-			field : 'operatetype',
-			title : '任务状态',
-//			width : 90,
-			halign : "center",
-			align : "left"
-		}, {
 			field : 'result',
 			title : '任务评价',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'resultlevel',
-			title : '任务等级',
+			field : 'resultName',
+			title : '评价等级',
 //			width : 90,
 			halign : "center",
 			align : "left"
+		},{
+			field : 'resultid',
+			title : '评价id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		},{
+			field : 'operateid',
+			title : '状态id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
 		}, {
+			field : 'operatetype',
+			title : '任务状态',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			formatter: function(value,row,index){
+				var str = '<a id="confirm" class="easyui-linkbutton" href="javascript:confirm()"/>';
+				return str;
+			}
+		},{
 			field : 'edit',
 			title : '编辑',
 			width : 220,
@@ -88,7 +106,7 @@ function weldedJunctionDatagrid(){
 			formatter: function(value,row,index){
 				var str = '<a id="edit" class="easyui-linkbutton" href="javascript:editWeldedjunction()"/>';
 				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWeldedjunction()"/>';
-				str += '<a id="look" class="easyui-linkbutton" href="weldtask/goShowMoreDetails?id='+row.id+'"/>';
+				str += '<a id="evaluation" class="easyui-linkbutton" href="javascript:evaluation()"/>';
 				return str;
 			}
 		}] ],
@@ -102,9 +120,10 @@ function weldedJunctionDatagrid(){
             }
         },
 		onLoadSuccess: function(data){
+			$("a[id='confirm']").linkbutton({text:'确认完成',plain:true});
 	        $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 	        $("a[id='remove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
-			$("a[id='look']").linkbutton({text:'查看更多',plain:true,iconCls:'icon-newadd'});
+			$("a[id='evaluation']").linkbutton({text:'评价',plain:true,iconCls:'icon-newadd'});
 		}
 	});
 }
@@ -146,6 +165,9 @@ function importWeldingMachine(){
 	}
 }
 
+function evaluation(){}
+
+function confirm(){}
 
 //监听窗口大小变化
 window.onresize = function() {

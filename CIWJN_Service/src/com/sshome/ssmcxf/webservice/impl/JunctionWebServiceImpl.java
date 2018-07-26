@@ -16,8 +16,8 @@ public class JunctionWebServiceImpl implements JunctionWebService {
 	private WeldedJunctionService jws;
 	
 	@Override
-	public Object getWeldedJunctionAll(String object) {
-		return jws.getWeldedJunctionAll(object);
+	public Object getWeldedJunctionAll() {
+		return jws.getWeldedJunctionAll();
 	}
 
 	@Override
@@ -67,5 +67,11 @@ public class JunctionWebServiceImpl implements JunctionWebService {
 	public boolean deleteTaskResult(String object) {
 		// TODO Auto-generated method stub
 		return jws.deleteTaskResult(object);
+	}
+	
+	@Override
+	public boolean giveToServer(String object) {
+		// TODO Auto-generated method stub
+		return jws.giveToServer(object);
 	}
 }

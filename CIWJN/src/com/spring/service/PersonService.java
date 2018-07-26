@@ -23,4 +23,11 @@ public interface PersonService {
 	 * @return
 	 */
 	List<Person> getWelder();
+	
+	/**
+	 * 根据焊工编号获取id
+	 * @param welderno
+	 * @return
+	 */
+	BigInteger getIdByWelderno(String welderno);
 }

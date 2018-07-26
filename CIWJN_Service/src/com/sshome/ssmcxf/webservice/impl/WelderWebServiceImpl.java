@@ -44,5 +44,10 @@ public class WelderWebServiceImpl implements WelderWebService {
 	public Object getWelderById(String object) {
 		return ws.getWelderById(object);
 	}
+	
+	@Override
+	public Object getWelderByNum(String object) {
+		return ws.getWelderByNum(object);
+	}
 
 }

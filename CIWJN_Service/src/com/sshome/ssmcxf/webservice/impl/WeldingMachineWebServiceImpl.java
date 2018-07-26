@@ -33,27 +33,14 @@ public class WeldingMachineWebServiceImpl implements WeldingMachineWebService {
 	private JudgeUtil jutil = new JudgeUtil();
 	
 	@Override
-	public Object getWeldingMachineAll(String object) {
+	public Object getWeldingMachineAll() {
 		try{
-			JSONObject json = JSONObject.fromObject(object);
 			JSONObject obj = new JSONObject();
 			JSONArray ary = new JSONArray();
-			String id = json.getString("INSFID");
-			BigInteger insfid = null;
-			if(id!=null && !"".equals(id)){
-				insfid = new BigInteger(id);
-			}
-			List<WeldingMachine> list =  wms.getWeldingMachineAll(insfid, json.getString("STR"));
+			List<WeldingMachine> list =  wms.getWeldingMachineAll();
 			for(int i=0;i<list.size();i++){
 				obj.put("ID", jutil.setValue(list.get(i).getId()));
 				obj.put("MACHINENO",jutil.setValue(list.get(i).getEquipmentNo()));
-				if(list.get(i).getGatherId()!=null){
-					obj.put("GATHERID",jutil.setValue(list.get(i).getGatherId().getId()));
-					obj.put("GATHERNO",jutil.setValue(list.get(i).getGatherId().getGatherNo()));
-				}else{
-					obj.put("GATHERID","");
-					obj.put("GATHERNO","");
-				}
 				if(list.get(i).getManufacturerId()!=null){
 					obj.put("MANUFACTURERID",jutil.setValue(list.get(i).getManufacturerId().getId()));
 					obj.put("MANUFACTURERNAME",jutil.setValue(list.get(i).getManufacturerId().getName()));
@@ -68,14 +55,7 @@ public class WeldingMachineWebServiceImpl implements WeldingMachineWebService {
 					obj.put("INSFRAMEWORKID", "");
 					obj.put("INSFRAMEWORKNAME", "");
 				}
-				obj.put("MONEY",jutil.setValue(list.get(i).getMoney()));
-				obj.put("JOINTIME",jutil.setValue(list.get(i).getJoinTime()));
 				obj.put("POSITION",jutil.setValue(list.get(i).getPosition()));
-				obj.put("ISNETWORKING",jutil.setValue(list.get(i).getIsnetworking()));
-				obj.put("STATUSID",jutil.setValue(list.get(i).getStatusId()));
-				obj.put("STATUSNAME",jutil.setValue(list.get(i).getStatusname()));
-				obj.put("TYPEID",jutil.setValue(list.get(i).getTypeId()));
-				obj.put("TYPENAME",jutil.setValue(list.get(i).getTypename()));
 				ary.add(obj);
 			}
 			return JSON.toJSONString(ary);

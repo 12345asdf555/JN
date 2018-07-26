@@ -34,6 +34,10 @@
         <result property="electricity_unit" column="felectricity_unit"></result>
 		<result property="creator" column="fcreator" />
 		<result property="modifier" column="fmodifier" />
+		<result property="taskid" column="ftaskid" />
+		<result property="welderid" column="fwelderid" />
+		<result property="machineid" column="fmachineid" />
+		<result property="operatorid" column="foperatorr" />
         <association property="itemid" column="fitemId" javaType="com.spring.model.Insframework">  
             <id property="id" column="iid"></id> 
             <result property="name" column="iname"></result>  
@@ -44,14 +48,13 @@
         </association>
 	</resultMap>
 	
-	<select id="getWeldedJunctionAll" resultMap="wjMap" parameterType="java.lang.String">
-		SELECT j.fid,j.fwelded_junction_no,j.fserial_no,j.dyne,j.fitemId,w.fwelder_no fpipeline_no,d.fvaluename froom_no,i.fname iname FROM tb_welded_junction j 
-		INNER JOIN tb_welder w ON j.dyne=w.fid 
-		INNER JOIN tb_dictionary d ON w.Fqualification=d.fvalue 
-		INNER JOIN tb_insframework i ON j.fitemId = i.fid WHERE 1=1
-		<if test="str!=null and str!=''">
-			and ${str}
-		</if>
+	<select id="getWeldedJunctionAll" resultMap="wjMap">
+		SELECT r.fid,r.ftaskid,j.fwelded_junction_no,j.fserial_no,r.fwelderid,w.fwelder_no fpipeline_no,w.fname froom_no,r.fmachineid,m.fequipment_no funit,j.fitemId iid,i.fname iname,r.foperatetype fdyne,j.fstart_time,j.fend_time FROM tb_welded_junction j
+		LEFT JOIN tb_taskresult r ON r.ftaskid=j.fid
+		INNER JOIN tb_insframework i ON j.fitemId=i.fid
+		LEFT JOIN tb_welder w ON r.fwelderid=w.fid
+		LEFT JOIN tb_welding_machine m ON r.fmachineid=m.fid
+		WHERE 1=1 ORDER BY r.fid
 	</select>
 	
 	<select id="getWeldedJunctionById" resultMap="wjMap" parameterType="java.lang.String">

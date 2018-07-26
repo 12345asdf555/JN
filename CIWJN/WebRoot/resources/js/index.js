@@ -174,6 +174,10 @@ function openWeldTask(){
 	addTab("工序计划管理","weldtask/goWeldTask");
 }
 
+function openTaskResult(){
+	addTab("工序计划管理","weldtask/goTaskResult");
+}
+
 function openSpe(){
 	addTab("规范管理","wps/AllSpe");
 }

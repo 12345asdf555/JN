@@ -41,27 +41,11 @@
         </association>
 	</resultMap>
 
-	<select id="getWeldingMachineAll" resultMap="wmMap"  parameterType="java.lang.String">
-		SELECT 
-		w.fid fid,fstatus_id, i.fid iid,ftype_id,g.fid gid,m.fid mid, fequipment_no,fgather_no ,fjoin_time,i.fname iname,fmoney
-		,m.fname mname,fisnetworking,fposition,dic.fvaluename mtype,d.fvaluename statusname,di.fvaluename typename
-		FROM tb_welding_machine w
-		INNER JOIN tb_insframework i ON w.finsframework_id = i.fid
-		INNER JOIN tb_insframework ins ON ins.fid = i.fparent
-		INNER JOIN tb_insframework insf ON insf.fid = ins.fparent
-		INNER JOIN tb_equipment_manufacturer m ON w.fmanufacturer_id = m.fid
-        INNER JOIN tb_dictionary d ON d.fvalue = w.fstatus_id
-        INNER JOIN tb_dictionary di ON di.fvalue = w.ftype_id
-        INNER JOIN tb_dictionary dic ON dic.fvalue = m.ftype
-		left JOIN tb_gather g ON g.fid = w.fgather_id
-		where (d.ftypeid=3 and di.ftypeid=4) 
-		<if test="parent!=null and parent!=''">
-			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
-		</if>
-		<if test="str!=null and str!=''">
-			and ${str}
-		</if>
-		ORDER BY w.fid
+	<select id="getWeldingMachineAll" resultMap="wmMap">
+		SELECT m.fid,m.fequipment_no,m.fposition,i.fid iid,i.fname iname,d.fvaluename mname,d.fvalue mid FROM tb_welding_machine m 
+		LEFT JOIN tb_dictionary d ON m.fmanufacturer_id=d.fvalue AND d.ftypeid=14
+		LEFT JOIN tb_insframework i ON m.finsframework_id=i.fid
+		WHERE 1=1
 	</select>
 	
 	<select id="getWeldingMachineById"  resultMap="wmMap"  parameterType="java.math.BigInteger">

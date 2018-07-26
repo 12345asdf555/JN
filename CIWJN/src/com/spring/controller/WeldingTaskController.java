@@ -50,51 +50,10 @@ public class WeldingTaskController {
 	public String goWeldTask(){
 		return "weldingtask/weldingtask";
 	}
-
-	@RequestMapping("/goAddWeldedJunction")
-	public String goAddWeldedJunction(){
-		return "weldingjunction/addweldedjunction";
-	}
-
-	@RequestMapping("/goEditWeldedJunction")
-	public String goEditWeldedJunction(HttpServletRequest request){
-		BigInteger id = new BigInteger(request.getParameter("id"));
-		WeldedJunction wj = wjm.getWeldedJunctionById(id);
-		wj.setWeldedJunctionno(wj.getWeldedJunctionno().substring(2, 8));
-		request.setAttribute("wj", wj);
-		return "weldingjunction/editweldedjunction";
-	}
-
-	@RequestMapping("/goRemoveWeldedJunction")
-	public String goRemoveWeldedJunction(HttpServletRequest request){
-		BigInteger id = new BigInteger(request.getParameter("id"));
-		WeldedJunction wj = wjm.getWeldedJunctionById(id);
-		wj.setWeldedJunctionno(wj.getWeldedJunctionno().substring(2, 8));
-		request.setAttribute("wj", wj);
-		return "weldingjunction/removeweldedjunction";
-	}
 	
-	@RequestMapping("/getWeldJun")
-	public String getWeldJun(HttpServletRequest request){
-		if(request.getParameter("fid")!=null&&request.getParameter("fid")!=""){
-			request.setAttribute("welderid", request.getParameter("fid"));
-		}
-		if(iutil.isNull(request.getParameter("wjno"))){
-			request.setAttribute("wjno", "00"+request.getParameter("wjno"));
-		}
-		return "td/HistoryCurve";
-	}
-	
-	@RequestMapping("/goShowMoreDetails")
-	public String goShowMoreDetails(HttpServletRequest request,@RequestParam String id){
-		try{
-			WeldedJunction wj = wjm.getWeldedJunctionById(new BigInteger(id));
-			wj.setWeldedJunctionno(wj.getWeldedJunctionno().substring(2, 8));
-			request.setAttribute("wj", wj);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return "weldingtask/moredetails";
+	@RequestMapping("/goTaskResult")
+	public String goTaskResult(){
+		return "weldingtask/taskresult";
 	}
 	
 	@RequestMapping("/getWeldTaskList")
@@ -131,6 +90,48 @@ public class WeldingTaskController {
 				json.put("quaid", w.getExternalDiameter());
 				json.put("startttime",w.getStartTime());
 				json.put("endtime", w.getEndTime());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getTaskResultList")
+	@ResponseBody
+	public String getTaskResultList(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String serach = request.getParameter("searchStr");
+		
+		page = new Page(pageIndex,pageSize,total);
+		List<WeldedJunction> list = wjm.getTaskResultAll(page, serach);
+		long total = 0;
+		
+		if(list != null){
+			PageInfo<WeldedJunction> pageinfo = new PageInfo<WeldedJunction>(list);
+			total = pageinfo.getTotal();
+		}
+		
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(WeldedJunction w:list){
+				json.put("id", w.getId());
+				json.put("taskid", w.getCounts());
+				json.put("welderid", w.getInsfid());
+				json.put("machineid", w.getMachid());
+				json.put("operateid",w.getDyne());
+				json.put("result", w.getPipelineNo());
+				json.put("resultid", w.getUpdatecount());
+				json.put("taskNo",w.getWeldedJunctionno());
+				json.put("welderNo", w.getSerialNo());
+				json.put("machineNo", w.getMachine_num());
+				json.put("resultName", w.getRoomNo());
 				ary.add(json);
 			}
 		}catch(Exception e){

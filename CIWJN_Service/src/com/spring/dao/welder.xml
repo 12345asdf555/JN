@@ -41,10 +41,8 @@
 	</select>
 	
 	<select id="getWelderByNum" resultMap="dMap">
-		SELECT w.fid,w.fwelder_no,w.fname,i.fname iname,w.FCellPhone,w.FCardNUm,d1.fvaluename levelname,d2.fvaluename quality,i.fid iid FROM tb_welder w 
+		SELECT w.fid,w.fwelder_no,w.fname,i.fname iname,i.fid iid FROM tb_welder w 
 		INNER JOIN tb_insframework i on i.fid = w.Fowner 
-		INNER JOIN tb_dictionary d1 on d1.fvalue=w.FLeveId
-		INNER JOIN tb_dictionary d2 ON d2.fvalue=w.Fqualification
 		WHERE w.fwelder_no=#{welderno}
 	</select>
 	

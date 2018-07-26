@@ -9,7 +9,7 @@ public interface WeldedJunctionService {
 	 * @param object
 	 * @return
 	 */
-	Object getWeldedJunctionAll(String object);
+	Object getWeldedJunctionAll();
 	
 	/**
 	 * 根据id查找焊口
@@ -67,4 +67,10 @@ public interface WeldedJunctionService {
 	 * @param object
 	 */
 	boolean deleteTaskResult(String object);
+	
+	/**
+	 * 发送任务相关信息给转发器
+	 * @param object
+	 */
+	boolean giveToServer(String object);
 }

@@ -84,4 +84,10 @@ public class PersonServiceImpl implements PersonService{
 		return mapper.findAll(null, null);
 	}
 
+	@Override
+	public BigInteger getIdByWelderno(String welderno) {
+		// TODO Auto-generated method stub
+		return mapper.getIdByWelderno(welderno);
+	}
+
 }

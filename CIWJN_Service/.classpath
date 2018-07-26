@@ -108,5 +108,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jaxb-api-2.2.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jaxb-impl-2.2.1.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jaxb-xjc-2.2.1.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-all-5.0.0.Alpha2-sources(2).jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netty-all-5.0.0.Alpha2(2).jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

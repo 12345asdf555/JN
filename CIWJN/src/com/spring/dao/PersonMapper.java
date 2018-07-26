@@ -18,4 +18,5 @@ public interface PersonMapper {
 	int getUsernameCount(@Param("welderno")String welderno);
 	void update(Person welder);
 	void delete(BigInteger fid);
+	BigInteger getIdByWelderno(@Param("welderno")String welderno);
 }

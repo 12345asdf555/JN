@@ -9,7 +9,7 @@ public interface JunctionWebService {
 	 * @param object
 	 * @return
 	 */
-	Object getWeldedJunctionAll(String object);
+	Object getWeldedJunctionAll();
 	
 	/**
 	 * 根据id查找焊口
@@ -67,4 +67,10 @@ public interface JunctionWebService {
 	 * @param object
 	 */
 	boolean deleteTaskResult(String object);
+	
+	/**
+	 * 发送消息给转发器
+	 * @param object
+	 */
+	boolean giveToServer(String object);
 }

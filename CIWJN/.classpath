@@ -91,7 +91,7 @@
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/standard-1.1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/xmlbeans-2.6.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/cfgatewayadapter.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/cxf-2.7.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/cxf-2.7.3.jar" sourcepath="C:/Users/Clown/.m2/repository/org/apache/cxf/cxf-bundle/2.7.3/cxf-bundle-2.7.3-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/cxf-manifest.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/fastjson-1.2.13.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/freemarker-2.3.16.jar"/>

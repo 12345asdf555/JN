@@ -16,7 +16,10 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
 
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -261,7 +264,7 @@ public class ImportExcelController {
 				if(num<=6){
 					for(int i=0;i<6-num;i++){
 						wjno = "0"+wjno;
-					}
+					} 
 				}else{
 					obj.put("success",false);
 					obj.put("msg","导入失败，请检查您的焊口编号长度是否符合要求！");
@@ -285,6 +288,68 @@ public class ImportExcelController {
 			};
 			obj.put("success",true);
 			obj.put("msg","导入成功！");
+		}catch(Exception e){
+			e.printStackTrace();
+			obj.put("success",false);
+			obj.put("msg","导入失败，请检查您的文件格式以及数据是否符合要求！");
+		}
+		return obj.toString();
+	}
+	
+	/**
+	 * 导入任务记录
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/importWeldTask")
+	@ResponseBody
+	public String importWeldTask(HttpServletRequest request,
+			HttpServletResponse response){
+		UploadUtil u = new UploadUtil();
+		JSONObject obj = new JSONObject();
+		try{
+			String path = u.uploadFile(request, response);
+			List<WeldedJunction> we = xlsxWeldTask(path);
+			//删除已保存的excel文件
+			File file  = new File(path);
+			file.delete();
+			for(WeldedJunction w:we){
+				String wjno = w.getWeldedJunctionno();
+				w.setWeldedJunctionno(wjno);
+				int count = wjs.getWeldedjunctionByNo(wjno);
+				w.setInsfid(wmm.getInsframeworkByName(w.getItemid().getName()));
+				w.setCounts(ps.getIdByWelderno(w.getPipelineNo()));
+				w.setExternalDiameter(String.valueOf(dm.getvaluebyname(7, w.getRoomNo())));
+				MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				w.setCreater(new BigInteger(user.getId()+""));
+				w.setUpdater(new BigInteger(user.getId()+""));
+				//编码唯一
+				if(count>0){
+//					obj.put("msg","导入失败，请检查您的焊口编号是否已存在！");
+//					obj.put("success",false);
+//					return obj.toString();
+					continue;
+				}
+				//客户端执行操作
+				JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+				Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+				iutil.Authority(client);
+				String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"addJunction\"}";
+				String obj2 = "{\"JUNCTIONNO\":\""+w.getWeldedJunctionno()+"\",\"SERIALNO\":\""+w.getSerialNo()+"\",\"DYNE\":\""+w.getCounts()+"\"," +
+						"\"INSFID\":\""+w.getInsfid()+"\",\"STARTTIME\":\""+w.getStartTime()+"\",\"ENDTIME\":\""+w.getEndTime()+"\",\"EXTERNALDIAMETER\":\""+w.getExternalDiameter()+"\"}";
+				Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
+				if(objects[0].toString().equals("true")){
+					obj.put("success",true);
+					obj.put("msg","导入成功！");
+				}else if(!objects[0].toString().equals("false")){
+					obj.put("success", true);
+					obj.put("msg", objects[0].toString());
+				}else{
+					obj.put("success", false);
+					obj.put("errorMsg", "操作失败！");
+				}
+			};
 		}catch(Exception e){
 			e.printStackTrace();
 			obj.put("success",false);
@@ -871,6 +936,161 @@ public class ImportExcelController {
 						Insframework insf = new Insframework();
 						insf.setName(cellValue);
 						p.setItemid(insf);//所属部门
+						break;
+					}
+					break;
+				case HSSFCell.CELL_TYPE_BOOLEAN: // Boolean
+					cellValue = String.valueOf(cell.getBooleanCellValue());
+					break;
+				case HSSFCell.CELL_TYPE_FORMULA: // 公式
+					cellValue = String.valueOf(cell.getCellFormula());
+					break;
+				case HSSFCell.CELL_TYPE_BLANK: // 空值
+					cellValue = "";
+					break;
+				case HSSFCell.CELL_TYPE_ERROR: // 故障
+					cellValue = "";
+					break;
+				default:
+					cellValue = cell.toString().trim();
+					break;
+				}
+			}
+			junction.add(p);
+		}
+		
+		return junction;
+	}
+	
+	
+	/**
+	 * 导入WeldTask表数据
+	 * @param path
+	 * @return
+	 * @throws IOException
+	 * @throws InvalidFormatException
+	 */
+	public static List<WeldedJunction> xlsxWeldTask(String path) throws IOException, InvalidFormatException{
+		List<WeldedJunction> junction = new ArrayList<WeldedJunction>();
+		InputStream stream = new FileInputStream(path);
+		Workbook workbook = create(stream);
+		Sheet sheet = workbook.getSheetAt(0);
+		
+		int rowstart = sheet.getFirstRowNum()+1;
+		int rowEnd = sheet.getLastRowNum();
+	    
+		for(int i=rowstart;i<=rowEnd;i++){
+			Row row = sheet.getRow(i);
+			if(null == row){
+				continue;
+			}
+			int cellStart = row.getFirstCellNum();
+			int cellEnd = row.getLastCellNum();
+			WeldedJunction p = new WeldedJunction();
+			for(int k = cellStart; k<= cellEnd;k++){
+				Cell cell = row.getCell(k);
+				if(null == cell){
+					continue;
+				}
+				
+				String cellValue = "";
+				
+				switch (cell.getCellType()){
+				case HSSFCell.CELL_TYPE_NUMERIC://数字
+					if (HSSFDateUtil.isCellDateFormatted(cell)) {// 处理日期格式、时间格式  
+		                SimpleDateFormat sdf = null;  
+		                if (cell.getCellStyle().getDataFormat() == HSSFDataFormat  
+		                        .getBuiltinFormat("h:mm")) {  
+		                    sdf = new SimpleDateFormat("HH:mm");  
+		                } else {// 日期  
+		                    sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		                }  
+		                Date date = cell.getDateCellValue();  
+		                cellValue = sdf.format(date);  
+		            } else if (cell.getCellStyle().getDataFormat() == 58) {  
+		                // 处理自定义日期格式：m月d日(通过判断单元格的格式id解决，id的值是58)  
+		                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		                double value = cell.getNumericCellValue();  
+		                Date date = org.apache.poi.ss.usermodel.DateUtil  
+		                        .getJavaDate(value);  
+		                cellValue = sdf.format(date);  
+		            } else {
+		            	String num = String.valueOf(cell.getNumericCellValue());
+		            	 //处理数字过长时出现x.xxxE9
+		            	BigDecimal big=new BigDecimal(cell.getNumericCellValue());
+		            	//判断数字是否是小数
+		            	Pattern pattern = Pattern.compile("^\\d+\\.\\d+$");
+		            	Matcher isNum = pattern.matcher(big+"");
+		            	if(isNum.matches()){
+		            		//为小数时不进行过长处理否则小数位会自动补位，例：21.3变为21.39999999999999857891452847979962825775146484375
+		            		cellValue = num;
+		            	}else{
+		            		cellValue = big.toString();
+		            	}
+//		            	 BigDecimal big=new BigDecimal(cell.getNumericCellValue());  
+//		            	 cellValue = big.toString();
+                   }
+					if(k == 0){
+						p.setWeldedJunctionno(cellValue);//任务编号
+						break;
+					}
+					else if(k == 1){
+						p.setSerialNo(cellValue);//任务描述
+						break;
+					}
+					else if(k == 2){
+						p.setPipelineNo(cellValue);//焊工编号
+						break;
+					}
+					else if(k == 3){
+						p.setRoomNo(cellValue);//焊工资质
+						break;
+					}
+					else if(k == 4){
+						Insframework insf = new Insframework();
+						insf.setName(cellValue);
+						p.setItemid(insf);//所属部门
+						break;
+					}
+					else if(k == 5){
+						p.setStartTime(cellValue);//开始时间
+						break;
+					}
+					else if(k == 6){
+						p.setEndTime(cellValue);//结束时间
+						break;
+					}
+					break;
+				case HSSFCell.CELL_TYPE_STRING://字符串
+					cellValue = cell.getStringCellValue();
+					if(k == 0){
+						p.setWeldedJunctionno(cellValue);//任务编号
+						break;
+					}
+					else if(k == 1){
+						p.setSerialNo(cellValue);//任务描述
+						break;
+					}
+					else if(k == 2){
+						p.setPipelineNo(cellValue);//焊工资质
+						break;
+					}
+					else if(k == 3){
+						p.setRoomNo(cellValue);//焊工编号
+						break;
+					}
+					else if(k == 4){
+						Insframework insf = new Insframework();
+						insf.setName(cellValue);
+						p.setItemid(insf);//所属部门
+						break;
+					}
+					else if(k == 5){
+						p.setStartTime(cellValue);//开始时间
+						break;
+					}
+					else if(k == 6){
+						p.setEndTime(cellValue);//结束时间
 						break;
 					}
 					break;

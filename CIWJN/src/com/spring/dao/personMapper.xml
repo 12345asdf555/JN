@@ -56,4 +56,8 @@
 	<select id="getUsernameCount" parameterType="String" resultType="java.lang.Integer">
 		select count(*) from tb_welder where fwelder_no=#{welderno}
 	</select>
+	
+	<select id="getIdByWelderno" parameterType="String" resultType="java.math.BigInteger">
+		SELECT fid FROM tb_welder WHERE fwelder_no=#{welderno}
+	</select>
 </mapper>

@@ -14,6 +14,7 @@ import com.spring.model.Insframework;
 import com.spring.model.WeldedJunction;
 import com.spring.service.WeldedJunctionService;
 
+import io.netty.channel.socket.SocketChannel;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 @Transactional
@@ -24,23 +25,31 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 	
 	private JudgeUtil jutil = new JudgeUtil();
 	
+	public Client client = new Client(this);
+	
+	public SocketChannel socketChannel = null;
+	
 	@Override
-	public Object getWeldedJunctionAll(String object) {
+	public Object getWeldedJunctionAll() {
 		try{
-			JSONObject json = JSONObject.fromObject(object);
 			JSONObject obj = new JSONObject();
 			JSONArray ary = new JSONArray();
-			List<WeldedJunction> list = wjm.getWeldedJunctionAll(json.getString("STR"));
+			List<WeldedJunction> list = wjm.getWeldedJunctionAll();
 			for(int i=0;i<list.size();i++){
 				obj.put("ID", jutil.setValue(list.get(i).getId()));
-				obj.put("JUNCTIONNO",jutil.setValue(list.get(i).getWeldedJunctionno()));
-				obj.put("SERIALNO",jutil.setValue(list.get(i).getSerialNo()));
-				obj.put("PIPELINENO",jutil.setValue(list.get(i).getPipelineNo()));
-				obj.put("ROOMNO",jutil.setValue(list.get(i).getRoomNo()));
-				obj.put("DYNE",jutil.setValue(list.get(i).getDyne()));
-				obj.put("UPDATECOUNT",jutil.setValue(list.get(i).getUpdatecount()));
+				obj.put("TASKID", jutil.setValue(list.get(i).getTaskid()));
+				obj.put("TASKNO",jutil.setValue(list.get(i).getWeldedJunctionno()));
+				obj.put("TASKDES",jutil.setValue(list.get(i).getSerialNo()));
+				obj.put("WELDERID", jutil.setValue(list.get(i).getWelderid()));
+				obj.put("WELDERNO",jutil.setValue(list.get(i).getPipelineNo()));
+				obj.put("WELDERNAME",jutil.setValue(list.get(i).getRoomNo()));
+				obj.put("MACHINEID", jutil.setValue(list.get(i).getMachineid()));
+				obj.put("MACHINENO", jutil.setValue(list.get(i).getUnit()));
 				obj.put("ITEMID",jutil.setValue(list.get(i).getItemid().getId()));
 				obj.put("ITEMNAME",jutil.setValue(list.get(i).getItemid().getName()));
+				obj.put("OPERATESTATUS",jutil.setValue(list.get(i).getDyne()));
+				obj.put("STARTTIME", jutil.setValue(list.get(i).getStartTime()));
+				obj.put("ENDTIME", jutil.setValue(list.get(i).getEndTime()));
 				ary.add(obj);
 			}
 			return JSON.toJSONString(ary);
@@ -205,7 +214,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			wj.setTaskid(new BigInteger(json.getString("TASKID")));
 			wj.setWelderid(new BigInteger(json.getString("WELDERID")));
 			wj.setMachineid(new BigInteger(json.getString("MACHINEID")));
-			wj.setDyne(Integer.valueOf(json.getString("OPERATETYPEID")));
+			wj.setDyne(Integer.valueOf(json.getString("OPERATESTATUS")));
 			wj.setOperatorid(new BigInteger(json.getString("OPERATORID")));
 			wj.setUpdatecount(Integer.valueOf(json.getString("RESULTID")));
 			wj.setArea(json.getString("RESULT"));
@@ -226,6 +235,24 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public boolean giveToServer(String object) {
+		client.run();
+		boolean a = false;
+		while(!a){
+			if(socketChannel != null){
+				try {
+					socketChannel.writeAndFlush("FA000031010009000100000011007B00A400000311091D0C050C007B00A500000311091D14050C007B00A400000311091D14050CC017F5").sync();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				a = true;
+			}
+		}
+		return true;
 	}
 
 }

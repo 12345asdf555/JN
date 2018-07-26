@@ -7,7 +7,7 @@ public interface WeldingMachineWebService {
 	/**
 	 * 查询所有焊机信息
 	 */
-	Object getWeldingMachineAll(String object);
+	Object getWeldingMachineAll();
 	
 	/**
 	 * 查询所有厂商信息

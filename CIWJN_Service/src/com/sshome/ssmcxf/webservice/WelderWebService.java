@@ -41,4 +41,11 @@ public interface WelderWebService {
 	 * @return
 	 */
 	Object getWelderById(String object);
+	
+	/**
+	 * 根据焊工编号查找焊工
+	 * @param object
+	 * @return
+	 */
+	Object getWelderByNum(String object);
 }

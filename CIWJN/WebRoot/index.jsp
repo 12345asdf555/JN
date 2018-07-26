@@ -139,8 +139,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        <li onclick="changeColor(this)"><a href="javascript:openWedJunction()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊缝管理</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openProduct()"><div><img src="resources/images/c-8.png" />&nbsp;&nbsp;产品管理</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openWps()"><div><img src="resources/images/c-9.png" />&nbsp;&nbsp;工艺管理</div></a></li>
-			        <li class="libottom" onclick="changeColor(this)"><a href="javascript:openSpe()"><div><img src="resources/images/c-14.png" />&nbsp;&nbsp;焊机参数管理</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openWeldTask()"><div><img src="" />&nbsp;&nbsp;工序计划管理</div></a></li>
+			        <li onclick="changeColor(this)"><a href="javascript:openTaskResult()"><div><img src="" />&nbsp;&nbsp;计划执行管理</div></a></li>
+			        <li class="libottom" onclick="changeColor(this)"><a href="javascript:openSpe()"><div><img src="resources/images/c-14.png" />&nbsp;&nbsp;焊机参数管理</div></a></li>
 				</ul>
 			</div>
 			<div title="系统配置管理" data-options="iconCls:'icon-sys'">
