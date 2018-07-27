@@ -37,7 +37,7 @@
 		<result property="taskid" column="ftaskid" />
 		<result property="welderid" column="fwelderid" />
 		<result property="machineid" column="fmachineid" />
-		<result property="operatorid" column="foperatorr" />
+		<result property="operatorid" column="foperator" />
         <association property="itemid" column="fitemId" javaType="com.spring.model.Insframework">  
             <id property="id" column="iid"></id> 
             <result property="name" column="iname"></result>  
@@ -49,12 +49,13 @@
 	</resultMap>
 	
 	<select id="getWeldedJunctionAll" resultMap="wjMap">
-		SELECT r.fid,r.ftaskid,j.fwelded_junction_no,j.fserial_no,r.fwelderid,w.fwelder_no fpipeline_no,w.fname froom_no,r.fmachineid,m.fequipment_no funit,j.fitemId iid,i.fname iname,r.foperatetype fdyne,j.fstart_time,j.fend_time FROM tb_welded_junction j
+		SELECT j.fid,j.fwelded_junction_no,j.fserial_no,j.fdyne fwelderid,w.fwelder_no fpipeline_no,w.fname froom_no,r.fmachineid,m.fequipment_no funit,j.fitemId iid,i.fname iname,r.foperatetype fsystems,r.foperatedate fstart_time,j.fend_time,r.fwelderid foperator,ww.fwelder_no fchildren,ww.fname fspecification FROM tb_welded_junction j
 		LEFT JOIN tb_taskresult r ON r.ftaskid=j.fid
 		INNER JOIN tb_insframework i ON j.fitemId=i.fid
-		LEFT JOIN tb_welder w ON r.fwelderid=w.fid
+		LEFT JOIN tb_welder w ON j.fdyne=w.fid
+        LEFT JOIN tb_welder ww ON r.fwelderid=ww.fid
 		LEFT JOIN tb_welding_machine m ON r.fmachineid=m.fid
-		WHERE 1=1 ORDER BY r.fid
+		WHERE 1=1 AND (r.foperatetype='0' OR r.foperatetype='2' OR r.foperatetype IS null)
 	</select>
 	
 	<select id="getWeldedJunctionById" resultMap="wjMap" parameterType="java.lang.String">
@@ -67,12 +68,12 @@
 	
 	<insert id="addJunction" parameterType="com.spring.model.WeldedJunction" useGeneratedKeys="true" keyProperty="id">
 		insert into tb_welded_junction(fwelded_junction_no,fserial_no,fdyne,fexternal_diameter,fitemId,fstart_time,fend_time) 
-		values(#{weldedJunctionno},#{serialNo},#{dyne},#{itemid.id},#{externalDiameter},#{startTime},#{endTime});
+		values(#{weldedJunctionno},#{serialNo},#{unit},#{externalDiameter},#{itemid.id},#{startTime},#{endTime});
 	</insert>
 	
 	<update id="updateJunction" parameterType="com.spring.model.WeldedJunction">
-		update tb_welded_junction set fwelded_junction_no=#{weldedJunctionno},fserial_no=#{serialNo},fdyne=#{dyne},
-		fitemId=#{itemid.id} where fid=#{id},fstart_time=#{startTime},fend_time=#{endTime},fexternal_diameter=#{externalDiameter};
+		update tb_welded_junction set fwelded_junction_no=#{weldedJunctionno},fserial_no=#{serialNo},fdyne=#{unit},
+		fitemId=#{itemid.id},fstart_time=#{startTime},fend_time=#{endTime},fexternal_diameter=#{externalDiameter} where fid=#{id};
 	</update>
 	
 	<delete id="deleteJunction" parameterType="java.math.BigInteger">
@@ -88,11 +89,11 @@
 	
 	<insert id="addTaskResult" parameterType="com.spring.model.WeldedJunction" useGeneratedKeys="true" keyProperty="id">
 		insert into tb_taskresult(ftaskid,fwelderid,fmachineid,foperatedate,foperatetype,foperator,fresult,fresultid) 
-		values(#{taskid},#{welderid},#{machineid},now(),#{dyne},#{operatorid},#{area},#{updatecount});
+		values(#{taskid},#{welderid},#{machineid},now(),#{dyne},#{operatorid},#{area},#{children});
 	</insert>
 	
 	<update id="updateTaskResult" parameterType="com.spring.model.WeldedJunction">
-		update tb_taskresult set ftaskid=#{taskid},fwelderid=#{welderid},fmachineid=#{machineid},foperatedate=now(),foperatetype=#{dyne},foperator=#{operatorid},fresult=#{area},fresultid=#{updatecount} where fid=#{id};
+		update tb_taskresult set ftaskid=#{taskid},fwelderid=#{welderid},fmachineid=#{machineid},foperatedate=now(),foperatetype=#{dyne},foperator=#{operatorid},fresult=#{area},fresultid=#{children} where fid=#{id};
 	</update>
 	
 	<delete id="deleteTaskResult" parameterType="java.math.BigInteger">

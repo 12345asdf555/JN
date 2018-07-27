@@ -2,15 +2,31 @@ var url = "";
 function removeWeldedjunction(){
 	$('#rfm').form('clear');
 	var row = $('#weldTaskTable').datagrid('getSelected');
-	if (row) {
-		$('#rdlg').window( {
-			title : "删除焊缝",
-			modal : true
-		});
-		$('#rdlg').window('open');
-		$('#rfm').form('load', row);
-		url = "weldtask/removeWeldTask?id="+row.id+"&insfid="+row.itemid;
-	}
+	$.ajax({  
+	      type : "post",  
+	      async : false,
+	      url : "weldedjunction/getCouneByTaskid?taskid="+row.id,  
+	      data : {},  
+	      dataType : "json", //返回数据形式为json  
+	      success : function(result) {  
+	          if (result==false) {
+	        	  alert("任务已被执行或者已完成，无法进行操作！！");
+	          }else{
+	        		if (row) {
+	        			$('#rdlg').window( {
+	        				title : "删除焊缝",
+	        				modal : true
+	        			});
+	        			$('#rdlg').window('open');
+	        			$('#rfm').form('load', row);
+	        			url = "weldtask/removeWeldTask?id="+row.id+"&insfid="+row.itemid;
+	        		}
+	          }
+	      },  
+	      error : function(errorMsg) {  
+	          alert("数据请求失败，请联系系统管理员!");  
+	      }  
+	}); 
 }
 
 function remove(){

@@ -86,10 +86,10 @@ public class WeldingTaskController {
 					json.put("itemname", w.getItemid().getName());
 					json.put("itemid", w.getItemid().getId());
 				}
-				json.put("dyne", w.getDyne());
-				json.put("quaid", w.getExternalDiameter());
-				json.put("startttime",w.getStartTime());
-				json.put("endtime", w.getEndTime());
+				json.put("welderid", w.getDyne());
+				json.put("quali", w.getExternalDiameter());
+				json.put("dtoTime1",w.getStartTime());
+				json.put("dtoTime2", w.getEndTime());
 				ary.add(json);
 			}
 		}catch(Exception e){

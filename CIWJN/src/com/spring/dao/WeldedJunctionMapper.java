@@ -32,4 +32,6 @@ public interface WeldedJunctionMapper extends Mapper<WeldedJunction>{
 	String getFirsttime(@Param("dto") WeldDto dto,@Param("machineid")BigInteger machineid, @Param("welderid")String welderid, @Param("junid")String junid);
 	
 	String getLasttime(@Param("dto") WeldDto dto,@Param("machineid")BigInteger machineid, @Param("welderid")String welderid, @Param("junid")String junid);
+	
+	int getCountByTaskid(@Param("taskid")BigInteger taskid);
 }

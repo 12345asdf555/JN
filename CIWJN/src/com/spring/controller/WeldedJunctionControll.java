@@ -338,6 +338,17 @@ public class WeldedJunctionControll {
 		return data + "";
 	}
 	
+	@RequestMapping("/getCouneByTaskid")
+	@ResponseBody
+	private String getCouneByTaskid(@RequestParam BigInteger taskid){
+		boolean data = true;
+		int count = wjm.getCountByTaskid(taskid);
+		if(count>0){
+			data = false;
+		}
+		return data + "";
+	}
+	
 	@RequestMapping("/getWeldingJun")
 	@ResponseBody
 	public String getWeldingJun(HttpServletRequest request){

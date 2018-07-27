@@ -29,6 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/search/search.js"></script>
 	<script type="text/javascript" src="resources/js/weldingtask/addeditweldtask.js"></script>
 	<script type="text/javascript" src="resources/js/weldingtask/removeweldtask.js"></script>
+	<script type="text/javascript" src="resources/js/weldingtask/print.js"></script>
 	
   </head>
   
@@ -39,6 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div>
 				<a href="javascript:addWeldedjunction();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
 				<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-import">导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:printWeldedjunction();" class="easyui-linkbutton" iconCls="icon-print">打印</a>&nbsp;&nbsp;&nbsp;&nbsp;
 				<a href="javascript:insertsearchWT();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
 			</div>
 		</div>
@@ -77,27 +79,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno" data-options="validType:['wjNoValidate'],required:true" />
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>任务描述</lable>
-					<input class="easyui-textbox" id="serialNo" name="serialNo" data-options="required:true"/>
+					<lable><span class="required"></span>任务描述</lable>
+					<input class="easyui-textbox" id="serialNo" name="serialNo" data-options="required:false"/>
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>焊工编号</lable>
-					<select class="easyui-combobox" id="pipelineNo"  name="pipelineNo" data-options="required:true,editable:false"></select>
+					<lable><span class="required"></span>焊工编号</lable>
+					<input id="welderid" name="welderid" type="hidden"/>
+					<input class="easyui-textbox" id="pipelineNo" name="pipelineNo" readonly="readonly"/>
+					<a href="javascript:selectWelder();" class="easyui-linkbutton">选择</a>
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>焊工资质</lable>
-					<select class="easyui-combobox" id="quali"  name="quali" data-options="required:true,editable:false"></select>
+					<lable><span class="required"></span>焊工资质</lable>
+					<select class="easyui-combobox" id="quali"  name="quali" data-options="editable:false"></select>
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>所属项目</lable>
 					<select class="easyui-combobox" id="itemid"  name="itemid" data-options="required:true,editable:false"></select>
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>开始时间</lable>
+					<lable><span class="required"></span>开始时间</lable>
 					<input class="easyui-datetimebox" name="dtoTime1" id="dtoTime1">
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>结束时间</lable>
+					<lable><span class="required"></span>结束时间</lable>
 					<input class="easyui-datetimebox" name="dtoTime2" id="dtoTime2">
 				</div>
 			</form>
@@ -106,26 +110,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:save();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 			<a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
-		
+		   <!-- 选择焊工 -->
+	    <div id="fdlg" class="easyui-dialog" style="width: 700px; height: 530px;" title="选择焊工" closed="true" buttons="#fdlg-buttons">
+	      <div id="fdlgSearch">
+	        焊工编号：<input class="easyui-textbox" id="searchname"/>
+	        <a href="javascript:dlgSearchGather();" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+	      </div>
+	        <table id="welderTable" style="table-layout: fixed; width:100%;"></table>
+	    </div>
+	    <div id="fdlg-buttons">
+	      <a href="javascript:saveWelder();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+	      <a href="javascript:closeFdlog()" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+	    </div>
 		<!-- 删除 -->
 		<div id="rdlg" class="easyui-dialog" style="width: 350px; height: 400px; padding:3px 6px" closed="true" buttons="#remove-buttons">
 			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
-				<div class="fitem">
+								<div class="fitem">
 					<lable><span class="required">*</span>任务编号</lable>
-					<input type="hidden" id="oldno" />
-					<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno" readonly="readonly"/>
+					<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno" readonly="readonly" />
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>任务描述</lable>
+					<lable><span class="required"></span>任务描述</lable>
 					<input class="easyui-textbox" id="serialNo" name="serialNo" readonly="readonly"/>
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>焊工编号</lable>
-					<select class="easyui-combobox" id="pipelineNo"  name="pipelineNo" readonly="readonly"></select>
+					<lable><span class="required"></span>焊工编号</lable>
+					<input class="easyui-textbox" id="pipelineNo" name="pipelineNo" readonly="readonly"/>
+				</div>
+				<div class="fitem">
+					<lable><span class="required"></span>焊工资质</lable>
+					<input class="easyui-textbox" id="roomNo"  name="roomNo" readonly="readonly">
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>所属项目</lable>
-					<select class="easyui-combobox" id="itemname"  name="itemname" readonly="readonly"></select>
+					<input class="easyui-textbox" id="itemid"  name="itemid" readonly="readonly">
+				</div>
+				<div class="fitem">
+					<lable><span class="required"></span>开始时间</lable>
+					<input class="easyui-textbox" name="dtoTime1" id="dtoTime1" readonly="readonly">
+				</div>
+				<div class="fitem">
+					<lable><span class="required"></span>结束时间</lable>
+					<input class="easyui-textbox" name="dtoTime2" id="dtoTime2" readonly="readonly">
 				</div>
 			</form>
 		</div>

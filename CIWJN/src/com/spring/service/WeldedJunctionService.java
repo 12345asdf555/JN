@@ -3,6 +3,8 @@ package com.spring.service;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.spring.dto.WeldDto;
 import com.spring.model.WeldedJunction;
 import com.spring.page.Page;
@@ -78,4 +80,11 @@ public interface WeldedJunctionService {
 	 * 查询任务执行
 	 */
 	List<WeldedJunction> getTaskResultAll(Page page, String str);
+	
+	/**
+	 * 判断任务是否已经开始被执行或完成
+	 * @param taskid任务id
+	 * @return
+	 */
+	int getCountByTaskid(BigInteger taskid);
 }

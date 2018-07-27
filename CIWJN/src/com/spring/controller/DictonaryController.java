@@ -165,4 +165,24 @@ public class DictonaryController {
 		return obj.toString();
 	}
 	
+	@RequestMapping("/getValueByTypeid")
+	@ResponseBody
+	public String getValueByTypeid(){
+		JSONObject obj=new JSONObject();
+		JSONObject json=new JSONObject();
+		JSONArray ary=new JSONArray();
+		try{
+			List<Dictionarys> list = dictionaryManager.getDictionaryValue(7);
+			for(Dictionarys d:list){
+				json.put("value", d.getValue());
+				json.put("name", d.getValueName());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
+	
 }

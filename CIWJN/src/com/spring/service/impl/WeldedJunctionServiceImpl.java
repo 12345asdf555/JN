@@ -78,4 +78,9 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService{
 		return wjm.getTaskResultAll(str);
 	}
 
+	@Override
+	public int getCountByTaskid(BigInteger taskid) {
+		return wjm.getCountByTaskid(taskid);
+	}
+
 }

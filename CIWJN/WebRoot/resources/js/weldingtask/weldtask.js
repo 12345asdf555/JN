@@ -47,7 +47,14 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'quaid',
+			field : 'welderid',
+			title : '焊工id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		},{
+			field : 'quali',
 			title : '资质id',
 //			width : 90,
 			halign : "center",
@@ -67,13 +74,13 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'startttime',
+			field : 'dtoTime1',
 			title : '开始时间',
 //			width : 150,
 			halign : "center",
 			align : "left"
 		},{
-			field : 'endtime',
+			field : 'dtoTime2',
 			title : '结束时间',
 //			width : 150,
 			halign : "center",
@@ -113,6 +120,10 @@ function weldedJunctionDatagrid(){
 	});
 }
 
+//打印
+function printWeldedjunction(){
+	CreateFormPage("datagrid",$("#weldTaskTable"));
+}
 
 //导入
 function importclick(){

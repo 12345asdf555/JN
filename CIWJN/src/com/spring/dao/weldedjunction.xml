@@ -63,7 +63,7 @@
 	<select id="getWeldedJunctionAll" resultMap="wjMap" parameterType="java.lang.String">
 	SELECT j.fid,j.fwelded_junction_no,j.fserial_no,j.fexternal_diameter,j.fstart_time,j.fend_time,j.fdyne,i.fid iid,w.fwelder_no fpipeline_no,d.fvaluename froom_no,i.fname iname FROM tb_welded_junction j 
 	LEFT JOIN tb_welder w ON j.fdyne=w.fid 
-	LEFT JOIN tb_dictionary d ON w.Fqualification=d.fvalue AND ftypeid=7 
+	LEFT JOIN tb_dictionary d ON j.fexternal_diameter=d.fvalue AND ftypeid=7 
 	INNER JOIN tb_insframework i ON j.fitemId = i.fid 
 	WHERE 1=1 
 		<if test="str!=null and str!=''">
@@ -175,4 +175,8 @@
 	<delete id="deleteJunction" parameterType="java.math.BigInteger">
 		delete from tb_welded_junction where fid=#{id}
 	</delete>
+	
+	<select id="getCountByTaskid" resultType="java.lang.Integer" parameterType="java.math.BigInteger">
+		SELECT COUNT(fid) FROM `tb_taskresult` WHERE ftaskid = #{taskid}
+	</select>
 </mapper>

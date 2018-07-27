@@ -175,7 +175,7 @@ function openWeldTask(){
 }
 
 function openTaskResult(){
-	addTab("工序计划管理","weldtask/goTaskResult");
+	addTab("计划执行管理","weldtask/goTaskResult");
 }
 
 function openSpe(){
