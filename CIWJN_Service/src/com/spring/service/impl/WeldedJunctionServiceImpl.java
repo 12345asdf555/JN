@@ -240,8 +240,8 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			wj.setTaskid(new BigInteger(json.getString("TASKID")));
 			wj.setWelderid(new BigInteger(json.getString("WELDERID")));
 			wj.setMachineid(new BigInteger(json.getString("MACHINEID")));
-			wj.setDyne(Integer.valueOf(json.getString("OPERATESTATUS")));
-			wj.setOperatorid(new BigInteger(json.getString("OPERATORID")));
+			wj.setDyne(Integer.valueOf(json.getString("STATUS")));
+			wj.setOperatorid(new BigInteger(json.getString("OPERATOR")));
 			wj.setChildren(json.getString("RESULTID"));
 			wj.setArea(json.getString("RESULT"));
 			wjm.updateTaskResult(wj);
@@ -266,46 +266,136 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 	@Override
 	public boolean giveToServer(String object) {
 		boolean data=true;
-		JSONObject json = JSONObject.fromObject(object);
-		WeldedJunction wj = new WeldedJunction();
-		client.run();
 		boolean a = false;
 		int time=0;
-		while(!a){
-			time++;
-			if(socketChannel != null){
-				try {
-					String taskno = json.getString("TASKNO");
-					String welderno = json.getString("WELDERNO");
-					String machineno = json.getString("MACHINENO");
-					String status = json.getString("STATUS");
-					String taskid = json.getString("TASKID");
-					String welderid = json.getString("WELDERID");
-					String machineid = json.getString("MACHINEID");
-					socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
-					wj.setTaskid(new BigInteger(taskid));
-					wj.setWelderid(new BigInteger(welderid));
-					wj.setMachineid(new BigInteger(machineid));
-					wj.setDyne(Integer.valueOf(status));
-					wjm.addTaskResult(wj);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				a = true;
+		JSONObject json = JSONObject.fromObject(object);
+		String taskno = json.getString("TASKNO");
+		String welderno = json.getString("WELDERNO");
+		String machineno = json.getString("MACHINENO");
+		String taskid = json.getString("TASKID");
+		String welderid = json.getString("WELDERID");
+		String machineid = json.getString("MACHINEID");
+		int status = Integer.valueOf(json.getString("STATUS"));
+		WeldedJunction wj = new WeldedJunction();
+		if(status==1){
+			String operatorid = json.getString("OPERATOR");
+			wj.setTaskid(new BigInteger(taskid));
+			wj.setWelderid(new BigInteger(welderid));
+			wj.setMachineid(new BigInteger(machineid));
+			wj.setDyne(Integer.valueOf(status));
+			wj.setOperatorid(new BigInteger(operatorid));
+			wj.setArea(json.getString("RESULT"));
+			wj.setChildren(json.getString("RESULTID"));
+			int count = wjm.getCountBySatus(new BigInteger(taskid),new BigInteger(welderid),new BigInteger(machineid),status);
+			if(count<2){
+				wjm.addTaskResult(wj);
 			}else{
-				if(time>10){
-					data=false;
-					break;
-				}else{
+				wj.setId(new BigInteger(json.getString("ID")));
+				wjm.updateTaskResult(wj);
+			}
+		}else if(status==2){
+			String operatorid = json.getString("OPERATOR");
+			wj.setTaskid(new BigInteger(taskid));
+			wj.setWelderid(new BigInteger(welderid));
+			wj.setMachineid(new BigInteger(machineid));
+			wj.setDyne(Integer.valueOf(status));
+			wj.setOperatorid(new BigInteger(operatorid));
+			client.run();
+			while(!a){
+				time++;
+				if(socketChannel != null){
 					try {
-						Thread.sleep(1000);
+						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
+						wjm.addTaskResult(wj);
+						wj.setId(new BigInteger(json.getString("ID")));
+						wj.setDyne(3);
+						wjm.updateTaskResult(wj);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					a = true;
+				}else{
+					if(time>10){
+						data=false;
+						break;
+					}else{
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				}
 			}
+		}else if(status==3){
+			String operatorid = json.getString("OPERATOR");
+			wj.setTaskid(new BigInteger(taskid));
+			wj.setWelderid(new BigInteger(welderid));
+			wj.setMachineid(new BigInteger(machineid));
+			wj.setDyne(Integer.valueOf(status));
+			wj.setOperatorid(new BigInteger(operatorid));
+			wj.setId(new BigInteger(json.getString("ID")));
+			client.run();
+			while(!a){
+				time++;
+				if(socketChannel != null){
+					try {
+						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
+						wjm.updateTaskResult(wj);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					a = true;
+				}else{
+					if(time>10){
+						data=false;
+						break;
+					}else{
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			
+		}else{
+			wj.setTaskid(new BigInteger(taskid));
+			wj.setWelderid(new BigInteger(welderid));
+			wj.setMachineid(new BigInteger(machineid));
+			wj.setDyne(Integer.valueOf(status));
+			client.run();
+			while(!a){
+				time++;
+				if(socketChannel != null){
+					try {
+						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
+						wjm.addTaskResult(wj);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					a = true;
+				}else{
+					if(time>10){
+						data=false;
+						break;
+					}else{
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			
 		}
 		return data;
 	}
