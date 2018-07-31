@@ -319,7 +319,7 @@ public class ImportExcelController {
 				w.setWeldedJunctionno(wjno);
 				int count = wjs.getWeldedjunctionByNo(wjno);
 				w.setInsfid(wmm.getInsframeworkByName(w.getItemid().getName()));
-				w.setCounts(ps.getIdByWelderno(w.getPipelineNo()));
+				w.setSystems(String.valueOf(ps.getIdByWelderno(w.getPipelineNo())));
 				w.setExternalDiameter(String.valueOf(dm.getvaluebyname(7, w.getRoomNo())));
 				MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				w.setCreater(new BigInteger(user.getId()+""));
@@ -331,13 +331,34 @@ public class ImportExcelController {
 //					return obj.toString();
 					continue;
 				}
+				if(w.getWeldedJunctionno()==null||w.getWeldedJunctionno()==""){
+					continue;
+				}
+				if(w.getInsfid()==null){
+					continue;
+				}
+				if(w.getSerialNo()==null){
+					w.setSerialNo("");
+				}
+				if(w.getSystems()==null){
+					w.setSystems("");
+				}
+				if(w.getUnit()==null){
+					w.setUnit("");
+				}
+				if(w.getArea()==null){
+					w.setArea("");
+				}
+				if(w.getExternalDiameter()==null){
+					w.setExternalDiameter("");
+				}
 				//客户端执行操作
 				JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
 				Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
 				iutil.Authority(client);
 				String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"addJunction\"}";
-				String obj2 = "{\"JUNCTIONNO\":\""+w.getWeldedJunctionno()+"\",\"SERIALNO\":\""+w.getSerialNo()+"\",\"DYNE\":\""+w.getCounts()+"\"," +
-						"\"INSFID\":\""+w.getInsfid()+"\",\"STARTTIME\":\""+w.getStartTime()+"\",\"ENDTIME\":\""+w.getEndTime()+"\",\"EXTERNALDIAMETER\":\""+w.getExternalDiameter()+"\"}";
+				String obj2 = "{\"JUNCTIONNO\":\""+w.getWeldedJunctionno()+"\",\"SERIALNO\":\""+w.getSerialNo()+"\",\"DYNE\":\""+w.getSystems()+"\"," +
+						"\"INSFID\":\""+w.getInsfid()+"\",\"STARTTIME\":\""+w.getUnit()+"\",\"ENDTIME\":\""+w.getArea()+"\",\"EXTERNALDIAMETER\":\""+w.getExternalDiameter()+"\"}";
 				Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
 				if(objects[0].toString().equals("true")){
 					obj.put("success",true);
@@ -1053,11 +1074,11 @@ public class ImportExcelController {
 						break;
 					}
 					else if(k == 5){
-						p.setStartTime(cellValue);//开始时间
+						p.setUnit(cellValue);//开始时间
 						break;
 					}
 					else if(k == 6){
-						p.setEndTime(cellValue);//结束时间
+						p.setArea(cellValue);//结束时间
 						break;
 					}
 					break;
@@ -1086,11 +1107,11 @@ public class ImportExcelController {
 						break;
 					}
 					else if(k == 5){
-						p.setStartTime(cellValue);//开始时间
+						p.setUnit(cellValue);//开始时间
 						break;
 					}
 					else if(k == 6){
-						p.setEndTime(cellValue);//结束时间
+						p.setArea(cellValue);//结束时间
 						break;
 					}
 					break;

@@ -268,3 +268,7 @@ function saveWelder(){
 function closeFdlog(){
 	$('#fdlg').dialog('close');
 }
+
+function closeDayin(){
+	$('#dayin').dialog('close');
+}

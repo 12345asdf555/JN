@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div>
 				<a href="javascript:addWeldedjunction();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
 				<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-import">导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="javascript:printWeldedjunction();" class="easyui-linkbutton" iconCls="icon-print">打印</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:openDayin();" class="easyui-linkbutton" iconCls="icon-print">打印</a>&nbsp;&nbsp;&nbsp;&nbsp;
 				<a href="javascript:insertsearchWT();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
 			</div>
 		</div>
@@ -110,7 +110,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:save();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 			<a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
-		   <!-- 选择焊工 -->
+		
+		<!-- 选择焊工 -->
 	    <div id="fdlg" class="easyui-dialog" style="width: 700px; height: 530px;" title="选择焊工" closed="true" buttons="#fdlg-buttons">
 	      <div id="fdlgSearch">
 	        焊工编号：<input class="easyui-textbox" id="searchname"/>
@@ -122,6 +123,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <a href="javascript:saveWelder();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 	      <a href="javascript:closeFdlog()" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 	    </div>
+	    
+	    <!-- 打印 -->
+	    <div id="dayin" class="easyui-dialog" style="width: 700px; height: 530px;" title="表格打印" closed="true" buttons="#dayin-buttons">
+	    	<table id="dayintable" style="table-layout: fixed; width:100%;"></table>
+	    </div>
+	    <div id="dayin-buttons">
+	      <a href="javascript:printWeldedjunction();" class="easyui-linkbutton" iconCls="icon-ok">打印</a>
+	      <a href="javascript:closeDayin()" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+	    </div>
+	    
 		<!-- 删除 -->
 		<div id="rdlg" class="easyui-dialog" style="width: 350px; height: 400px; padding:3px 6px" closed="true" buttons="#remove-buttons">
 			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>

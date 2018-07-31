@@ -1,5 +1,6 @@
 $(function(){
 	weldedJunctionDatagrid();
+	dayinDatagrid();
 });
 
 function weldedJunctionDatagrid(){
@@ -69,7 +70,7 @@ function weldedJunctionDatagrid(){
 			hidden:true
 		}, {
 			field : 'itemname',
-			title : '所属项目',
+			title : '所属班组',
 //			width : 150,
 			halign : "center",
 			align : "left"
@@ -120,9 +121,74 @@ function weldedJunctionDatagrid(){
 	});
 }
 
+function dayinDatagrid(){
+	$("#dayintable").datagrid( {
+//		fitColumns : true,
+		height : $("#body").height(),
+		width : $("#body").width(),
+		idField : 'id',
+		pageSize : 10,
+		pageList : [ 10, 20, 30, 40, 50 ],
+		url : "weldtask/getWeldTaskList",
+		singleSelect : true,
+		rownumbers : true,
+		showPageList : false,
+		columns : [ [ {
+			field : 'weldedJunctionno',
+			title : '任务编号',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'serialNo',
+			title : '任务描述',
+//			width : 90,
+			halign : "center",
+			align : "left",
+//			hidden:true
+		}, {
+			field : 'pipelineNo',
+			title : '焊工工号',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'roomNo',
+			title : '焊工资质',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'itemname',
+			title : '所属班组',
+//			width : 150,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'dtoTime1',
+			title : '开始时间',
+//			width : 150,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'dtoTime2',
+			title : '结束时间',
+//			width : 150,
+			halign : "center",
+			align : "left"
+		}] ],
+		pagination : true
+	});
+}
+
+function openDayin(){
+	$('#dayin').dialog('open');
+}
+
 //打印
 function printWeldedjunction(){
-	CreateFormPage("datagrid",$("#weldTaskTable"));
+	CreateFormPage("datagrid",$("#dayintable"),"任务列表");
+	$('#dayin').dialog('close');
 }
 
 //导入
