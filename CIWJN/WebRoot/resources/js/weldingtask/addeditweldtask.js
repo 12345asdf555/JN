@@ -49,7 +49,7 @@ function editWeldedjunction(){
 	          }else{
 	        		if (row) {
 	        			$('#dlg').window( {
-	        				title : "修改焊缝",
+	        				title : "修改任务",
 	        				modal : true
 	        			});
 	        			$('#dlg').window('open');

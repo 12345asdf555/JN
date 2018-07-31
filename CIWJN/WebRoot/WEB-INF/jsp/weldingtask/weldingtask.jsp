@@ -93,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<select class="easyui-combobox" id="quali"  name="quali" data-options="editable:false"></select>
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>所属项目</lable>
+					<lable><span class="required">*</span>所属班组</lable>
 					<select class="easyui-combobox" id="itemid"  name="itemid" data-options="required:true,editable:false"></select>
 				</div>
 				<div class="fitem">
@@ -136,7 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!-- 删除 -->
 		<div id="rdlg" class="easyui-dialog" style="width: 350px; height: 400px; padding:3px 6px" closed="true" buttons="#remove-buttons">
 			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
-								<div class="fitem">
+				<div class="fitem">
 					<lable><span class="required">*</span>任务编号</lable>
 					<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno" readonly="readonly" />
 				</div>
@@ -153,7 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input class="easyui-textbox" id="roomNo"  name="roomNo" readonly="readonly">
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>所属项目</lable>
+					<lable><span class="required">*</span>所属班组</lable>
 					<input class="easyui-textbox" id="itemid"  name="itemid" readonly="readonly">
 				</div>
 				<div class="fitem">
