@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	  	<div id="dg_btn">
 			<div style="margin-bottom: 5px;">
-				焊缝编号：
+				任务编号：
 				<input class="easyui-textbox" name="junctionno" id="junctionno"/>
 				时间：
 				<input class="easyui-datetimebox" name="dtoTime1" id="dtoTime1">--

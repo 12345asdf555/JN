@@ -203,7 +203,7 @@ public class DataStatisticsController {
 					machinenum = dss.getStartingUpMachineNum(i.getId(),dto);//获取开机焊机总数
 					starttime = dss.getStaringUpTime(i.getId(), dto);//获取开机总时长
 					json.put("t2", machinenum);//开机设备数
-					json.put("t5", junction.getJunctionnum());//焊接焊缝数
+					json.put("t5", junction.getJunctionnum());//焊接任务数
 					json.put("t7", getTimeStrBySecond(starttime));//工作时间
 					standytime = dss.getStandytime(i.getId(), dto);//获取待机总时长
 					weldtime = dss.getWorkTimeAndEleVol(i.getId(),dto);//获取焊接时长，平均电流电压
@@ -254,7 +254,7 @@ public class DataStatisticsController {
 				ary.add(json);
 			}
 			//表头
-			String [] str = {"所属班组","设备总数","开机设备数","实焊设备数","设备利用率(%)","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String [] str = {"所属班组","设备总数","开机设备数","实焊设备数","设备利用率(%)","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -389,7 +389,7 @@ public class DataStatisticsController {
 				BigInteger worktime = null,standytime=null;
 				DataStatistics weld = null;
 				if(junctionnum.getJunctionnum()!=0){
-					json.put("t2", junctionnum.getJunctionnum());//焊接焊缝数
+					json.put("t2", junctionnum.getJunctionnum());//焊接任务数
 					worktime = dss.getStaringUpTime(i.getInsid(), dto);
 					json.put("t4", getTimeStrBySecond(worktime));//工作时间
 					standytime = dss.getStandytime(i.getInsid(), dto);//获取待机总时长
@@ -432,7 +432,7 @@ public class DataStatisticsController {
 				ary.add(json);
 			}
 			//表头
-			String [] str = {"所属班组","设备编号","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String [] str = {"所属班组","设备编号","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -566,7 +566,7 @@ public class DataStatisticsController {
 				DataStatistics junctionnum = dss.getWorkJunctionNum(null, dto);
 				DataStatistics parameter = dss.getParameter();
 				if(junctionnum.getJunctionnum()!=0){
-					json.put("t2", junctionnum.getJunctionnum());//焊接焊缝数
+					json.put("t2", junctionnum.getJunctionnum());//焊接任务数
 					worktime = dss.getStaringUpTime(null, dto);
 					json.put("t4", getTimeStrBySecond(worktime));//工作时间
 					standytime = dss.getStandytime(null, dto);
@@ -609,7 +609,7 @@ public class DataStatisticsController {
 				ary.add(json);
 			}
 			//表头
-			String [] str = {"焊工编号","焊工名称","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String [] str = {"焊工编号","焊工名称","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -779,7 +779,7 @@ public class DataStatisticsController {
 				ary.add(json);
 			}
 			//表头
-			String [] str = {"焊缝编号","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String [] str = {"任务编号","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -849,7 +849,7 @@ public class DataStatisticsController {
 				}
 			}
 			//表头
-			String [] str = {"焊缝编号","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
+			String [] str = {"任务编号","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);

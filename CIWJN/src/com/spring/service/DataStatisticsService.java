@@ -89,7 +89,7 @@ public interface DataStatisticsService {
 	/**
 	 * 获取所有悍缝编号及组织机构id，name
 	 * @param page 分页
-	 * @param junctionno 焊缝编号
+	 * @param junctionno 任务编号
 	 * @return
 	 */
 	List<DataStatistics> getAllJunction(Page page,String junctionno);

@@ -4,7 +4,7 @@ function removeWeldedjunction(){
 	var row = $('#weldTaskTable').datagrid('getSelected');
 	if (row) {
 		$('#rdlg').window( {
-			title : "删除焊缝",
+			title : "删除任务",
 			modal : true
 		});
 		$('#rdlg').window('open');

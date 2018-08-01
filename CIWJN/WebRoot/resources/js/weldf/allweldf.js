@@ -23,13 +23,13 @@
 			hidden: true
 		}, {
 			field : 'weldnum',
-			title : '焊缝编号',
+			title : '任务编号',
 			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'weldinfo',
-			title : '焊缝信息',
+			title : '任务信息',
 			width : 100,
 			halign : "center",
 			align : "left"

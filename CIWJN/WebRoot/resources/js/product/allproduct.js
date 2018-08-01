@@ -95,7 +95,7 @@
 		onLoadSuccess:function(data){
 	        $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 	        $("a[id='remove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
-	        $("a[id='weldf']").linkbutton({text:'焊缝信息',plain:true,iconCls:'icon-select'});
+	        $("a[id='weldf']").linkbutton({text:'任务信息',plain:true,iconCls:'icon-select'});
 	        }
 	});
 
