@@ -38,7 +38,7 @@ function editWeldedjunction(){
 	var row = $('#weldTaskTable').datagrid('getSelected');
 	if (row) {
 		$('#dlg').window( {
-			title : "修改焊缝",
+			title : "修改任务",
 			modal : true
 		});
 		$('#dlg').window('open');
