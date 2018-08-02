@@ -123,7 +123,7 @@ function dgDatagrid(){
             }
         },
 		onLoadSuccess:function(data){
-	        $("a[id='wj']").linkbutton({text:'焊缝信息',plain:true,iconCls:'icon-search'});
+	        $("a[id='wj']").linkbutton({text:'任务信息',plain:true,iconCls:'icon-search'});
 	    }
     });
 }

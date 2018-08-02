@@ -315,7 +315,7 @@ public class WeldingTaskController {
 			dto.setDtoTime1(time1);
 		}
 		if(iutil.isNull(wjno)){
-			dto.setSearch(wjno);//用来保存焊缝编号
+			dto.setSearch(wjno);//用来保存任务编号
 		}
 		if(iutil.isNull(time2)){
 			dto.setDtoTime2(time2);

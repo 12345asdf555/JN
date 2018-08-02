@@ -276,7 +276,7 @@ function newSearchProduct(){
 	initSearch();
 }
 
-//新增焊缝查询条件
+//新增任务查询条件
 function newSearchWeldf(){
 	fillcontent();
 	newSearch();
@@ -284,7 +284,7 @@ function newSearchWeldf(){
 	initSearch();
 }
 
-//新增焊缝工艺查询条件
+//新增任务工艺查询条件
 function newSearchProcess(){
 	fillcontent();
 	newSearch();
@@ -367,16 +367,16 @@ function searchProductCombobox(){
 	createSearchCombobox();
 }
 
-//焊缝查询下拉框
+//任务查询下拉框
 function searchWeldfCombobox(){
 	var optionFields = 
-		"<option value='fweld_number'>焊缝编号</option>" +
-		"<option value='fweld_info'>焊缝信息</option>";
+		"<option value='fweld_number'>任务编号</option>" +
+		"<option value='fweld_info'>任务信息</option>";
 	$(".fields").html(optionFields);
 	createSearchCombobox();
 }
 
-//焊缝工艺查询下拉框
+//任务工艺查询下拉框
 function searchProcessCombobox(){
 	var optionFields = 
 		"<option value='fprocess_name'>工艺名称</option>" +

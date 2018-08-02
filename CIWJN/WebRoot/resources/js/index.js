@@ -203,7 +203,7 @@ function openWeldingMachine(){
 }
 
 function openWedJunction(){
-	addTab("焊缝管理","weldedjunction/goWeldedJunction");
+	addTab("任务管理","weldedjunction/goWeldedJunction");
 }
 
 function openPerson(){
@@ -215,7 +215,7 @@ function openGather(){
 }
 
 function openCompanyHour(){
-	addTab("焊缝焊接工时","companyChart/goCompanyHour");
+	addTab("任务焊接工时","companyChart/goCompanyHour");
 }
 
 function openCompanyoverproof(){

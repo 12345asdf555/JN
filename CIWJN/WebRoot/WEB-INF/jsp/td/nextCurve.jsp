@@ -138,7 +138,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</tr>
 						<tr>
 			<td align="center" width="50%">
-			<label id="la14">焊缝编号:</label>
+			<label id="la14">任务编号:</label>
 			</td>
 			<td>
 			<input id="in14" readonly="readonly">

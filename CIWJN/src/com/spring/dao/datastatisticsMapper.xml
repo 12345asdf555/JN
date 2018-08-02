@@ -306,7 +306,7 @@
 		SELECT fwelder_no serialnumber,fname FROM tb_welder
 	</select>
 	
-	<!-- 查询所有焊缝编号，组织机构名称 -->
+	<!-- 查询所有任务编号，组织机构名称 -->
 	<select id="getAllJunction" resultMap="dataMap">
 		SELECT fwelded_junction_no serialnumber,i.fid,i.fname FROM tb_welded_junction j INNER join tb_insframework i on i.fid = j.fitemId where 1=1
 		<if test="junctionno!=null and junctionno!=''">

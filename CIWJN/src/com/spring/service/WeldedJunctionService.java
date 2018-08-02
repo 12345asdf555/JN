@@ -18,13 +18,13 @@ public interface WeldedJunctionService {
 	
 	/**
 	 * 根据id查询
-	 * @param id 焊缝id
+	 * @param id 任务id
 	 * @return
 	 */
 	WeldedJunction getWeldedJunctionById(BigInteger id);
 	
 	/**
-	 * 根据焊工获取焊缝
+	 * 根据焊工获取任务
 	 * @param welder
 	 * @param dto
 	 * @return
@@ -32,32 +32,32 @@ public interface WeldedJunctionService {
 	List<WeldedJunction> getJunctionByWelder(Page page, String welder,WeldDto dto);
 	
 	/**
-	 * 判断焊缝编号是否存在
+	 * 判断任务编号是否存在
 	 * @param wjno 悍缝编号
 	 * @return 受影响的行数
 	 */
 	int getWeldedjunctionByNo(String wjno);
 	
 	/**
-	 * 新增焊缝
+	 * 新增任务
 	 * @param wj
 	 */
 	boolean addJunction(WeldedJunction wj);
 
 	/**
-	 * 修改焊缝
+	 * 修改任务
 	 * @param wj
 	 */
 	boolean updateJunction(WeldedJunction wj);
 
 	/**
-	 * 删除焊缝
+	 * 删除任务
 	 * @param wj
 	 */
 	boolean deleteJunction(BigInteger id);
 	
 	/**
-	 * 焊工对应的焊机焊缝信息
+	 * 焊工对应的焊机任务信息
 	 * @param page 分页
 	 * @param dto 
 	 * @param str
