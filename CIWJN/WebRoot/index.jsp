@@ -97,7 +97,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        <li onclick="changeColor(this)">
 			        	<a href="javascript:openJunctionChart()">
 			        		<div>
-			        			<img src="resources/images/c-7.png" />&nbsp;&nbsp;焊缝
+			        			<img src="resources/images/c-7.png" />&nbsp;&nbsp;任务
 			        			<div class="menudiv"><img src="resources/images/arrow.png" id="junctionimg"/></div>
 			        		</div>
 			        	</a>
@@ -105,7 +105,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        <li>
 						<div id="junctiondiv">
 							<ul>
-								<li onclick="changeColor(this)"><a href="javascript:openCompanyHour()"><div><img src="resources/images/s-8.png" />&nbsp;&nbsp;焊缝焊接工时</div></a></li>
+								<li onclick="changeColor(this)"><a href="javascript:openCompanyHour()"><div><img src="resources/images/s-8.png" />&nbsp;&nbsp;任务焊接工时</div></a></li>
 				    			<li onclick="changeColor(this)"><a href="javascript:openHistoryJunction()"><div><img src="resources/images/s-2.png" />&nbsp;&nbsp;历史曲线</div></a></li>
 							</ul>
 						</div>
@@ -136,11 +136,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div title="生产过程管理" data-options="iconCls:'icon-statement'">
 				<ul>
 			        <li onclick="changeColor(this)"><a href="javascript:openPerson()" ><div><img src="resources/images/c-6.png" />&nbsp;&nbsp;焊工管理</div></a></li>
-			        <li onclick="changeColor(this)"><a href="javascript:openWedJunction()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;焊缝管理</div></a></li>
+			        <li onclick="changeColor(this)"><a href="javascript:openWedJunction()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;任务管理</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openProduct()"><div><img src="resources/images/c-8.png" />&nbsp;&nbsp;产品管理</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openWps()"><div><img src="resources/images/c-9.png" />&nbsp;&nbsp;工艺管理</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openWeldTask()"><div><img src="" />&nbsp;&nbsp;工序计划管理</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openTaskResult()"><div><img src="" />&nbsp;&nbsp;计划执行管理</div></a></li>
+			        <li onclick="changeColor(this)"><a href="javascript:openTaskEvaluate()"><div><img src="" />&nbsp;&nbsp;计划执行评价</div></a></li>
 			        <li class="libottom" onclick="changeColor(this)"><a href="javascript:openSpe()"><div><img src="resources/images/c-14.png" />&nbsp;&nbsp;焊机参数管理</div></a></li>
 				</ul>
 			</div>

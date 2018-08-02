@@ -177,7 +177,9 @@ function openWeldTask(){
 function openTaskResult(){
 	addTab("计划执行管理","weldtask/goTaskResult");
 }
-
+function openTaskEvaluate(){
+	addTab("计划执行评价","weldtask/goTaskEvaluate");
+}
 function openSpe(){
 	addTab("规范管理","wps/AllSpe");
 }
@@ -203,7 +205,7 @@ function openWeldingMachine(){
 }
 
 function openWedJunction(){
-	addTab("焊缝管理","weldedjunction/goWeldedJunction");
+	addTab("任务管理","weldedjunction/goWeldedJunction");
 }
 
 function openPerson(){
@@ -215,7 +217,7 @@ function openGather(){
 }
 
 function openCompanyHour(){
-	addTab("焊缝焊接工时","companyChart/goCompanyHour");
+	addTab("任务焊接工时","companyChart/goCompanyHour");
 }
 
 function openCompanyoverproof(){

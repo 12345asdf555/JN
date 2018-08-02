@@ -19,12 +19,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.spring.dto.WeldDto;
 import com.spring.model.MyUser;
+import com.spring.model.WeldingMachine;
+import com.spring.model.Dictionarys;
 import com.spring.model.WeldedJunction;
 import com.spring.page.Page;
 import com.spring.service.InsframeworkService;
 import com.spring.service.LiveDataService;
 import com.spring.service.WeldedJunctionService;
 import com.spring.util.IsnullUtil;
+import com.spring.service.DictionaryService;
+import com.spring.service.WeldingMachineService;
+import com.spring.service.UserService;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -45,17 +50,30 @@ public class WeldingTaskController {
 	@Autowired
 	private LiveDataService lm;
 	IsnullUtil iutil = new IsnullUtil();
-	
+	@Autowired
+	private WeldingMachineService wmm;
+	@Autowired
+	private DictionaryService dm;
+	@Autowired
+	private UserService fuser;
+
 	@RequestMapping("/goWeldTask")
 	public String goWeldTask(){
 		return "weldingtask/weldingtask";
 	}
 	
 	@RequestMapping("/goTaskResult")
-	public String goTaskResult(){
+	public String goTaskResult(HttpServletRequest request){
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		request.setAttribute("userinsframework", fuser.getUserInsframework(new BigInteger(String.valueOf(user.getId()))).getInsname());
 		return "weldingtask/taskresult";
 	}
-	
+	@RequestMapping("/goTaskEvaluate")
+	public String goTaskEvaluate(HttpServletRequest request){
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		request.setAttribute("userinsframework", fuser.getUserInsframework(new BigInteger(String.valueOf(user.getId()))).getInsname());
+		return "weldingtask/taskevaluate";
+	}
 	@RequestMapping("/getWeldTaskList")
 	@ResponseBody
 	public String getWeldTaskList(HttpServletRequest request){
@@ -190,6 +208,107 @@ public class WeldingTaskController {
 		return obj.toString();
 	}
 
+	/**
+	 * 显示焊机列表
+	 * @return
+	 */
+	@RequestMapping("/getWedlingMachineList")
+	@ResponseBody
+	public String getWedlingMachineList(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String searchStr = request.getParameter("searchStr");
+		if(Integer.valueOf(searchStr)==1){
+			MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			searchStr = "i.fid=" + fuser.getUserInsframework(new BigInteger(String.valueOf(user.getId()))).getUserInsframework();
+		}
+		if(searchStr.equals("0")){
+			searchStr = null;
+		}
+		String parentId = request.getParameter("parent");
+		BigInteger parent = null;
+		if(iutil.isNull(parentId)){
+			parent = new BigInteger(parentId);
+		}
+		request.getSession().setAttribute("searchStr", searchStr);
+		page = new Page(pageIndex,pageSize,total);
+		List<WeldingMachine> list = wmm.getWeldingMachineAll(page,parent,searchStr);
+		long total = 0;
+		
+		if(list != null){
+			PageInfo<WeldingMachine> pageinfo = new PageInfo<WeldingMachine>(list);
+			total = pageinfo.getTotal();
+		}
+		
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(WeldingMachine wm:list){
+				json.put("id", wm.getId());
+				json.put("ip", wm.getIp());
+				json.put("equipmentNo", wm.getEquipmentNo());
+				json.put("position", wm.getPosition());
+				json.put("gatherId", wm.getGatherId());
+				if(wm.getIsnetworking()==0){
+					json.put("isnetworking", "是");
+				}else{
+					json.put("isnetworking", "否");
+				}
+				json.put("isnetworkingId", wm.getIsnetworking());
+				json.put("joinTime", wm.getJoinTime());
+				json.put("typeName",wm.getTypename());
+				json.put("typeId", wm.getTypeId());
+				json.put("statusName", wm.getStatusname());
+				json.put("statusId", wm.getStatusId());
+				json.put("manufacturerName", wm.getMvaluename());
+				json.put("manuno", wm.getMvalueid());
+				if( wm.getInsframeworkId()!=null && !"".equals(wm.getInsframeworkId())){
+					json.put("insframeworkName", wm.getInsframeworkId().getName());
+					json.put("iId", wm.getInsframeworkId().getId());
+				}
+				json.put("model",wm.getModel());
+				if(wm.getGatherId()!=null && !("").equals(wm.getGatherId())){
+					json.put("gatherId", wm.getGatherId().getGatherNo());
+					json.put("gid", wm.getGatherId().getId());
+				}else{
+					json.put("gatherId", null);
+					json.put("gid", null);
+				}
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+
+	/**
+	 * 获取评价等级
+	 * @return
+	 */
+	@RequestMapping("/getStatusAll")
+	@ResponseBody
+	public String getStatusAll(){
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			List<Dictionarys> dictionary = dm.getDictionaryValue(16);
+			for(Dictionarys d:dictionary){
+				json.put("id", d.getValue());
+				json.put("name", d.getValueName());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
+
 	@RequestMapping("/addWeldTask")
 	@ResponseBody
 	public String addWeldTask(HttpServletRequest request){
@@ -315,7 +434,7 @@ public class WeldingTaskController {
 			dto.setDtoTime1(time1);
 		}
 		if(iutil.isNull(wjno)){
-			dto.setSearch(wjno);//用来保存焊缝编号
+			dto.setSearch(wjno);//用来保存任务编号
 		}
 		if(iutil.isNull(time2)){
 			dto.setDtoTime2(time2);
@@ -362,5 +481,33 @@ public class WeldingTaskController {
 		obj.put("rows", ary);
 		return obj.toString();
 	}
-
+	@RequestMapping("/getEvaluate")
+	@ResponseBody
+	public String getEvaluate(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		try{
+			MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			//客户端执行操作
+			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+			iutil.Authority(client);
+			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"giveToServer\"}";
+			String obj2 = "{\"TASKNO\":\""+request.getParameter("taskNo")+"\",\"WELDERNO\":\""+request.getParameter("welderNo")+"\",\"MACHINENO\":\""+request.getParameter("machineNo")+"\",\"STATUS\":\""+request.getParameter("operateid")+"\",\"TASKID\":\""+request.getParameter("taskid")+"\",\"WELDERID\":\""+request.getParameter("welderid")+"\",\"MACHINEID\":\""+request.getParameter("machineid")+"\",\"OPERATOR\":\""+user.getId()+"\",\"ID\":\""+request.getParameter("id")+"\",\"RESULT\":\""+request.getParameter("result")+"\",\"RESULTID\":\""+request.getParameter("resultid")+"\"}";
+			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
+			if(objects[0].toString().equals("true")){
+				obj.put("success", true);
+			}else if(!objects[0].toString().equals("false")){
+				obj.put("success", true);
+				obj.put("msg", objects[0].toString());
+			}else{
+				obj.put("success", false);
+				obj.put("errorMsg", "操作失败！");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
+}
 }
