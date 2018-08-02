@@ -24,7 +24,7 @@ var flag = 1;
 function addWeldedjunction(){
 	flag = 1;
 	$('#dlg').window( {
-		title : "新增焊缝",
+		title : "新增任务",
 		modal : true
 	});
 	$('#dlg').window('open');
@@ -38,7 +38,7 @@ function editWeldedjunction(){
 	var row = $('#weldedJunctionTable').datagrid('getSelected');
 	if (row) {
 		$('#dlg').window( {
-			title : "修改焊缝",
+			title : "修改任务",
 			modal : true
 		});
 		$('#dlg').window('open');

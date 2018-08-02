@@ -43,7 +43,7 @@ function setParam(){
 /*			chartStr = "";
 			var rows = $("#dg").datagrid("getSelections");
 			if(rows.length==0){
-				alert("请先选择焊缝");
+				alert("请先选择任务");
 			}else{
 				setParam();
 				var fid = $('#dg').datagrid('getSelected').weldedJunctionno;

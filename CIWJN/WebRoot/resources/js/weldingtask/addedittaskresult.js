@@ -9,6 +9,20 @@ $(function(){
 	});
 	$("#fm").form("disableValidation");
 })
+
+var url = "";
+var flag = 1;
+function addWeldedjunction(){
+	flag = 1;
+	$('#dlg').window( {
+		title : "新增任务",
+		modal : true
+	});
+	$('#dlg').window('open');
+	$('#fm').form('clear');
+	url = "weldtask/addWeldTask";
+}
+
 function editWeldedjunction(){
 	flag = 2;
 	var row = $('#weldTaskTable').datagrid('getSelected');

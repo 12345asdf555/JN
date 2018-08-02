@@ -201,7 +201,7 @@ public class ExportExcelController {
 				dto.setDtoTime2(time2);
 			}
 			List<DataStatistics> list = dss.getAllItemData();
-			String[] titles = new String[]{"所属班组","设备总数","开机设备数","实焊设备数","设备利用率(%)","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String[] titles = new String[]{"所属班组","设备总数","开机设备数","实焊设备数","设备利用率(%)","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			Object[][] data = new Object[list.size()][12];
 			int ii=0;
 			for(DataStatistics i:list){
@@ -218,7 +218,7 @@ public class ExportExcelController {
 					machinenum = dss.getStartingUpMachineNum(i.getId(),dto);//获取开机焊机总数
 					starttime = dss.getStaringUpTime(i.getId(), dto);//获取开机总时长
 					data[ii][2]=machinenum;//开机设备数
-					data[ii][5]=junction.getJunctionnum();//焊接焊缝数
+					data[ii][5]=junction.getJunctionnum();//焊接任务数
 					data[ii][7]=getTimeStrBySecond(starttime);//工作时间
 					standytime = dss.getStandytime(i.getId(), dto);//获取待机总时长
 					weldtime = dss.getWorkTimeAndEleVol(i.getId(),dto);//获取焊接时长，平均电流电压
@@ -405,7 +405,7 @@ public class ExportExcelController {
 				itemid = new BigInteger(item);
 			}
 			List<DataStatistics> list = dss.getAllMachineData(itemid);
-			String[] titles = new String []{"所属班组","设备编号","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String[] titles = new String []{"所属班组","设备编号","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			Object[][] data = new Object[list.size()][9];
 			int ii=0;
 			for(DataStatistics i:list){
@@ -418,7 +418,7 @@ public class ExportExcelController {
 				BigInteger worktime = null,standytime=null;
 				DataStatistics weld = null;
 				if(junctionnum.getJunctionnum()!=0){
-					data[ii][2]=junctionnum.getJunctionnum();//焊接焊缝数
+					data[ii][2]=junctionnum.getJunctionnum();//焊接任务数
 					worktime = dss.getStaringUpTime(i.getInsid(), dto);
 					data[ii][4]=getTimeStrBySecond(worktime);//工作时间
 					standytime = dss.getStandytime(i.getInsid(), dto);//获取待机总时长
@@ -598,7 +598,7 @@ public class ExportExcelController {
 				dto.setDtoTime2(time2);
 			}
 			List<DataStatistics> list = dss.getAllPersonData();
-			String[] titles = new String []{"焊工编号","焊工名称","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String[] titles = new String []{"焊工编号","焊工名称","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			Object[][] data = new Object[list.size()][9];
 			int ii=0;
 			for(DataStatistics i:list){
@@ -611,7 +611,7 @@ public class ExportExcelController {
 					DataStatistics junctionnum = dss.getWorkJunctionNum(null, dto);
 					DataStatistics parameter = dss.getParameter();
 					if(junctionnum.getJunctionnum()!=0){
-						data[ii][2]=junctionnum.getJunctionnum();//焊接焊缝数
+						data[ii][2]=junctionnum.getJunctionnum();//焊接任务数
 						worktime = dss.getStaringUpTime(null, dto);
 						data[ii][4]=getTimeStrBySecond(worktime);//工作时间
 						standytime = dss.getStandytime(null, dto);
@@ -787,7 +787,7 @@ public class ExportExcelController {
 				dto.setDtoTime2(time2);
 			}
 			List<DataStatistics> list = dss.getAllJunctionData(junctionno);
-			String[] titles = new String []{"焊缝编号","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String[] titles = new String []{"任务编号","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			Object[][] data = new Object[list.size()][7];
 			int ii=0;
 			for(DataStatistics i:list){
@@ -897,7 +897,7 @@ public class ExportExcelController {
 			}
 			List<DataStatistics> ilist = dss.getWeldWorkpieceInCountData(dto,junctionno);
 			List<DataStatistics> olist = dss.getWeldWorkpieceOutCountData(dto,junctionno);
-			String[] titles = new String[]{"焊缝编号","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
+			String[] titles = new String[]{"任务编号","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			Object[][] data = new Object[ilist.size()][5];
 			int ii=0;
 					for(DataStatistics i:ilist){

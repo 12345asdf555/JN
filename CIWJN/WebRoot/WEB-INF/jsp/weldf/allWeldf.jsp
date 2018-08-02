@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>焊缝管理</title>
+    <title>任务管理</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
    <div id="body">
-		<div class="functionleftdiv">产品管理 >> 焊缝管理</div>
+		<div class="functionleftdiv">产品管理 >> 任务管理</div>
         <div class="functiondiv">
         	<a href="javascript:addWeldf()" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
         	<a href="javascript:insertSearchWeldf();" class="easyui-linkbutton" iconCls="icon-select">查找</a>
@@ -59,11 +59,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="dlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
 			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
 	            <div class="fitem">
-	            	<lable><span class="required">*</span>焊缝编号</lable>
+	            	<lable><span class="required">*</span>任务编号</lable>
 	                <input name="weldnum" id="weldnum" class="easyui-textbox" data-options="required:true">
 	            </div>
 	            <div class="fitem">
-	            	<lable><span class="required">*</span>焊缝信息</lable>
+	            	<lable><span class="required">*</span>任务信息</lable>
 	                <input name="weldinfo" id="weldinfo" class="easyui-textbox" data-options="required:true">
 	            </div>
 	            <div class="fitem">
@@ -96,11 +96,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                <input name="id" id="id" class="easyui-textbox" type="hidden" value="${product.id}">
 	            </div>
 	            <div class="fitem">
-	            	<lable>焊缝编号</lable>
+	            	<lable>任务编号</lable>
 	                <input name="weldnum" id="weldnum" class="easyui-textbox" readonly="true">
 	            </div>
 	            <div class="fitem">
-	            	<lable>焊缝信息</lable>
+	            	<lable>任务信息</lable>
 	                <input name="weldinfo" id="weldinfo" class="easyui-textbox" readonly="true">
 	            </div>
 	            <div class="fitem">

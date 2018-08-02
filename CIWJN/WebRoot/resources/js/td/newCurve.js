@@ -102,7 +102,7 @@ $(function(){
 						'<div style="width:30%;height:100%;float:left"><img id='+f+' src="resources/images/WDgj.png" onclick="javascript:imgfun(this.id)" width="100%" height="70%"></div>'+
 						'<div style="float:left">'+
 						'<div><label id="lab1'+fmch[f].fequipment_no+'">设备编号：'+fmch[f].fequipment_no+'</label></div>'+
-						'<div><label id="lab2'+fmch[f].fequipment_no+'">焊缝编号：--</label></div>'+
+						'<div><label id="lab2'+fmch[f].fequipment_no+'">任务编号：--</label></div>'+
 						'<div><label id="lab3'+fmch[f].fequipment_no+'">操作人员：--</label></div>'+
 						'<div><label id="lab4'+fmch[f].fequipment_no+'">焊接电流：--A</label></div>'+
 						'<div><label id="lab5'+fmch[f].fequipment_no+'">焊接电压：--V</label></div>'+
