@@ -315,6 +315,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 							wjm.addTaskResult(wj);
 							wj.setId(new BigInteger(json.getString("ID")));
 							wj.setDyne(3);
+							wjm.updateTaskResult(wj);
 						}else{
 							wj.setId(new BigInteger(json.getString("ID")));
 							wjm.updateTaskResult(wj);

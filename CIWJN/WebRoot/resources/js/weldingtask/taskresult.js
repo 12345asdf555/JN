@@ -96,6 +96,22 @@ function weldedJunctionDatagrid(){
 			align : "left",
 			hidden:true
 		},{
+			field : 'operatetype',
+			title : '任务状态',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			formatter: function(value,row,index){
+				var str;
+				if(row.operateid==0||row.operateid==2){
+					str = '<a id="confirm" href="javascript:confirm()" class="easyui-linkbutton" disabled=true >';
+				}
+				if(row.operateid==1){
+					str = '<a id="confirm1" href="javascript:confirm()" class="easyui-linkbutton" disabled=true>';
+				}
+				return str;
+			}
+		},{
 			field : 'edit',
 			title : '编辑',
 			width : 220,
@@ -120,12 +136,17 @@ function weldedJunctionDatagrid(){
 		onLoadSuccess: function(data){
 	        $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 	        $("a[id='remove']").linkbutton({text:'取消',plain:true,iconCls:'icon-delete'});
-			//$("a[id='evaluation']").linkbutton({text:'评价',plain:true,iconCls:'icon-newadd'});
+	        if($("#confirm").length!=0){
+				$("a[id='confirm']").linkbutton({text:'未完成',plain:true,iconCls:'icon-update'});
+			}
+			if($("#confirm1").length!=0){
+				$("a[id='confirm1']").linkbutton({text:'已完成',plain:true,iconCls:'icon-update'});
+			}
 		}
 	});
 }
 
-
+function confim(){}
 //导入
 function importclick(){
 	$("#importdiv").dialog("open").dialog("setTitle","从excel导入数据");

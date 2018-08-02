@@ -354,7 +354,7 @@ public class ImportExcelController {
 				}
 				//客户端执行操作
 				JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-				Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+				Client client = dcf.createClient("http://121.196.222.216:8080/CIWJN_Service/cIWJNWebService?wsdl");
 				iutil.Authority(client);
 				String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"addJunction\"}";
 				String obj2 = "{\"JUNCTIONNO\":\""+w.getWeldedJunctionno()+"\",\"SERIALNO\":\""+w.getSerialNo()+"\",\"DYNE\":\""+w.getSystems()+"\"," +

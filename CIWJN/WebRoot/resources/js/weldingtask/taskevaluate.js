@@ -199,6 +199,10 @@ function evaluation(){
 		});
 		$('#mdlg').window('open');
 		$('#fm').form('load', row);
+		if(row.resultid==0||row.resultid==""||row.resultid==null){
+			var data = $('#resultid').combobox('getData');
+			$('#resultid').combobox('select',data[0].value);
+		}
 		//$('#resultid').combobox('select', row.resultName);
 		url = "weldtask/getEvaluate?id="+row.id+"&taskid="+row.taskid+"&welderid="+row.welderid+"&machineid="+row.machineid;
 	}
@@ -269,14 +273,14 @@ function typeCombobox(){
                   optionStr += "<option value=\"" + result.ary[i].id + "\" >"  
                           + result.ary[i].name + "</option>";  
               } 
-              $("#resultName").append(optionStr);
+              $("#resultid").append(optionStr);
           }  
       },  
       error : function(errorMsg) {  
           alert("数据请求失败，请联系系统管理员!");  
       }  
  }); 
-	$("#resultName").combobox();
+	$("#resultid").combobox();
 }
 
 function confirm(){

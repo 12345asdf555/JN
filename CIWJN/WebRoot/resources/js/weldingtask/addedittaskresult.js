@@ -27,7 +27,7 @@ function editWeldedjunction(){
 	flag = 2;
 	var row = $('#weldTaskTable').datagrid('getSelected');
 	if(row.operateid==1){
-		 alert("任务已完成，无法进行修改或删除！！！"); 
+		 alert("任务已完成，无法进行修改或取消！！！"); 
 	}
 	else{
 	$('#fm').form('clear');
