@@ -103,6 +103,7 @@ function editAuthorith(){
 		AutorityDatagrid();
 		$('#fm').form('load', row);
 		$('#validName').val(row.authorityName);
+		$("#authorityName").textbox("setValue", row.authorityName.substring(5));
 		url = "authority/updateAuthority?id="+ row.id;
 	}
 }

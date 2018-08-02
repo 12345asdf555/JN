@@ -285,7 +285,11 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			wj.setDyne(Integer.valueOf(status));
 			wj.setOperatorid(new BigInteger(operatorid));
 			wj.setArea(json.getString("RESULT"));
-			wj.setChildren(json.getString("RESULTID"));
+			if(json.getString("RESULTID").isEmpty()){
+				wj.setChildren(null);
+			}else{
+				wj.setChildren(json.getString("RESULTID"));
+			}
 			int count = wjm.getCountBySatus(new BigInteger(taskid),new BigInteger(welderid),new BigInteger(machineid),status);
 			if(count<2){
 				wjm.addTaskResult(wj);
@@ -306,10 +310,15 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				if(socketChannel != null){
 					try {
 						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
-						wjm.addTaskResult(wj);
-						wj.setId(new BigInteger(json.getString("ID")));
-						wj.setDyne(3);
-						wjm.updateTaskResult(wj);
+						int count = wjm.getCountBySatus(new BigInteger(taskid),new BigInteger(welderid),new BigInteger(machineid),status);
+						if(count<1){
+							wjm.addTaskResult(wj);
+							wj.setId(new BigInteger(json.getString("ID")));
+							wj.setDyne(3);
+						}else{
+							wj.setId(new BigInteger(json.getString("ID")));
+							wjm.updateTaskResult(wj);
+						}
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
