@@ -100,7 +100,7 @@
 	</select>
 	
 	<select id="getUserInsframework" resultType="User">
-		SELECT id,users_name userName,fname insname FROM tb_users u inner join tb_insframework i on u.users_insframework=i.fid
+		SELECT id,users_name userName,fname insname,users_insframework userInsframework FROM tb_users u inner join tb_insframework i on u.users_insframework=i.fid
 		where id = #{id}
 	</select>
 	

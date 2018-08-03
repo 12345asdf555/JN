@@ -316,6 +316,14 @@ public class ImportExcelController {
 			file.delete();
 			for(WeldedJunction w:we){
 				String wjno = w.getWeldedJunctionno();
+				if(wjno!=""&&wjno!=null&&wjno!="null"){
+					int len = wjno.length();
+					if(len<8){
+						for(int b=0;b<8-len;b++){
+							wjno = "0" + wjno;
+						}
+					}
+				}
 				w.setWeldedJunctionno(wjno);
 				int count = wjs.getWeldedjunctionByNo(wjno);
 				w.setInsfid(wmm.getInsframeworkByName(w.getItemid().getName()));
@@ -332,6 +340,9 @@ public class ImportExcelController {
 					continue;
 				}
 				if(w.getWeldedJunctionno()==null||w.getWeldedJunctionno()==""){
+					continue;
+				}
+				if(w.getWeldedJunctionno().length()>8){
 					continue;
 				}
 				if(w.getInsfid()==null){
@@ -354,7 +365,7 @@ public class ImportExcelController {
 				}
 				//客户端执行操作
 				JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-				Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+				Client client = dcf.createClient("http://121.196.222.216:8080/CIWJN_Service/cIWJNWebService?wsdl");
 				iutil.Authority(client);
 				String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"addJunction\"}";
 				String obj2 = "{\"JUNCTIONNO\":\""+w.getWeldedJunctionno()+"\",\"SERIALNO\":\""+w.getSerialNo()+"\",\"DYNE\":\""+w.getSystems()+"\"," +

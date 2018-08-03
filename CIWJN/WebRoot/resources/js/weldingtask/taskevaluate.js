@@ -1,6 +1,6 @@
 $(function(){
 	weldedJunctionDatagrid();
-//	typeCombobox();
+	typeCombobox();
 });
 
 function weldedJunctionDatagrid(){
@@ -95,7 +95,7 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left",
 			hidden:true
-		},{
+		}, {
 			field : 'operatetype',
 			title : '任务状态',
 //			width : 90,
@@ -104,7 +104,7 @@ function weldedJunctionDatagrid(){
 			formatter: function(value,row,index){
 				var str;
 				if(row.operateid==0||row.operateid==2){
-					str = '<a id="confirm" href="javascript:confirm()" class="easyui-linkbutton" disabled=true >';
+					str = '<a id="confirm" href="javascript:confirm()" class="easyui-linkbutton">';
 				}
 				if(row.operateid==1){
 					str = '<a id="confirm1" href="javascript:confirm()" class="easyui-linkbutton" disabled=true>';
@@ -118,9 +118,10 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left",
 			formatter: function(value,row,index){
-				var str = '<a id="edit" class="easyui-linkbutton" href="javascript:editWeldedjunction()"/>';
-				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWeldedjunction()"/>';
-				//str += '<a id="evaluation" class="easyui-linkbutton" href="javascript:evaluation()"/>';
+				var 
+//				var str = '<a id="edit" class="easyui-linkbutton" href="javascript:editWeldedjunction()"/>';
+//				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWeldedjunction()"/>';
+				 str = '<a id="evaluation" class="easyui-linkbutton" href="javascript:evaluation()"/>';
 				return str;
 			}
 		}] ],
@@ -134,10 +135,9 @@ function weldedJunctionDatagrid(){
             }
         },
 		onLoadSuccess: function(data){
-	        $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
-	        $("a[id='remove']").linkbutton({text:'取消',plain:true,iconCls:'icon-delete'});
-	        if($("#confirm").length!=0){
-				$("a[id='confirm']").linkbutton({text:'未完成',plain:true,iconCls:'icon-update'});
+			$("a[id='evaluation']").linkbutton({text:'评价',plain:true,iconCls:'icon-newadd'});
+			if($("#confirm").length!=0){
+				$("a[id='confirm']").linkbutton({text:'确认完成',plain:true,iconCls:'icon-update'});
 			}
 			if($("#confirm1").length!=0){
 				$("a[id='confirm1']").linkbutton({text:'已完成',plain:true,iconCls:'icon-update'});
@@ -146,7 +146,7 @@ function weldedJunctionDatagrid(){
 	});
 }
 
-function confim(){}
+
 //导入
 function importclick(){
 	$("#importdiv").dialog("open").dialog("setTitle","从excel导入数据");
@@ -182,6 +182,82 @@ function importWeldingMachine(){
 		});
 	}
 }
+
+var url = "";
+var flag = 1;
+function evaluation(){
+	flag = 1;
+	var row = $('#weldTaskTable').datagrid('getSelected');
+	if(row.operateid==0){
+		 alert("任务未完成，无法进行评价"); 
+	}
+	else{
+	if (row) {
+		$('#mdlg').window( {
+			title : "工作评价",
+			modal : true
+		});
+		$('#mdlg').window('open');
+		$('#fm').form('load', row);
+		if(row.resultid==0||row.resultid==""||row.resultid==null){
+			var data = $('#resultid').combobox('getData');
+			$('#resultid').combobox('select',data[0].value);
+		}
+		//$('#resultid').combobox('select', row.resultName);
+		url = "weldtask/getEvaluate?id="+row.id+"&taskid="+row.taskid+"&welderid="+row.welderid+"&machineid="+row.machineid;
+	}
+}
+}
+//评价的保存
+function saveconment(){
+	var temp;
+	var url2;
+	//var resultname=resultName.options[this.selectedIndex];
+	var resultName = $('#resultid').combobox('getValue');
+/*	alert(resultName.value);*/
+	var result=document.getElementById("result").value;
+	//alert(result.length);
+    var rows = $("#weldTaskTable").datagrid("getSelections");
+	if(flag==1){
+		temp=1;
+		url2=url+"&result="+result+"&resultid="+resultName+"&welderNo="+rows[0].welderNo+"&operateid="+temp+"&taskNo="+rows[0].taskNo+"&machineNo="+rows[0].machineNo;
+	}
+	else if(flag==2){
+		temp=2;
+		url2=url+"&resultName="+row.desc+"&operatetype="+temp+"&result="+row.resultied;
+	}
+	else if(flag==3){
+		temp=3;
+		url2=url+"&resultName="+row.desc+"&operatetype="+temp+"&result="+row.resultied;
+	}
+	$('#fm').form('submit', {
+		url : url2,
+		onSubmit : function() {
+			return $(this).form('enableValidation').form('validate');
+		},
+		success : function(result) {
+			if (result) {
+				var result = eval('(' + result + ')');
+				if (!result.success) {
+					$.messager.show({
+						title : 'Error',
+						msg : result.errorMsg
+					});
+				} else {
+					if(!result.msg==null){
+						$.messager.alert("提示", messager);
+					}
+					$('#mdlg').dialog('close');
+					$('#weldTaskTable').datagrid('reload');
+				}
+			}
+
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+}
 //设备类型
 function typeCombobox(){
 	$.ajax({  
@@ -207,37 +283,38 @@ function typeCombobox(){
 	$("#resultid").combobox();
 }
 
-
-//var flag;
 function confirm(){
 	var url2="";
+	var temp=1;
 	$.messager.confirm('提示', '此操作不可撤销，是否确认?', function(flag) {
 		if(flag){
-		    	$('#fm').form('submit', {
-		    		url : url2,
-		    		onSubmit : function() {
-		    			return $(this).form('enableValidation').form('validate');
-		    		},
-		    		success : function(result) {
-		    			if(result){
-		    				var result = eval('(' + result + ')');
-		    				if (!result.success) {
-		    					$.messager.show( {
-		    						title : 'Error',
-		    						msg : result.errorMsg
-		    					});
-		    				}else{
-		    					$.messager.alert("提示", messager);
-		    					//$('#dlg').dialog('close');
-		    					$('#weldTaskTable').datagrid('reload');
-		    				}
-		    			}
-		    			
-		    		},  
-		    	    error : function(errorMsg) {  
-		    	        alert("数据请求失败，请联系系统管理员!");  
-		    	    } 
-		    	});
+			var row = $('#weldTaskTable').datagrid('getSelected');
+			url = "weldtask/getEvaluate?id="+row.id+"&taskid="+row.taskid+"&welderid="+row.welderid+"&machineid="+row.machineid;
+			url2=url+"&result="+""+"&resultid="+""+"&welderNo="+row.welderNo+"&operateid="+temp+"&taskNo="+row.taskNo+"&machineNo="+row.machineNo;
+			$.ajax({  
+			      type : "post",  
+			      async : false,
+			      url : url2,  
+			      data : {},  
+			      dataType : "json", //返回数据形式为json  
+			      success : function(result) {
+			          if (result) {
+							var result = eval(result);
+							if (!result.success) {
+								$.messager.show( {
+									title : 'Error',
+									msg : result.msg
+								});
+							} else {
+								$('#weldTaskTable').datagrid('reload');
+							}
+						
+			          }  
+			      },  
+			      error : function(errorMsg) {  
+			          alert("数据请求失败，请联系系统管理员!");  
+			      }  
+			 }); 
 
 		}
 	});

@@ -8,16 +8,16 @@ $(function(){
 		}
 	});
 	$("#fm").form("disableValidation");
-/*	$("#weldedJunctionno").textbox('textbox').blur(function(){
+	$("#weldedJunctionno").textbox('textbox').blur(function(){
 		var wjno = $("#weldedJunctionno").val();
 		var len = wjno.length;
 		if(len!=6){
-			for(var i=0;i<6-len;i++){
+			for(var i=0;i<8-len;i++){
 				wjno = "0"+wjno;
 			}
 		}
 		$("#weldedJunctionno").textbox('setValue',wjno);
-	});*/
+	});
 })
 
 var url = "";
