@@ -290,12 +290,37 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			}else{
 				wj.setChildren(json.getString("RESULTID"));
 			}
-			int count = wjm.getCountBySatus(new BigInteger(taskid),new BigInteger(welderid),new BigInteger(machineid),status);
-			if(count<2){
-				wjm.addTaskResult(wj);
-			}else{
-				wj.setId(new BigInteger(json.getString("ID")));
-				wjm.updateTaskResult(wj);
+			client.run();
+			while(!a){
+				time++;
+				if(socketChannel != null){
+					try {
+						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
+						int count = wjm.getCountBySatus(new BigInteger(taskid),new BigInteger(welderid),new BigInteger(machineid),status);
+						if(count<2){
+							wjm.addTaskResult(wj);
+						}else{
+							wj.setId(new BigInteger(json.getString("ID")));
+							wjm.updateTaskResult(wj);
+						}
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					a = true;
+				}else{
+					if(time>10){
+						data=false;
+						break;
+					}else{
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
 			}
 		}else if(status==2){
 			String operatorid = json.getString("OPERATOR");

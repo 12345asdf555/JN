@@ -316,6 +316,14 @@ public class ImportExcelController {
 			file.delete();
 			for(WeldedJunction w:we){
 				String wjno = w.getWeldedJunctionno();
+				if(wjno!=""&&wjno!=null&&wjno!="null"){
+					int len = wjno.length();
+					if(len<8){
+						for(int b=0;b<8-len;b++){
+							wjno = "0" + wjno;
+						}
+					}
+				}
 				w.setWeldedJunctionno(wjno);
 				int count = wjs.getWeldedjunctionByNo(wjno);
 				w.setInsfid(wmm.getInsframeworkByName(w.getItemid().getName()));
@@ -332,6 +340,9 @@ public class ImportExcelController {
 					continue;
 				}
 				if(w.getWeldedJunctionno()==null||w.getWeldedJunctionno()==""){
+					continue;
+				}
+				if(w.getWeldedJunctionno().length()>8){
 					continue;
 				}
 				if(w.getInsfid()==null){

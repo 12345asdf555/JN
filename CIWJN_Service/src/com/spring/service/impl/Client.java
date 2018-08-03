@@ -61,7 +61,7 @@ public class Client
           CL.socketChannel = socketChannel;
         }  
       });  
-      bootstrap.remoteAddress("192.168.3.214",5551);
+      bootstrap.remoteAddress("121.196.222.216",5557);
       bootstrap.connect().addListener(CL); 
     }  
     return bootstrap;  

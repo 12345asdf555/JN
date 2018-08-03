@@ -49,13 +49,13 @@
 	</resultMap>
 	
 	<select id="getWeldedJunctionAll" resultMap="wjMap">
-		SELECT j.fid,j.fwelded_junction_no,j.fserial_no,j.fdyne fwelderid,w.fwelder_no fpipeline_no,w.fname froom_no,r.fmachineid,m.fequipment_no funit,j.fitemId iid,i.fname iname,r.foperatetype fsystems,r.foperatedate fstart_time,j.fend_time,r.fwelderid foperator,ww.fwelder_no fchildren,ww.fname fspecification FROM tb_welded_junction j
+				SELECT j.fid,j.fwelded_junction_no,j.fserial_no,j.fdyne fwelderid,w.fwelder_no fpipeline_no,w.fname froom_no,r.fmachineid,m.fequipment_no funit,j.fitemId iid,i.fname iname,r.foperatetype fsystems,r.foperatedate fstart_time,j.fend_time,r.fwelderid foperator,ww.fwelder_no fchildren,ww.fname fspecification FROM tb_welded_junction j
 		LEFT JOIN tb_taskresult r ON r.ftaskid=j.fid
 		INNER JOIN tb_insframework i ON j.fitemId=i.fid
 		LEFT JOIN tb_welder w ON j.fdyne=w.fid
         LEFT JOIN tb_welder ww ON r.fwelderid=ww.fid
 		LEFT JOIN tb_welding_machine m ON r.fmachineid=m.fid
-		WHERE 1=1 AND (r.foperatetype='0' OR r.foperatetype='2' OR r.foperatetype IS null)
+		WHERE 1=1 AND r.foperatetype!=3 AND r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid,fwelderid,fmachineid) OR r.foperatetype IS null
 	</select>
 	
 	<select id="getWeldedJunctionById" resultMap="wjMap" parameterType="java.lang.String">
