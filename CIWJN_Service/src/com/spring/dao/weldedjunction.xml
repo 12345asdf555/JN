@@ -100,7 +100,7 @@
 		update tb_taskresult set ftaskid=#{taskid},fwelderid=#{welderid},fmachineid=#{machineid},foperatedate=now(),foperatetype=#{dyne},foperator=#{operatorid},fresult=#{area},fresultid=#{children} where fid=#{id};
 	</update>
 	
-	<delete id="deleteTaskResult" parameterType="java.math.BigInteger">
-		delete from tb_taskresult where fid=#{id}
+	<delete id="deleteTaskResult">
+		delete from tb_taskresult where ftaskid=#{taskid} and fwelderid=#{welderid} and fmachineid=#{machineid}
 	</delete>
 </mapper>

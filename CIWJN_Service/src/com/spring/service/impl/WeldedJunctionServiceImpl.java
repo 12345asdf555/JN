@@ -256,7 +256,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 	public boolean deleteTaskResult(String object) {
 		try{
 			JSONObject json = JSONObject.fromObject(object);
-			return wjm.deleteTaskResult(new BigInteger(json.getString("ID")));
+			return true;
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;
@@ -296,6 +296,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				if(socketChannel != null){
 					try {
 						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
+						socketChannel.close();
 						int count = wjm.getCountBySatus(new BigInteger(taskid),new BigInteger(welderid),new BigInteger(machineid),status);
 						if(count<2){
 							wjm.addTaskResult(wj);
@@ -335,6 +336,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				if(socketChannel != null){
 					try {
 						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
+						socketChannel.close();
 						int count = wjm.getCountBySatus(new BigInteger(taskid),new BigInteger(welderid),new BigInteger(machineid),status);
 						if(count<1){
 							wjm.addTaskResult(wj);
@@ -378,7 +380,8 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				if(socketChannel != null){
 					try {
 						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
-						wjm.updateTaskResult(wj);
+						socketChannel.close();
+						wjm.deleteTaskResult(new BigInteger(taskid), new BigInteger(welderid), new BigInteger(machineid));
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -410,6 +413,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				if(socketChannel != null){
 					try {
 						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
+						socketChannel.close();
 						wjm.addTaskResult(wj);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
