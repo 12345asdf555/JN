@@ -36,7 +36,7 @@
 			and i.fparent=#{parent}
 		</if>
 		group by i.fid
-		UNION
+		UNION ALL
 		select i.fid,i.fname,0 total from tb_insframework  i 
 		where i.ftype=23 
 		<if test="parent!=null and parent!=''">
@@ -306,7 +306,7 @@
 		SELECT fwelder_no serialnumber,fname FROM tb_welder
 	</select>
 	
-	<!-- 查询所有任务编号，组织机构名称 -->
+	<!-- 查询所有焊缝编号，组织机构名称 -->
 	<select id="getAllJunction" resultMap="dataMap">
 		SELECT fwelded_junction_no serialnumber,i.fid,i.fname FROM tb_welded_junction j INNER join tb_insframework i on i.fid = j.fitemId where 1=1
 		<if test="junctionno!=null and junctionno!=''">
@@ -334,7 +334,7 @@
 			</if>
 		</if>
 		group by i.fid
-		UNION
+		UNION ALL
 		select i.fid,i.fname,0 id from tb_insframework  i 
 		where i.ftype=23 
 		and i.fid not in 
@@ -368,7 +368,7 @@
 			</if>
 		</if>
 		group by i.fid
-		UNION
+		UNION ALL
 		select i.fid,i.fname,0 insid from tb_insframework  i 
 		where i.ftype=23 
 		and i.fid not in 
@@ -406,7 +406,7 @@
 			and m.finsframework_id= #{itemid}
 		</if>
 		GROUP BY m.fid
-		UNION
+		UNION ALL
 		SELECT m.fequipment_no fname,i.fname insname,0 insid FROM tb_welding_machine m 
 		inner join tb_insframework i on i.fid = m.finsframework_id where
 		    m.fid NOT IN (SELECT m.fid FROM tb_welding_machine m 
@@ -446,7 +446,7 @@
 			</if>
 		</if>
 		GROUP BY m.fid
-		UNION
+		UNION ALL
 		SELECT m.fequipment_no fname,i.fname insname,0 insid FROM tb_welding_machine m 
 		inner join tb_insframework i on i.fid = m.finsframework_id where
 		    m.fid NOT IN (SELECT m.fid FROM tb_welding_machine m 
@@ -479,7 +479,7 @@
 			</if>
 		</if>
 		 GROUP BY w.fid 
-		 UNION 
+		 UNION ALL
 		 SELECT w.fwelder_no insname,w.fname,0 insid FROM tb_welder w
 		 where w.fid NOT IN (
 		 SELECT w.fid FROM tb_welder w 
@@ -512,7 +512,7 @@
 			</if>
 		</if>
 		 GROUP BY w.fid 
-		 UNION 
+		 UNION ALL
 		 SELECT w.fwelder_no insname,w.fname,0 insid FROM tb_welder w
 		 where w.fid NOT IN (
 		 SELECT w.fid FROM tb_welder w 
@@ -530,7 +530,7 @@
 		)temp 
 	</select>
 	
-		<!-- 查询工件正常焊接时长 -->
+	<!-- 查询工件正常焊接时长 -->
 	<select id="getWeldPieceInCount"  resultMap="dataMap">
 		select * from (
 		SELECT j.fwelded_junction_no insname,SUM(a.fworktime) insid FROM tb_welded_junction j 
@@ -546,8 +546,8 @@
 		<if test="junctionno!=null and junctionno!=''">
 			and j.fwelded_junction_no like #{junctionno}
 		</if>
-		    GROUP BY j.fid
-		UNION
+		GROUP BY j.fid
+		UNION ALL
 		SELECT j.fwelded_junction_no insname,0 insid FROM tb_welded_junction j where
 		    j.fid NOT IN (
 		    SELECT j.fid FROM tb_welded_junction j 
@@ -587,7 +587,7 @@
 			and j.fwelded_junction_no like #{junctionno}
 		</if>
 		    GROUP BY j.fid   
-		UNION
+		UNION ALL
 		SELECT j.fwelded_junction_no insname,0 insid FROM tb_welded_junction j 
 		where j.fid NOT IN (
 		SELECT j.fid FROM tb_welded_junction j 
