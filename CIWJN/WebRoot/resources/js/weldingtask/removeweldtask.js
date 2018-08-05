@@ -32,6 +32,10 @@ function removeWeldedjunction(){
 function remove(){
 	$.messager.confirm('提示', '此操作不可撤销，是否确认删除?', function(flag) {
 		if (flag) {
+			document.getElementById("load").style.display="block";
+			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
+			$("#body").append(sh);
+			document.getElementById("show").style.display="block";
 			$.ajax({  
 		        type : "post",  
 		        async : false,
@@ -41,11 +45,15 @@ function remove(){
 		        success : function(result) {
 		            if (result) {
 		            	if (!result.success) {
+				    		document.getElementById("load").style.display ='none';
+				    		document.getElementById("show").style.display ='none';
 							$.messager.show( {
 								title : 'Error',
 								msg : result.msg
 							});
 						} else {
+				    		document.getElementById("load").style.display ='none';
+				    		document.getElementById("show").style.display ='none';
 							$.messager.alert("提示", "删除成功！");
 							$('#rdlg').dialog('close');
 							$('#weldTaskTable').datagrid('reload');

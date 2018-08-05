@@ -110,12 +110,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:save();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 			<a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
+		<!-- 导入检测表格 -->
+		<div id="exportdlg" class="easyui-dialog" style="width: 800px; height: 400px; padding:3px 6px" closed="true" buttons="#exportdlg-buttons">
+			<table id="exporttable" style="table-layout: fixed; width:100%;"></table>
+		</div>
+		<div id="exportdlg-buttons">
+	      <a id="imexcel" href="javascript:saveExportdlg();" class="easyui-linkbutton" iconCls="icon-ok">确认导入</a>
+	      <a href="javascript:closeExportdlg()" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+	    </div>
 		
 		<!-- 选择焊工 -->
 	    <div id="fdlg" class="easyui-dialog" style="width: 700px; height: 530px;" title="选择焊工" closed="true" buttons="#fdlg-buttons">
 	      <div id="fdlgSearch">
 	        焊工编号：<input class="easyui-textbox" id="searchname"/>
 	        <a href="javascript:dlgSearchGather();" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+	        <a href="javascript:cancelWelder();" class="easyui-linkbutton" iconCls="icon-search">取消焊工选择</a>
 	      </div>
 	        <table id="welderTable" style="table-layout: fixed; width:100%;"></table>
 	    </div>
@@ -170,6 +179,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
 			<a href="javascript:$('#rdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
+		
+		<div id="load" style="width:100%;height:100%;"></div>
 	</div>
+	<style type="text/css">
+	    #load{ display: none; position: absolute; left:0; top:0;width: 100%; height: 40%; background-color: #555753; z-index:10001; -moz-opacity: 0.4; opacity:0.5; filter: alpha(opacity=70);}
+		#show{display: none; position: absolute; top: 45%; left: 45%; width: 10%; height: 5%; padding: 8px; border: 8px solid #E8E9F7; background-color: white; z-index:10002; overflow: auto;}
+	</style>
   </body>
 </html>

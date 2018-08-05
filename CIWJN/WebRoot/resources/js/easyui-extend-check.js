@@ -318,6 +318,10 @@ $(function(){
 								},
 								success : function(data){
 									result = data;
+									if(result==false){
+							    		document.getElementById("load").style.display ='none';
+							    		document.getElementById("show").style.display ='none';
+									}
 								}
 							});
 							return result;

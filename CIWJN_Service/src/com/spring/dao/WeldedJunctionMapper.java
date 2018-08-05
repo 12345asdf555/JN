@@ -26,7 +26,7 @@ public interface WeldedJunctionMapper extends Mapper<WeldedJunction>{
 
 	boolean addTaskResult(WeldedJunction wj);
 
-	boolean deleteTaskResult(@Param("id")BigInteger id);
+	boolean deleteTaskResult(@Param("taskid")BigInteger taskid,@Param("welderid")BigInteger welderid,@Param("machineid")BigInteger machineid);
 
 	List<WeldedJunction> getTaskResultAll(@Param("str")String str);
 

@@ -83,4 +83,10 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService{
 		return wjm.getCountByTaskid(taskid);
 	}
 
+	@Override
+	public boolean addTask(WeldedJunction wj) {
+		// TODO Auto-generated method stub
+		return wjm.addTask(wj);
+	}
+
 }
