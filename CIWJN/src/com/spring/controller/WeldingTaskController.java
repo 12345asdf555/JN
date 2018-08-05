@@ -132,8 +132,28 @@ public class WeldingTaskController {
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		String serach = request.getParameter("searchStr");
-		
+		serach="";
 		page = new Page(pageIndex,pageSize,total);
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			serach="";
+		}else if(instype==23){
+			serach = "j.fitemId="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"(j.fitemId="+inns.getId();
+				}else{
+					serach=serach+" or j.fitemId="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or j.fitemId="+userinsid+")";
+		}
 		List<WeldedJunction> list = wjm.getTaskResultAll(page, serach);
 		long total = 0;
 		
@@ -158,6 +178,8 @@ public class WeldingTaskController {
 				json.put("welderNo", w.getSerialNo());
 				json.put("machineNo", w.getMachine_num());
 				json.put("resultName", w.getRoomNo());
+				json.put("getdatatime", w.getUpdateTime());
+				json.put("fitemid", w.getArea());
 				ary.add(json);
 			}
 		}catch(Exception e){

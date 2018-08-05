@@ -62,7 +62,13 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left",
 			hidden:true
-		}, {
+		},{
+			field : 'getdatatime',
+			title : '操作时间',
+//			width : 100,
+			halign : "center",
+			align : "left"
+        },{
 			field : 'statusid',
 			title : '状态id',
 			width : 100,
@@ -212,6 +218,10 @@ function evaluation(){
 function saveconment(){
 	var temp;
 	var url2;
+	document.getElementById("load").style.display="block";
+	var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
+	$("#body").append(sh);
+	document.getElementById("show").style.display="block";
 	//var resultname=resultName.options[this.selectedIndex];
 	var resultName = $('#resultid').combobox('getValue');
 /*	alert(resultName.value);*/
@@ -239,11 +249,15 @@ function saveconment(){
 			if (result) {
 				var result = eval('(' + result + ')');
 				if (!result.success) {
+					document.getElementById("load").style.display ='none';
+		    		document.getElementById("show").style.display ='none';
 					$.messager.show({
 						title : 'Error',
 						msg : result.errorMsg
 					});
 				} else {
+					document.getElementById("load").style.display ='none';
+		    		document.getElementById("show").style.display ='none';
 					if(!result.msg==null){
 						$.messager.alert("提示", messager);
 					}
@@ -288,6 +302,10 @@ function confirm(){
 	var temp=1;
 	$.messager.confirm('提示', '此操作不可撤销，是否确认?', function(flag) {
 		if(flag){
+			document.getElementById("load").style.display="block";
+			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
+			$("#body").append(sh);
+			document.getElementById("show").style.display="block";
 			var row = $('#weldTaskTable').datagrid('getSelected');
 			url = "weldtask/getEvaluate?id="+row.id+"&taskid="+row.taskid+"&welderid="+row.welderid+"&machineid="+row.machineid;
 			url2=url+"&result="+""+"&resultid="+""+"&welderNo="+row.welderNo+"&operateid="+temp+"&taskNo="+row.taskNo+"&machineNo="+row.machineNo;
@@ -301,11 +319,15 @@ function confirm(){
 			          if (result) {
 							var result = eval(result);
 							if (!result.success) {
+								document.getElementById("load").style.display ='none';
+					    		document.getElementById("show").style.display ='none';
 								$.messager.show( {
 									title : 'Error',
 									msg : result.msg
 								});
 							} else {
+								document.getElementById("load").style.display ='none';
+					    		document.getElementById("show").style.display ='none';
 								$('#weldTaskTable').datagrid('reload');
 							}
 						

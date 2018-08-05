@@ -1,5 +1,6 @@
 $(function(){
 	weldedJunctionDatagrid();
+	
 //	typeCombobox();
 });
 
@@ -96,6 +97,12 @@ function weldedJunctionDatagrid(){
 			align : "left",
 			hidden:true
 		},{
+			field : 'getdatatime',
+			title : '操作时间',
+//			width : 100,
+			halign : "center",
+			align : "left"
+        },{
 			field : 'operatetype',
 			title : '任务状态',
 //			width : 90,
@@ -222,11 +229,15 @@ function confirm(){
 		    			if(result){
 		    				var result = eval('(' + result + ')');
 		    				if (!result.success) {
+		    					document.getElementById("load").style.display ='none';
+		    		    		document.getElementById("show").style.display ='none';
 		    					$.messager.show( {
 		    						title : 'Error',
 		    						msg : result.errorMsg
 		    					});
 		    				}else{
+		    					document.getElementById("load").style.display ='none';
+		    		    		document.getElementById("show").style.display ='none';
 		    					$.messager.alert("提示", messager);
 		    					//$('#dlg').dialog('close');
 		    					$('#weldTaskTable').datagrid('reload');

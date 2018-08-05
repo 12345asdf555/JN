@@ -27,6 +27,10 @@ function removeWeldedjunction(){
 function remove(){
 	var temp;
 	var url2;
+	document.getElementById("load").style.display="block";
+	var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
+	$("#body").append(sh);
+	document.getElementById("show").style.display="block";
 	flag==3
     var rows = $("#weldTaskTable").datagrid("getSelections");
 	if(flag==3){
@@ -42,11 +46,15 @@ function remove(){
 			if (result) {
 				var result = eval('(' + result + ')');
 				if (!result.success) {
+					document.getElementById("load").style.display ='none';
+		    		document.getElementById("show").style.display ='none';
 					$.messager.show({
 						title : 'Error',
 						msg : result.errorMsg
 					});
 				} else {
+					document.getElementById("load").style.display ='none';
+		    		document.getElementById("show").style.display ='none';
 					if(!result.msg==null){
 						$.messager.alert("提示", messager);
 					}

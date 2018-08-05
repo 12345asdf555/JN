@@ -10,19 +10,6 @@ $(function(){
 	$("#fm").form("disableValidation");
 })
 
-var url = "";
-var flag = 1;
-function addWeldedjunction(){
-	flag = 1;
-	$('#dlg').window( {
-		title : "新增任务",
-		modal : true
-	});
-	$('#dlg').window('open');
-	$('#fm').form('clear');
-	url = "weldtask/addWeldTask";
-}
-
 function editWeldedjunction(){
 	flag = 2;
 	var row = $('#weldTaskTable').datagrid('getSelected');
@@ -38,7 +25,7 @@ function editWeldedjunction(){
 		});
 		$('#dlg').window('open');
 		$('#fm').form('load', row);
-		$("#oldno").val(row.taskNo);
+		$("#oldno").val(row.taskNo);   //不加会出现不能保存相同名的id这个错误
 		$("#machineid").val(row.machineid);
 		$("#taskid").val(row.taskid);
 		url = "weldtask/getEvaluate?id="+row.id+"&result="+""+"&welderid="+row.welderid;
@@ -48,6 +35,10 @@ function editWeldedjunction(){
 function saveedit(){
 	var temp;
 	var url2;
+	document.getElementById("load").style.display="block";
+	var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
+	$("#body").append(sh);
+	document.getElementById("show").style.display="block";
 	var taskNo= document.getElementById("taskNo").value;
 	var taskid= document.getElementById("taskid").value;
 	var machineid= document.getElementById("machineid").value;
@@ -68,11 +59,15 @@ function saveedit(){
 			if (result) {
 				var result = eval('(' + result + ')');
 				if (!result.success) {
+					document.getElementById("load").style.display ='none';
+		    		document.getElementById("show").style.display ='none';
 					$.messager.show({
 						title : 'Error',
 						msg : result.errorMsg
 					});
 				} else {
+					document.getElementById("load").style.display ='none';
+		    		document.getElementById("show").style.display ='none';
 					if(!result.msg==null){
 						$.messager.alert("提示", messager);
 					}
