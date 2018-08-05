@@ -21,6 +21,7 @@ import com.spring.dto.WeldDto;
 import com.spring.model.MyUser;
 import com.spring.model.WeldingMachine;
 import com.spring.model.Dictionarys;
+import com.spring.model.Insframework;
 import com.spring.model.WeldedJunction;
 import com.spring.page.Page;
 import com.spring.service.InsframeworkService;
@@ -103,6 +104,13 @@ public class WeldingTaskController {
 				if( w.getItemid()!=null && !"".equals( w.getItemid())){
 					json.put("itemname", w.getItemid().getName());
 					json.put("itemid", w.getItemid().getId());
+				}
+				if(w.getMaterial()==null){
+					json.put("status", 2);
+				}else if(Integer.valueOf(w.getMaterial())==1){
+					json.put("status", 1);
+				}else{
+					json.put("status", 0);
 				}
 				json.put("welderid", w.getDyne());
 				json.put("quali", w.getExternalDiameter());
@@ -510,4 +518,36 @@ public class WeldingTaskController {
 		}
 		return obj.toString();
 }
+	
+	@RequestMapping("/taskImport")
+	@ResponseBody
+	public String taskImport(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			WeldedJunction wj = new WeldedJunction();
+			String taskstr = request.getParameter("taskstr");
+			ary = JSONArray.fromObject(taskstr);
+			for(int i=0;i<ary.size();i++){
+				obj = ary.getJSONObject(i); 
+				wj.setWeldedJunctionno(String.valueOf(obj.get("taskNo")));
+				wj.setSerialNo(String.valueOf(obj.get("desc")));
+				wj.setUnit(String.valueOf(obj.get("welderId")));
+				wj.setExternalDiameter(String.valueOf(obj.get("qualiid")));
+				Insframework itemid = new Insframework();
+				itemid.setId(new BigInteger(String.valueOf(obj.get("insId"))));
+				wj.setItemid(itemid);
+				wj.setStartTime(String.valueOf(obj.get("start")));
+				wj.setEndTime(String.valueOf(obj.get("end")));
+				wjm.addTask(wj);
+			}
+			obj.put("success", true);
+		}catch(Exception e){
+			e.printStackTrace();
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
+	}
 }
