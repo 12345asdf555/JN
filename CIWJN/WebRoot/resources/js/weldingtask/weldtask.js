@@ -1,6 +1,7 @@
 $(function(){
 	weldedJunctionDatagrid();
 	dayinDatagrid();
+	exporttable();
 });
 
 function weldedJunctionDatagrid(){
@@ -93,7 +94,33 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left",
 			hidden:true
-		}, {
+		},{
+			field : 'status',
+			title : '状态值',
+			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		},{
+			field : 'operatetype',
+			title : '任务状态',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			formatter: function(value,row,index){
+				var str;
+				if(row.status==0||row.status==2){
+					str = '<a id="confirm" href="javascript:confirm()" class="easyui-linkbutton" disabled=true >';
+				}
+				if(row.status==1){
+					str = '<a id="confirm1" href="javascript:confirm()" class="easyui-linkbutton" disabled=true>';
+				}
+				if(row.status==2){
+					str = '<a id="confirm2" href="javascript:confirm()" class="easyui-linkbutton" disabled=true>';
+				}
+				return str;
+			}
+		},{
 			field : 'edit',
 			title : '编辑',
 			width : 220,
@@ -117,6 +144,15 @@ function weldedJunctionDatagrid(){
 		onLoadSuccess: function(data){
 	        $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 	        $("a[id='remove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
+	        if($("#confirm").length!=0){
+				$("a[id='confirm']").linkbutton({text:'未完成',plain:true,iconCls:'icon-update'});
+			}
+			if($("#confirm1").length!=0){
+				$("a[id='confirm1']").linkbutton({text:'已完成',plain:true,iconCls:'icon-update'});
+			}
+			if($("#confirm2").length!=0){
+				$("a[id='confirm2']").linkbutton({text:'未分配',plain:true,iconCls:'icon-update'});
+			}
 		}
 	});
 }
@@ -181,6 +217,92 @@ function dayinDatagrid(){
 	});
 }
 
+function exporttable(){
+	$("#exporttable").datagrid( {
+//		fitColumns : true,
+		height : $("#exportdlg").height(),
+		width : $("#exportdlg").width(),
+		idField : 'id',
+//		pageSize : 10,
+//		pageList : [ 10, 20, 30, 40, 50 ],
+		url : "import/",
+		singleSelect : true,
+		rownumbers : true,
+		showPageList : false,
+		columns : [ [ {
+			field : 'taskNo',
+			title : '任务编号',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'desc',
+			title : '任务描述',
+//			width : 90,
+			halign : "center",
+			align : "left",
+//			hidden:true
+		}, {
+			field : 'welderNo',
+			title : '焊工工号',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'quali',
+			title : '焊工资质',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'welderId',
+			title : '焊工id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		},{
+			field : 'qualiid',
+			title : '资质id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		},{
+			field : 'insId',
+			title : '项目id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		}, {
+			field : 'insName',
+			title : '所属班组',
+//			width : 150,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'start',
+			title : '开始时间',
+//			width : 150,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'end',
+			title : '结束时间',
+//			width : 150,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'str',
+			title : '错误描述',
+//			width : 150,
+			halign : "center",
+			align : "left"
+		}] ]
+	});
+}
+
 function openDayin(){
 	$('#dayin').dialog('open');
 }
@@ -202,20 +324,30 @@ function importWeldingMachine(){
 		$.messager.alert("提示", "请选择要上传的文件！");
 		return false;
 	}else{
+		document.getElementById("load").style.display="block";
+		var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
+		$("#body").append(sh);
+		document.getElementById("show").style.display="block";
 		$('#importfm').form('submit', {
 			url : "import/importWeldTask",
 			success : function(result) {
 				if(result){
 					var result = eval('(' + result + ')');
-					if (!result.success) {
-						$.messager.show( {
-							title : 'Error',
-							msg : result.msg
-						});
-					} else {
+					if (result) {
+			    		document.getElementById("load").style.display ='none';
+			    		document.getElementById("show").style.display ='none';
 						$('#importdiv').dialog('close');
-						$('#weldTaskTable').datagrid('reload');
-						$.messager.alert("提示", result.msg);
+						$("#exporttable").datagrid("loadData", result.rows);
+						$('#exportdlg').window( {
+							title : "任务确认与导入",
+							modal : true
+						});
+						if(result.biaozhi==1){
+							$('#imexcel').linkbutton('disable');
+						}else{
+							$('#imexcel').linkbutton('enable');
+						}
+						$('#exportdlg').window('open');
 					}
 				}
 				
@@ -224,6 +356,7 @@ function importWeldingMachine(){
 		        alert("数据请求失败，请联系系统管理员!");  
 		    } 
 		});
+		
 	}
 }
 

@@ -56,6 +56,7 @@ import com.spring.service.WeldingMachineService;
 import com.spring.util.IsnullUtil;
 import com.spring.util.UploadUtil;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -305,9 +306,13 @@ public class ImportExcelController {
 	@RequestMapping("/importWeldTask")
 	@ResponseBody
 	public String importWeldTask(HttpServletRequest request,
-			HttpServletResponse response){
+		HttpServletResponse response){
 		UploadUtil u = new UploadUtil();
 		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		String str = "";
+		int biaozhi = 0;
 		try{
 			String path = u.uploadFile(request, response);
 			List<WeldedJunction> we = xlsxWeldTask(path);
@@ -325,27 +330,74 @@ public class ImportExcelController {
 					}
 				}
 				w.setWeldedJunctionno(wjno);
-				int count = wjs.getWeldedjunctionByNo(wjno);
-				w.setInsfid(wmm.getInsframeworkByName(w.getItemid().getName()));
-				w.setSystems(String.valueOf(ps.getIdByWelderno(w.getPipelineNo())));
-				w.setExternalDiameter(String.valueOf(dm.getvaluebyname(7, w.getRoomNo())));
-				MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-				w.setCreater(new BigInteger(user.getId()+""));
-				w.setUpdater(new BigInteger(user.getId()+""));
-				//编码唯一
-				if(count>0){
-//					obj.put("msg","导入失败，请检查您的焊口编号是否已存在！");
-//					obj.put("success",false);
-//					return obj.toString();
-					continue;
-				}
+				json.put("taskNo", w.getWeldedJunctionno());
+				json.put("desc", w.getSerialNo());
 				if(w.getWeldedJunctionno()==null||w.getWeldedJunctionno()==""){
-					continue;
+					str+="任务编号不能为空;";
+					biaozhi=1;
+				}else{
+					int count = wjs.getWeldedjunctionByNo(wjno);
+					if(count>0){
+						str+="任务编号已经存在;";
+						biaozhi=1;
+					}
+					if(w.getWeldedJunctionno().length()>8){
+						str+="任务编号超出指定长度;";
+						biaozhi=1;
+					}
 				}
-				if(w.getWeldedJunctionno().length()>8){
-					continue;
+//				json.put("insName", w.getItemid().getName());
+				BigInteger iii = null;
+				if(w.getItemid()==null){
+					str+="班组不能为空;";
+					json.put("insName", "");
+					biaozhi=1;
+				}else{
+					json.put("insName", w.getItemid().getName());
+					iii = wmm.getInsframeworkByName(w.getItemid().getName());
+					if(String.valueOf(iii)==null||String.valueOf(iii)=="null"){
+						str+="该班组不存在;";
+						biaozhi=1;
+					}else{
+						json.put("insId", iii);
+					}
 				}
-				if(w.getInsfid()==null){
+				if((w.getPipelineNo()==null)||(w.getPipelineNo()=="")){
+					json.put("welderNo", "");
+				}else{
+					json.put("welderNo", w.getPipelineNo());
+					Person www = ps.getIdByWelderno(w.getPipelineNo());
+					if(String.valueOf(www)==null||String.valueOf(www)=="null"){
+						str+="焊工不存在；";
+						biaozhi=1;
+					}else{
+						if(!www.getInsid().equals(iii)){
+							str+="所属班组下面未查询到此焊工;";
+							biaozhi=1;
+						}else{
+							json.put("welderId", www.getId());
+						}
+					}
+				}
+				if((w.getRoomNo()=="")||(w.getRoomNo()==null)){
+					json.put("quali", "");
+				}else{
+					json.put("quali", w.getRoomNo());
+					int qqq = dm.getvaluebyname(7, w.getRoomNo());
+					if(String.valueOf(qqq)==null||String.valueOf(qqq)=="null"){
+						str+="资质书写不规范;";
+						biaozhi=1;
+					}else{
+						json.put("qualiid", String.valueOf(qqq));
+					}
+				}
+				json.put("start", w.getUnit());
+				json.put("end", w.getArea());
+				json.put("str", str);
+/*				MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				w.setCreater(new BigInteger(user.getId()+""));
+				w.setUpdater(new BigInteger(user.getId()+""));*/
+/*				if(w.getInsfid()==null){
 					continue;
 				}
 				if(w.getSerialNo()==null){
@@ -362,9 +414,9 @@ public class ImportExcelController {
 				}
 				if(w.getExternalDiameter()==null){
 					w.setExternalDiameter("");
-				}
+				}*/
 				//客户端执行操作
-				JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+/*				JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
 				Client client = dcf.createClient("http://121.196.222.216:8080/CIWJN_Service/cIWJNWebService?wsdl");
 				iutil.Authority(client);
 				String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"addJunction\"}";
@@ -380,13 +432,15 @@ public class ImportExcelController {
 				}else{
 					obj.put("success", false);
 					obj.put("errorMsg", "操作失败！");
-				}
+				}*/
+				ary.add(json);
+				str="";
 			};
 		}catch(Exception e){
 			e.printStackTrace();
-			obj.put("success",false);
-			obj.put("msg","导入失败，请检查您的文件格式以及数据是否符合要求！");
 		}
+		obj.put("rows", ary);
+		obj.put("biaozhi", biaozhi);
 		return obj.toString();
 	}
 	

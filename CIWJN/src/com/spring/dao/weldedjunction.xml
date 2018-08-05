@@ -61,10 +61,11 @@
 	</resultMap>
 	
 	<select id="getWeldedJunctionAll" resultMap="wjMap" parameterType="java.lang.String">
-	SELECT j.fid,j.fwelded_junction_no,j.fserial_no,j.fexternal_diameter,j.fstart_time,j.fend_time,j.fdyne,i.fid iid,w.fwelder_no fpipeline_no,d.fvaluename froom_no,i.fname iname FROM tb_welded_junction j 
+	SELECT j.fid,j.fwelded_junction_no,j.fserial_no,j.fexternal_diameter,j.fstart_time,j.fend_time,j.fdyne,i.fid iid,w.fwelder_no fpipeline_no,d.fvaluename froom_no,i.fname iname,r.foperatetype fmaterial FROM tb_welded_junction j 
 	LEFT JOIN tb_welder w ON j.fdyne=w.fid 
 	LEFT JOIN tb_dictionary d ON j.fexternal_diameter=d.fvalue AND ftypeid=7 
 	INNER JOIN tb_insframework i ON j.fitemId = i.fid 
+    LEFT JOIN tb_taskresult r on r.ftaskid=j.fid
 	WHERE 1=1 
 		<if test="str!=null and str!=''">
 			and ${str}
@@ -179,4 +180,9 @@
 	<select id="getCountByTaskid" resultType="java.lang.Integer" parameterType="java.math.BigInteger">
 		SELECT COUNT(fid) FROM `tb_taskresult` WHERE ftaskid = #{taskid}
 	</select>
+	
+	<insert id="addTask" parameterType="com.spring.model.WeldedJunction">
+		insert into tb_welded_junction(fwelded_junction_no,fserial_no,fdyne,fexternal_diameter,fitemId,fstart_time,fend_time) 
+		values(#{weldedJunctionno},#{serialNo},#{unit},#{externalDiameter},#{itemid.id},#{startTime},#{endTime});
+	</insert>
 </mapper>

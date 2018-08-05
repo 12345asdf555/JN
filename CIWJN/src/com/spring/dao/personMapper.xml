@@ -57,7 +57,7 @@
 		select count(*) from tb_welder where fwelder_no=#{welderno}
 	</select>
 	
-	<select id="getIdByWelderno" parameterType="String" resultType="java.math.BigInteger">
-		SELECT fid FROM tb_welder WHERE fwelder_no=#{welderno}
+	<select id="getIdByWelderno" parameterType="String" resultType="Person">
+		SELECT fid id,Fowner insid FROM tb_welder WHERE fwelder_no=#{welderno}
 	</select>
 </mapper>

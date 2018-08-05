@@ -85,7 +85,7 @@ public class PersonServiceImpl implements PersonService{
 	}
 
 	@Override
-	public BigInteger getIdByWelderno(String welderno) {
+	public Person getIdByWelderno(String welderno) {
 		// TODO Auto-generated method stub
 		return mapper.getIdByWelderno(welderno);
 	}

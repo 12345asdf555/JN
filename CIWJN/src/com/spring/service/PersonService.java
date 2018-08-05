@@ -29,5 +29,5 @@ public interface PersonService {
 	 * @param welderno
 	 * @return
 	 */
-	BigInteger getIdByWelderno(String welderno);
+	Person getIdByWelderno(String welderno);
 }

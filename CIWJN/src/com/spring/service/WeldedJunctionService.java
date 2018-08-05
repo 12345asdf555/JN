@@ -87,4 +87,11 @@ public interface WeldedJunctionService {
 	 * @return
 	 */
 	int getCountByTaskid(BigInteger taskid);
+	
+	/**
+	 * 新增任务
+	 * @param object
+	 * @return
+	 */
+	boolean addTask(WeldedJunction wj);
 }
