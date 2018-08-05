@@ -163,7 +163,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>所属班组</lable>
-					<input class="easyui-textbox" id="itemid"  name="itemid" readonly="readonly">
+					<input class="easyui-textbox" id="itemname"  name="itemname" readonly="readonly">
 				</div>
 				<div class="fitem">
 					<lable><span class="required"></span>开始时间</lable>

@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="fitem">
 					<lable><span class="required">*</span>任务编号</lable>
 					<input type="hidden" id="oldno" />
-					<input class="easyui-textbox" id="taskid"  name="taskNo" data-options="validType:['wjNoValidate'],required:true" readonly="readonly" />
+					<input class="easyui-textbox" id="taskid"  name="taskNo" data-options="required:true" readonly="readonly" />
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>焊工编号</lable>

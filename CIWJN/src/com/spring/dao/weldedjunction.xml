@@ -66,7 +66,7 @@
 	LEFT JOIN tb_dictionary d ON j.fexternal_diameter=d.fvalue AND ftypeid=7 
 	INNER JOIN tb_insframework i ON j.fitemId = i.fid 
     LEFT JOIN tb_taskresult r on r.ftaskid=j.fid
-	WHERE 1=1 
+	WHERE 1=1 AND (r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid,fwelderid,fmachineid) OR r.foperatetype IS null)
 		<if test="str!=null and str!=''">
 			and ${str}
 		</if>
