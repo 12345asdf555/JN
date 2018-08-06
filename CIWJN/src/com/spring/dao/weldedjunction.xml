@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+	
+ -->
 <mapper namespace="com.spring.dao.WeldedJunctionMapper">
 
 	<resultMap id="wjMap" type="com.spring.model.WeldedJunction">
@@ -178,7 +183,10 @@
 	</delete>
 	
 	<select id="getCountByTaskid" resultType="java.lang.Integer" parameterType="java.math.BigInteger">
-		SELECT COUNT(fid) FROM `tb_taskresult` WHERE ftaskid = #{taskid}
+	    SELECT COUNT(fid) FROM `tb_taskresult` WHERE ftaskid = #{taskid} 
+	    <if test="type!=null and type!=''">
+	      and foperatetype=${type}
+	    </if>
 	</select>
 	
 	<insert id="addTask" parameterType="com.spring.model.WeldedJunction">

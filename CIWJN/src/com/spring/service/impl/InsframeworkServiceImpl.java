@@ -178,4 +178,10 @@ public class InsframeworkServiceImpl implements InsframeworkService {
 		return im.getInsAll(type);
 	}
 
+	@Override
+	public List<Insframework> getUserInsAll(String str) {
+		// TODO Auto-generated method stub
+		return im.getUserInsAll(str);
+	}
+
 }

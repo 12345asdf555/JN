@@ -59,7 +59,29 @@ public class WeldingTaskController {
 	private UserService fuser;
 
 	@RequestMapping("/goWeldTask")
-	public String goWeldTask(){
+	public String goWeldTask(HttpServletRequest request){
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "tb_welder.Fowner="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"(tb_welder.Fowner="+inns.getId();
+				}else{
+					serach=serach+" or tb_welder.Fowner="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or tb_welder.Fowner="+userinsid+")";
+		}
+		request.setAttribute("userinsall",serach );
 		return "weldingtask/weldingtask";
 	}
 	
@@ -80,8 +102,33 @@ public class WeldingTaskController {
 	public String getWeldTaskList(HttpServletRequest request){
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
-		String serach = request.getParameter("searchStr");
-		
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "j.fitemId="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"(j.fitemId="+inns.getId();
+				}else{
+					serach=serach+" or j.fitemId="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or j.fitemId="+userinsid+")";
+		}
+		if(request.getParameter("searchStr")!=null&&serach!=null&&serach!=""){
+			serach=serach+" and "+request.getParameter("searchStr");
+		}
+		if(request.getParameter("searchStr")!=null&&(serach==null||serach=="")){
+			serach=serach+request.getParameter("searchStr");
+		}
 		page = new Page(pageIndex,pageSize,total);
 		List<WeldedJunction> list = wjm.getWeldedJunctionAll(page, serach);
 		long total = 0;
@@ -555,13 +602,29 @@ public class WeldingTaskController {
 				obj = ary.getJSONObject(i); 
 				wj.setWeldedJunctionno(String.valueOf(obj.get("taskNo")));
 				wj.setSerialNo(String.valueOf(obj.get("desc")));
-				wj.setUnit(String.valueOf(obj.get("welderId")));
-				wj.setExternalDiameter(String.valueOf(obj.get("qualiid")));
+				if(obj.get("welderId")==null||obj.get("welderId")==""){
+					wj.setUnit(null);
+				}else{
+					wj.setUnit(String.valueOf(obj.get("welderId")));
+				}			
+				if(obj.get("qualiid")==null||obj.get("qualiid")==""){
+					wj.setExternalDiameter(null);
+				}else{
+					wj.setExternalDiameter(String.valueOf(obj.get("qualiid")));
+				}
 				Insframework itemid = new Insframework();
 				itemid.setId(new BigInteger(String.valueOf(obj.get("insId"))));
 				wj.setItemid(itemid);
-				wj.setStartTime(String.valueOf(obj.get("start")));
-				wj.setEndTime(String.valueOf(obj.get("end")));
+				if(obj.get("start")==null||obj.get("start")==""){
+					wj.setStartTime(null);
+				}else{
+					wj.setStartTime(String.valueOf(obj.get("start")));
+				}
+				if(obj.get("start")==null||obj.get("start")==""){
+					wj.setEndTime(null);
+				}else{
+					wj.setEndTime(String.valueOf(obj.get("end")));
+				}
 				wjm.addTask(wj);
 			}
 			obj.put("success", true);

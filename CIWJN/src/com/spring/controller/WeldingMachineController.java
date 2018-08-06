@@ -250,6 +250,51 @@ public class WeldingMachineController {
 	}
 	
 	/**
+	 * 获取用户所属层级及下面的组织机构
+	 * @return
+	 */
+	@RequestMapping("/getUserInsAll")
+	@ResponseBody
+	public String getUserInsAll(){
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			String serach="";
+			MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			int instype = im.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+			BigInteger userinsid = im.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+			int bz=0;
+			if(instype==20){
+				
+			}else if(instype==23){
+				serach = "fid="+userinsid;
+			}else{
+				List<Insframework> ls = im.getInsIdByParent(userinsid,24);
+				for(Insframework inns : ls ){
+					if(bz==0){
+						serach=serach+"(fid="+inns.getId();
+					}else{
+						serach=serach+" or fid="+inns.getId();
+					}
+					bz++;
+				}
+				serach=serach+" or fid="+userinsid+")";
+			}
+			List<Insframework> list = im.getUserInsAll(serach);
+			for(Insframework i:list){
+				json.put("id", i.getId());
+				json.put("name", i.getName());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
+	
+	/**
 	 * 获取采集编号
 	 * @return
 	 */

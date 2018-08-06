@@ -39,6 +39,13 @@
 		</if>
 	</select>
 	
+	<select id="getUserInsAll"  resultMap="insMap">
+		select fid, fname from tb_insframework where 1=1
+		<if test="str!=null and str!=''">
+			and ${str}
+		</if>
+	</select>
+	
 	<select id="getInsframework" resultMap="insMap">
 		SELECT i.fid,i.fname,i.ftype FROM tb_insframework i INNER JOIN tb_insframework ins on ins.fid = i.fparent WHERE i.ftype=23 
 		<if test="parent!=null and parent!=''">

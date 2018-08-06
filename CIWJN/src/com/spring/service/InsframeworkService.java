@@ -160,4 +160,10 @@ public interface InsframeworkService {
 	 * @return
 	 */
 	List<Insframework> getInsAll(int type);
+	
+	/**
+	 * 查找当前用户对应的层级及其下属的组织机构
+	 * @return
+	 */
+	List<Insframework> getUserInsAll(String str);
 }
