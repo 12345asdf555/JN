@@ -39,6 +39,7 @@ function editWps(){
 		});
 		$('#dlg').window('open');
 		$('#fm').form('load', row);
+		$("#validName").val(row.FWPSNum);
 		url = "wps/updateWps?FID="+ row.FID;
 	}
 }
