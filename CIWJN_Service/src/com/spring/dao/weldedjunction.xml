@@ -92,12 +92,12 @@
 	</select>
 	
 	<insert id="addTaskResult" parameterType="com.spring.model.WeldedJunction" useGeneratedKeys="true" keyProperty="id">
-		insert into tb_taskresult(ftaskid,fwelderid,fmachineid,foperatedate,foperatetype,foperator,fresult,fresultid) 
-		values(#{taskid},#{welderid},#{machineid},now(),#{dyne},#{operatorid},#{area},#{children});
+		insert into tb_taskresult(ftaskid,fwelderid,fmachineid,foperatedate,frealstarttime,frealendtime,foperatetype,foperator,fresult,fresultid) 
+		values(#{taskid},#{welderid},#{machineid},now(),#{startTime},#{endTime},#{dyne},#{operatorid},#{area},#{children});
 	</insert>
 	
 	<update id="updateTaskResult" parameterType="com.spring.model.WeldedJunction">
-		update tb_taskresult set ftaskid=#{taskid},fwelderid=#{welderid},fmachineid=#{machineid},foperatedate=now(),foperatetype=#{dyne},foperator=#{operatorid},fresult=#{area},fresultid=#{children} where fid=#{id};
+		update tb_taskresult set ftaskid=#{taskid},fwelderid=#{welderid},fmachineid=#{machineid},foperatedate=now(),frealstarttime=#{startTime},frealendtime=#{endTime},foperatetype=#{dyne},foperator=#{operatorid},fresult=#{area},fresultid=#{children} where fid=#{id};
 	</update>
 	
 	<delete id="deleteTaskResult">
