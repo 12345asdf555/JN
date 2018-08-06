@@ -36,6 +36,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
   	<div id="body">
 	  	
+	  	<input id="userinsall"  name="userinsall" value="${userinsall}" type="hidden" />
+	  	
 	  	<div class="functiondiv">
 			<div>
 				<a href="javascript:addWeldedjunction();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;

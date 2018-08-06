@@ -171,14 +171,14 @@ function openWps(){
 }
 
 function openWeldTask(){
-	addTab("工序计划管理","weldtask/goWeldTask");
+	addTab("派工任务管理","weldtask/goWeldTask");
 }
 
 function openTaskResult(){
-	addTab("计划执行管理","weldtask/goTaskResult");
+	addTab("执行任务修改","weldtask/goTaskResult");
 }
 function openTaskEvaluate(){
-	addTab("计划执行评价","weldtask/goTaskEvaluate");
+	addTab("任务确认评价","weldtask/goTaskEvaluate");
 }
 function openSpe(){
 	addTab("规范管理","wps/AllSpe");

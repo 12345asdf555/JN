@@ -66,7 +66,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true">
            		<div class="fitem">
 	            	<lable><span class="required">*</span>工艺编号</lable>
-	                <input name="FWPSNum" id="FWPSNum" class="easyui-textbox" data-options="validType:'wpsValidate',required:true">
+	                <input name="fwpsnum" id="validName" type="hidden">
+	                <input id="FWPSNum" class="easyui-textbox" data-options="validType:'wpsValidate',required:true">
 	            	<lable><span class="required">*</span>预置通道</lable>
 	                <input name="Fweld_PreChannel" class="easyui-numberbox"  data-options="required:true">
 	            </div>

@@ -43,24 +43,24 @@ function editWeldedjunction(){
 	$.ajax({  
 	      type : "post",  
 	      async : false,
-	      url : "weldedjunction/getCouneByTaskid?taskid="+row.id,  
+	      url : "weldedjunction/getCouneByTaskid?taskid="+row.id+"&type="+"",
 	      data : {},  
 	      dataType : "json", //返回数据形式为json  
 	      success : function(result) {  
 	          if (result==false) {
-	        	  alert("任务已被执行或者已完成，无法进行操作！！");
+	            alert("任务已被执行或者已完成，无法进行操作！！");
 	          }else{
-	        		if (row) {
-	        			symbol=2;
-	        			$('#dlg').window( {
-	        				title : "修改任务",
-	        				modal : true
-	        			});
-	        			$('#dlg').window('open');
-	        			$('#fm').form('load', row);
-	        			$('#oldno').val(row.weldedJunctionno);
-	        			url = "weldtask/editWeldTask?id="+ row.id;
-	        		}
+	            if (row) {
+	              symbol=2;
+	              $('#dlg').window( {
+	                title : "修改任务",
+	                modal : true
+	              });
+	              $('#dlg').window('open');
+	              $('#fm').form('load', row);
+	              $('#oldno').val(row.weldedJunctionno);
+	              url = "weldtask/editWeldTask?id="+ row.id;
+	            }
 	          }
 	      },  
 	      error : function(errorMsg) {  
@@ -131,7 +131,7 @@ function InsframeworkCombobox(){
 	$.ajax({  
       type : "post",  
       async : false,
-      url : "weldingMachine/getInsframeworkAll",  
+      url : "weldingMachine/getUserInsAll",  
       data : {},  
       dataType : "json", //返回数据形式为json  
       success : function(result) {  
@@ -183,6 +183,7 @@ function selectWelder(){
 		    modal : true
 		  });
 		  $('#fdlg').window('open');
+		  searchStr=$("#userinsall").textbox('getValue');
 		  WelderDatagrid();
 		  symbol=1;
 }
@@ -271,10 +272,10 @@ function WelderDatagrid(){
 
 function dlgSearchGather(){
 	  if($("#searchname").val()){
-		    searchStr =  "tb_welder.fwelder_no=" + $("#searchname").val();
+		    searchStr +=  " and tb_welder.fwelder_no=" + $("#searchname").val();
 		  }
 		  WelderDatagrid();
-		  searchStr = "";
+		  searchStr = $("#userinsall").textbox('getValue');
 }
 
 function saveWelder(){
@@ -302,14 +303,14 @@ $(document).ready(function () {
 			  $("#pipelineNo").textbox('clear');
 			  $("#welderid").val()
 			  $('#fdlgSearch').hide();
-			  searchStr =  "tb_welder.Fowner=" + record.value;
+			  searchStr +=  " and tb_welder.Fowner=" + record.value;
 			  WelderDatagrid();
 			  $('#fdlg').window( {
 				    title : "请选择对应组织机构下的焊工",
 				    modal : true
 			  });
 			  $('#fdlg').window('open');
-			  searchStr = "";
+			  searchStr = $("#userinsall").textbox('getValue');
 			  symbol=0;
 		  }
 		  if(symbol==2){
@@ -318,14 +319,14 @@ $(document).ready(function () {
 		  }
 		  if(symbol==1){
 			  $('#fdlgSearch').hide();
-			  searchStr =  "tb_welder.Fowner=" + record.value;
+			  searchStr +=  " and tb_welder.Fowner=" + record.value;
 			  WelderDatagrid();
 			  $('#fdlg').window( {
 				    title : "请选择对应组织机构下的焊工",
 				    modal : true
 			  });
 			  $('#fdlg').window('open');
-			  searchStr = "";
+			  searchStr = $("#userinsall").textbox('getValue');
 			  symbol=0;
 		  }
 	}})

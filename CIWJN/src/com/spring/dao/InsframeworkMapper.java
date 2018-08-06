@@ -54,4 +54,6 @@ public interface InsframeworkMapper extends Mapper<Insframework>{
 	Insframework getInsById(@Param("id")BigInteger id);
 	
 	List<Insframework> getInsAll(@Param("type")int type);
+	
+	List<Insframework> getUserInsAll(@Param("str")String str);
 }

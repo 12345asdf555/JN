@@ -1,6 +1,8 @@
 package com.spring.service.impl;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -299,9 +301,13 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 						socketChannel.close();
 						int count = wjm.getCountBySatus(new BigInteger(taskid),new BigInteger(welderid),new BigInteger(machineid),status);
 						if(count<2){
+							wj.setStartTime(json.getString("STARTTIME"));
+							wj.setEndTime(json.getString("STARTTIME"));
 							wjm.addTaskResult(wj);
 						}else{
 							wj.setId(new BigInteger(json.getString("ID")));
+							wj.setStartTime(json.getString("STARTTIME"));
+							wj.setEndTime(json.getString("STARTTIME"));
 							wjm.updateTaskResult(wj);
 						}
 					} catch (InterruptedException e) {
@@ -339,11 +345,13 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 						socketChannel.close();
 						int count = wjm.getCountBySatus(new BigInteger(taskid),new BigInteger(welderid),new BigInteger(machineid),status);
 						if(count<1){
+							wj.setStartTime(json.getString("STARTTIME"));
 							wjm.addTaskResult(wj);
 							wj.setId(new BigInteger(json.getString("ID")));
 							wj.setDyne(3);
 							wjm.updateTaskResult(wj);
 						}else{
+							wj.setStartTime(json.getString("STARTTIME"));
 							wj.setId(new BigInteger(json.getString("ID")));
 							wjm.updateTaskResult(wj);
 						}
@@ -414,6 +422,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 					try {
 						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
 						socketChannel.close();
+						wj.setStartTime(json.getString("STARTTIME"));
 						wjm.addTaskResult(wj);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block

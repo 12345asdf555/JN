@@ -86,7 +86,7 @@ public interface WeldedJunctionService {
 	 * @param taskid任务id
 	 * @return
 	 */
-	int getCountByTaskid(BigInteger taskid);
+	int getCountByTaskid(BigInteger taskid,BigInteger type);
 	
 	/**
 	 * 新增任务

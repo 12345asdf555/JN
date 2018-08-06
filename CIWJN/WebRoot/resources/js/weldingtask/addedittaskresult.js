@@ -10,27 +10,38 @@ $(function(){
 	$("#fm").form("disableValidation");
 })
 
-function editWeldedjunction(){
+function editWeldedjunction(){ 
 	flag = 2;
 	var row = $('#weldTaskTable').datagrid('getSelected');
-	if(row.operateid==1){
-		 alert("任务已完成，无法进行修改或取消！！！"); 
-	}
-	else{
-	$('#fm').form('clear');
-	if (row) {
-		$('#dlg').window( {
-			title : "修改任务",
-			modal : true
-		});
-		$('#dlg').window('open');
-		$('#fm').form('load', row);
-		$("#oldno").val(row.taskNo);   //不加会出现不能保存相同名的id这个错误
-		$("#machineid").val(row.machineid);
-		$("#taskid").val(row.taskid);
-		url = "weldtask/getEvaluate?id="+row.id+"&result="+""+"&welderid="+row.welderid;
-	}
-}
+	$.ajax({  
+      type : "post",  
+      async : false,
+      url : "weldedjunction/getCouneByTaskid?taskid="+row.taskid+"&type="+"1", 
+      data : {},  
+      dataType : "json", //返回数据形式为json  
+      success : function(result) {
+        if (result==false) {
+          alert("任务已完成，无法进行修改或取消！！！"); 
+          }else{
+            if (row) {
+              $('#dlg').window( {
+                title : "修改任务",
+                modal : true
+              });
+              $('#dlg').window('open');
+              $('#fm').form('load', row);
+              $("#oldno").val(row.taskNo);   //不加会出现不能保存相同名的id这个错误
+              $("#machineid").val(row.machineid);
+              $("#taskid").val(row.taskid);
+              url = "weldtask/getEvaluate?id="+row.id+"&result="+""+"&welderid="+row.welderid;
+              //url = "weldtask/editWeldTask?id="+ row.id;
+            }
+          }
+      },
+      error : function(errorMsg) {  
+          alert("数据请求失败，请联系系统管理员!");  
+      }  
+    }); 
 }
 function saveedit(){
 	var temp;

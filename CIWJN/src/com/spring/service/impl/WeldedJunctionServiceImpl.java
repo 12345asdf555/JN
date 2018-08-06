@@ -79,9 +79,9 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService{
 	}
 
 	@Override
-	public int getCountByTaskid(BigInteger taskid) {
-		return wjm.getCountByTaskid(taskid);
-	}
+	  public int getCountByTaskid(BigInteger taskid,BigInteger type) {
+	    return wjm.getCountByTaskid(taskid,type);
+	  }
 
 	@Override
 	public boolean addTask(WeldedJunction wj) {
