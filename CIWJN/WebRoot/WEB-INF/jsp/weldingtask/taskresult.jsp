@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
-    <title>工序计划执行结果管理</title>
+    <title>执行任务修改</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -34,14 +34,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
   	<div id="body">
   		<div id="load" style="width:100%;height:100%;"></div>
+  		<input id="userid"  name="userid" value="${userid}" type="hidden"/>
   		<div class="functiondiv">
-			<div>
-				 <lable><span class="required"></span>班组信息</lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				 <input class="easyui-textbox" id="XXX"  name="XXX" value="${userinsframework}" readonly="readonly"/>
+			<div> 
+<!-- 			所属班组： -->
+<!-- 				<select class="easyui-combobox" name="item" id="item" data-options="editable:false"></select> -->
+<!-- 				<a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-select" >搜索</a> -->
+<!-- 				<a href="javascript:exportExcel();" class="easyui-linkbutton" iconCls="icon-export">导出</a> -->
+				<lable><span class="required"></span>班组信息</lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input class="easyui-textbox" id="XXX"  name="XXX" value="${userinsframework}" readonly="readonly"/>
 			</div>
 		</div>
-	    <table id="weldTaskTable" style="table-layout: fixed; width:100%;"></table>
-	    	<!-- 选择任务编号-->
+		<table id="weldTaskTable" style="table-layout: fixed; width:100%;"></table>
+		<!-- 自定义多条件查询 -->
+	    <div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">
+	    	<div id="div0">
+		    	<select class="fields" id="fields"></select>
+		    	<select class="condition" id="condition"></select>
+		    	<input class="content" id="content"/>
+		    	<select class="joint" id="joint"></select>
+		    	<a href="javascript:newSearchWT();" class="easyui-linkbutton" iconCls="icon-add"></a>
+		    	<a href="javascript:removeSerach();" class="easyui-linkbutton" iconCls="icon-remove"></a>
+	    	</div>
+	    </div>
+	    <div id="searchButton">
+			<a href="javascript:searchWT();" class="easyui-linkbutton" iconCls="icon-ok">查询</a>
+			<a href="javascript:close();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+		</div>
+	    <!-- 选择任务编号-->
 			<div id="fdlg" class="easyui-dialog" style="width: 650px; height: 450px;" title="选择任务编号" closed="true" buttons="#fdlg-buttons">
     			<table id="dg" style="table-layout: fixed; width:100%;"></table>
 			</div>
@@ -95,7 +115,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:saveedit();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 			<a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
-		
 		<!-- 删除 -->
 		<div id="rdlg" class="easyui-dialog" style="width: 450px; height: 400px; padding:3px 6px" closed="true" buttons="#remove-buttons">
 			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>

@@ -33,7 +33,8 @@ function editWeldedjunction(){
               $("#oldno").val(row.taskNo);   //不加会出现不能保存相同名的id这个错误
               $("#machineid").val(row.machineid);
               $("#taskid").val(row.taskid);
-              url = "weldtask/getEvaluate?id="+row.id+"&result="+""+"&welderid="+row.welderid;
+              url = "weldtask/getEvaluate?id="+row.id+"&result="+""+"&starttime="+row.starttime+"&endtime="+row.endtime+"&welderid="+row.welderid;
+
               //url = "weldtask/editWeldTask?id="+ row.id;
             }
           }
@@ -126,8 +127,6 @@ function selectMachine() {
 	$('#fdlg').window('open');
 	weldingMachineDatagrid();
 }
-
-
 function weldingMachineDatagrid() {
 	$("#dg").datagrid( {
 //		fitColumns : true,
@@ -136,7 +135,8 @@ function weldingMachineDatagrid() {
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
-		url : "weldtask/getWeldTaskList",
+		//url : "weldtask/getWeldTaskList?searchStr="+"SELECT *FROM tb_taskresult r LEFT JOIN tb_welded_junction w ON r.fid=w.fid",
+		url : "weldtask/getWeldTaskList?searchStr="+"r.fid not IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid,fwelderid,fmachineid)",
 		singleSelect : true,
 		rownumbers : true,
 		showPageList : false,

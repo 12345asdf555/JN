@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>计划执行结果评价</title>
+    <title>任务确认评价</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -36,6 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			<div id="load" style="width:100%;height:100%;"></div>
   		<div class="functiondiv">
 			<div>
+				<a href="javascript:complete();" class="easyui-linkbutton" iconCls="icon-ok">确认完成</a>
 				 <lable><span class="required"></span>班组信息</lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				 <input class="easyui-textbox" id="XXX"  name="XXX" value="${userinsframework}" readonly="readonly"/>
 			</div>
@@ -49,8 +50,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:saveWeldingMachine();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 				<a href="javascript:$('#fdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 			</div> 
-	<!--评价 -->
-	<div id="mdlg" class="easyui-dialog" style="width: 450px; height: 400px; padding:3px 6px" closed="true" buttons="#mdlg-buttons">
+		<!-- 确认完成-->
+			<div id="sdlg" class="easyui-dialog" style="width: 650px; height: 450px;" title="任务状态更改" closed="true" buttons="#sdlg-buttons">
+    			<table id="weg" style="table-layout: fixed; width:100%;"></table>
+			</div>
+			<div id="sdlg-buttons">
+				<a href="javascript:saveWeldingnumber();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+				<a href="javascript:$('#sdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			</div>
+		<!--评价 -->
+		<div id="mdlg" class="easyui-dialog" style="width: 450px; height: 400px; padding:3px 6px" closed="true" buttons="#mdlg-buttons">
 			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true">
 				<div class="fitem">
           			<lable><span class="required">*</span>评价</lable>

@@ -89,6 +89,7 @@ public class WeldingTaskController {
 	public String goTaskResult(HttpServletRequest request){
 		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		request.setAttribute("userinsframework", fuser.getUserInsframework(new BigInteger(String.valueOf(user.getId()))).getInsname());
+		request.setAttribute("userid", user.getId());
 		return "weldingtask/taskresult";
 	}
 	@RequestMapping("/goTaskEvaluate")
@@ -226,6 +227,8 @@ public class WeldingTaskController {
 				json.put("machineNo", w.getMachine_num());
 				json.put("resultName", w.getRoomNo());
 				json.put("getdatatime", w.getUpdateTime());
+				json.put("starttime", w.getStartTime());
+				json.put("endtime", w.getEndTime());
 				json.put("fitemid", w.getArea());
 				ary.add(json);
 			}
@@ -295,13 +298,6 @@ public class WeldingTaskController {
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		String searchStr = request.getParameter("searchStr");
-		if(Integer.valueOf(searchStr)==1){
-			MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			searchStr = "i.fid=" + fuser.getUserInsframework(new BigInteger(String.valueOf(user.getId()))).getUserInsframework();
-		}
-		if(searchStr.equals("0")){
-			searchStr = null;
-		}
 		String parentId = request.getParameter("parent");
 		BigInteger parent = null;
 		if(iutil.isNull(parentId)){
@@ -566,10 +562,10 @@ public class WeldingTaskController {
 			MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			//客户端执行操作
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient("http://121.196.222.216:8080/CIWJN_Service/cIWJNWebService?wsdl");
+			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
 			iutil.Authority(client);
 			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"giveToServer\"}";
-			String obj2 = "{\"TASKNO\":\""+request.getParameter("taskNo")+"\",\"WELDERNO\":\""+request.getParameter("welderNo")+"\",\"MACHINENO\":\""+request.getParameter("machineNo")+"\",\"STATUS\":\""+request.getParameter("operateid")+"\",\"TASKID\":\""+request.getParameter("taskid")+"\",\"WELDERID\":\""+request.getParameter("welderid")+"\",\"MACHINEID\":\""+request.getParameter("machineid")+"\",\"OPERATOR\":\""+user.getId()+"\",\"ID\":\""+request.getParameter("id")+"\",\"RESULT\":\""+request.getParameter("result")+"\",\"RESULTID\":\""+request.getParameter("resultid")+"\"}";
+			String obj2 = "{\"TASKNO\":\""+request.getParameter("taskNo")+"\",\"WELDERNO\":\""+request.getParameter("welderNo")+"\",\"MACHINENO\":\""+request.getParameter("machineNo")+"\",\"STATUS\":\""+request.getParameter("operateid")+"\",\"TASKID\":\""+request.getParameter("taskid")+"\",\"WELDERID\":\""+request.getParameter("welderid")+"\",\"MACHINEID\":\""+request.getParameter("machineid")+"\",\"OPERATOR\":\""+user.getId()+"\",\"ID\":\""+request.getParameter("id")+"\",\"RESULT\":\""+request.getParameter("result")+"\",\"RESULTID\":\""+request.getParameter("resultid")+"\",\"STARTTIME\":\""+request.getParameter("starttime")+"\",\"ENDTIME\":\""+request.getParameter("endtime")+"\"}";
 			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
 			if(objects[0].toString().equals("true")){
 				obj.put("success", true);
@@ -634,5 +630,62 @@ public class WeldingTaskController {
 			obj.put("errorMsg", e.getMessage());
 		}
 		return obj.toString();
+	}
+
+	//后台解析json
+	@RequestMapping("/taskImportion")
+	@ResponseBody
+	public String taskImportion(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//客户端执行操作
+		JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+		Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+		iutil.Authority(client);
+	try{
+		WeldedJunction wj = new WeldedJunction();
+		String taskstr = request.getParameter("taskstr");
+		ary = JSONArray.fromObject(taskstr);
+		for(int i=0;i<ary.size();i++){
+			obj = ary.getJSONObject(i); 
+			wj.setWeldedJunctionno(String.valueOf(obj.get("taskNo")));
+			wj.setSerialNo(String.valueOf(obj.get("desc")));
+			if(obj.get("welderNo")==null||obj.get("welderNo")==""){
+				wj.setUnit(null);
+			}else{
+				wj.setUnit(String.valueOf(obj.get("welderNo")));
+			}			
+			if(obj.get("machineNo")==null||obj.get("machineNo")==""){
+				wj.setExternalDiameter(null);
+			}else{
+				wj.setExternalDiameter(String.valueOf(obj.get("machineNo")));
+			}
+			Insframework itemid = new Insframework();
+			itemid.setId(new BigInteger(String.valueOf(obj.get("id"))));
+			wj.setItemid(itemid);
+			if(obj.get("starttime")==null||obj.get("starttime")==""){
+				wj.setStartTime(null);
+			}else{
+				wj.setStartTime(String.valueOf(obj.get("starttime")));
+			}
+			if(obj.get("starttime")==null||obj.get("starttime")==""){
+				wj.setEndTime(null);
+			}else{
+				wj.setEndTime(String.valueOf(obj.get("endtime")));
+			}
+			wjm.addTask(wj);
+			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"giveToServer\"}";
+			String obj2 = "{\"TASKNO\":\""+obj.get("taskNo")+"\",\"WELDERNO\":\""+obj.get("welderNo")+"\",\"MACHINENO\":\""+obj.get("machineNo")+"\",\"STATUS\":\""+1+"\",\"TASKID\":\""+obj.get("taskid")+"\",\"WELDERID\":\""+obj.get("welderid")+"\",\"MACHINEID\":\""+obj.get("machineid")+"\",\"OPERATOR\":\""+user.getId()+"\",\"ID\":\""+obj.get("id")+"\",\"RESULT\":\"\",\"RESULTID\":\"\",\"STARTTIME\":\""+obj.get("starttime")+"\",\"ENDTIME\":\""+obj.get("endtime")+"\"}";
+			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
+		}
+		obj.put("success", true);
+	}catch(Exception e){
+		e.printStackTrace();
+		obj.put("success", false);
+		obj.put("errorMsg", e.getMessage());
+	}
+	return obj.toString();
 	}
 }

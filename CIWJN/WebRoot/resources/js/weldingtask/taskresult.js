@@ -1,9 +1,9 @@
 $(function(){
 	weldedJunctionDatagrid();
-	
+	itemcombobox();
+	//dgDatagrid();
 //	typeCombobox();
 });
-
 function weldedJunctionDatagrid(){
 	$("#weldTaskTable").datagrid( {
 //		fitColumns : true,
@@ -103,6 +103,18 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left"
         },{
+			field : 'starttime',
+			title : '开始时间',
+//			width : 100,
+			halign : "center",
+			align : "left"
+        },{
+			field : 'endtime',
+			title : '结束时间',
+//			width : 100,
+			halign : "center",
+			align : "left"
+        },{
 			field : 'operatetype',
 			title : '任务状态',
 //			width : 90,
@@ -151,6 +163,38 @@ function weldedJunctionDatagrid(){
 			}
 		}
 	});
+}
+//搜索
+function serach(){
+	$("#chartLoading").show();
+	chartStr = "";
+	setTimeout(function(){
+		dgDatagrid();
+	},500);
+}
+//组织机构
+function itemcombobox(){
+	$.ajax({  
+      type : "post",  
+      async : false,
+      url : "weldtask/getAllInsframework",  
+      data : {},  
+      dataType : "json", //返回数据形式为json  
+      success : function(result) {  
+          if (result) {
+              var optionStr = '';
+              for (var i = 0; i < result.ary.length; i++) {  
+                  optionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+                          + result.ary[i].name + "</option>";
+              }
+              $("#item").html(optionStr);
+          }  
+      },  
+      error : function(errorMsg) {  
+          alert("数据请求失败，请联系系统管理员!");  
+      }  
+	}); 
+	$("#item").combobox();
 }
 
 function confim(){}
