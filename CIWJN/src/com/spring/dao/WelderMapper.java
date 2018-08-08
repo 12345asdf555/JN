@@ -19,4 +19,6 @@ public interface WelderMapper extends Mapper<Welder> {
 	void removeWelder(BigInteger id);
 	
 	int getWeldernoCount(@Param("wno")String wno);
+	
+	List<Welder> getFreeWelder();
 }

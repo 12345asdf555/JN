@@ -128,6 +128,23 @@ function selectMachine() {
 	weldingMachineDatagrid();
 }
 function weldingMachineDatagrid() {
+	var search = "";
+	var row = $("#weldTaskTable").datagrid('getSelected');
+	$.ajax({
+      type : "post",  
+      async : false,
+      url : "weldtask/getInsframework?id="+row.itemid,  
+      data : {},  
+      dataType : "json", //返回数据形式为json  
+      success : function(result) {  
+          if (result) {
+        	  search = result.success;
+          }  
+      },  
+      error : function(errorMsg) {  
+          alert("数据请求失败，请联系系统管理员!");  
+      }  
+	}); 
 	$("#dg").datagrid( {
 //		fitColumns : true,
 		height : $("#fdlg").height(),
@@ -135,8 +152,7 @@ function weldingMachineDatagrid() {
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
-		//url : "weldtask/getWeldTaskList?searchStr="+"SELECT *FROM tb_taskresult r LEFT JOIN tb_welded_junction w ON r.fid=w.fid",
-		url : "weldtask/getWeldTaskList?searchStr="+"r.fid not IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid,fwelderid,fmachineid)",
+		url : "weldtask/getFreeJunction?searchStr="+search,
 		singleSelect : true,
 		rownumbers : true,
 		showPageList : false,
@@ -151,46 +167,41 @@ function weldingMachineDatagrid() {
 			align : "left",
 			hidden:true
 		}, {
-			field : 'weldedJunctionno',
+			field : 'junctionno',
 			title : '任务编号',
-//			width : 90,
+			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'serialNo',
-			title : '任务描述',
-//			width : 90,
-			halign : "center",
-			align : "left",
-//			hidden:true
-		}, {
-			field : 'pipelineNo',
+			field : 'welderno',
 			title : '焊工工号',
-//			width : 90,
+			width : 90,
 			halign : "center",
 			align : "left"
 		},  {
 			field : 'itemid',
 			title : '项目id',
-//			width : 90,
+			width : 90,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
 			field : 'itemname',
 			title : '所属项目',
-//			width : 150,
+			width : 150,
 			halign : "center",
 			align : "left"
+		}, {
+			field : 'desc',
+			title : '任务描述',
+			width : 150,
+			halign : "center",
+			align : "left",
 		}
 		] ],
 		toolbar : '#dlgSearch',
 		pagination : true,
-		fitColumns : true,
-//		onLoadSuccess:function(data){
-//	          $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-edit'});
-//	          $("a[id='remove']").linkbutton({text:'删除',plain:true,iconCls:'icon-remove'});
-//	    }
+		fitColumns : true
 	});
 }
 function saveWeldingMachine() {
@@ -198,9 +209,9 @@ function saveWeldingMachine() {
 	if(row==null){
 		$('#fdlg').dialog('close');
 	}else{
-		$("#taskNo").textbox('setValue', row.weldedJunctionno);
+		$("#taskNo").textbox('setValue', row.junctionno);
 		$("#taskid").val(row.id);
-		$("#oldno").val(row.weldedJunctionno);
+		$("#oldno").val(row.junctionno);
 		//$("#itemid").val(row.itemid);
 		$('#fdlg').dialog('close');
 		$("#dg").datagrid("clearSelections");   //每次退出表格时去掉表格的勾选

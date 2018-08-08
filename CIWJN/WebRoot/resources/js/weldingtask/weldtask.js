@@ -2,7 +2,27 @@ $(function(){
 	weldedJunctionDatagrid();
 	dayinDatagrid();
 	exporttable();
+	statusChange();
 });
+
+function statusChange(){
+	$("#status").combobox({
+		onChange : function(newValue,oldValue){
+			var searchStr = "";
+			if(newValue==1){
+				searchStr = " foperatetype=1";
+			}else if(newValue==0){
+				searchStr = " foperatetype=0 or foperatetype=2";
+			}else if(newValue==3){
+				searchStr = " foperatetype is null"
+			}
+			$("#weldTaskTable").datagrid('reload',{
+				"searchStr" : searchStr
+			})
+		}
+	})
+	
+}
 
 function weldedJunctionDatagrid(){
 	$("#weldTaskTable").datagrid( {
@@ -29,13 +49,6 @@ function weldedJunctionDatagrid(){
 //			width : 90,
 			halign : "center",
 			align : "left"
-		}, {
-			field : 'serialNo',
-			title : '任务描述',
-//			width : 90,
-			halign : "center",
-			align : "left",
-//			hidden:true
 		}, {
 			field : 'pipelineNo',
 			title : '焊工工号',
@@ -69,6 +82,12 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left",
 			hidden:true
+		}, {
+			field : 'serialNo',
+			title : '任务描述',
+//			width : 90,
+			halign : "center",
+			align : "left"
 		}, {
 			field : 'itemname',
 			title : '所属班组',
@@ -104,7 +123,7 @@ function weldedJunctionDatagrid(){
 		},{
 			field : 'operatetype',
 			title : '任务状态',
-//			width : 90,
+			width : 90,
 			halign : "center",
 			align : "left",
 			formatter: function(value,row,index){
@@ -145,13 +164,13 @@ function weldedJunctionDatagrid(){
 	        $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 	        $("a[id='remove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
 	        if($("#confirm").length!=0){
-				$("a[id='confirm']").linkbutton({text:'未完成',plain:true,iconCls:'icon-update'});
+				$("a[id='confirm']").linkbutton({text:'未完成',plain:true,iconCls:'icon-newcancel'});
 			}
 			if($("#confirm1").length!=0){
-				$("a[id='confirm1']").linkbutton({text:'已完成',plain:true,iconCls:'icon-update'});
+				$("a[id='confirm1']").linkbutton({text:'已完成',plain:true,iconCls:'icon-over'});
 			}
 			if($("#confirm2").length!=0){
-				$("a[id='confirm2']").linkbutton({text:'未分配',plain:true,iconCls:'icon-update'});
+				$("a[id='confirm2']").linkbutton({text:'未分配',plain:true,iconCls:'icon-next'});
 			}
 		}
 	});
@@ -160,8 +179,8 @@ function weldedJunctionDatagrid(){
 function dayinDatagrid(){
 	$("#dayintable").datagrid( {
 //		fitColumns : true,
-		height : $("#body").height(),
-		width : $("#body").width(),
+		height : $("#dayin").height(),
+		width : $("#dayin").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],

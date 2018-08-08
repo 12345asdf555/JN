@@ -30,4 +30,10 @@ public interface PersonService {
 	 * @return
 	 */
 	Person getIdByWelderno(String welderno);
+
+	/**
+	 * 获取所有空闲焊工
+	 * @return
+	 */
+	List<Person> getFreeWelder(Page page,String str);
 }

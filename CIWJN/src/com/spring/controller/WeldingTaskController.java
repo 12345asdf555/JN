@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.spring.dto.WeldDto;
 import com.spring.model.MyUser;
+import com.spring.model.Person;
 import com.spring.model.WeldingMachine;
 import com.spring.model.Dictionarys;
 import com.spring.model.Insframework;
@@ -26,6 +27,7 @@ import com.spring.model.WeldedJunction;
 import com.spring.page.Page;
 import com.spring.service.InsframeworkService;
 import com.spring.service.LiveDataService;
+import com.spring.service.PersonService;
 import com.spring.service.WeldedJunctionService;
 import com.spring.util.IsnullUtil;
 import com.spring.service.DictionaryService;
@@ -50,13 +52,16 @@ public class WeldingTaskController {
 	private InsframeworkService insm;
 	@Autowired
 	private LiveDataService lm;
-	IsnullUtil iutil = new IsnullUtil();
 	@Autowired
 	private WeldingMachineService wmm;
 	@Autowired
 	private DictionaryService dm;
 	@Autowired
 	private UserService fuser;
+	@Autowired
+	private PersonService ps;
+	
+	IsnullUtil iutil = new IsnullUtil();
 
 	@RequestMapping("/goWeldTask")
 	public String goWeldTask(HttpServletRequest request){
@@ -87,9 +92,29 @@ public class WeldingTaskController {
 	
 	@RequestMapping("/goTaskResult")
 	public String goTaskResult(HttpServletRequest request){
+		String serach="";
 		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and w.Fowner="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (w.Fowner="+inns.getId();
+				}else{
+					serach=serach+" or w.Fowner="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or w.Fowner="+userinsid+")";
+		}
+		request.setAttribute("userid",serach );
 		request.setAttribute("userinsframework", fuser.getUserInsframework(new BigInteger(String.valueOf(user.getId()))).getInsname());
-		request.setAttribute("userid", user.getId());
 		return "weldingtask/taskresult";
 	}
 	@RequestMapping("/goTaskEvaluate")
@@ -179,28 +204,41 @@ public class WeldingTaskController {
 	public String getTaskResultList(HttpServletRequest request){
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
-		String serach = request.getParameter("searchStr");
-		serach="";
+		String str = request.getParameter("searchStr");
+		String parent = request.getParameter("parent");
+		String serach = "";
 		page = new Page(pageIndex,pageSize,total);
 		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
 		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
-		int bz=0;
-		if(instype==20){
-			serach="";
-		}else if(instype==23){
-			serach = "j.fitemId="+userinsid;
+		if(iutil.isNull(parent)){
+			serach = parent;
 		}else{
-			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
-			for(Insframework inns : ls ){
-				if(bz==0){
-					serach=serach+"(j.fitemId="+inns.getId();
-				}else{
-					serach=serach+" or j.fitemId="+inns.getId();
+			int bz=0;
+			if(instype==20){
+				serach="";
+			}else if(instype==23){
+				serach = "j.fitemId="+userinsid;
+			}else{
+				List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+				for(Insframework inns : ls ){
+					if(bz==0){
+						serach=serach+"(j.fitemId="+inns.getId();
+					}else{
+						serach=serach+" or j.fitemId="+inns.getId();
+					}
+					bz++;
 				}
-				bz++;
+				serach=serach+" or j.fitemId="+userinsid+")";
 			}
-			serach=serach+" or j.fitemId="+userinsid+")";
+		}
+
+		if(iutil.isNull(str)){
+			if(iutil.isNull(serach)){
+				serach += " and "+str;
+			}else{
+				serach = str;
+			}
 		}
 		List<WeldedJunction> list = wjm.getTaskResultAll(page, serach);
 		long total = 0;
@@ -230,6 +268,10 @@ public class WeldingTaskController {
 				json.put("starttime", w.getStartTime());
 				json.put("endtime", w.getEndTime());
 				json.put("fitemid", w.getArea());
+				if(w.getItemid()!=null && !"".equals(w.getItemid())){
+					json.put("itemid", w.getItemid().getId());
+					json.put("itemname", w.getItemid().getName());
+				}
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -562,7 +604,7 @@ public class WeldingTaskController {
 			MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			//客户端执行操作
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+			Client client = dcf.createClient("http://121.196.222.216:8080/CIWJN_Service/cIWJNWebService?wsdl");
 			iutil.Authority(client);
 			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"giveToServer\"}";
 			String obj2 = "{\"TASKNO\":\""+request.getParameter("taskNo")+"\",\"WELDERNO\":\""+request.getParameter("welderNo")+"\",\"MACHINENO\":\""+request.getParameter("machineNo")+"\",\"STATUS\":\""+request.getParameter("operateid")+"\",\"TASKID\":\""+request.getParameter("taskid")+"\",\"WELDERID\":\""+request.getParameter("welderid")+"\",\"MACHINEID\":\""+request.getParameter("machineid")+"\",\"OPERATOR\":\""+user.getId()+"\",\"ID\":\""+request.getParameter("id")+"\",\"RESULT\":\""+request.getParameter("result")+"\",\"RESULTID\":\""+request.getParameter("resultid")+"\",\"STARTTIME\":\""+request.getParameter("starttime")+"\",\"ENDTIME\":\""+request.getParameter("endtime")+"\"}";
@@ -642,50 +684,157 @@ public class WeldingTaskController {
 		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		//客户端执行操作
 		JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-		Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+		Client client = dcf.createClient("http://121.196.222.216:8080/CIWJN_Service/cIWJNWebService?wsdl");
 		iutil.Authority(client);
-	try{
-		WeldedJunction wj = new WeldedJunction();
-		String taskstr = request.getParameter("taskstr");
-		ary = JSONArray.fromObject(taskstr);
-		for(int i=0;i<ary.size();i++){
-			obj = ary.getJSONObject(i); 
-			wj.setWeldedJunctionno(String.valueOf(obj.get("taskNo")));
-			wj.setSerialNo(String.valueOf(obj.get("desc")));
-			if(obj.get("welderNo")==null||obj.get("welderNo")==""){
-				wj.setUnit(null);
-			}else{
-				wj.setUnit(String.valueOf(obj.get("welderNo")));
-			}			
-			if(obj.get("machineNo")==null||obj.get("machineNo")==""){
-				wj.setExternalDiameter(null);
-			}else{
-				wj.setExternalDiameter(String.valueOf(obj.get("machineNo")));
+		try{
+			WeldedJunction wj = new WeldedJunction();
+			String taskstr = request.getParameter("taskstr");
+			ary = JSONArray.fromObject(taskstr);
+			Object[] objects = null;
+			for(int i=0;i<ary.size();i++){
+				obj = ary.getJSONObject(i); 
+				wj.setWeldedJunctionno(String.valueOf(obj.get("taskNo")));
+				wj.setSerialNo(String.valueOf(obj.get("desc")));
+				if(obj.get("welderNo")==null||obj.get("welderNo")==""){
+					wj.setUnit(null);
+				}else{
+					wj.setUnit(String.valueOf(obj.get("welderNo")));
+				}			
+				if(obj.get("machineNo")==null||obj.get("machineNo")==""){
+					wj.setExternalDiameter(null);
+				}else{
+					wj.setExternalDiameter(String.valueOf(obj.get("machineNo")));
+				}
+				Insframework itemid = new Insframework();
+				itemid.setId(new BigInteger(String.valueOf(obj.get("id"))));
+				wj.setItemid(itemid);
+				if(obj.get("starttime")==null||obj.get("starttime")==""){
+					wj.setStartTime(null);
+				}else{
+					wj.setStartTime(String.valueOf(obj.get("starttime")));
+				}
+				if(obj.get("starttime")==null||obj.get("starttime")==""){
+					wj.setEndTime(null);
+				}else{
+					wj.setEndTime(String.valueOf(obj.get("endtime")));
+				}
+				wjm.addTask(wj);
+				String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"giveToServer\"}";
+				String obj2 = "{\"TASKNO\":\""+obj.get("taskNo")+"\",\"WELDERNO\":\""+obj.get("welderNo")+"\",\"MACHINENO\":\""+obj.get("machineNo")+"\",\"STATUS\":\""+1+"\",\"TASKID\":\""+obj.get("taskid")+"\",\"WELDERID\":\""+obj.get("welderid")+"\",\"MACHINEID\":\""+obj.get("machineid")+"\",\"OPERATOR\":\""+user.getId()+"\",\"ID\":\""+obj.get("id")+"\",\"RESULT\":\"\",\"RESULTID\":\"\",\"STARTTIME\":\""+obj.get("starttime")+"\",\"ENDTIME\":\""+obj.get("endtime")+"\"}";
+				objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
+				
 			}
-			Insframework itemid = new Insframework();
-			itemid.setId(new BigInteger(String.valueOf(obj.get("id"))));
-			wj.setItemid(itemid);
-			if(obj.get("starttime")==null||obj.get("starttime")==""){
-				wj.setStartTime(null);
+			if(objects[0].toString().equals("true")){
+				obj.put("success", true);
 			}else{
-				wj.setStartTime(String.valueOf(obj.get("starttime")));
+				obj.put("success", false);
+				obj.put("errorMsg", "操作失败！");
 			}
-			if(obj.get("starttime")==null||obj.get("starttime")==""){
-				wj.setEndTime(null);
-			}else{
-				wj.setEndTime(String.valueOf(obj.get("endtime")));
-			}
-			wjm.addTask(wj);
-			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"giveToServer\"}";
-			String obj2 = "{\"TASKNO\":\""+obj.get("taskNo")+"\",\"WELDERNO\":\""+obj.get("welderNo")+"\",\"MACHINENO\":\""+obj.get("machineNo")+"\",\"STATUS\":\""+1+"\",\"TASKID\":\""+obj.get("taskid")+"\",\"WELDERID\":\""+obj.get("welderid")+"\",\"MACHINEID\":\""+obj.get("machineid")+"\",\"OPERATOR\":\""+user.getId()+"\",\"ID\":\""+obj.get("id")+"\",\"RESULT\":\"\",\"RESULTID\":\"\",\"STARTTIME\":\""+obj.get("starttime")+"\",\"ENDTIME\":\""+obj.get("endtime")+"\"}";
-			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
+		}catch(Exception e){
+			e.printStackTrace();
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
 		}
-		obj.put("success", true);
-	}catch(Exception e){
-		e.printStackTrace();
-		obj.put("success", false);
-		obj.put("errorMsg", e.getMessage());
+		return obj.toString();
 	}
-	return obj.toString();
+	
+	@RequestMapping("/getFreeWelder")
+	@ResponseBody
+	public String getFreeWelder(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String str = request.getParameter("searchStr");
+		page = new Page(pageIndex,pageSize,total);
+		List<Person> list = ps.getFreeWelder(page,str);
+		long total = 0;
+		if(list != null){
+			PageInfo<Person> pageinfo = new PageInfo<Person>(list);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(int i=0;i<list.size();i++){
+				json.put("id", list.get(i).getId());
+				json.put("name", list.get(i).getName());
+				json.put("welderno", list.get(i).getWelderno());
+				json.put("insname", list.get(i).getLevename());
+				json.put("qualiname", list.get(i).getQualiname());
+				json.put("back", list.get(i).getBack());
+				json.put("owner", list.get(i).getInsid());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getFreeJunction")
+	@ResponseBody
+	public String getFreeJunction(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String str = request.getParameter("searchStr");
+		page = new Page(pageIndex,pageSize,total);
+		List<WeldedJunction> list = wjm.getFreeJunction(page, str);
+		long total = 0;
+		if(list != null){
+			PageInfo<WeldedJunction> pageinfo = new PageInfo<WeldedJunction>(list);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(int i=0;i<list.size();i++){
+				json.put("id", list.get(i).getId());
+				json.put("junctionno", list.get(i).getWeldedJunctionno());
+				json.put("desc", list.get(i).getSerialNo());
+				json.put("itemid", list.get(i).getInsfid());
+				json.put("itemname", list.get(i).getUnit());
+				json.put("welderno", list.get(i).getPipelineNo());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getInsframework")
+	@ResponseBody
+	public String getInsframework(HttpServletRequest request,BigInteger id){
+		JSONObject obj = new JSONObject();
+		String serach="";
+		try{
+			int instype = insm.getTypeById(id);
+			int bz=0;
+			if(instype==20){
+				
+			}else if(instype==23){
+				serach = "w.Fowner="+id;
+			}else{
+				List<Insframework> ls = insm.getInsIdByParent(id,24);
+				for(Insframework inns : ls ){
+					if(bz==0){
+						serach=serach+"(w.Fowner="+inns.getId();
+					}else{
+						serach=serach+" or w.Fowner="+inns.getId();
+					}
+					bz++;
+				}
+				serach=serach+" or w.Fowner="+id+")";
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("success", serach);
+		return obj.toString();
 	}
 }

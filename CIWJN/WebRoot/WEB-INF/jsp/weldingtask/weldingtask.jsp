@@ -37,7 +37,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div id="body">
 	  	
 	  	<input id="userinsall"  name="userinsall" value="${userinsall}" type="hidden" />
-	  	
+	  	<div style="float:left">
+			任务状态：
+			<select class="easyui-combobox" name="status" id="status" data-options="editable:false">
+				<option value="999">请选择</option>
+				<option value="1">已完成</option>
+				<option value="0">未完成</option>
+				<option value="3">未分配</option>
+			</select>
+  		</div>
 	  	<div class="functiondiv">
 			<div>
 				<a href="javascript:addWeldedjunction();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -186,7 +194,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	<style type="text/css">
 	    #load{ display: none; position: absolute; left:0; top:0;width: 100%; height: 40%; background-color: #555753; z-index:10001; -moz-opacity: 0.4; opacity:0.5; filter: alpha(opacity=70);}
-		#show{display: none; position: absolute; top: 45%; left: 45%; width: 10%; height: 5%; padding: 8px; border: 8px solid #E8E9F7; background-color: white; z-index:10002; overflow: auto;}
+		#show{display: none; position: absolute; top: 45%; left: 45%; width: 180px; height: 5%; padding: 8px; border: 8px solid #E8E9F7; background-color: white; z-index:10002; overflow: auto;}
 	</style>
   </body>
 </html>

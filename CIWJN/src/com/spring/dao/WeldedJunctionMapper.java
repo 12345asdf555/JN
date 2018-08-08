@@ -36,4 +36,6 @@ public interface WeldedJunctionMapper extends Mapper<WeldedJunction>{
 	int getCountByTaskid(@Param("taskid")BigInteger taskid,@Param("type")BigInteger type);
 	
 	boolean addTask(WeldedJunction wj);
+	
+	List<WeldedJunction> getFreeJunction(@Param("str")String str);
 }

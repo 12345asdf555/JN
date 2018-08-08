@@ -89,13 +89,13 @@ function selectMachinenumber() {
 function weldingnumbersDatagrid(value) {
 	var url="";
 	if(value==1){
-		url="weldtask/getWedlingMachineList?searchStr="+"i.fid="+$("#userid").val()+" and w.fstatus_id=31"+" and w.fid not in (SELECT fmachineid FROM tb_taskresult WHERE foperatetype=0 OR foperatetype=2 GROUP BY fmachineid)"
+		url="weldtask/getWedlingMachineList?searchStr= w.fstatus_id=31 and w.fid not in (SELECT fmachineid FROM tb_taskresult WHERE foperatetype=0 OR foperatetype=2 GROUP BY fmachineid)"+$("#userid").val();
 	}else{
-		url="weldtask/getWedlingMachineList?searchStr="+"w.fstatus_id=31"+" and w.fid not in (SELECT fmachineid FROM tb_taskresult WHERE foperatetype=0 OR foperatetype=2 GROUP BY fmachineid)"
+		url="weldtask/getWedlingMachineList?searchStr= w.fstatus_id=31 and w.fid not in (SELECT fmachineid FROM tb_taskresult WHERE foperatetype=0 OR foperatetype=2 GROUP BY fmachineid)"
 	}
 	$("#wg").datagrid( {
-		height : $("#body").height(),
-		width : $("#body").width(),
+		height : $("#ddlg").height(),
+		width : $("#ddlg").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],

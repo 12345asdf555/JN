@@ -94,4 +94,11 @@ public interface WeldedJunctionService {
 	 * @return
 	 */
 	boolean addTask(WeldedJunction wj);
+	
+	/**
+	 * 查询空闲任务
+	 * @param str
+	 * @return
+	 */
+	List<WeldedJunction> getFreeJunction(Page page,String str);
 }

@@ -7,6 +7,7 @@ $(function(){
 			$("#fm").form("disableValidation");
 		}
 	});
+	itemidChange();
 	$("#fm").form("disableValidation");
 	$("#weldedJunctionno").textbox('textbox').blur(function(){
 		var wjno = $("#weldedJunctionno").val();
@@ -180,12 +181,12 @@ function WelderCombobox(){
 function selectWelder(){
 	  $('#fdlgSearch').show();
 	  $('#fdlg').window( {
-		    modal : true
-		  });
-		  $('#fdlg').window('open');
-		  searchStr=$("#userinsall").textbox('getValue');
-		  WelderDatagrid();
-		  symbol=1;
+	    modal : true
+	  });
+	  $('#fdlg').window('open');
+	  searchStr=$("#userinsall").val();
+	  WelderDatagrid();
+	  symbol=1;
 }
 
 var searchStr="";
@@ -196,7 +197,7 @@ function WelderDatagrid(){
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
-		url : "welders/getAllWelder?searchStr="+encodeURI(searchStr),
+		url : "weldtask/getFreeWelder?searchStr="+encodeURI(searchStr),
 		singleSelect : true,
 		rownumbers : true,
 		showPageList : false,
@@ -225,31 +226,24 @@ function WelderDatagrid(){
 			halign : "center",
 			align : "left"
 		},{
-			field : 'quali',
-			title : '资质id',
-			width : 100,
-			halign : "center",
-			align : "left",
-			hidden:true
-		}, {
 			field : 'qualiname',
 			title : '资质',
 			width : 100,
 			halign : "center",
 			align : "left"
 		},{
-			field : 'owner',
-			title : '部门id',
-			width : 100,
-			halign : "center",
-			align : "left",
-			hidden:true
-		}, {
-			field : 'ownername',
+			field : 'insname',
 			title : '部门',
 			width : 150,
 			halign : "center",
 			align : "left"
+		},{
+			field : 'owner',
+			title : '部门id',
+			width : 150,
+			halign : "center",
+			align : "left",
+			hidden : true
 		},{
 			field : 'back',
 			title : '备注',
@@ -266,16 +260,17 @@ function WelderDatagrid(){
                 return color;
             }
         },
-		nowrap : false
+		nowrap : false,
+		toolbar : '#fdlgSearch'
 	});
 }
 
 function dlgSearchGather(){
 	  if($("#searchname").val()){
-		    searchStr +=  " and tb_welder.fwelder_no=" + $("#searchname").val();
-		  }
-		  WelderDatagrid();
-		  searchStr = $("#userinsall").textbox('getValue');
+	    searchStr +=  " and tb_welder.fwelder_no=" + $("#searchname").val();
+	  }
+	  WelderDatagrid();
+	  searchStr = $("#userinsall").val();
 }
 
 function saveWelder(){
@@ -296,21 +291,25 @@ function cancelWelder(){
 	  $("#welderid").val()
 }
 
-$(document).ready(function () {
+function itemidChange(){
 	$("#itemid").combobox({
 		onSelect: function (record) {
 		  if(symbol==0){
 			  $("#pipelineNo").textbox('clear');
 			  $("#welderid").val()
 			  $('#fdlgSearch').hide();
-			  searchStr +=  " and tb_welder.Fowner=" + record.value;
+			  if(searchStr==null || searchStr==""){
+				  searchStr +=  " tb_welder.Fowner=" + record.value;
+			  }else{
+				  searchStr +=  " and tb_welder.Fowner=" + record.value;
+			  }
 			  WelderDatagrid();
 			  $('#fdlg').window( {
 				    title : "请选择对应组织机构下的焊工",
 				    modal : true
 			  });
 			  $('#fdlg').window('open');
-			  searchStr = $("#userinsall").textbox('getValue');
+			  searchStr = $("#userinsall").val();
 			  symbol=0;
 		  }
 		  if(symbol==2){
@@ -319,18 +318,23 @@ $(document).ready(function () {
 		  }
 		  if(symbol==1){
 			  $('#fdlgSearch').hide();
-			  searchStr +=  " and tb_welder.Fowner=" + record.value;
+			  if(searchStr==null || searchStr==""){
+				  searchStr +=  " tb_welder.Fowner=" + record.value;
+			  }else{
+				  searchStr +=  " and tb_welder.Fowner=" + record.value;
+			  }
 			  WelderDatagrid();
 			  $('#fdlg').window( {
 				    title : "请选择对应组织机构下的焊工",
 				    modal : true
 			  });
 			  $('#fdlg').window('open');
-			  searchStr = $("#userinsall").textbox('getValue');
+			  searchStr = $("#userinsall").val();
 			  symbol=0;
 		  }
-	}})
-})
+		}
+	})
+}
 
 function saveExportdlg(){
 	document.getElementById("load").style.display="block";

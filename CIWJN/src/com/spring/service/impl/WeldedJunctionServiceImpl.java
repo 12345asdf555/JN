@@ -85,8 +85,13 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService{
 
 	@Override
 	public boolean addTask(WeldedJunction wj) {
-		// TODO Auto-generated method stub
 		return wjm.addTask(wj);
+	}
+
+	@Override
+	public List<WeldedJunction> getFreeJunction(Page page,String str) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return wjm.getFreeJunction(str);
 	}
 
 }

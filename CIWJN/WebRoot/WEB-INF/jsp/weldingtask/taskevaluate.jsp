@@ -33,7 +33,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   <body>
   	<div id="body">
-  			<div id="load" style="width:100%;height:100%;"></div>
+  		<div id="load" style="width:100%;height:100%;"></div>
+  		<div style="float:left">
+ 			所属班组：
+			<select class="easyui-combobox" name="item" id="item" data-options="editable:false"></select>
+			任务状态：
+			<select class="easyui-combobox" name="status" id="status" data-options="editable:false">
+				<option value="999">请选择</option>
+				<option value="1">已完成</option>
+				<option value="0">未完成</option>
+			</select>
+			<a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-select" >搜索</a>
+  		</div>
   		<div class="functiondiv">
 			<div>
 				<a href="javascript:complete();" class="easyui-linkbutton" iconCls="icon-ok">确认完成</a>
@@ -60,16 +71,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		<!--评价 -->
 		<div id="mdlg" class="easyui-dialog" style="width: 450px; height: 400px; padding:3px 6px" closed="true" buttons="#mdlg-buttons">
-			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true">
-				<div class="fitem">
-          			<lable><span class="required">*</span>评价</lable>
-          			<textarea name="result" id="result" style="height:60px;width:150px"></textarea>
-       			 </div>  
+			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true"> 
 				<div class="fitem">
 					<lable><span class="required">*</span>评价等级</lable>
-<!-- 					<input type="hidden" id="resultid" /> -->
 					<select class="easyui-combobox" id="resultid"  name="resultid" data-options="required:true,editable:false"></select>
 				</div>
+				<div class="fitem">
+          			<lable>评价</lable>
+          			<textarea name="result" id="result" style="height:60px;width:150px"></textarea>
+       			</div> 
 			</form>
 		</div>
 		<div id="mdlg-buttons">
@@ -79,7 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<style type="text/css">
 		    #load{ display: none; position: absolute; left:0; top:0;width: 100%; height: 40%; background-color: #555753; z-index:10001; -moz-opacity: 0.4; opacity:0.5; filter: alpha(opacity=70);}
-			#show{display: none; position: absolute; top: 45%; left: 45%; width: 10%; height: 5%; padding: 8px; border: 8px solid #E8E9F7; background-color: white; z-index:10002; overflow: auto;}
+			#show{display: none; position: absolute; top: 45%; left: 45%; width: 180px; height: 5%; padding: 8px; border: 8px solid #E8E9F7; background-color: white; z-index:10002; overflow: auto;}
 		</style>
   </body>
 </html>

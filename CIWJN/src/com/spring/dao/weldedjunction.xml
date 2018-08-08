@@ -78,9 +78,20 @@
 	ORDER BY j.fid
 	</select>
 	
+	<select id="getFreeJunction" resultMap="wjMap">
+		SELECT j.fid,j.fwelded_junction_no,j.fserial_no,i.fid insfid,i.fname funit,w.fwelder_no fpipeline_no FROM tb_welded_junction j 
+		INNER JOIN tb_welder w on j.fdyne = w.fid INNER JOIN tb_insframework i on j.fitemId = i.fid 
+		where j.fid not in (SELECT DISTINCT(ftaskid) from tb_taskresult) 
+		<if test="str!=null and str!=''">
+			and ${str}
+		</if>
+	</select>
+	
 	<select id="getTaskResultAll" resultMap="wjMap" parameterType="java.lang.String">
-	  SELECT r.fid,r.ftaskid counts,r.fwelderid insfid,r.fmachineid machid,r.foperatetype fdyne,r.fresult fpipeline_no,r.fresultid fupdatecount,j.fwelded_junction_no,w.fwelder_no fserial_no,m.fequipment_no fequipment_no,d.fvaluename froom_no,r.foperatedate fupdatetime,r.frealstarttime fstart_time,r.frealendtime fend_time FROM tb_taskresult r 
+	  SELECT r.fid,r.ftaskid counts,r.fwelderid insfid,r.fmachineid machid,i.fid iid, i.fname iname,r.foperatetype fdyne,r.fresult fpipeline_no,r.fresultid fupdatecount,j.fwelded_junction_no,
+	  w.fwelder_no fserial_no,m.fequipment_no fequipment_no,d.fvaluename froom_no,r.foperatedate fupdatetime,r.frealstarttime fstart_time,r.frealendtime fend_time FROM tb_taskresult r 
 	  INNER JOIN tb_welded_junction j ON r.ftaskid=j.fid
+	  INNER JOIN tb_insframework i on j.fitemId = i.fid 
 	  LEFT JOIN tb_welding_machine m ON r.fmachineid=m.fid
 	  LEFT JOIN tb_welder w ON r.fwelderid=w.fid
 	  left JOIN tb_dictionary d ON r.fresultid=d.fvalue AND d.ftypeid=16

@@ -4,6 +4,7 @@ $(function(){
 	//dgDatagrid();
 //	typeCombobox();
 });
+
 function weldedJunctionDatagrid(){
 	$("#weldTaskTable").datagrid( {
 //		fitColumns : true,
@@ -71,18 +72,31 @@ function weldedJunctionDatagrid(){
 			align : "left",
 			hidden: true
 		},{
-			field : 'result',
-			title : '任务评价',
-//			width : 90,
-			halign : "center",
-			align : "left"
-		}, {
 			field : 'resultName',
 			title : '评价等级',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		},{
+			field : 'result',
+			title : '任务评价',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'itemid',
+			title : '班组id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden : true
+		},{
+			field : 'itemname',
+			title : '所属班组',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		}, {
 			field : 'resultid',
 			title : '评价id',
 //			width : 90,
@@ -117,7 +131,7 @@ function weldedJunctionDatagrid(){
         },{
 			field : 'operatetype',
 			title : '任务状态',
-//			width : 90,
+			width : 100,
 			halign : "center",
 			align : "left",
 			formatter: function(value,row,index){
@@ -133,7 +147,7 @@ function weldedJunctionDatagrid(){
 		},{
 			field : 'edit',
 			title : '编辑',
-			width : 220,
+			width : 150,
 			halign : "center",
 			align : "left",
 			formatter: function(value,row,index){
@@ -156,10 +170,10 @@ function weldedJunctionDatagrid(){
 	        $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 	        $("a[id='remove']").linkbutton({text:'取消',plain:true,iconCls:'icon-delete'});
 	        if($("#confirm").length!=0){
-				$("a[id='confirm']").linkbutton({text:'未完成',plain:true,iconCls:'icon-update'});
+				$("a[id='confirm']").linkbutton({text:'未完成',plain:true,iconCls:'icon-newcancel'});
 			}
 			if($("#confirm1").length!=0){
-				$("a[id='confirm1']").linkbutton({text:'已完成',plain:true,iconCls:'icon-update'});
+				$("a[id='confirm1']").linkbutton({text:'已完成',plain:true,iconCls:'icon-over'});
 			}
 		}
 	});
@@ -177,12 +191,12 @@ function itemcombobox(){
 	$.ajax({  
       type : "post",  
       async : false,
-      url : "weldtask/getAllInsframework",  
+      url : "weldingMachine/getInsframeworkAll",  
       data : {},  
       dataType : "json", //返回数据形式为json  
       success : function(result) {  
           if (result) {
-              var optionStr = '';
+              var optionStr = '<option value="0">请选择</option>';
               for (var i = 0; i < result.ary.length; i++) {  
                   optionStr += "<option value=\"" + result.ary[i].id + "\" >"  
                           + result.ary[i].name + "</option>";
@@ -195,6 +209,7 @@ function itemcombobox(){
       }  
 	}); 
 	$("#item").combobox();
+	$("#item").combobox('select',0);
 }
 
 function confim(){}
@@ -296,6 +311,25 @@ function confirm(){
 
 		}
 	});
+}
+
+function serach(){
+	var searchStr = "";
+	var parent = "";
+	var itemid = $("#item").combobox("getValue");
+	var status = $("#status").combobox("getValue");
+	if(itemid!=0){
+		parent = "i.fid = "+itemid;
+	}
+	if(status==1){
+		searchStr = " foperatetype=1";
+	}else if(status==0){
+		searchStr = " foperatetype=0 or foperatetype=2";
+	}
+	$("#weldTaskTable").datagrid('reload',{
+		"searchStr" : searchStr,
+		"parent" : parent
+	})
 }
 
 //监听窗口大小变化

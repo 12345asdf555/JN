@@ -5,7 +5,7 @@ function removeWeldedjunction(){
 	$.ajax({  
 	      type : "post",  
 	      async : false,
-	      url : "weldedjunction/getCouneByTaskid?taskid="+row.id,  
+	      url : "weldedjunction/getCouneByTaskid?taskid="+row.id+"&type="+"",  
 	      data : {},  
 	      dataType : "json", //返回数据形式为json  
 	      success : function(result) {  
