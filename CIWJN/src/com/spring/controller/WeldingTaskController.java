@@ -2,6 +2,8 @@ package com.spring.controller;
 
 import java.math.BigInteger;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -681,6 +683,7 @@ public class WeldingTaskController {
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
 		JSONObject obj = new JSONObject();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		//客户端执行操作
 		JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
@@ -708,19 +711,12 @@ public class WeldingTaskController {
 				Insframework itemid = new Insframework();
 				itemid.setId(new BigInteger(String.valueOf(obj.get("id"))));
 				wj.setItemid(itemid);
-				if(obj.get("starttime")==null||obj.get("starttime")==""){
-					wj.setStartTime(null);
-				}else{
-					wj.setStartTime(String.valueOf(obj.get("starttime")));
-				}
-				if(obj.get("starttime")==null||obj.get("starttime")==""){
-					wj.setEndTime(null);
-				}else{
-					wj.setEndTime(String.valueOf(obj.get("endtime")));
-				}
-				wjm.addTask(wj);
+				wj.setStartTime(String.valueOf(obj.get("starttime")));
+				wj.setEndTime(sdf.format(new Date()));
+				System.out.println(sdf.format(new Date()));
+/*				wjm.addTask(wj);*/
 				String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"giveToServer\"}";
-				String obj2 = "{\"TASKNO\":\""+obj.get("taskNo")+"\",\"WELDERNO\":\""+obj.get("welderNo")+"\",\"MACHINENO\":\""+obj.get("machineNo")+"\",\"STATUS\":\""+1+"\",\"TASKID\":\""+obj.get("taskid")+"\",\"WELDERID\":\""+obj.get("welderid")+"\",\"MACHINEID\":\""+obj.get("machineid")+"\",\"OPERATOR\":\""+user.getId()+"\",\"ID\":\""+obj.get("id")+"\",\"RESULT\":\"\",\"RESULTID\":\"\",\"STARTTIME\":\""+obj.get("starttime")+"\",\"ENDTIME\":\""+obj.get("endtime")+"\"}";
+				String obj2 = "{\"TASKNO\":\""+obj.get("taskNo")+"\",\"WELDERNO\":\""+obj.get("welderNo")+"\",\"MACHINENO\":\""+obj.get("machineNo")+"\",\"STATUS\":\""+1+"\",\"TASKID\":\""+obj.get("taskid")+"\",\"WELDERID\":\""+obj.get("welderid")+"\",\"MACHINEID\":\""+obj.get("machineid")+"\",\"OPERATOR\":\""+user.getId()+"\",\"ID\":\""+obj.get("id")+"\",\"RESULT\":\"\",\"RESULTID\":\"\",\"STARTTIME\":\""+obj.get("starttime")+"\",\"ENDTIME\":\""+sdf.format(new Date())+"\"}";
 				objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
 				
 			}

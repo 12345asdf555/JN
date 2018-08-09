@@ -239,7 +239,7 @@ function evaluation(){
 			$('#resultid').combobox('select',data[0].value);
 		}
 		//$('#resultid').combobox('select', row.resultName);
-		url = "weldtask/getEvaluate?id="+row.id+"&taskid="+row.taskid+"&welderid="+row.welderid+"&machineid="+row.machineid;
+		url = "weldtask/getEvaluate?id="+row.id+"&taskid="+row.taskid+"&welderid="+row.welderid+"&machineid="+row.machineid+"&starttime="+row.starttime+"&endtime="+row.endtime;
 	}
 }
 }
@@ -451,7 +451,7 @@ function confirm(){
 			document.getElementById("show").style.display="block";
 			var row = $('#weldTaskTable').datagrid('getSelected');
 			url = "weldtask/getEvaluate?id="+row.id+"&taskid="+row.taskid+"&welderid="+row.welderid+"&machineid="+row.machineid;
-			url2=url+"&result="+""+"&resultid="+""+"&welderNo="+row.welderNo+"&operateid="+temp+"&taskNo="+row.taskNo+"&machineNo="+row.machineNo;
+			url2=url+"&result="+""+"&resultid="+""+"&welderNo="+row.welderNo+"&operateid="+temp+"&taskNo="+row.taskNo+"&machineNo="+row.machineNo+"&starttime="+row.starttime+"&endtime="+getNowFormatDate();
 			$.ajax({  
 			      type : "post",  
 			      async : false,
@@ -495,7 +495,7 @@ function dgConfirm(){
 			document.getElementById("show").style.display="block";
 			var row = $('#weg').datagrid('getSelected');
 			url = "weldtask/getEvaluate?id="+row.id+"&taskid="+row.taskid+"&welderid="+row.welderid+"&machineid="+row.machineid;
-			url2=url+"&result="+""+"&resultid="+""+"&welderNo="+row.welderNo+"&operateid="+temp+"&taskNo="+row.taskNo+"&machineNo="+row.machineNo;
+			url2=url+"&result="+""+"&resultid="+""+"&welderNo="+row.welderNo+"&operateid="+temp+"&taskNo="+row.taskNo+"&machineNo="+row.machineNo+"&starttime="+row.starttime+"&endtime="+getNowFormatDate();
 			$.ajax({  
 			      type : "post",  
 			      async : false,
@@ -644,6 +644,25 @@ function itemcombobox(){
 	$("#item").combobox();
 	$("#item").combobox('select',0);
 }
+
+//获取当前时间并格式化
+function getNowFormatDate() {
+    var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes()
+            + seperator2 + date.getSeconds();
+    return currentdate;
+}  
 
 //监听窗口大小变化
 window.onresize = function() {

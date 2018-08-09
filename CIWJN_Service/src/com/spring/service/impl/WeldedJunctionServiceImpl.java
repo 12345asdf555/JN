@@ -302,12 +302,12 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 						int count = wjm.getCountBySatus(new BigInteger(taskid),new BigInteger(welderid),new BigInteger(machineid),status);
 						if(count<2){
 							wj.setStartTime(json.getString("STARTTIME"));
-							wj.setEndTime(json.getString("STARTTIME"));
+							wj.setEndTime(json.getString("ENDTIME"));
 							wjm.addTaskResult(wj);
 						}else{
 							wj.setId(new BigInteger(json.getString("ID")));
 							wj.setStartTime(json.getString("STARTTIME"));
-							wj.setEndTime(json.getString("STARTTIME"));
+							wj.setEndTime(json.getString("ENDTIME"));
 							wjm.updateTaskResult(wj);
 						}
 					} catch (InterruptedException e) {
