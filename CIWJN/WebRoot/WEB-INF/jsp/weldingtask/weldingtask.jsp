@@ -107,11 +107,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<select class="easyui-combobox" id="itemid"  name="itemid" data-options="required:true,editable:false"></select>
 				</div>
 				<div class="fitem">
-					<lable><span class="required"></span>开始时间</lable>
+					<lable><span class="required"></span>计划开始时间</lable>
 					<input class="easyui-datetimebox" name="dtoTime1" id="dtoTime1">
 				</div>
 				<div class="fitem">
-					<lable><span class="required"></span>结束时间</lable>
+					<lable><span class="required"></span>计划结束时间</lable>
 					<input class="easyui-datetimebox" name="dtoTime2" id="dtoTime2">
 				</div>
 			</form>
@@ -176,11 +176,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input class="easyui-textbox" id="itemname"  name="itemname" readonly="readonly">
 				</div>
 				<div class="fitem">
-					<lable><span class="required"></span>开始时间</lable>
+					<lable><span class="required"></span>计划开始时间</lable>
 					<input class="easyui-textbox" name="dtoTime1" id="dtoTime1" readonly="readonly">
 				</div>
 				<div class="fitem">
-					<lable><span class="required"></span>结束时间</lable>
+					<lable><span class="required"></span>计划结束时间</lable>
 					<input class="easyui-textbox" name="dtoTime2" id="dtoTime2" readonly="readonly">
 				</div>
 			</form>
