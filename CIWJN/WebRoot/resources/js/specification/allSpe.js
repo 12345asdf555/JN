@@ -253,9 +253,107 @@ function history(){
         }
 	}
 });
-
-
 }
+
+$(document).ready(function () {
+	$("#fadvance").numberbox({
+	    "onChange":function(newvalue,oldvalue){
+	         if(newvalue<0||newvalue>100){
+	        	 alert("提前送气范围：0~100");
+	        	 $("#fadvance").numberbox('setValue',oldvalue);
+	         }
+	    }
+	  });
+	$("#fini_ele").numberbox({
+	    "onChange":function(newvalue,oldvalue){
+	         if(newvalue<30||newvalue>550){
+	        	 alert("初期电流范围：30~550");
+	        	 $("#fini_ele").numberbox('setValue',oldvalue);
+	         }
+	    }
+	  });
+	$("#fini_vol").numberbox({
+	    "onChange":function(newvalue,oldvalue){
+	         if(newvalue<12||newvalue>50){
+	        	 alert("初期电压范围：12~50");
+	        	 $("#fini_vol").numberbox('setValue',oldvalue);
+	         }
+	    }
+	  });
+	$("#fini_vol1").numberbox({
+	    "onChange":function(newvalue,oldvalue){
+	         if(newvalue<(-30)||newvalue>(30)){
+	        	 alert("初期电压一元范围：-30~30");
+	        	 $("#fini_vol1").numberbox('setValue',oldvalue);
+	         }
+	    }
+	  });
+	$("#fweld_ele").numberbox({
+	    "onChange":function(newvalue,oldvalue){
+	         if(newvalue<30||newvalue>550){
+	        	 alert("焊接电流范围：30~550");
+	        	 $("#fweld_ele").numberbox('setValue',oldvalue);
+	         }
+	    }
+	  });
+	$("#fweld_vol").numberbox({
+	    "onChange":function(newvalue,oldvalue){
+	         if(newvalue<12||newvalue>50){
+	        	 alert("焊接电压范围：12~50");
+	        	 $("#fweld_vol").numberbox('setValue',oldvalue);
+	         }
+	    }
+	  });
+	$("#fweld_vol1").numberbox({
+	    "onChange":function(newvalue,oldvalue){
+	         if(newvalue<(-30)||newvalue>(30)){
+	        	 alert("焊接电压一元范围：-30~30");
+	        	 $("#fweld_vol1").numberbox('setValue',oldvalue);
+	         }
+	    }
+	  });
+	$("#farc_ele").numberbox({
+	    "onChange":function(newvalue,oldvalue){
+	         if(newvalue<30||newvalue>550){
+	        	 alert("收弧电流范围：30~550");
+	        	 $("#farc_ele").numberbox('setValue',oldvalue);
+	         }
+	    }
+	  });
+	$("#farc_vol").numberbox({
+	    "onChange":function(newvalue,oldvalue){
+	         if(newvalue<12||newvalue>50){
+	        	 alert("收弧电压范围：12~50");
+	        	 $("#farc_vol").numberbox('setValue',oldvalue);
+	         }
+	    }
+	  });
+	$("#farc_vol1").numberbox({
+	    "onChange":function(newvalue,oldvalue){
+	         if(newvalue<(-30)||newvalue>(30)){
+	        	 alert("收弧电压一元范围：-30~30");
+	        	 $("#farc_vol1").numberbox('setValue',oldvalue);
+	         }
+	    }
+	  });
+	$("#fhysteresis").numberbox({
+	    "onChange":function(newvalue,oldvalue){
+	         if(newvalue<0||newvalue>100){
+	        	 alert("滞后送气范围：0~100");
+	        	 $("#fhysteresis").numberbox('setValue',oldvalue);
+	         }
+	    }
+	  });
+	$("#fcharacter").numberbox({
+	    "onChange":function(newvalue,oldvalue){
+	         if(newvalue<(-99)||newvalue>(99)){
+	        	 alert("电弧特性范围：-99~99");
+	        	 $("#fcharacter").numberbox('setValue',oldvalue);
+	         }
+	    }
+	  });
+})
+
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize, 500);

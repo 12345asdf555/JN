@@ -91,25 +91,6 @@ function ws() {
 $(document).ready(function () {
 	$("#chanel").combobox({
 		onSelect: function (record) {
-    		$("#ftime").numberbox('clear');
-    		$("#fadvance").numberbox('clear');
-    		$("#fini_ele").numberbox('clear');
-    		$("#fini_vol").numberbox('clear');
-    		$("#fweld_vol").numberbox('clear');
-    		$("#farc_vol").numberbox('clear');
-    		$("#fini_vol1").numberbox('clear');
-    		$("#fweld_vol1").numberbox('clear');
-    		$("#farc_vol1").numberbox('clear');
-    		$("#fweld_ele").numberbox('clear');
-    		$("#farc_ele").numberbox('clear');
-    		$("#fhysteresis").numberbox('clear');
-    		$("#fcharacter").numberbox('clear');
-    		$("#fweld_tuny_ele").numberbox('clear');
-    		$("#fweld_tuny_vol").numberbox('clear');
-    		$("#farc_tuny_ele").numberbox('clear');
-    		$("#farc_tuny_vol").numberbox('clear');
-    		$("#farc_tuny_vol1").numberbox('clear');
-    		$("#fweld_tuny_vol1").numberbox('clear');
     		$('#fgas').combobox('unselect');
     		$('#fdiameter').combobox('unselect');
     		$('#fmaterial').combobox('unselect');
@@ -131,17 +112,10 @@ $(document).ready(function () {
 			        	if(yshu.length!=0){
 			      		$('#chanel').combobox('select',yshu[0].FWPSNum);
 			      		$('#fselect').combobox('select',yshu[0].Fweld_I_MAX);
-			    		$("#ftime").numberbox('setValue',yshu[0].ftime);
 			    		$("#fadvance").numberbox('setValue',yshu[0].fadvance);
-			    		$("#fini_ele").numberbox('setValue',yshu[0].fini_ele);
-			    		$("#fini_vol").numberbox('setValue',yshu[0].fini_vol);
-			    		$("#fini_vol1").numberbox('setValue',yshu[0].fini_vol1);
 			    		$("#fweld_vol").numberbox('setValue',yshu[0].fweld_vol);
 			    		$("#fweld_vol1").numberbox('setValue',yshu[0].fweld_vol1);
-			    		$("#farc_vol").numberbox('setValue',yshu[0].farc_vol);
-			    		$("#farc_vol1").numberbox('setValue',yshu[0].farc_vol1);
 			    		$("#fweld_ele").numberbox('setValue',yshu[0].fweld_ele);
-			    		$("#farc_ele").numberbox('setValue',yshu[0].farc_ele);
 			    		$("#fhysteresis").numberbox('setValue',yshu[0].fhysteresis);
 			    		$("#fcharacter").numberbox('setValue',yshu[0].Fweld_V_MAX);
 			    		$('#fgas').combobox('select',yshu[0].Fweld_Alter_V);
@@ -149,9 +123,6 @@ $(document).ready(function () {
 			    		$('#fmaterial').combobox('select',yshu[0].Fweld_Alter_I);
 			    		$("#fweld_tuny_ele").numberbox('setValue',yshu[0].fweld_tuny_ele);
 			    		$("#fweld_tuny_vol").numberbox('setValue',yshu[0].fweld_tuny_vol);
-			    		$("#farc_tuny_ele").numberbox('setValue',yshu[0].farc_tuny_ele);
-			    		$("#farc_tuny_vol").numberbox('setValue',yshu[0].Fdiameter);
-			    		$("#farc_tuny_vol1").numberbox('setValue',yshu[0].Fdiameter);
 			    		$("#fweld_tuny_vol1").numberbox('setValue',yshu[0].fweld_tuny_vol);
 			    		if(yshu[0].Fweld_I=="1"){
 			    			$("#finitial").prop("checked",true);
@@ -164,7 +135,8 @@ $(document).ready(function () {
 			    			$("#fmode").prop("checked",true);
 			    		}
 			        	}else{
-			        		alert("未查询到相关数据，请尝试索取。");
+			        		chushihua();
+			        		alert("未查询到相关数据，已初始化，也可尝试索取。");
 			        	}
 			          }
 			      },
@@ -186,31 +158,22 @@ function chushihua(){
 	$("#finitial").prop("checked",false);
 	$("#fcontroller").prop("checked",false);
 	$('#fselect').combobox('select',102);
-	$("#ftime").numberbox('setValue',30.0);
 	$("#fadvance").numberbox('setValue',1.0);
-	$("#fini_ele").numberbox('setValue',100);
 	$("#fweld_ele").numberbox('setValue',100);
-	$("#farc_ele").numberbox('setValue',100);
 	$("#fhysteresis").numberbox('setValue',1.0);
 	$("#fcharacter").numberbox('setValue',0);
 	$('#fgas').combobox('select',121);
 	$('#fdiameter').combobox('select',132);
 	$('#fmaterial').combobox('select',91);
 	$("#fweld_tuny_ele").numberbox('setValue',0);
-	$("#farc_tuny_ele").numberbox('setValue',0);
-	$("#fini_vol").numberbox('setValue',19.0);
 	$("#fweld_vol").numberbox('setValue',19.0);
-	$("#farc_vol").numberbox('setValue',19.0);
 	$("#fweld_tuny_vol").numberbox('setValue',0.0);
-	$("#farc_tuny_vol").numberbox('setValue',0.0);
-	$("#fini_vol1").numberbox('setValue',0);
 	$("#fweld_vol1").numberbox('setValue',0);
-	$("#farc_vol1").numberbox('setValue',0);
 	$("#fweld_tuny_vol1").numberbox('setValue',0);
-	$("#farc_tuny_vol1").numberbox('setValue',0);
 }
 
 $(document).ready(function () {
+    var mySelect=$("#fgas option");
 	$("#fselect").combobox({
 		onSelect: function (record) {
 		if(node11!=null){
@@ -228,8 +191,118 @@ $(document).ready(function () {
 			}
 		}
 	});
+
+	$("#fmaterial").combobox({
+		onSelect: function (record) {
+			if(record.value==91){
+				$('#fgas').combobox('clear');
+				$('#fgas').combobox('loadData', [{"text": "CO2", "value": "121"},{"text": "MAG", "value": "122"}]);
+				$('#fdiameter').combobox('clear');
+				$('#fdiameter').combobox('loadData', [{"text": "Φ1.0", "value": "131"},{"text": "Φ1.2", "value": "132"},{"text": "Φ1.4", "value": "133"},{"text": "Φ1.6", "value": "134"}]);
+			}else if(record.value==92){
+				$('#fgas').combobox('clear');
+				$('#fgas').combobox('loadData', [{"text": "MIG", "value": "123"}]);
+				$('#fdiameter').combobox('clear');
+				$('#fdiameter').combobox('loadData', [{"text": "Φ1.2", "value": "132"},{"text": "Φ1.6", "value": "134"}]);
+			}else if(record.value==93){
+				$('#fgas').combobox('clear');
+				$('#fgas').combobox('loadData', [{"text": "CO2", "value": "121"}]);
+				$('#fdiameter').combobox('clear');
+				$('#fdiameter').combobox('loadData', [{"text": "Φ1.2", "value": "132"},{"text": "Φ1.4", "value": "133"},{"text": "Φ1.6", "value": "134"}]);
+			}else{
+				$('#fgas').combobox('clear');
+				$('#fgas').combobox('loadData', [{"text": "CO2", "value": "121"}]);
+				$('#fdiameter').combobox('clear');
+				$('#fdiameter').combobox('loadData', [{"text": "Φ1.2", "value": "132"},{"text": "Φ1.6", "value": "134"}]);
+			}
+			var fgas = $('#fgas').combobox('getData');
+			var fdiameter = $('#fdiameter').combobox('getData');
+			$('#fgas').combobox('select',fgas[0].value);
+			$('#fdiameter').combobox('select',fdiameter[0].value);
+		}
+	});
+	$("#farc").combobox({
+		onSelect: function (record) {
+			if(record.value==111){
+				$('#farc_ele').numberbox("disable",true);
+				$('#farc_vol').numberbox("disable",true);
+				$('#farc_tuny_ele').numberbox("disable",true);
+				$('#farc_tuny_vol').numberbox("disable",true);
+				$('#farc_tuny_vol1').numberbox("disable",true);
+				$('#farc_vol1').numberbox("disable",true);
+				$('#ftime').numberbox("disable",true);
+				$('#fini_ele').numberbox("disable",true);
+				$('#fini_vol').numberbox("disable",true);
+				$('#fini_vol1').numberbox("disable",true);
+			}else if(record.value==112){
+				$('#farc_ele').numberbox("enable",true);
+				$('#farc_vol').numberbox("enable",true);
+				$('#farc_tuny_ele').numberbox("enable",true);
+				$('#farc_tuny_vol').numberbox("enable",true);
+				$('#farc_tuny_vol1').numberbox("enable",true);
+				$('#farc_vol1').numberbox("enable",true);
+				$('#ftime').numberbox("disable",true);
+				if($("#finitial").is(":checked")){
+					$('#fini_ele').numberbox("enable",true);
+					$('#fini_vol').numberbox("enable",true);
+					$('#fini_vol1').numberbox("enable",true);
+				}else{
+					$('#fini_ele').numberbox("disable",true);
+					$('#fini_vol').numberbox("disable",true);
+					$('#fini_vol1').numberbox("disable",true);
+				}
+			}else if(record.value==113){
+				$('#farc_ele').numberbox("enable",true);
+				$('#farc_vol').numberbox("enable",true);
+				$('#farc_tuny_ele').numberbox("enable",true);
+				$('#farc_tuny_vol').numberbox("enable",true);
+				$('#farc_tuny_vol1').numberbox("enable",true);
+				$('#farc_vol1').numberbox("enable",true);
+				$('#ftime').numberbox("disable",true);
+				if($("#finitial").is(":checked")){
+					$('#fini_ele').numberbox("enable",true);
+					$('#fini_vol').numberbox("enable",true);
+					$('#fini_vol1').numberbox("enable",true);
+				}else{
+					$('#fini_ele').numberbox("disable",true);
+					$('#fini_vol').numberbox("disable",true);
+					$('#fini_vol1').numberbox("disable",true);
+				}
+			}else{
+				$('#farc_ele').numberbox("disable",true);
+				$('#farc_vol').numberbox("disable",true);
+				$('#farc_tuny_ele').numberbox("disable",true);
+				$('#farc_tuny_vol').numberbox("disable",true);
+				$('#farc_tuny_vol1').numberbox("disable",true);
+				$('#farc_vol1').numberbox("disable",true);
+				$('#fini_ele').numberbox("disable",true);
+				$('#fini_vol').numberbox("disable",true);
+				$('#fini_vol1').numberbox("disable",true);
+				$('#ftime').numberbox("enable",true);
+				$('#ftime').numberbox("enable",true);
+			}
+		}
+	});
+	
+	$("#finitial").click(function(){
+		if($("#finitial").is(":checked")){
+			if($('#farc').combobox('getValue')==112||$('#farc').combobox('getValue')==113){
+				$('#fini_ele').numberbox("enable",true);
+				$('#fini_vol').numberbox("enable",true);
+				$('#fini_vol1').numberbox("enable",true);
+			}else{
+				$('#fini_ele').numberbox("disable",true);
+				$('#fini_vol').numberbox("disable",true);
+				$('#fini_vol1').numberbox("disable",true);
+			}
+		}else{
+			$('#fini_ele').numberbox("disable",true);
+			$('#fini_vol').numberbox("disable",true);
+			$('#fini_vol1').numberbox("disable",true);
+		}
+	});
 });
- 
+
  var url = "";
 var flag = 1;
 function addSpe(){
@@ -492,13 +565,15 @@ function suoqu(){
 		}else{
 			$("#finitial").prop("checked",false);
 		}
-		if(sconx.substring(3,6)=="000"){
+		if(sconx.substring(6,7)=="0"){
 			$('#farc').combobox('select',111);
-		}else if(sconx.substring(1,4)=="001"){
-			$('#farc').combobox('select',112);
-		}else if(sconx.substring(1,4)=="010"){
-			$('#farc').combobox('select',113);
 		}else{
+			$('#farc').combobox('select',112);
+		}
+		if(sconx.substring(5,6)=="1"){
+			$('#farc').combobox('select',113);
+		}
+		if(sconx.substring(4,5)=="1"){
 			$('#farc').combobox('select',114);
 		}
 		if(sconx.substring(2,3)=="0"){
