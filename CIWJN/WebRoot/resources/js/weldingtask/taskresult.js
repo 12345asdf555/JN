@@ -119,13 +119,13 @@ function weldedJunctionDatagrid(){
 			align : "left"
         },{
 			field : 'starttime',
-			title : '开始时间',
+			title : '实际开始时间',
 //			width : 100,
 			halign : "center",
 			align : "left"
         },{
 			field : 'endtime',
-			title : '结束时间',
+			title : '实际结束时间',
 //			width : 100,
 			halign : "center",
 			align : "left"

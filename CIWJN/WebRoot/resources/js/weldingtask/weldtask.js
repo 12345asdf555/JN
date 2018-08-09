@@ -96,13 +96,13 @@ function weldedJunctionDatagrid(){
 			align : "left"
 		}, {
 			field : 'dtoTime1',
-			title : '开始时间',
+			title : '计划开始时间',
 //			width : 150,
 			halign : "center",
 			align : "left"
 		},{
 			field : 'dtoTime2',
-			title : '结束时间',
+			title : '计划结束时间',
 //			width : 150,
 			halign : "center",
 			align : "left"
@@ -221,13 +221,13 @@ function dayinDatagrid(){
 			align : "left"
 		}, {
 			field : 'dtoTime1',
-			title : '开始时间',
+			title : '计划开始时间',
 //			width : 150,
 			halign : "center",
 			align : "left"
 		},{
 			field : 'dtoTime2',
-			title : '结束时间',
+			title : '计划结束时间',
 //			width : 150,
 			halign : "center",
 			align : "left"
@@ -302,13 +302,13 @@ function exporttable(){
 			align : "left"
 		}, {
 			field : 'start',
-			title : '开始时间',
+			title : '计划开始时间',
 //			width : 150,
 			halign : "center",
 			align : "left"
 		},{
 			field : 'end',
-			title : '结束时间',
+			title : '计划结束时间',
 //			width : 150,
 			halign : "center",
 			align : "left"
