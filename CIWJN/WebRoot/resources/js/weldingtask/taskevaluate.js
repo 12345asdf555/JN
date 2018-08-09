@@ -1,6 +1,7 @@
 $(function(){
 	weldedJunctionDatagrid();
 	WeldingMachineDatagrid();
+	serach();
 	typeCombobox();
 	itemcombobox();
 });
@@ -573,22 +574,48 @@ function saveWeldingnumber(){
 	$('#sdlg').dialog('close');
 }
 
+var searchStr = "";
+var parent = "";
 function serach(){
-	var searchStr = "";
-	var parent = "";
-	var itemid = $("#item").combobox("getValue");
-	var status = $("#status").combobox("getValue");
-	if(itemid!=0){
-		parent = "i.fid = "+itemid;
-	}
-	if(status==1){
-		searchStr = " foperatetype=1";
-	}else if(status==0){
-		searchStr = " foperatetype=0 or foperatetype=2";
-	}
-	$("#weldTaskTable").datagrid('reload',{
-		"searchStr" : searchStr,
-		"parent" : parent
+	$("#item").combobox({
+		onChange : function(newValue,oldValue){
+			var itemid = $("#item").combobox("getValue");
+			var status = $("#status").combobox("getValue");
+			if(itemid!=0){
+				parent = "i.fid = "+itemid;
+			}
+			if(status==1){
+				searchStr = " foperatetype=1";
+			}else if(status==0){
+				searchStr = " foperatetype=0 or foperatetype=2";
+			}
+			$("#weldTaskTable").datagrid('reload',{
+				"searchStr" : searchStr,
+				"parent" : parent
+			})
+			searchStr = "";
+			parent = "";
+		}
+	})
+	$("#status").combobox({
+		onChange : function(newValue,oldValue){
+			var itemid = $("#item").combobox("getValue");
+			var status = $("#status").combobox("getValue");
+			if(itemid!=0){
+				parent = "i.fid = "+itemid;
+			}
+			if(status==1){
+				searchStr = " foperatetype=1";
+			}else if(status==0){
+				searchStr = " foperatetype=0 or foperatetype=2";
+			}
+			$("#weldTaskTable").datagrid('reload',{
+				"searchStr" : searchStr,
+				"parent" : parent
+			})
+			searchStr = "";
+			parent = "";
+		}
 	})
 }
 

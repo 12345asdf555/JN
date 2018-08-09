@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<option value="1">已完成</option>
 				<option value="0">未完成</option>
 			</select>
-			<a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-select" >搜索</a>
+			<!-- <a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-select" >搜索</a> -->
   		</div>
   		<div class="functiondiv">
 			<div>
