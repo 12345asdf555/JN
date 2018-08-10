@@ -13,7 +13,7 @@ $(function(){
 		var wjno = $("#weldedJunctionno").val();
 		if(wjno.length!=0){
 			var len = wjno.length;
-			if(len!=6){
+			if(len!=8){
 				for(var i=0;i<8-len;i++){
 					wjno = "0"+wjno;
 				}

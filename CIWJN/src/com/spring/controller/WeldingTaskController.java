@@ -433,7 +433,7 @@ public class WeldingTaskController {
 		try{
 			//客户端执行操作
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient("http://121.196.222.216:8080/CIWJN_Service/cIWJNWebService?wsdl");
+			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
 			iutil.Authority(client);
 			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"addJunction\"}";
 			String obj2 = "{\"JUNCTIONNO\":\""+request.getParameter("weldedJunctionno")+"\",\"SERIALNO\":\""+request.getParameter("serialNo")+"\",\"DYNE\":\""+request.getParameter("fwelderid")+"\"," +
@@ -462,7 +462,7 @@ public class WeldingTaskController {
 		try{
 			//客户端执行操作
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient("http://121.196.222.216:8080/CIWJN_Service/cIWJNWebService?wsdl");
+			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
 			iutil.Authority(client);
 			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"updateJunction\"}";
 			String obj2 = "{\"ID\":\""+request.getParameter("id")+"\",\"JUNCTIONNO\":\""+request.getParameter("weldedJunctionno")+"\",\"SERIALNO\":\""+request.getParameter("serialNo")+"\",\"DYNE\":\""+request.getParameter("fwelderid")+"\"," +
@@ -492,7 +492,7 @@ public class WeldingTaskController {
 		try{
 			//客户端执行操作
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient("http://121.196.222.216:8080/CIWJN_Service/cIWJNWebService?wsdl");
+			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
 			iutil.Authority(client);
 			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"deleteJunction\"}";
 			String obj2 = "{\"ID\":\""+request.getParameter("id")+"\",\"INSFID\":\""+request.getParameter("insfid")+"\"}";
@@ -606,7 +606,7 @@ public class WeldingTaskController {
 			MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			//客户端执行操作
 			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient("http://121.196.222.216:8080/CIWJN_Service/cIWJNWebService?wsdl");
+			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
 			iutil.Authority(client);
 			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"giveToServer\"}";
 			String obj2 = "{\"TASKNO\":\""+request.getParameter("taskNo")+"\",\"WELDERNO\":\""+request.getParameter("welderNo")+"\",\"MACHINENO\":\""+request.getParameter("machineNo")+"\",\"STATUS\":\""+request.getParameter("operateid")+"\",\"TASKID\":\""+request.getParameter("taskid")+"\",\"WELDERID\":\""+request.getParameter("welderid")+"\",\"MACHINEID\":\""+request.getParameter("machineid")+"\",\"OPERATOR\":\""+user.getId()+"\",\"ID\":\""+request.getParameter("id")+"\",\"RESULT\":\""+request.getParameter("result")+"\",\"RESULTID\":\""+request.getParameter("resultid")+"\",\"STARTTIME\":\""+request.getParameter("starttime")+"\",\"ENDTIME\":\""+request.getParameter("endtime")+"\"}";
@@ -687,7 +687,7 @@ public class WeldingTaskController {
 		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		//客户端执行操作
 		JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-		Client client = dcf.createClient("http://121.196.222.216:8080/CIWJN_Service/cIWJNWebService?wsdl");
+		Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
 		iutil.Authority(client);
 		try{
 			WeldedJunction wj = new WeldedJunction();
