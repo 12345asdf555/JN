@@ -99,10 +99,11 @@ $(function(){
 		        	fmch=eval(result.rows);
 		        	for(var f=0;f<fmch.length;f++){
 						var	str = '<div style="width:25%;height:20%;float:left">'+
-						'<div style="width:30%;height:100%;float:left"><img id='+f+' src="resources/images/WDgj.png" onclick="javascript:imgfun(this.id)" width="100%" height="70%"></div>'+
+						'<div style="width:30%;height:100%;float:left"><img id='+f+' src="resources/images/WDgj.png" onclick="javascript:imgfun(this.id,fmch['+f+'].fequipment_no)" width="100%" height="70%"></div>'+
 						'<div style="float:left">'+
+						'<div style="display:none"><label id="labf'+fmch[f].fequipment_no+'">'+fmch[f].fid+'</label></div>'+
 						'<div><label id="lab1'+fmch[f].fequipment_no+'">设备编号：'+fmch[f].fequipment_no+'</label></div>'+
-						'<div><label id="lab2'+fmch[f].fequipment_no+'">任务编号：--</label></div>'+
+						'<div><label id="lab2'+fmch[f].fequipment_no+'">焊缝编号：--</label></div>'+
 						'<div><label id="lab3'+fmch[f].fequipment_no+'">操作人员：--</label></div>'+
 						'<div><label id="lab4'+fmch[f].fequipment_no+'">焊接电流：--A</label></div>'+
 						'<div><label id="lab5'+fmch[f].fequipment_no+'">焊接电压：--V</label></div>'+
@@ -119,8 +120,8 @@ $(function(){
 		 });
 	}
 	
-	function imgfun(id){
-		var url = "td/goNextcurve?value="+fmch[id].fequipment_no;
+	function imgfun(id,value){
+		var url = "td/goNextcurve?value="+fmch[id].fid+"&valuename="+value;
 		var img = new Image();
 	    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
 	    url = img.src;  // 此时相对路径已经变成绝对路径
@@ -202,7 +203,9 @@ $(function(){
 		for(var i = 0;i < redata.length;i+=69){
 			if(redata.substring(8+i, 12+i)!="0000"){
 				for(var f=0;f<fmch.length;f++){
-					if((document.getElementById("lab1"+fmch[f].fequipment_no).innerText)==("设备编号："+redata.substring(4+i, 8+i))){
+/*					alert(document.getElementById("labf"+fmch[f].fequipment_no).innerText);
+					alert(parseInt(redata.substring(4+i, 8+i)));*/
+					if((document.getElementById("labf"+fmch[f].fequipment_no).innerText)==(parseInt(redata.substring(4+i, 8+i)))){
 						for(var k=0;k<welderName.length;k++){
 							if(welderName[k].fwelder_no==redata.substring(8+i, 12+i)){
 								document.getElementById("lab3"+fmch[f].fequipment_no).innerHTML="操作人员："+welderName[k].fname;

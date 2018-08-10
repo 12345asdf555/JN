@@ -172,10 +172,10 @@ function weldedJunctionDatagrid(){
 		onLoadSuccess: function(data){
 			$("a[id='evaluation']").linkbutton({text:'评价',plain:true,iconCls:'icon-newadd'});
 			if($("#confirm").length!=0){
-				$("a[id='confirm']").linkbutton({text:'确认完成',plain:true,iconCls:'icon-next'});
+				$("a[id='confirm']").linkbutton({text:'确认完成',plain:true,iconCls:'icon-unfinished'});
 			}
 			if($("#confirm1").length!=0){
-				$("a[id='confirm1']").linkbutton({text:'已完成',plain:true,iconCls:'icon-over'});
+				$("a[id='confirm1']").linkbutton({text:'已完成',plain:true,iconCls:'icon-finish'});
 			}
 		}
 	});
@@ -432,7 +432,7 @@ function WeldingMachineDatagrid() {
 		}
 		] ],
 		onLoadSuccess: function(data){
-			$("a[id='confirm']").linkbutton({text:'确认完成',plain:true,iconCls:'icon-next'});
+			$("a[id='confirm']").linkbutton({text:'确认完成',plain:true,iconCls:'icon-unfinished'});
 			
 		},
 		toolbar : '#dlgSearch',

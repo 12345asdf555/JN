@@ -66,8 +66,10 @@ public class TdController {
 	
 	@RequestMapping("/goNextcurve")
 	public String goNextcurve(HttpServletRequest request){
-		String value = request.getParameter("value");
-		request.setAttribute("value", value);
+	    String value = request.getParameter("value");
+	    String valuename = request.getParameter("valuename");
+	    request.setAttribute("value", value);
+	    request.setAttribute("valuename", valuename);
 		return "td/nextCurve";
 	}
 	

@@ -145,3 +145,12 @@
 .icon-next{
 	background:url('icons/new-4.png') no-repeat center center;
 }
+.icon-finish{
+	background:url('icons/finished.png') no-repeat center center;
+}
+.icon-unfinished{
+	background:url('icons/unfinished.png') no-repeat center center;
+}
+.icon-assign{
+	background:url('icons/assign.png') no-repeat center center;
+}
