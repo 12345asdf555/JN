@@ -11,7 +11,7 @@ import com.spring.model.DataStatistics;
 import tk.mybatis.mapper.common.Mapper;
 
 public interface DataStatisticsMapper  extends Mapper<DataStatistics>{
-	List<DataStatistics> getItemMachineCount(@Param("parent") BigInteger parent);
+	List<DataStatistics> getItemMachineCount(@Param("parent") BigInteger parent,@Param("str") String str);
 
 	int getStartingUpMachineNum(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
 	
@@ -27,29 +27,29 @@ public interface DataStatisticsMapper  extends Mapper<DataStatistics>{
 	
 	DataStatistics getWorkTimeAndEleVol(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
 	
-	List<DataStatistics> getAllMachine(@Param("item") BigInteger item);
+	List<DataStatistics> getAllMachine(@Param("item") BigInteger item,@Param("str") String str);
 	
-	List<DataStatistics> getAllWelder();
+	List<DataStatistics> getAllWelder(@Param("str") String str);
 	
-	List<DataStatistics> getAllJunction(@Param("junctionno") String junctionno);
+	List<DataStatistics> getAllJunction(@Param("junctionno") String junctionno,@Param("str") String str);
 	
 	List<DataStatistics> getAllInsframe();
 	
-	List<DataStatistics> getWeldItemInCount(@Param("dto") WeldDto dto);
+	List<DataStatistics> getWeldItemInCount(@Param("dto") WeldDto dto,@Param("str") String str);
 	
-	List<DataStatistics> getWeldItemOutCount(@Param("dto") WeldDto dto);
+	List<DataStatistics> getWeldItemOutCount(@Param("dto") WeldDto dto,@Param("str") String str);
 	
-	List<DataStatistics> getWeldMachineInCount(@Param("dto") WeldDto dto,@Param("itemid") BigInteger itemid);
+	List<DataStatistics> getWeldMachineInCount(@Param("dto") WeldDto dto,@Param("itemid") BigInteger itemid,@Param("str") String str);
 	
-	List<DataStatistics> getWeldMachineOutCount(@Param("dto") WeldDto dto,@Param("itemid") BigInteger itemid);
+	List<DataStatistics> getWeldMachineOutCount(@Param("dto") WeldDto dto,@Param("itemid") BigInteger itemid,@Param("str") String str);
 	
-	List<DataStatistics> getWeldPersonInCount(@Param("dto") WeldDto dto);
+	List<DataStatistics> getWeldPersonInCount(@Param("dto") WeldDto dto,@Param("str") String str);
 	
-	List<DataStatistics> getWeldPersonOutCount(@Param("dto") WeldDto dto);
+	List<DataStatistics> getWeldPersonOutCount(@Param("dto") WeldDto dto,@Param("str") String str);
 	
-	List<DataStatistics> getWeldPieceInCount(@Param("dto") WeldDto dto,@Param("junctionno") String junctionno);
+	List<DataStatistics> getWeldPieceInCount(@Param("dto") WeldDto dto,@Param("junctionno") String junctionno,@Param("str") String str);
 	
-	List<DataStatistics> getWeldPieceOutCount(@Param("dto") WeldDto dto,@Param("junctionno") String junctionno);
+	List<DataStatistics> getWeldPieceOutCount(@Param("dto") WeldDto dto,@Param("junctionno") String junctionno,@Param("str") String str);
 	
 	List<DataStatistics> getFauit(@Param("dto") WeldDto dto,@Param("value") int value);
 	

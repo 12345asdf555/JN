@@ -35,19 +35,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div id="body">
   		<div id="load" style="width:100%;height:100%;"></div>
   		<div style="float:left">
- 			所属班组：
-			<select class="easyui-combobox" name="item" id="item" data-options="editable:false"></select>
+ 			所属作业区：
+			<select class="easyui-combobox" name="zitem" id="zitem" data-options="editable:false"></select>
+			所属班组：
+			<select class="easyui-combobox" name="bitem" id="bitem" data-options="editable:false"></select>
 			任务状态：
 			<select class="easyui-combobox" name="status" id="status" data-options="editable:false">
 				<option value="999">请选择</option>
 				<option value="1">已完成</option>
-				<option value="0">未完成</option>
+				<option value="0">进行中</option>
 			</select>
 			<!-- <a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-select" >搜索</a> -->
   		</div>
   		<div class="functiondiv">
 			<div>
-				<a href="javascript:complete();" class="easyui-linkbutton" iconCls="icon-ok">确认完成</a>
+				<a href="javascript:complete();" class="easyui-linkbutton" iconCls="icon-ok">批量完成</a>
 				 <lable><span class="required"></span>班组信息</lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				 <input class="easyui-textbox" id="XXX"  name="XXX" value="${userinsframework}" readonly="readonly"/>
 			</div>

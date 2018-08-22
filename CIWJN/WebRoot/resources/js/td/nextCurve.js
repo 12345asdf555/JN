@@ -115,10 +115,12 @@
 	})
 
 	    function websocket() {
-			if(typeof(WebSocket) == "undefined") {
+    	WEB_SOCKET_SWF_LOCATION = "http://192.168.3.6:8080/CIWJN/resources/js/WebSocketMain.swf";
+    	WEB_SOCKET_DEBUG = true;
+/*			if(typeof(WebSocket) == "undefined") {
 				alert("您的浏览器不支持WebSocket");
 				return;
-			}
+			}*/
 			webclient();
 		};
 		function webclient(){
@@ -316,14 +318,14 @@
 	  	                style: {  
 	  	                    color: '#87CEFA'  
 	  	                }  
-	  		        },
+	  		        }
 	  		    }],
 	  		    tooltip: {
 	  		        formatter: function () {
 	  		            return '<b>' + this.series.name + '</b><br/>' +
 	  		                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
 	  		                Highcharts.numberFormat(this.y, 2);
-	  		        },
+	  		        }
 	  		    },
 	  		    legend: {
 	  		        enabled: false
@@ -348,7 +350,7 @@
 			                });
 			            }
 	  		            return data;
-	  		        }()),
+	  		        }())
 	  		      
 	  		    }]
 	  		}, function(c) {
@@ -365,11 +367,14 @@
 			vol.length=0;
 			ele.length=0;
 			for(var i = 0;i < redata.length;i+=69){
-				if(redata.substring(8+i, 12+i)!="0000"){
+//				if(redata.substring(8+i, 12+i)!="0000"){
 					if(parseInt(redata.substring(4+i, 8+i))==document.getElementById("in2").value){
 						ele.push(parseInt(redata.substring(12+i, 16+i)));
 						vol.push(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2)));
-						time.push(Date.parse(redata.substring(20+i, 39+i)));
+						var ttme = redata.substring(20+i, 39+i);
+//						time.push(Date.parse(redata.substring(20+i, 39+i)));
+						ttme=ttme.replace(/-/g, '/');
+						time.push(Date.parse(new Date(ttme))); 
 						machstatus.push(redata.substring(0+i, 2+i));
 						maxele = parseInt(redata.substring(41+i, 44+i));
 						minele = parseInt(redata.substring(44+i, 47+i));
@@ -530,7 +535,7 @@
 	                    }
                 		}
 					}
-				}
+//				}
                 z++;
 			};
 			if((time.length)%3==1){

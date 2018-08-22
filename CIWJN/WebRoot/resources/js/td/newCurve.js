@@ -103,7 +103,7 @@ $(function(){
 						'<div style="float:left">'+
 						'<div style="display:none"><label id="labf'+fmch[f].fequipment_no+'">'+fmch[f].fid+'</label></div>'+
 						'<div><label id="lab1'+fmch[f].fequipment_no+'">设备编号：'+fmch[f].fequipment_no+'</label></div>'+
-						'<div><label id="lab2'+fmch[f].fequipment_no+'">焊缝编号：--</label></div>'+
+						/*'<div><label id="lab2'+fmch[f].fequipment_no+'">焊缝编号：--</label></div>'+*/
 						'<div><label id="lab3'+fmch[f].fequipment_no+'">操作人员：--</label></div>'+
 						'<div><label id="lab4'+fmch[f].fequipment_no+'">焊接电流：--A</label></div>'+
 						'<div><label id="lab5'+fmch[f].fequipment_no+'">焊接电压：--V</label></div>'+
@@ -130,10 +130,12 @@ $(function(){
 	};
 
     function websocket() {
-		if(typeof(WebSocket) == "undefined") {
+    	WEB_SOCKET_SWF_LOCATION = "http://192.168.3.6:8080/CIWJN/resources/js/WebSocketMain.swf";
+    	WEB_SOCKET_DEBUG = true;
+/*		if(typeof(WebSocket) == "undefined") {
 			alert("您的浏览器不支持WebSocket");
 			return;
-		}
+		}*/
 		webclient();
 	};
 	function webclient(){

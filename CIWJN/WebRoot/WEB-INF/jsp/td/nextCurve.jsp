@@ -30,6 +30,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/highcharts.js"></script>
 	<script type="text/javascript" src="resources/js/exporting.js"></script>
 	<script type="text/javascript" src="resources/js/td/nextCurve.js"></script>
+	<script type="text/javascript" src="resources/js/swfobject.js"></script>
+	<script type="text/javascript" src="resources/js/web_socket.js"></script>
 	<style type="text/css">
 		table tr td{
 			font-size: 14px;

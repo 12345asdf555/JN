@@ -42,8 +42,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<select class="easyui-combobox" name="status" id="status" data-options="editable:false">
 				<option value="999">请选择</option>
 				<option value="1">已完成</option>
-				<option value="0">未完成</option>
-				<option value="3">未分配</option>
+				<option value="0">进行中</option>
+				<option value="3">未领取</option>
 			</select>
   		</div>
 	  	<div class="functiondiv">

@@ -166,4 +166,10 @@ public interface InsframeworkService {
 	 * @return
 	 */
 	List<Insframework> getUserInsAll(String str);
+	
+	/**
+	 * 查找当前用户下属的作业区
+	 * @return
+	 */
+	List<Insframework> getOperateArea(String str,int type);
 }

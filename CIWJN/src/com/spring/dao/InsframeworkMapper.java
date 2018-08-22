@@ -56,4 +56,6 @@ public interface InsframeworkMapper extends Mapper<Insframework>{
 	List<Insframework> getInsAll(@Param("type")int type);
 	
 	List<Insframework> getUserInsAll(@Param("str")String str);
+	
+	List<Insframework> getOperateArea(@Param("str")String str,@Param("type")int type);
 }

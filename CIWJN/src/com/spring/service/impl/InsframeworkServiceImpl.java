@@ -184,4 +184,10 @@ public class InsframeworkServiceImpl implements InsframeworkService {
 		return im.getUserInsAll(str);
 	}
 
+	@Override
+	public List<Insframework> getOperateArea(String str, int type) {
+		// TODO Auto-generated method stub
+		return im.getOperateArea(str, type);
+	}
+
 }

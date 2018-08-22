@@ -381,7 +381,7 @@ public class InsframeworkController {
 	@ResponseBody
 	public void getConmpany(HttpServletResponse response){
         String str ="";  
-        StringBuilder json = new StringBuilder();  
+        StringBuilder json = new StringBuilder();
         // 拼接根节点  
         Insframework b = im.getBloc();
         if(b!=null){  
@@ -414,6 +414,9 @@ public class InsframeworkController {
 	            str = json.toString();  
 	            str = str.substring(0, str.length()-1);  
 	            str+="]}]";
+	        }else{
+	            str = json.toString();
+	            str+="}]";
 	        }
               
         }  

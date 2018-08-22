@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,10 +20,13 @@ import com.spring.dto.ModelDto;
 import com.spring.dto.WeldDto;
 import com.spring.model.DataStatistics;
 import com.spring.model.Dictionarys;
+import com.spring.model.Insframework;
 import com.spring.model.LiveData;
+import com.spring.model.MyUser;
 import com.spring.page.Page;
 import com.spring.service.DataStatisticsService;
 import com.spring.service.DictionaryService;
+import com.spring.service.InsframeworkService;
 import com.spring.service.LiveDataService;
 import com.spring.util.IsnullUtil;
 
@@ -43,6 +47,8 @@ public class DataStatisticsController {
 	private DictionaryService dm;
 	@Autowired
 	private LiveDataService ls;
+	@Autowired
+	private InsframeworkService insm;
 
 	IsnullUtil iutil = new IsnullUtil();
 	
@@ -169,6 +175,27 @@ public class DataStatisticsController {
 		}
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and i.fid="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (i.fid="+inns.getId();
+				}else{
+					serach=serach+" or i.fid="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or i.fid="+userinsid+")";
+		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -184,7 +211,7 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> list = dss.getItemMachineCount(page,null);
+			List<DataStatistics> list = dss.getItemMachineCount(page,null,serach);
 			
 			if(list != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
@@ -285,6 +312,27 @@ public class DataStatisticsController {
 		}
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and i.fid="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (i.fid="+inns.getId();
+				}else{
+					serach=serach+" or i.fid="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or i.fid="+userinsid+")";
+		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -300,8 +348,8 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> ilist = dss.getWeldItemInCount(page,dto);
-			List<DataStatistics> olist = dss.getWeldItemOutCount(page,dto);
+			List<DataStatistics> ilist = dss.getWeldItemInCount(page,dto,serach);
+			List<DataStatistics> olist = dss.getWeldItemOutCount(page,dto,serach);
 			
 			if(ilist != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(ilist);
@@ -356,6 +404,27 @@ public class DataStatisticsController {
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
 		String item = request.getParameter("item");
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and i.fid="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (i.fid="+inns.getId();
+				}else{
+					serach=serach+" or i.fid="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or i.fid="+userinsid+")";
+		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -375,7 +444,7 @@ public class DataStatisticsController {
 			if(iutil.isNull(item)){
 				itemid = new BigInteger(item);
 			}
-			List<DataStatistics> list = dss.getAllMachine(page,itemid);
+			List<DataStatistics> list = dss.getAllMachine(page,itemid,serach);
 			if(list != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
 				total = pageinfo.getTotal();
@@ -463,6 +532,27 @@ public class DataStatisticsController {
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
 		String item = request.getParameter("item");
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and i.fid="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (i.fid="+inns.getId();
+				}else{
+					serach=serach+" or i.fid="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or i.fid="+userinsid+")";
+		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -482,8 +572,8 @@ public class DataStatisticsController {
 			if(iutil.isNull(item)){
 				itemid = new BigInteger(item);
 			}
-			List<DataStatistics> ilist = dss.getWeldMachineInCount(page,dto,itemid);
-			List<DataStatistics> olist = dss.getWeldMachineOutCount(page,dto,itemid);
+			List<DataStatistics> ilist = dss.getWeldMachineInCount(page,dto,itemid,serach);
+			List<DataStatistics> olist = dss.getWeldMachineOutCount(page,dto,itemid,serach);
 			
 			if(ilist != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(ilist);
@@ -537,6 +627,27 @@ public class DataStatisticsController {
 		}
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and tb_welder.Fowner="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (tb_welder.Fowner="+inns.getId();
+				}else{
+					serach=serach+" or tb_welder.Fowner="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or tb_welder.Fowner="+userinsid+")";
+		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -552,7 +663,7 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> list = dss.getAllWelder(page);
+			List<DataStatistics> list = dss.getAllWelder(page,serach);
 			if(list != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
 				total = pageinfo.getTotal();
@@ -639,6 +750,27 @@ public class DataStatisticsController {
 		}
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and w.Fowner="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (w.Fowner="+inns.getId();
+				}else{
+					serach=serach+" or w.Fowner="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or w.Fowner="+userinsid+")";
+		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -654,8 +786,8 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> ilist = dss.getWeldPersonInCount(page,dto);
-			List<DataStatistics> olist = dss.getWeldPersonOutCount(page,dto);
+			List<DataStatistics> ilist = dss.getWeldPersonInCount(page,dto,serach);
+			List<DataStatistics> olist = dss.getWeldPersonOutCount(page,dto,serach);
 			
 			if(ilist != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(ilist);
@@ -709,6 +841,27 @@ public class DataStatisticsController {
 		}
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and i.fid="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (i.fid="+inns.getId();
+				}else{
+					serach=serach+" or i.fid="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or i.fid="+userinsid+")";
+		}
 		String junctionno = request.getParameter("junctionno");
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
@@ -725,7 +878,7 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> list = dss.getAllJunction(page,"%"+ junctionno+"%");
+			List<DataStatistics> list = dss.getAllJunction(page,"%"+ junctionno+"%",serach);
 			if(list != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
 				total = pageinfo.getTotal();
@@ -810,6 +963,27 @@ public class DataStatisticsController {
 		String junctionno = request.getParameter("junctionno");
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and j.fitemId="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (j.fitemId="+inns.getId();
+				}else{
+					serach=serach+" or j.fitemId="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or j.fitemId="+userinsid+")";
+		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -825,8 +999,8 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> ilist = dss.getWeldPieceInCount(page,dto,"%"+ junctionno+"%");
-			List<DataStatistics> olist = dss.getWeldPieceOutCount(page,dto,"%"+ junctionno+"%");
+			List<DataStatistics> ilist = dss.getWeldPieceInCount(page,dto,"%"+ junctionno+"%",serach);
+			List<DataStatistics> olist = dss.getWeldPieceOutCount(page,dto,"%"+ junctionno+"%",serach);
 			
 			if(ilist != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(ilist);

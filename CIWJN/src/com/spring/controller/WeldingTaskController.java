@@ -833,4 +833,107 @@ public class WeldingTaskController {
 		obj.put("success", serach);
 		return obj.toString();
 	}
+	
+	@RequestMapping("/getOperateArea")
+	@ResponseBody
+	public String getOperateArea(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONObject jsonb = new JSONObject();
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONArray aryb = new JSONArray();
+		int instype = 0;
+		try{
+			List<Insframework> ls;
+			String serach="";
+			MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+			BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+			int bz=0;
+			if(instype==20){
+				ls = insm.getOperateArea(serach, 22);
+				for(Insframework insf : ls ){
+					json.put("id", insf.getId());
+					json.put("name", insf.getName());
+					ary.add(json);
+				}
+			}else if(instype==23){
+				serach = "and i.fid="+userinsid;
+				ls = insm.getOperateArea(serach, 23);
+				json.put("id", insm.getParent(userinsid).getId());
+				json.put("name", insm.getParent(userinsid).getName());
+				ary.add(json);
+				for(Insframework insf : ls ){
+					jsonb.put("id", insf.getId());
+					jsonb.put("name", insf.getName());
+					aryb.add(jsonb);
+				}
+			}else if(instype==21){
+				List<Insframework> lns = insm.getInsIdByParent(userinsid,24);
+				for(Insframework inns : lns ){
+					if(bz==0){
+						serach=serach+"and (i.fid="+inns.getId();
+					}else{
+						serach=serach+" or i.fid="+inns.getId();
+					}
+					bz++;
+				}
+				serach=serach+" or i.fid="+userinsid+")";
+				ls = insm.getOperateArea(serach, 22);
+				for(Insframework insf : ls ){
+					json.put("id", insf.getId());
+					json.put("name", insf.getName());
+					ary.add(json);
+				}
+			}else{
+				List<Insframework> lns = insm.getInsIdByParent(userinsid,24);
+				for(Insframework inns : lns ){
+					if(bz==0){
+						serach=serach+"and (i.fid="+inns.getId();
+					}else{
+						serach=serach+" or i.fid="+inns.getId();
+					}
+					bz++;
+				}
+				serach=serach+" or i.fid="+userinsid+")";
+				ls = insm.getOperateArea(serach, 23);
+				json.put("id", userinsid);
+				json.put("name", insm.getInsframeworkById(userinsid));
+				ary.add(json);
+				for(Insframework insf : ls ){
+					jsonb.put("id", insf.getId());
+					jsonb.put("name", insf.getName());
+					aryb.add(jsonb);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
+		obj.put("banzu", aryb);
+		obj.put("type", instype);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getTeam")
+	@ResponseBody
+	public String getTeam(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		try{
+			String serach="";
+			serach = request.getParameter("searchStr");
+			List<Insframework> ls = insm.getOperateArea(serach, 23);
+			for(Insframework insf : ls ){
+				json.put("id", insf.getId());
+				json.put("name", insf.getName());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
 }

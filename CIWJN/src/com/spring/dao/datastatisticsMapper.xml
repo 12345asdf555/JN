@@ -35,12 +35,18 @@
 		<if test="parent!=null and parent!=''">
 			and i.fparent=#{parent}
 		</if>
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
 		group by i.fid
 		UNION ALL
 		select i.fid,i.fname,0 total from tb_insframework  i 
 		where i.ftype=23 
 		<if test="parent!=null and parent!=''">
 			and i.fparent=#{parent}
+		</if>
+		<if test="str!=null and str!=''">
+			${str}
 		</if>
 		and i.fid not in 
 		(select i.fid from tb_insframework i 
@@ -299,11 +305,17 @@
 		<if test="item!=null and item!=''">
 			and i.fid = #{item}
 		</if>
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
 	</select>
 	
 	<!--查询所有焊工编号，姓名 -->
 	<select id="getAllWelder" resultMap="dataMap">
-		SELECT fwelder_no serialnumber,fname FROM tb_welder
+		SELECT fwelder_no serialnumber,fname FROM tb_welder where 1=1
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
 	</select>
 	
 	<!-- 查询所有焊缝编号，组织机构名称 -->
@@ -311,6 +323,9 @@
 		SELECT fwelded_junction_no serialnumber,i.fid,i.fname FROM tb_welded_junction j INNER join tb_insframework i on i.fid = j.fitemId where 1=1
 		<if test="junctionno!=null and junctionno!=''">
 			and fwelded_junction_no like #{junctionno}
+		</if>
+		<if test="str!=null and str!=''">
+			${str}
 		</if>
 	</select>
 	
@@ -333,10 +348,16 @@
 				and w.fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
 		group by i.fid
 		UNION ALL
 		select i.fid,i.fname,0 id from tb_insframework  i 
-		where i.ftype=23 
+		where i.ftype=23 		
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
 		and i.fid not in 
 		(select i.fid from tb_insframework i 
 		inner join tb_work w on w.fitemid=i.fid 
@@ -367,10 +388,16 @@
 				and w.fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
 		group by i.fid
 		UNION ALL
 		select i.fid,i.fname,0 insid from tb_insframework  i 
-		where i.ftype=23 
+		where i.ftype=23
+		<if test="str!=null and str!=''">
+			${str}
+		</if> 
 		and i.fid not in 
 		(select i.fid from tb_insframework i 
 		inner join tb_alarm w on w.fitemid=i.fid 
@@ -405,11 +432,17 @@
 		<if test="itemid!=null and itemid!=''">
 			and m.finsframework_id= #{itemid}
 		</if>
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
 		GROUP BY m.fid
 		UNION ALL
 		SELECT m.fequipment_no fname,i.fname insname,0 insid FROM tb_welding_machine m 
-		inner join tb_insframework i on i.fid = m.finsframework_id where
-		    m.fid NOT IN (SELECT m.fid FROM tb_welding_machine m 
+		inner join tb_insframework i on i.fid = m.finsframework_id where 1=1
+			<if test="str!=null and str!=''">
+				${str}
+			</if>
+		    and m.fid NOT IN (SELECT m.fid FROM tb_welding_machine m 
 		    inner join tb_insframework i on i.fid = m.finsframework_id 
 		    INNER JOIN tb_work w ON w.fmachine_id=m.fid where 1=1 
 			<if test="dto!=null and dto!=''">
@@ -445,11 +478,17 @@
 				and w.fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
 		GROUP BY m.fid
 		UNION ALL
 		SELECT m.fequipment_no fname,i.fname insname,0 insid FROM tb_welding_machine m 
-		inner join tb_insframework i on i.fid = m.finsframework_id where
-		    m.fid NOT IN (SELECT m.fid FROM tb_welding_machine m 
+		inner join tb_insframework i on i.fid = m.finsframework_id where 1=1
+			<if test="str!=null and str!=''">
+				${str}
+			</if>
+		    and m.fid NOT IN (SELECT m.fid FROM tb_welding_machine m 
 		    inner join tb_insframework i on i.fid = m.finsframework_id 
 		    INNER JOIN tb_alarm w ON w.fmachine_id=m.fid where 1=1
 		<if test="dto!=null and dto!=''">
@@ -478,10 +517,17 @@
 				and a.fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
 		 GROUP BY w.fid 
 		 UNION ALL
 		 SELECT w.fwelder_no insname,w.fname,0 insid FROM tb_welder w
-		 where w.fid NOT IN (
+		 where 1=1 
+		 <if test="str!=null and str!=''">
+			 ${str}
+		 </if>
+		 and w.fid NOT IN (
 		 SELECT w.fid FROM tb_welder w 
 		 inner join tb_work a on a.fwelder_id=w.fwelder_no 
 		 where 1=1
@@ -511,10 +557,17 @@
 				and a.fendtime &lt;= #{dto.dtoTime2}
 			</if>
 		</if>
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
 		 GROUP BY w.fid 
 		 UNION ALL
 		 SELECT w.fwelder_no insname,w.fname,0 insid FROM tb_welder w
-		 where w.fid NOT IN (
+		 where 1=1
+		 <if test="str!=null and str!=''">
+			 ${str}
+		 </if>
+		 and w.fid NOT IN (
 		 SELECT w.fid FROM tb_welder w 
 		 inner join tb_alarm a on a.fwelder_id=w.fwelder_no 
 		 where 1=1
@@ -546,10 +599,16 @@
 		<if test="junctionno!=null and junctionno!=''">
 			and j.fwelded_junction_no like #{junctionno}
 		</if>
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
 		GROUP BY j.fid
 		UNION ALL
-		SELECT j.fwelded_junction_no insname,0 insid FROM tb_welded_junction j where
-		    j.fid NOT IN (
+		SELECT j.fwelded_junction_no insname,0 insid FROM tb_welded_junction j where 1=1 
+			<if test="str!=null and str!=''">
+				${str}
+			</if>
+		    and j.fid NOT IN (
 		    SELECT j.fid FROM tb_welded_junction j 
 		    INNER JOIN tb_work a ON j.fwelded_junction_no=a.fjunction_id WHERE 1=1 
 		<if test="dto!=null and dto!=''">
@@ -586,10 +645,17 @@
 		<if test="junctionno!=null and junctionno!=''">
 			and j.fwelded_junction_no like #{junctionno}
 		</if>
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
 		    GROUP BY j.fid   
 		UNION ALL
 		SELECT j.fwelded_junction_no insname,0 insid FROM tb_welded_junction j 
-		where j.fid NOT IN (
+		where 1=1
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
+		and j.fid NOT IN (
 		SELECT j.fid FROM tb_welded_junction j 
 		INNER JOIN tb_alarm a ON j.fwelded_junction_no=a.fjunction_id 
 		WHERE 1=1 

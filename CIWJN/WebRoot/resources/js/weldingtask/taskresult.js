@@ -171,7 +171,7 @@ function weldedJunctionDatagrid(){
 	        $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 	        $("a[id='remove']").linkbutton({text:'取消',plain:true,iconCls:'icon-delete'});
 	        if($("#confirm").length!=0){
-				$("a[id='confirm']").linkbutton({text:'未完成',plain:true,iconCls:'icon-unfinished'});
+				$("a[id='confirm']").linkbutton({text:'进行中',plain:true,iconCls:'icon-unfinished'});
 			}
 			if($("#confirm1").length!=0){
 				$("a[id='confirm1']").linkbutton({text:'已完成',plain:true,iconCls:'icon-finish'});

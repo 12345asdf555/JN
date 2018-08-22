@@ -46,6 +46,13 @@
 		</if>
 	</select>
 	
+	<select id="getOperateArea"  resultMap="insMap">
+		select i.fid, i.fname from tb_insframework i where 1=1 and i.ftype=#{type}
+		<if test="str!=null and str!=''">
+			${str}
+		</if>
+	</select>
+	
 	<select id="getInsframework" resultMap="insMap">
 		SELECT i.fid,i.fname,i.ftype FROM tb_insframework i INNER JOIN tb_insframework ins on ins.fid = i.fparent WHERE i.ftype=23 
 		<if test="parent!=null and parent!=''">

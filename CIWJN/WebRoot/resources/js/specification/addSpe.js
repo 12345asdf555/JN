@@ -78,7 +78,7 @@ function ws() {
 	//实现化WebSocket对象，指定要连接的服务器地址与端口
 	try{
 		socketfc = new WebSocket(data1);
-	}catch(err){
+	}catch(err){getWeldItemInCount
 		alert("地址请求错误，请清除缓存重新连接！！！")
 	}
 /*		dingshiqi1 = window.setvarerval(function() {
@@ -882,6 +882,7 @@ function xiafa(){
 			socketfc.send(xiafasend);
 			socketfc.onmessage = function(msg) {
 				var fan = msg.data;
+				fan = fan.replace(/7C20/g, '00').toUpperCase();
 				if(fan.substring(4,6)=="52"){
 					symbol1++;
 					if(parseInt(fan.substring(10,12),16)==1){
@@ -1168,6 +1169,7 @@ function xiafa(){
 			socketfc.send(xiafasend);
 			socketfc.onmessage = function(msg) {
 				var fan = msg.data;
+				fan = fan.replace(/7C20/g, '00').toUpperCase();
 				if(fan.substring(4,6)=="52"){
 					symbol1++;
 					if(parseInt(fan.substring(10,12),16)==1){

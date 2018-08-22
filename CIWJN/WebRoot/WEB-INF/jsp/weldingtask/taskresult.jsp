@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<select class="easyui-combobox" name="status" id="status" data-options="editable:false">
 				<option value="999">请选择</option>
 				<option value="1">已完成</option>
-				<option value="0">未完成</option>
+				<option value="0">进行中</option>
 			</select>
 			<!-- <a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-select" >搜索</a> -->
   		</div>

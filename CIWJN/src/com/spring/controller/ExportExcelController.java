@@ -18,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,10 +27,13 @@ import com.github.pagehelper.PageInfo;
 import com.spring.dto.WeldDto;
 import com.spring.model.DataStatistics;
 import com.spring.model.Gather;
+import com.spring.model.Insframework;
+import com.spring.model.MyUser;
 import com.spring.model.WeldingMachine;
 import com.spring.model.WeldingMaintenance;
 import com.spring.page.Page;
 import com.spring.service.DataStatisticsService;
+import com.spring.service.InsframeworkService;
 import com.spring.service.MaintainService;
 import com.spring.service.WeldingMachineService;
 import com.spring.util.CommonExcelUtil;
@@ -50,6 +54,8 @@ public class ExportExcelController {
 	private DataStatisticsService dss;
 	@Autowired
 	private MaintainService mm;
+	@Autowired
+	private InsframeworkService insm;
 	private String filename;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmSS");
 	IsnullUtil iutil = new IsnullUtil();
@@ -193,6 +199,27 @@ public class ExportExcelController {
 		String time2 = request.getParameter("dtoTime2");
 		WeldDto dto = new WeldDto();
 		String dtime = "统计日期："+time1+"--"+time2;
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and i.fid="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (i.fid="+inns.getId();
+				}else{
+					serach=serach+" or i.fid="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or i.fid="+userinsid+")";
+		}
 		try{
 			if(iutil.isNull(time1)){
 				dto.setDtoTime1(time1);
@@ -200,7 +227,7 @@ public class ExportExcelController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> list = dss.getAllItemData();
+			List<DataStatistics> list = dss.getAllItemData(serach);
 			String[] titles = new String[]{"所属班组","设备总数","开机设备数","实焊设备数","设备利用率(%)","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			Object[][] data = new Object[list.size()][12];
 			int ii=0;
@@ -316,6 +343,27 @@ public class ExportExcelController {
 		String time2 = request.getParameter("dtoTime2");
 		WeldDto dto = new WeldDto();
 		String dtime = "统计日期："+time1+"--"+time2;
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and i.fid="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (i.fid="+inns.getId();
+				}else{
+					serach=serach+" or i.fid="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or i.fid="+userinsid+")";
+		}
 		try{
 			if(iutil.isNull(time1)){
 				dto.setDtoTime1(time1);
@@ -323,8 +371,8 @@ public class ExportExcelController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> ilist = dss.getWeldItemInCountData(dto);
-			List<DataStatistics> olist = dss.getWeldItemOutCountData(dto);
+			List<DataStatistics> ilist = dss.getWeldItemInCountData(dto,serach);
+			List<DataStatistics> olist = dss.getWeldItemOutCountData(dto,serach);
 			String[] titles = new String[]{"所属班组","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			Object[][] data = new Object[ilist.size()][5];
 			int ii=0;
@@ -394,6 +442,27 @@ public class ExportExcelController {
 		WeldDto dto = new WeldDto();
 		BigInteger itemid = null;
 		String dtime = "统计日期："+time1+"--"+time2;
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and i.fid="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (i.fid="+inns.getId();
+				}else{
+					serach=serach+" or i.fid="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or i.fid="+userinsid+")";
+		}
 		try{
 			if(iutil.isNull(time1)){
 				dto.setDtoTime1(time1);
@@ -404,7 +473,7 @@ public class ExportExcelController {
 			if(iutil.isNull(item)){
 				itemid = new BigInteger(item);
 			}
-			List<DataStatistics> list = dss.getAllMachineData(itemid);
+			List<DataStatistics> list = dss.getAllMachineData(itemid,serach);
 			String[] titles = new String []{"所属班组","设备编号","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			Object[][] data = new Object[list.size()][9];
 			int ii=0;
@@ -510,6 +579,27 @@ public class ExportExcelController {
 		WeldDto dto = new WeldDto();
 		BigInteger itemid = null;
 		String dtime = "统计日期："+time1+"--"+time2;
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and i.fid="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (i.fid="+inns.getId();
+				}else{
+					serach=serach+" or i.fid="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or i.fid="+userinsid+")";
+		}
 		try{
 			if(iutil.isNull(time1)){
 				dto.setDtoTime1(time1);
@@ -520,8 +610,8 @@ public class ExportExcelController {
 			if(iutil.isNull(item)){
 				itemid = new BigInteger(item);
 			}
-			List<DataStatistics> ilist = dss.getWeldMachineInCountData(dto,itemid);
-			List<DataStatistics> olist = dss.getWeldMachineOutCountData(dto,itemid);
+			List<DataStatistics> ilist = dss.getWeldMachineInCountData(dto,itemid,serach);
+			List<DataStatistics> olist = dss.getWeldMachineOutCountData(dto,itemid,serach);
 			String[] titles = new String[]{"所属班组","设备编码","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			Object[][] data = new Object[ilist.size()][6];
 			int ii=0;
@@ -590,6 +680,27 @@ public class ExportExcelController {
 		String time2 = request.getParameter("dtoTime2");
 		WeldDto dto = new WeldDto();
 		String dtime = "统计日期："+time1+"--"+time2;
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and tb_welder.Fowner="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (tb_welder.Fowner="+inns.getId();
+				}else{
+					serach=serach+" or tb_welder.Fowner="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or tb_welder.Fowner="+userinsid+")";
+		}
 		try{
 			if(iutil.isNull(time1)){
 				dto.setDtoTime1(time1);
@@ -597,7 +708,7 @@ public class ExportExcelController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> list = dss.getAllPersonData();
+			List<DataStatistics> list = dss.getAllPersonData(serach);
 			String[] titles = new String []{"焊工编号","焊工名称","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			Object[][] data = new Object[list.size()][9];
 			int ii=0;
@@ -701,6 +812,27 @@ public class ExportExcelController {
 		String time2 = request.getParameter("dtoTime2");
 		WeldDto dto = new WeldDto();
 		String dtime = "统计日期："+time1+"--"+time2;
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and w.Fowner="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (w.Fowner="+inns.getId();
+				}else{
+					serach=serach+" or w.Fowner="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or w.Fowner="+userinsid+")";
+		}
 		try{
 			if(iutil.isNull(time1)){
 				dto.setDtoTime1(time1);
@@ -708,8 +840,8 @@ public class ExportExcelController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> ilist = dss.getWeldPersonInCountData(dto);
-			List<DataStatistics> olist = dss.getWeldPersonOutCountData(dto);
+			List<DataStatistics> ilist = dss.getWeldPersonInCountData(dto,serach);
+			List<DataStatistics> olist = dss.getWeldPersonOutCountData(dto,serach);
 			String[] titles = new String[]{"焊工编号","焊工姓名","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			Object[][] data = new Object[ilist.size()][6];
 			int ii=0;
@@ -779,6 +911,27 @@ public class ExportExcelController {
 		String junctionno = request.getParameter("junctionno");
 		WeldDto dto = new WeldDto();
 		String dtime = "统计日期："+time1+"--"+time2;
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and i.fid="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (i.fid="+inns.getId();
+				}else{
+					serach=serach+" or i.fid="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or i.fid="+userinsid+")";
+		}
 		try{
 			if(iutil.isNull(time1)){
 				dto.setDtoTime1(time1);
@@ -786,7 +939,7 @@ public class ExportExcelController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> list = dss.getAllJunctionData(junctionno);
+			List<DataStatistics> list = dss.getAllJunctionData(junctionno,serach);
 			String[] titles = new String []{"任务编号","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			Object[][] data = new Object[list.size()][7];
 			int ii=0;
@@ -888,6 +1041,27 @@ public class ExportExcelController {
 		String junctionno = request.getParameter("junctionno");
 		WeldDto dto = new WeldDto();
 		String dtime = "统计日期："+time1+"--"+time2;
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "and j.fitemId="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"and (j.fitemId="+inns.getId();
+				}else{
+					serach=serach+" or j.fitemId="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or j.fitemId="+userinsid+")";
+		}
 		try{
 			if(iutil.isNull(time1)){
 				dto.setDtoTime1(time1);
@@ -895,8 +1069,8 @@ public class ExportExcelController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> ilist = dss.getWeldWorkpieceInCountData(dto,junctionno);
-			List<DataStatistics> olist = dss.getWeldWorkpieceOutCountData(dto,junctionno);
+			List<DataStatistics> ilist = dss.getWeldWorkpieceInCountData(dto,junctionno,serach);
+			List<DataStatistics> olist = dss.getWeldWorkpieceOutCountData(dto,junctionno,serach);
 			String[] titles = new String[]{"任务编号","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			Object[][] data = new Object[ilist.size()][5];
 			int ii=0;
