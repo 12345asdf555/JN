@@ -55,6 +55,7 @@ public class WeldingMachineWebServiceImpl implements WeldingMachineWebService {
 					obj.put("INSFRAMEWORKID", "");
 					obj.put("INSFRAMEWORKNAME", "");
 				}
+				obj.put("STATUS", jutil.setValue(list.get(i).getStatusId()));
 				obj.put("POSITION",jutil.setValue(list.get(i).getPosition()));
 				ary.add(obj);
 			}
