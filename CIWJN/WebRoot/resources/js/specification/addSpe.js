@@ -1192,7 +1192,55 @@ function xiafa(){
 }
 
 function yanzheng(){
-	if($('#ftime').numberbox('getValue')==""){
+     if($('#fadvance').numberbox('getValue')<0||$('#fadvance').numberbox('getValue')>100){
+    	 alert("提前送气范围：0~100");
+    	 return false;
+     }
+     if($('#fini_ele').numberbox('getValue')<30||$('#fini_ele').numberbox('getValue')>550){
+    	 alert("初期电流范围：30~550");
+    	 return false;
+     }
+     if($('#fini_vol').numberbox('getValue')<12||$('#fini_vol').numberbox('getValue')>50){
+    	 alert("初期电压范围：12~50");
+    	 return false;
+     }
+     if($('#fini_vol1').numberbox('getValue')<(-30)||$('#fini_vol1').numberbox('getValue')>(30)){
+    	 alert("初期电压一元范围：-30~30");
+    	 return false;
+     }
+     if($('#fweld_ele').numberbox('getValue')<30||$('#fweld_ele').numberbox('getValue')>550){
+    	 alert("焊接电流范围：30~550");
+    	 return false;
+     }
+     if($('#fweld_vol').numberbox('getValue')<12||$('#fweld_vol').numberbox('getValue')>50){
+    	 alert("焊接电压范围：12~50");
+    	 return false;
+     }
+     if($('#fweld_vol1').numberbox('getValue')<(-30)||$('#fweld_vol1').numberbox('getValue')>(30)){
+    	 alert("焊接电压一元范围：-30~30");
+    	 return false;
+     }
+     if($('#farc_ele').numberbox('getValue')<30||$('#farc_ele').numberbox('getValue')>550){
+    	 alert("收弧电流范围：30~550");
+    	 return false;
+     }
+     if($('#farc_vol').numberbox('getValue')<12||$('#farc_vol').numberbox('getValue')>50){
+    	 alert("收弧电压范围：12~50");
+    	 return false;
+     }
+     if($('#farc_vol1').numberbox('getValue')<(-30)||$('#farc_vol1').numberbox('getValue')>(30)){
+    	 alert("收弧电压一元范围：-30~30");
+    	 return false;
+     }
+     if($('#fhysteresis').numberbox('getValue')<0||$('#fhysteresis').numberbox('getValue')>100){
+    	 alert("滞后送气范围：0~100");
+    	 return false;
+     }
+     if($('#fcharacter').numberbox('getValue')<(-99)||$('#fcharacter').numberbox('getValue')>(99)){
+    	 alert("电弧特性范围：-99~99");
+    	 return false;
+     }
+/*	if($('#ftime').numberbox('getValue')==""){
 		$("#ftime").numberbox('setValue',30.0);
 	};
 	if($('#fadvance').numberbox('getValue')==""){
@@ -1248,7 +1296,7 @@ function yanzheng(){
 	}
 	if($('#farc_tuny_vol1').numberbox('getValue')==""){
 		$("#farc_tuny_vol1").numberbox('setValue',0);
-	}
+	}*/
 }
 
 function copy(value){

@@ -47,6 +47,10 @@
 		SELECT fvalue FROM tb_dictionary WHERE ftypeid=#{typeid} and fvaluename=#{valuename}
 	</select>
 	
+	<select id="getValueByNameAndType" resultType="java.lang.String">
+		SELECT fvalue FROM tb_dictionary WHERE ftypeid=#{typeid} and fvaluename=#{valuename}
+	</select>
+	
 	<update id="editDictionary" parameterType="com.spring.model.Dictionarys">
 		update tb_dictionary set fvaluename=#{valueName},ftypeid=#{typeid},fback=#{back},fvalue=#{value} where fid=#{id}
 	</update>

@@ -196,7 +196,7 @@ function weldingMachineDatagrid() {
 			title : '任务描述',
 			width : 150,
 			halign : "center",
-			align : "left",
+			align : "left"
 		}
 		] ],
 		toolbar : '#dlgSearch',

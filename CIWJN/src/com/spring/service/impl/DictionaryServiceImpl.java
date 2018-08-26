@@ -70,4 +70,8 @@ public class DictionaryServiceImpl implements DictionaryService {
 	public List<Dictionarys> getDictionaryType() {
 		return dictionaryMapper.getDictionaryType();
 	}
+	@Override
+	public String getValueByNameAndType(int typeid, String valuename) {
+		return dictionaryMapper.getValueByNameAndType(typeid, valuename);
+	}
 }

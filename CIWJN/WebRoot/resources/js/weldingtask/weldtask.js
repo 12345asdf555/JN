@@ -49,6 +49,18 @@ function weldedJunctionDatagrid(){
 //			width : 90,
 			halign : "center",
 			align : "left"
+		}, /*{
+			field : 'serialNo',
+			title : '任务描述',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		}, */{
+			field : 'levelname',
+			title : '任务等级',
+//			width : 150,
+			halign : "center",
+			align : "left"
 		}, {
 			field : 'pipelineNo',
 			title : '焊工工号',
@@ -83,18 +95,19 @@ function weldedJunctionDatagrid(){
 			align : "left",
 			hidden:true
 		}, {
-			field : 'serialNo',
-			title : '任务描述',
-//			width : 90,
-			halign : "center",
-			align : "left"
-		}, {
 			field : 'itemname',
 			title : '所属班组',
 //			width : 150,
 			halign : "center",
 			align : "left"
 		}, {
+			field : 'levelid',
+			title : '任务等级id',
+//			width : 150,
+			halign : "center",
+			align : "left",
+			hidden:true
+		},{
 			field : 'dtoTime1',
 			title : '计划开始时间',
 //			width : 150,
@@ -156,7 +169,6 @@ function weldedJunctionDatagrid(){
             if ((index % 2)!=0){
             	//处理行代背景色后无法选中
             	var color=new Object();
-                color.class="rowColor";
                 return color;
             }
         },
@@ -199,7 +211,7 @@ function dayinDatagrid(){
 			title : '任务描述',
 //			width : 90,
 			halign : "center",
-			align : "left",
+			align : "left"
 //			hidden:true
 		}, {
 			field : 'pipelineNo',
@@ -255,12 +267,19 @@ function exporttable(){
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'desc',
-			title : '任务描述',
+			field : 'levelname',
+			title : '任务等级',
+//			width : 90,
+			halign : "center",
+			align : "left"
+//			hidden:true
+		},{
+			field : 'levelid',
+			title : '任务等级id',
 //			width : 90,
 			halign : "center",
 			align : "left",
-//			hidden:true
+			hidden:true
 		}, {
 			field : 'welderNo',
 			title : '焊工工号',

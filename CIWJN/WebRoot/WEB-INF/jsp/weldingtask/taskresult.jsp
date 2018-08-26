@@ -36,8 +36,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		<div id="load" style="width:100%;height:100%;"></div>
   		<input id="userid"  name="userid" value="${userid}" type="hidden"/>
   		<div style="float:left">
- 			所属班组：
-			<select class="easyui-combobox" name="item" id="item" data-options="editable:false"></select>
+ 			所属作业区：
+			<select class="easyui-combobox" name="zitem" id="zitem" data-options="editable:false"></select>
+			所属班组：
+			<select class="easyui-combobox" name="bitem" id="bitem" data-options="editable:false"></select>
 			任务状态：
 			<select class="easyui-combobox" name="status" id="status" data-options="editable:false">
 				<option value="999">请选择</option>

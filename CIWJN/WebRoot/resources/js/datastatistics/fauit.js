@@ -62,7 +62,6 @@ function dgDatagrid(){
         					 if ((index % 2)!=0){
         		            	 //处理行代背景色后无法选中
         		            	 var color=new Object();
-        		                 color.class="rowColor";
         		                 return color;
         		             }
         		         },

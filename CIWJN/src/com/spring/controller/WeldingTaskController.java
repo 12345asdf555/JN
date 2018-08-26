@@ -176,6 +176,8 @@ public class WeldingTaskController {
 				json.put("serialNo", w.getSerialNo());
 				json.put("pipelineNo", w.getPipelineNo());
 				json.put("roomNo", w.getRoomNo());
+				json.put("levelid", w.getSystems());
+				json.put("levelname", w.getArea());
 				if( w.getItemid()!=null && !"".equals( w.getItemid())){
 					json.put("itemname", w.getItemid().getName());
 					json.put("itemid", w.getItemid().getId());
@@ -436,7 +438,7 @@ public class WeldingTaskController {
 			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
 			iutil.Authority(client);
 			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"addJunction\"}";
-			String obj2 = "{\"JUNCTIONNO\":\""+request.getParameter("weldedJunctionno")+"\",\"SERIALNO\":\""+request.getParameter("serialNo")+"\",\"DYNE\":\""+request.getParameter("fwelderid")+"\"," +
+			String obj2 = "{\"JUNCTIONNO\":\""+request.getParameter("weldedJunctionno")+"\",\"DYNE\":\""+request.getParameter("fwelderid")+"\",\"TASKLEVEL\":\""+request.getParameter("tasklevel")+"\","+
 					"\"INSFID\":\""+request.getParameter("fitemid")+"\",\"STARTTIME\":\""+request.getParameter("dtoTime1")+"\",\"ENDTIME\":\""+request.getParameter("dtoTime2")+"\",\"EXTERNALDIAMETER\":\""+request.getParameter("quali")+"\"}";
 			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
 			if(objects[0].toString().equals("true")){
@@ -465,7 +467,7 @@ public class WeldingTaskController {
 			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
 			iutil.Authority(client);
 			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"updateJunction\"}";
-			String obj2 = "{\"ID\":\""+request.getParameter("id")+"\",\"JUNCTIONNO\":\""+request.getParameter("weldedJunctionno")+"\",\"SERIALNO\":\""+request.getParameter("serialNo")+"\",\"DYNE\":\""+request.getParameter("fwelderid")+"\"," +
+			String obj2 = "{\"ID\":\""+request.getParameter("id")+"\",\"JUNCTIONNO\":\""+request.getParameter("weldedJunctionno")+"\",\"DYNE\":\""+request.getParameter("fwelderid")+"\",\"TASKLEVEL\":\""+request.getParameter("tasklevel")+"\","+
 					"\"INSFID\":\""+request.getParameter("fitemid")+"\",\"STARTTIME\":\""+request.getParameter("dtoTime1")+"\",\"ENDTIME\":\""+request.getParameter("dtoTime2")+"\",\"EXTERNALDIAMETER\":\""+request.getParameter("quali")+"\"}";
 			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
 			if(objects[0].toString().equals("true")){
@@ -641,7 +643,11 @@ public class WeldingTaskController {
 			for(int i=0;i<ary.size();i++){
 				obj = ary.getJSONObject(i); 
 				wj.setWeldedJunctionno(String.valueOf(obj.get("taskNo")));
-				wj.setSerialNo(String.valueOf(obj.get("desc")));
+				if(obj.get("levelid")==null||obj.get("levelid")==""){
+					wj.setRoomNo(null);
+				}else{
+					wj.setRoomNo(String.valueOf(obj.get("levelid")));
+				}
 				if(obj.get("welderId")==null||obj.get("welderId")==""){
 					wj.setUnit(null);
 				}else{

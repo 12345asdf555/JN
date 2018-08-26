@@ -885,7 +885,7 @@ public class DataStatisticsController {
 			}
 			for(DataStatistics i:list){
 				dto.setJunctionno(i.getSerialnumber());
-				json.put("t0", i.getSerialnumber().substring(2, 8));
+				json.put("t0", i.getSerialnumber());
 				BigInteger worktime = dss.getStaringUpTime(null, dto);
 				DataStatistics parameter = dss.getParameter();
 				BigInteger standytime = null;
@@ -1009,7 +1009,7 @@ public class DataStatisticsController {
 			for(DataStatistics i:ilist){
 				for(DataStatistics o:olist){
 					if((i.getInsname()).equals(o.getInsname())){
-						json.put("t0", i.getInsname().substring(2, 8));//工件编号
+						json.put("t0", i.getInsname());//工件编号
 						json.put("t1", getTimeStrBySecond(i.getInsid()));//累计焊接时间
 						json.put("t2", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
 						json.put("t3", getTimeStrBySecond(o.getInsid()));//超规范焊接时长

@@ -11,6 +11,16 @@ $(function(){
 		}
 	})
 	$("#fm").form("disableValidation");
+	$("#welderno").textbox('textbox').blur(function(){
+		var welderno = $("#welderno").val();
+		var len = welderno.length;
+		if(len<8){
+			for(var i=0;i<8-len;i++){
+				welderno = "0"+welderno;
+			}
+		}
+		$("#welderno").textbox('setValue',welderno);
+	});
 })
 
 function insframworkCombobox(){

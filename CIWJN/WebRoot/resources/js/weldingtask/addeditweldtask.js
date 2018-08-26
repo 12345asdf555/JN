@@ -1,6 +1,7 @@
 $(function(){
 	InsframeworkCombobox();
 	WelderCombobox();
+	taskCombobox();
 	$('#dlg').dialog( {
 		onClose : function() {
 			$('#itemid').combobox('clear');
@@ -9,7 +10,7 @@ $(function(){
 	});
 	itemidChange();
 	$("#fm").form("disableValidation");
-	$("#weldedJunctionno").textbox('textbox').blur(function(){
+/*	$("#weldedJunctionno").textbox('textbox').blur(function(){
 		var wjno = $("#weldedJunctionno").val();
 		if(wjno.length!=0){
 			var len = wjno.length;
@@ -20,7 +21,7 @@ $(function(){
 			}
 			$("#weldedJunctionno").textbox('setValue',wjno);
 		}
-	});
+	});*/
 })
 
 var symbol=0;
@@ -86,14 +87,15 @@ function save(){
 		var fwelderid = $('#welderid').val();
 		var fitemid = $('#itemid').combobox('getValue');
 		var quali = $('#quali').combobox('getValue');
+		var tasklevel = $('#levelid').combobox('getValue');
 		var messager = "";
 		var url2 = "";
 		if(flag==1){
 			messager = "新增成功！";
-			url2 = url+"?fitemid="+fitemid+"&fwelderid="+fwelderid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&quali="+quali;
+			url2 = url+"?fitemid="+fitemid+"&fwelderid="+fwelderid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&quali="+quali+"&tasklevel="+tasklevel;
 		}else{
 			messager = "修改成功！";
-			url2 = url+"&fitemid="+fitemid+"&fwelderid="+fwelderid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&quali="+quali;
+			url2 = url+"&fitemid="+fitemid+"&fwelderid="+fwelderid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&quali="+quali+"&tasklevel="+tasklevel;
 		}
 		$('#fm').form('submit', {
 			url : url2,
@@ -157,7 +159,7 @@ function WelderCombobox(){
 	$.ajax({  
     type : "post",  
     async : false,
-    url : "Dictionary/getValueByTypeid",  
+    url : "Dictionary/getValueByTypeid?type="+7,  
     data : {},  
     dataType : "json", //返回数据形式为json  
     success : function(result) {  
@@ -175,6 +177,31 @@ function WelderCombobox(){
     }  
 	}); 
 	$("#quali").combobox();
+}
+
+//任务等级
+function taskCombobox(){
+	$.ajax({  
+  type : "post",  
+  async : false,
+  url : "Dictionary/getValueByTypeid?type="+17,  
+  data : {},  
+  dataType : "json", //返回数据形式为json  
+  success : function(result) {  
+      if (result) {
+          var optionStr = '';
+          for (var i = 0; i < result.ary.length; i++) {  
+              optionStr += "<option value=\"" + result.ary[i].value + "\" >"  
+                      + result.ary[i].name + "</option>";
+          }
+          $("#levelid").html(optionStr);
+      }  
+  },  
+  error : function(errorMsg) {  
+      alert("数据请求失败，请联系系统管理员!");  
+  }  
+	}); 
+	$("#levelid").combobox();
 }
 
 
@@ -256,7 +283,6 @@ function WelderDatagrid(){
             if ((index % 2)!=0){
             	//处理行代背景色后无法选中
             	var color=new Object();
-                color.class="rowColor";
                 return color;
             }
         },
@@ -288,7 +314,7 @@ function saveWelder(){
 
 function cancelWelder(){
 	  $("#pipelineNo").textbox('clear');
-	  $("#welderid").val()
+	  $("#welderid").val("");
 }
 
 function itemidChange(){

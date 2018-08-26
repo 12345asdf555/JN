@@ -255,7 +255,7 @@ function history(){
 });
 }
 
-$(document).ready(function () {
+/*$(document).ready(function () {
 	$("#fadvance").numberbox({
 	    "onChange":function(newvalue,oldvalue){
 	         if(newvalue<0||newvalue>100){
@@ -352,7 +352,7 @@ $(document).ready(function () {
 	         }
 	    }
 	  });
-})
+})*/
 
 //监听窗口大小变化
 window.onresize = function() {

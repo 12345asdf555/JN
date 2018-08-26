@@ -42,7 +42,7 @@ function weldedJunctionDatagrid(){
 			title : '焊机编号',
 //			width : 90,
 			halign : "center",
-			align : "left",
+			align : "left"
 //			hidden:true
 		}, {
 			field : 'itemid',
@@ -122,14 +122,14 @@ function weldedJunctionDatagrid(){
 			title : '实际开始时间',
 //			width : 100,
 			halign : "center",
-			align : "left",
+			align : "left"
 //			hidden:true
 	    },{
 			field : 'endtime',
 			title : '实际结束时间',
 //			width : 100,
 			halign : "center",
-			align : "left",
+			align : "left"
 //			hidden:true
 	    },{
 			field : 'operatetype',
@@ -165,7 +165,6 @@ function weldedJunctionDatagrid(){
             if ((index % 2)!=0){
             	//处理行代背景色后无法选中
             	var color=new Object();
-                color.class="rowColor";
                 return color;
             }
         },
@@ -382,7 +381,7 @@ function WeldingMachineDatagrid() {
 			title : '焊机编号',
 			width : 90,
 			halign : "center",
-			align : "left",
+			align : "left"
 //			hidden:true
 		}, {
 			field : 'machineid',
@@ -437,7 +436,7 @@ function WeldingMachineDatagrid() {
 		},*/
 		toolbar : '#dlgSearch',
 		pagination : true,
-		fitColumns : true,
+		fitColumns : true
 	});
 }
 function confirm(){

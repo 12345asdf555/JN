@@ -39,11 +39,18 @@ public interface DictionaryService {
 	List<Dictionarys> getDicValueByValue(int typeid,int value);
 	
 	/**
-	 * 根据值名称获取值
+	 * 根据值名称获取值(int)
 	 * @param valuename 值名称
 	 * @return
 	 */
 	int getvaluebyname(int typeid,String valuename);
+	
+	/**
+	 * 根据值名称获取值(String)
+	 * @param valuename 值名称
+	 * @return
+	 */
+	String getValueByNameAndType(int typeid,String valuename);
 
 	/**
 	 * 根据value（字典值）获取值名称

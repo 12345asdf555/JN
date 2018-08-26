@@ -127,7 +127,7 @@ var back = new Array();
     				if(back[rowdex]==rows[dex1].machineid){    
     				        $('#dg').datagrid('insertRow', {  
     				            index:0,  
-    				            row:rows[dex1],  
+    				            row:rows[dex1]
     				        });     
     				        $('#dg').datagrid('deleteRow', dex1+1);//删除一行
     				}
@@ -284,9 +284,6 @@ var back = new Array();
 	});
     }
 
-        $(function(){
-        	wireuse();
-        })
     	$(function(){
 			   $.ajax({
 			   type: "post", 

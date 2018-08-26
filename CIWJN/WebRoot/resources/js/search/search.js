@@ -637,7 +637,7 @@ function searchWJ(){
 	searchStr="";
 }
 
-//新增焊口查询条件
+//新增任务查询条件
 function newSearchWT(){
 	fillcontent();
 	newSearch();
@@ -645,11 +645,11 @@ function newSearchWT(){
 	initSearch();
 }
 
-//焊口下拉框
+//任务下拉框
 function searchWTCombobox(){
 	var optionFields = 
 		"<option value='j.fwelded_junction_no'>任务编号</option>" +
-		"<option value='j.fserial_no'>任务描述</option>" +
+		"<option value='dd.fvaluename'>任务等级</option>" +
 		"<option value='w.fwelder_no'>焊工编号</option>" +
 		"<option value='d.fvaluename'>焊工资质</option>" +
 		"<option value='i.fname'>所属班组</option>"+
@@ -660,14 +660,14 @@ function searchWTCombobox(){
 }
 
 
-//进入焊口查询
+//进入任务查询
 function insertsearchWT(){
 	$("#searchdiv").dialog("open");
 	searchWTCombobox();
 	initSearch();
 }
 
-//焊口执行查询
+//任务执行查询
 function searchWT(){
 	fillcontent();
 	if(!getContent()){

@@ -331,7 +331,6 @@ public class ImportExcelController {
 				}
 				w.setWeldedJunctionno(wjno);
 				json.put("taskNo", w.getWeldedJunctionno());
-				json.put("desc", w.getSerialNo());
 				if(w.getWeldedJunctionno()==null||w.getWeldedJunctionno()==""){
 					str+="任务编号不能为空;";
 					biaozhi=1;
@@ -344,6 +343,18 @@ public class ImportExcelController {
 					if(w.getWeldedJunctionno().length()>8){
 						str+="任务编号超出指定长度;";
 						biaozhi=1;
+					}
+				}
+				if((w.getSerialNo()=="")||(w.getSerialNo()==null)){
+					json.put("levelname", "");
+				}else{
+					json.put("levelname", w.getSerialNo());
+					String lll = dm.getValueByNameAndType(17, w.getSerialNo());
+					if(lll==null||lll=="null"){
+						str+="任务等级书写不规范;";
+						biaozhi=1;
+					}else{
+						json.put("levelid", String.valueOf(lll));
 					}
 				}
 //				json.put("insName", w.getItemid().getName());
@@ -383,8 +394,8 @@ public class ImportExcelController {
 					json.put("quali", "");
 				}else{
 					json.put("quali", w.getRoomNo());
-					int qqq = dm.getvaluebyname(7, w.getRoomNo());
-					if(String.valueOf(qqq)==null||String.valueOf(qqq)=="null"){
+					String qqq = dm.getValueByNameAndType(7, w.getRoomNo());
+					if(qqq==null||qqq=="null"){
 						str+="资质书写不规范;";
 						biaozhi=1;
 					}else{
@@ -1121,7 +1132,7 @@ public class ImportExcelController {
 						break;
 					}
 					else if(k == 1){
-						p.setSerialNo(cellValue);//任务描述
+						p.setSerialNo(cellValue);//任务等级
 						break;
 					}
 					else if(k == 2){
@@ -1154,7 +1165,7 @@ public class ImportExcelController {
 						break;
 					}
 					else if(k == 1){
-						p.setSerialNo(cellValue);//任务描述
+						p.setSerialNo(cellValue);//任务等级
 						break;
 					}
 					else if(k == 2){

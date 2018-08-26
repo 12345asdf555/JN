@@ -86,11 +86,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="fitem">
 					<lable><span class="required">*</span>任务编号</lable>
 					<input type="hidden" id="oldno" />
-					<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno" data-options="validType:['wjNoValidate','length[1,8]'],required:true" />
+					<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno" data-options="validType:['wjNoValidate'],required:true" />
 				</div>
 				<div class="fitem">
-					<lable><span class="required"></span>任务描述</lable>
-					<input class="easyui-textbox" id="serialNo" name="serialNo" data-options="required:false"/>
+					<lable><span class="required"></span>任务等级</lable>
+					<select class="easyui-combobox" id="levelid"  name="levelid" data-options="editable:false"></select>
 				</div>
 				<div class="fitem">
 					<lable><span class="required"></span>焊工编号</lable>
@@ -160,8 +160,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno" readonly="readonly" />
 				</div>
 				<div class="fitem">
-					<lable><span class="required"></span>任务描述</lable>
-					<input class="easyui-textbox" id="serialNo" name="serialNo" readonly="readonly"/>
+					<lable><span class="required"></span>任务等级</lable>
+					<input class="easyui-textbox" id="levelname"  name="levelname" readonly="readonly">
 				</div>
 				<div class="fitem">
 					<lable><span class="required"></span>焊工编号</lable>

@@ -127,8 +127,8 @@ var back = new Array();
 	            else{
 	            	rows[dex].macstatus = "关机";
 	            }
-    			rows[dex].realele = parseInt(dd.substring(12+g, 16+g),16);
-    			rows[dex].realvol = parseInt(dd.substring(16+g, 20+g),16);
+    			rows[dex].realele = parseInt(dd.substring(12+g, 16+g));
+    			rows[dex].realvol = (parseInt(dd.substring(16+g, 20+g))/10).toFixed(2);
 				for(var k=0;k<namex.length;k++){
 					if(namex[k].fwelder_no==dd.substring(8+g, 12+g)){
 						rows[dex].currentwelder=namex[k].fname;
@@ -148,7 +148,7 @@ var back = new Array();
     				if(back[rowdex]==rows[dex1].machineid){    
     				        $('#dg').datagrid('insertRow', {  
     				            index:0,  
-    				            row:rows[dex1],  
+    				            row:rows[dex1]
     				        });     
     				        $('#dg').datagrid('deleteRow', dex1+1);//删除一行
     				}

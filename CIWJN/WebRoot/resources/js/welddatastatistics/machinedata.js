@@ -7,7 +7,7 @@ var chartStr = "";
 function setParam(){
 	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
-	var item = $("#item").combobox('getValue');
+	var item = $("#bitem").combobox('getValue');
 	chartStr += "?item="+item+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2;
 }
 
@@ -46,7 +46,6 @@ function dgDatagrid(){
         					 if ((index % 2)!=0){
         		            	 //处理行代背景色后无法选中
         		            	 var color=new Object();
-        		                 color.class="rowColor";
         		                 return color;
         		             }
         		         },
@@ -64,7 +63,7 @@ function dgDatagrid(){
 }
 
 function itemcombobox(){
-	$.ajax({  
+/*	$.ajax({  
       type : "post",  
       async : false,
       url : "datastatistics/getAllInsframework",  
@@ -84,7 +83,71 @@ function itemcombobox(){
           alert("数据请求失败，请联系系统管理员!");  
       }  
 	}); 
-	$("#item").combobox();
+	$("#item").combobox();*/
+	
+	$.ajax({  
+	    type : "post",  
+	    async : false,
+	    url : "weldtask/getOperateArea",  
+	    data : {},  
+	    dataType : "json", //返回数据形式为json  
+	    success : function(result) {  
+	        if (result) {
+	        	if(result.type==23){
+	        		var zoptionStr = "";
+	        		var boptionStr = "";
+	                for (var i = 0; i < result.ary.length; i++) {  
+	                    zoptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+	                            + result.ary[i].name + "</option>";
+	                }
+	                for (var j = 0; j < result.banzu.length; j++) {  
+	                    boptionStr += "<option value=\"" + result.banzu[j].id + "\" >"  
+	                            + result.banzu[j].name + "</option>";
+	                }
+	                $("#zitem").html(zoptionStr);
+	                $("#bitem").html(boptionStr);
+		        	$("#zitem").combobox();
+		        	$("#zitem").combobox('select',result.ary[0].id);
+		        	$("#bitem").combobox();
+		        	$("#bitem").combobox('select',result.banzu[0].id);
+//		        	$("#zitem").combobox({disabled: true});
+//		        	$("#bitem").combobox({disabled: true});
+	        	}else if(result.type==22){
+	        		var zoptionStr = "";
+	        		var boptionStr = '<option value="0">请选择</option>';
+	                for (var i = 0; i < result.ary.length; i++) {  
+	                    zoptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+	                            + result.ary[i].name + "</option>";
+	                }
+	                for (var j = 0; j < result.banzu.length; j++) {  
+	                    boptionStr += "<option value=\"" + result.banzu[j].id + "\" >"  
+	                            + result.banzu[j].name + "</option>";
+	                }
+	                $("#zitem").html(zoptionStr);
+	                $("#bitem").html(boptionStr);
+		        	$("#zitem").combobox();
+		        	$("#zitem").combobox('select',result.ary[0].id);
+		        	$("#bitem").combobox();
+		        	$("#bitem").combobox('select',0);
+//		        	$("#zitem").combobox({disabled: true});
+	        	}else{
+	        		$("#bitem").combobox({disabled: true});
+	        		var zoptionStr = '<option value="0">请选择</option>';
+	                for (var i = 0; i < result.ary.length; i++) {  
+	                    zoptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+	                            + result.ary[i].name + "</option>";
+	                }
+	                $("#zitem").html(zoptionStr);
+		        	$("#zitem").combobox();
+		        	$("#zitem").combobox('select',0);
+	        	}
+	        	
+	        }  
+	    },  
+	    error : function(errorMsg) {  
+	        alert("数据请求失败，请联系系统管理员!");  
+	    }  
+		}); 
 }
 
 function serach(){

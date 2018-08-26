@@ -167,12 +167,13 @@ public class DictonaryController {
 	
 	@RequestMapping("/getValueByTypeid")
 	@ResponseBody
-	public String getValueByTypeid(){
+	public String getValueByTypeid(HttpServletRequest request){
 		JSONObject obj=new JSONObject();
 		JSONObject json=new JSONObject();
 		JSONArray ary=new JSONArray();
+		String type=request.getParameter("type");
 		try{
-			List<Dictionarys> list = dictionaryManager.getDictionaryValue(7);
+			List<Dictionarys> list = dictionaryManager.getDictionaryValue(Integer.valueOf(type));
 			for(Dictionarys d:list){
 				json.put("value", d.getValue());
 				json.put("name", d.getValueName());

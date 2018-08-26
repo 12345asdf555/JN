@@ -42,7 +42,7 @@ function weldedJunctionDatagrid(){
 			title : '焊机编号',
 //			width : 90,
 			halign : "center",
-			align : "left",
+			align : "left"
 //			hidden:true
 		}, {
 			field : 'taskid',
@@ -163,7 +163,6 @@ function weldedJunctionDatagrid(){
             if ((index % 2)!=0){
             	//处理行代背景色后无法选中
             	var color=new Object();
-                color.class="rowColor";
                 return color;
             }
         },
@@ -189,7 +188,7 @@ function weldedJunctionDatagrid(){
 }*/
 //组织机构
 function itemcombobox(){
-	$.ajax({  
+/*	$.ajax({  
       type : "post",  
       async : false,
       url : "weldingMachine/getInsframeworkAll",  
@@ -210,7 +209,71 @@ function itemcombobox(){
       }  
 	}); 
 	$("#item").combobox();
-	$("#item").combobox('select',0);
+	$("#item").combobox('select',0);*/
+	
+	$.ajax({  
+	    type : "post",  
+	    async : false,
+	    url : "weldtask/getOperateArea",  
+	    data : {},  
+	    dataType : "json", //返回数据形式为json  
+	    success : function(result) {  
+	        if (result) {
+	        	if(result.type==23){
+	        		var zoptionStr = "";
+	        		var boptionStr = "";
+	                for (var i = 0; i < result.ary.length; i++) {  
+	                    zoptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+	                            + result.ary[i].name + "</option>";
+	                }
+	                for (var j = 0; j < result.banzu.length; j++) {  
+	                    boptionStr += "<option value=\"" + result.banzu[j].id + "\" >"  
+	                            + result.banzu[j].name + "</option>";
+	                }
+	                $("#zitem").html(zoptionStr);
+	                $("#bitem").html(boptionStr);
+		        	$("#zitem").combobox();
+		        	$("#zitem").combobox('select',result.ary[0].id);
+		        	$("#bitem").combobox();
+		        	$("#bitem").combobox('select',result.banzu[0].id);
+//		        	$("#zitem").combobox({disabled: true});
+//		        	$("#bitem").combobox({disabled: true});
+	        	}else if(result.type==22){
+	        		var zoptionStr = "";
+	        		var boptionStr = '<option value="0">请选择</option>';
+	                for (var i = 0; i < result.ary.length; i++) {  
+	                    zoptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+	                            + result.ary[i].name + "</option>";
+	                }
+	                for (var j = 0; j < result.banzu.length; j++) {  
+	                    boptionStr += "<option value=\"" + result.banzu[j].id + "\" >"  
+	                            + result.banzu[j].name + "</option>";
+	                }
+	                $("#zitem").html(zoptionStr);
+	                $("#bitem").html(boptionStr);
+		        	$("#zitem").combobox();
+		        	$("#zitem").combobox('select',result.ary[0].id);
+		        	$("#bitem").combobox();
+		        	$("#bitem").combobox('select',0);
+//		        	$("#zitem").combobox({disabled: true});
+	        	}else{
+	        		$("#bitem").combobox({disabled: true});
+	        		var zoptionStr = '<option value="0">请选择</option>';
+	                for (var i = 0; i < result.ary.length; i++) {  
+	                    zoptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+	                            + result.ary[i].name + "</option>";
+	                }
+	                $("#zitem").html(zoptionStr);
+		        	$("#zitem").combobox();
+		        	$("#zitem").combobox('select',0);
+	        	}
+	        	
+	        }  
+	    },  
+	    error : function(errorMsg) {  
+	        alert("数据请求失败，请联系系统管理员!");  
+	    }  
+		}); 
 }
 
 function confim(){}
@@ -317,6 +380,35 @@ function confirm(){
 var searchStr = "";
 var parent = "";
 function serach(){
+	$("#zitem").combobox({
+		onChange : function(newValue,oldValue){
+			if(oldValue!=""){
+				$.ajax({  
+				    type : "post",  
+				    async : false,
+				    url : "weldtask/getTeam?searchStr="+" and i.fparent="+newValue,  
+				    data : {},  
+				    dataType : "json", //返回数据形式为json  
+				    success : function(result) {  
+				        if (result) {
+				        		var boptionStr = '<option value="0">请选择</option>';
+				                for (var i = 0; i < result.ary.length; i++) {  
+				                    boptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+				                            + result.ary[i].name + "</option>";
+				                }
+				                $("#bitem").html(boptionStr);
+					        	$("#bitem").combobox();
+					        	$("#bitem").combobox('select',0);
+					        	$("#bitem").combobox({disabled: false});
+				        }  
+				    },  
+				    error : function(errorMsg) {  
+				        alert("数据请求失败，请联系系统管理员!");  
+				    }  
+					}); 
+			}
+		}
+	})
 	$("#item").combobox({
 		onChange : function(newValue,oldValue){
 			var itemid = $("#item").combobox("getValue");

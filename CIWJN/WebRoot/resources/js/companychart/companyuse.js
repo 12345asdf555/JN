@@ -49,7 +49,7 @@ function showcompanyUseChart(){
 			text: ""
 		},
 		tooltip:{
-			trigger: 'axis',//坐标轴触发，即是否跟随鼠标集中显示数据
+			trigger: 'axis'//坐标轴触发，即是否跟随鼠标集中显示数据
 		},
 		legend:{
 			data:['时长(h)']
@@ -126,7 +126,6 @@ function CaustUseDatagrid(){
             if ((index % 2)!=0){
             	//处理行代背景色后无法选中
             	var color=new Object();
-                color.class="rowColor";
                 return color;
             }
 		}
