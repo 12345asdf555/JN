@@ -796,3 +796,11 @@ function getContent(){
 function close(){
 	$('#searchdiv').dialog('close');
 }
+
+function close1(){
+	$('#dlg').dialog('close')
+}
+
+function close2(){
+	$('#rdlg').dialog('close')
+}

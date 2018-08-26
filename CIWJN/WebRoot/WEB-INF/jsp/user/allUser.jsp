@@ -66,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		
 		<!-- 添加修改 -->
-		<div id="dlg" class="easyui-dialog" style="width: 800px; height: 600px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
+		<div id="dlg" class="easyui-dialog" style="width: 680px; height: 550px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
 			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
 				<div class="fitem">
 	            	<lable><span class="required">*</span>用户名</lable>
@@ -78,19 +78,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <div class="fitem">
 	            	<lable><span class="required">*</span>密码</lable>
 	                <input name="userPassword" type="password" class="easyui-textbox" data-options="required:true">
-	            	<lable>电话</lable>
+	            	<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话</lable>
 	                <input name="userPhone" class="easyui-textbox" data-options="validType:'phoneNum',required:false">
 	            </div>
 	            <div class="fitem">
 	            	<lable>邮箱</lable>
 	                <input name="userEmail" class="easyui-textbox" data-options="validType:'email',required:false" invalidMessage="请输入正确的邮箱">
-	            	<lable><span class="required">*</span>岗位</lable>
+	            	<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>岗位</lable>
 	                <input name="userPosition" class="easyui-textbox" data-options="required:true">
 	            </div>
 	            <div class="fitem">
 					<lable><span class="required">*</span>部门</lable>
 					<select class="easyui-combobox" name="insid" id="insid" data-options="required:true,editable:false"></select>
-	        		<lable>状态</lable>&nbsp;&nbsp;
+	        		<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态</lable>&nbsp;&nbsp;
 	   				<span id="radios"></span>
 	        	</div>
 		        <div align="center">
@@ -100,11 +100,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="dlg-buttons">
 			<a href="javascript:save();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-			<a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:close1();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		
 		<!-- 删除 -->
-		<div id="rdlg" class="easyui-dialog" style="width: 800px; height: 600px; padding:10px 20px" closed="true" buttons="#remove-buttons">
+		<div id="rdlg" class="easyui-dialog" style="width: 660px; height: 550px; padding:10px 20px" closed="true" buttons="#remove-buttons">
 			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
 				<div class="fitem">
 	                <input name="id" id="id" type="hidden" >
@@ -112,25 +112,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <div class="fitem">
 	            	<lable>用户名</lable>
 	                <input name="userName" id="userName" class="easyui-textbox" readonly="true">
-	            	<lable>登录名</lable>
+	            	<lable>&nbsp;&nbsp;登录名</lable>
 	                <input name="userLoginName" class="easyui-textbox" readonly="true">
 	            </div>
 	            <div class="fitem">
 	            	<lable>密码</lable>
 	                <input name="userPassword" class="easyui-textbox" type="password" readonly="true">
-	            	<lable>电话</lable>
+	            	<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话</lable>
 	                <input name="userPhone" class="easyui-textbox" readonly="true" >
 	            </div>
 	            <div class="fitem">
 	            	<lable>邮箱</lable>
 	                <input name="userEmail" class="easyui-textbox" readonly="true" >
-	            	<lable>岗位</lable>
+	            	<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;岗位</lable>
 	                <input id="userPosition" name="userPosition" class="easyui-textbox" readonly="true">
 	            </div>
 	            <div class="fitem">
 	            	<lable>部门</lable>
 	            	<input class="easyui-textbox" name="users_insframework" id="users_insframework"  readonly="true" />
-					<lable>状态</lable>
+					<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态</lable>
 					<input name="status" class="easyui-textbox" readonly="true"/>
 	            </div>
 		        <div align="center">
@@ -140,7 +140,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="remove-buttons">
 			<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
-			<a href="javascript:$('#rdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:close2();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
     </div>
 </body>

@@ -286,7 +286,7 @@ $(function(){
 								async : false,
 								url : 'gather/gathernoValidate',
 								data : {
-									"gatherno" : value,
+									"gatherno" : value
 //									"itemid" : itemid
 								},
 								success : function(data){

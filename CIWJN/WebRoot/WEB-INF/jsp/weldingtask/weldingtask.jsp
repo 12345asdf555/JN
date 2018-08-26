@@ -81,7 +81,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:close();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 		</div>
 		<!-- 添加修改 -->
-		<div id="dlg" class="easyui-dialog" style="width: 350px; height: 400px; padding:3px 6px" closed="true" buttons="#dlg-buttons">
+		<div id="dlg" class="easyui-dialog" style="width: 400px; height: 400px; padding:3px 6px" closed="true" buttons="#dlg-buttons">
 			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true">
 				<div class="fitem">
 					<lable><span class="required">*</span>任务编号</lable>
@@ -92,7 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<lable><span class="required"></span>任务等级</lable>
 					<select class="easyui-combobox" id="levelid"  name="levelid" data-options="editable:false"></select>
 				</div>
-				<div class="fitem">
+				<div class="fitem" style="padding-right:30px">
 					<lable><span class="required"></span>焊工编号</lable>
 					<input id="welderid" name="welderid" type="hidden"/>
 					<input class="easyui-textbox" id="pipelineNo" name="pipelineNo" readonly="readonly"/>
@@ -118,7 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="dlg-buttons">
 			<a href="javascript:save();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-			<a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:close1();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		<!-- 导入检测表格 -->
 		<div id="exportdlg" class="easyui-dialog" style="width: 800px; height: 400px; padding:3px 6px" closed="true" buttons="#exportdlg-buttons">
@@ -153,7 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    </div>
 	    
 		<!-- 删除 -->
-		<div id="rdlg" class="easyui-dialog" style="width: 350px; height: 400px; padding:3px 6px" closed="true" buttons="#remove-buttons">
+		<div id="rdlg" class="easyui-dialog" style="width: 400px; height: 400px; padding:3px 6px" closed="true" buttons="#remove-buttons">
 			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
 				<div class="fitem">
 					<lable><span class="required">*</span>任务编号</lable>
@@ -187,7 +187,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="remove-buttons">
 			<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
-			<a href="javascript:$('#rdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:close2();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		
 		<div id="load" style="width:100%;height:100%;"></div>

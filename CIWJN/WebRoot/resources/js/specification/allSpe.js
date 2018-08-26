@@ -354,6 +354,14 @@ function history(){
 	  });
 })*/
 
+function divroclose(){
+	$('#divro').dialog('close');
+}
+
+function divro1close(){
+	$('#divro1').dialog('close')
+}
+
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize, 500);

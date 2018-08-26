@@ -62,16 +62,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:close();" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
 		</div>
 		<!-- 添加修改 -->
-		<div id="dlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
+		<div id="dlg" class="easyui-dialog" style="width: 440px; height: 500px; padding:10px 20px" closed="true" buttons="#dlg-buttons">
 			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
             <div class="fitem">
 				<lable><span class="required">*</span>权限</lable>
            		<input id="validName" type="hidden">
-                <input id="authorityName" name="authorityName" class="easyui-textbox" data-options="validType:'authorityValidate',required:true" style="width:100%">
+                <input id="authorityName" name="authorityName" class="easyui-textbox" data-options="validType:'authorityValidate',required:true">
             </div>
             <div class="fitem">
 				<lable><span class="required">*</span>描述</lable>
-                <input name="authorityDesc" class="easyui-textbox" data-options="required:true" style="width:100%">
+                <input name="authorityDesc" class="easyui-textbox" data-options="required:true">
             </div>
 			<div class="fitem">
 				<lable>状态</lable>&nbsp;&nbsp;
@@ -84,11 +84,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="dlg-buttons">
 			<a href="javascript:save();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-			<a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:close1();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		
 		<!-- 删除 -->
-		<div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
+		<div id="rdlg" class="easyui-dialog" style="width: 440px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
 			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
 				<div style="margin-bottom:10px;display: none;">
 	                <input name="id" id="id" class="easyui-textbox" type="hidden">
@@ -112,7 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="remove-buttons">
 			<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
-			<a href="javascript:$('#rdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:close2();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
     </div>
 </body>

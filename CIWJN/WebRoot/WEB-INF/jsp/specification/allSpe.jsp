@@ -294,7 +294,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div id="dlg-ro">
 			<a href="javascript:savecopy();" class="easyui-linkbutton" iconCls="icon-ok">下一步</a>
-			<a href="javascript:$('#divro').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:divroclose();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		
 		<div id="divro1" class="easyui-dialog" style="width:400px;height:400px" closed="true" buttons="#dlg-ro1"algin="center">
@@ -302,7 +302,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div id="dlg-ro1">
 			<a href="javascript:$('#divro1').dialog('close');" class="easyui-linkbutton" iconCls="icon-ok">确定</a>
-			<a href="javascript:$('#divro1').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:divro1close();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
     </div>
 </body>

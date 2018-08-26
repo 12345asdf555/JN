@@ -754,7 +754,11 @@ function getNowFormatDate() {
             + " " + date.getHours() + seperator2 + date.getMinutes()
             + seperator2 + date.getSeconds();
     return currentdate;
-}  
+}
+
+function dlgclose(id){
+	$('#'+id).dialog('close');
+}
 
 //监听窗口大小变化
 window.onresize = function() {

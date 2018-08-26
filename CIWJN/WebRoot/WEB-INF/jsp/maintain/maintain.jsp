@@ -99,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="dlg-buttons">
 			<a href="javascript:saveMaintain();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-			<a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:close1();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		<!-- 删除 -->
 		<div id="rdlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#remove-buttons">
@@ -133,7 +133,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="remove-buttons">
 			<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
-			<a href="javascript:$('#rdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:close2();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 	</div>
   </body>

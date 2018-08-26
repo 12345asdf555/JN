@@ -61,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 			<div id="fdlg-buttons">
 				<a href="javascript:saveWeldingMachine();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-				<a href="javascript:$('#fdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+				<a href="javascript:dlgclose('fdlg');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 			</div> 
 		<!-- 确认完成-->
 			<div id="sdlg" class="easyui-dialog" style="width: 650px; height: 450px;" title="任务状态更改" closed="true" buttons="#sdlg-buttons">
@@ -69,10 +69,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 			<div id="sdlg-buttons">
 				<a href="javascript:saveWeldingnumber();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-				<a href="javascript:$('#sdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+				<a href="javascript:dlgclose('sdlg');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 			</div>
 		<!--评价 -->
-		<div id="mdlg" class="easyui-dialog" style="width: 450px; height: 400px; padding:3px 6px" closed="true" buttons="#mdlg-buttons">
+		<div id="mdlg" class="easyui-dialog" style="width: 380px; height: 400px; padding:3px 6px" closed="true" buttons="#mdlg-buttons">
 			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true"> 
 				<div class="fitem">
 					<lable><span class="required">*</span>评价等级</lable>
@@ -86,7 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="mdlg-buttons">
 			<a href="javascript:saveconment();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-			<a href="javascript:$('#mdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:dlgclose('mdlg');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		</div>
 		<style type="text/css">

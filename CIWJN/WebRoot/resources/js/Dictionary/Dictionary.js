@@ -256,6 +256,15 @@ function contentCombobox(){
 		var data = $('#content').combobox('getData');
 		$('#content').combobox('select',data[0].value);
 }
+
+function close1(){
+	$('#dlg').dialog('close')
+}
+
+function close2(){
+	$('#rdlg').dialog('close')
+}
+
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize, 500);

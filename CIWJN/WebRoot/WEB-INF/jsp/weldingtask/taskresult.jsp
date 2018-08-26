@@ -92,7 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:$('#ddlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 			</div>
 		<!-- 添加修改 -->
-		<div id="dlg" class="easyui-dialog" style="width: 650px; height: 450px; padding:3px 6px" closed="true" buttons="#dlg-buttons">
+		<div id="dlg" class="easyui-dialog" style="width: 500px; height: 450px; padding:3px 6px" closed="true" buttons="#dlg-buttons">
 			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true">
 				<div align="center">
 				<div class="fitem" >
@@ -122,7 +122,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="dlg-buttons">
 			<a href="javascript:saveedit();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-			<a href="javascript:$('#dlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:close1();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		<!-- 删除 -->
 		<div id="rdlg" class="easyui-dialog" style="width: 450px; height: 400px; padding:3px 6px" closed="true" buttons="#remove-buttons">
@@ -147,7 +147,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="remove-buttons">
 			<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">任务取消</a>
-			<a href="javascript:$('#rdlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:close2();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		</div>
 		<style type="text/css">
