@@ -138,10 +138,10 @@ function weldedJunctionDatagrid(){
 			formatter: function(value,row,index){
 				var str;
 				if(row.operateid==0||row.operateid==2){
-					str = '<a id="confirm" href="javascript:confirm()" class="easyui-linkbutton" disabled=true >';
+					str = '<a id="confirm" href="javascript:confirm()" class="easyui-linkbutton" disabled=true/>';
 				}
 				if(row.operateid==1){
-					str = '<a id="confirm1" href="javascript:confirm()" class="easyui-linkbutton" disabled=true>';
+					str = '<a id="confirm1" href="javascript:confirm()" class="easyui-linkbutton" disabled=true/>';
 				}
 				return str;
 			}

@@ -140,15 +140,15 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left",
 			formatter: function(value,row,index){
-				var str;
+				var str = "";
 				if(row.status==0||row.status==2){
-					str = '<a id="confirm" href="javascript:confirm()" class="easyui-linkbutton" disabled=true >';
+					str = '<a id="confirm" class="easyui-linkbutton" href="javascript:confirm()" disabled="true"/>';
 				}
 				if(row.status==1){
-					str = '<a id="confirm1" href="javascript:confirm()" class="easyui-linkbutton" disabled=true>';
+					str = '<a id="confirm1" class="easyui-linkbutton" href="javascript:confirm()" disabled="true"/>';
 				}
 				if(row.status==2){
-					str = '<a id="confirm2" href="javascript:confirm()" class="easyui-linkbutton" disabled=true>';
+					str = '<a id="confirm2" class="easyui-linkbutton" href="javascript:confirm()" disabled="true"/>';
 				}
 				return str;
 			}

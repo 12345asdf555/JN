@@ -75,6 +75,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService{
 
 	@Override
 	public List<WeldedJunction> getTaskResultAll(Page page, String str) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
 		return wjm.getTaskResultAll(str);
 	}
 
