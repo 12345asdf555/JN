@@ -2,39 +2,27 @@
 
 body {
 	font-family: SpringSoftBold;
-    background-image: url(../images/weldmesback.jpg);
-    background-repeat: no-repeat;
-	background-size:100%;
-	background-color: #1c1c1c;
+	background-color: #000;
+	overflow: hidden;/*溢出隐藏*/
 }
 
-#bodydiv{
-	height:280px;
-	width:480px;
-	position:fixed; 
+#logindiv{
+	position:absolute;
+	width:450px; 
+	height:262px;
+	background-image: url(../images/weldmeslogin.jpg);
+	background-size:100% 100%; 
+	z-index:2; 
 	margin:auto;
 	left:0;
 	right:0;
-	top:-40;
+	top:0;
 	bottom:0;
 	-webkit-box-shadow: #fff 0px 0px 50px;  
     -moz-box-shadow: #fff 0px 0px 50px;  
     box-shadow: #fff  0px 0px 50px;  
     opacity:0.8;
-    filter:alpha(opacity=80); /* 针对 IE8 以及更早的版本 */
-
-}
-
-#logindiv{
-    background-image: url(../images/weldmeslogin.jpg);
-    background-repeat: no-repeat;
-	background-size:100% 100%;
-	margin: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    filter:alpha(opacity=80);
 }
 
 #logindiv #formdiv{

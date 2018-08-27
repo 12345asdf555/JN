@@ -36,6 +36,17 @@ a{text-decoration:none;outline:none;}
   	display: inline-block;
   	text-align: right;
 }
+.mainfitem{
+	padding-bottom: 10px;
+ 	text-align: center;
+}
+
+.mainfitem lable{
+  	width: 120px;
+  	line-height: 30px;
+  	display: inline-block;
+  	text-align: right;
+}
 
 .content{
 	border: 1px solid #48A1E5;

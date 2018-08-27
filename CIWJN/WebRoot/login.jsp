@@ -1,5 +1,5 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.util.*" pageEncoding="utf-8"%>
-﻿<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%-- <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -22,44 +22,44 @@
 		<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
 	</head>
 
-	<body onLoad="document.f.j_username.focus();">
-	  	<div id="bodydiv">
-	    <div id="logindiv">
-	    	<div id="formdiv">
-	    		<form name="f" action="<c:url value='j_spring_security_check'/>" method="POST">
-	    			<table width="85%" align="center">
-		                <tr>
-		                    <td>用户名</td>
-				            <td align="center">
-				                <input type='text' name='j_username'  id="uname" value='<c:if test="${not empty param.login_error}">
-				                <c:out value="${SPRING_SECURITY_LAST_USERNAME}"/></c:if>'/>
-				            </td>
-		                </tr>
-		                <tr>
-				            <td>密码</td>
-				            <td align="center"><input type='password' name='j_password'></td>
-		                </tr>
-<!-- 		                <tr><td><input type="checkbox" name="_spring_security_remember_me"></td><td> 两周内自动登录</td></tr> -->
-				        <tr>
-				        	<td></td>
-				            <td align="center">
-				                <input name="submit" type="submit" value="登录" id="loginbutton">
-				            </td>
-				        </tr>
-				        <tr>
-				        	<td colspan="2" align="center" style="text-size:12px">
-							    <c:if test="${not empty param.login_error}">
-							       <font color="red">
-							           用户名或密码不正确，请重新输入。
-							       </font>
-							    </c:if>
-	    					</td>
-				        </tr>
-	    			</table>
-	    		</form>
-			</div>
-	    </div>
-	    <div id="tenghanbottom">Copyright 1998-2017上海腾悍智能科技有限公司</div>
+	<body>
+		<div id="bodydiv">
+			<img src="resources/images/weldmesback.jpg" width="100%" height="100%" />
+		    <div id="logindiv">
+		    	<div id="formdiv" style="margin-top:90px;margin-left:100px;width:80%;">
+		    		<form name="f" action="<c:url value='j_spring_security_check'/>" method="POST">
+		    			<table width="85%" align="center">
+			                <tr>
+			                    <td>用户名</td>
+					            <td align="center">
+					                <input type='text' name='j_username'  id="uname" value='<c:if test="${not empty param.login_error}">
+					                <c:out value="${SPRING_SECURITY_LAST_USERNAME}"/></c:if>'/>
+					            </td>
+			                </tr>
+			                <tr>
+					            <td>密码</td>
+					            <td align="center"><input type='password' name='j_password'></td>
+			                </tr>
+					        <tr>
+					        	<td></td>
+					            <td align="center">
+					                <input name="submit" type="submit" value="登录" id="loginbutton">
+					            </td>
+					        </tr>
+					        <tr>
+					        	<td colspan="2" align="center" style="text-size:12px">
+								    <c:if test="${not empty param.login_error}">
+								       <font color="red">
+								           用户名或密码不正确，请重新输入。
+								       </font>
+								    </c:if>
+		    					</td>
+					        </tr>
+		    			</table>
+		    		</form>
+				</div>
+		    </div>
+		    <div id="tenghanbottom">Copyright 1998-2017上海腾悍智能科技有限公司</div>
 	  	</div>
 	    <div align="center" class="connect" style="height: 220px;">
 			<span style="color: red;">${error}</span>
