@@ -115,7 +115,7 @@
 	})
 
 	    function websocket() {
-    	WEB_SOCKET_SWF_LOCATION = "http://192.168.3.6:8080/CIWJN/resources/js/WebSocketMain.swf";
+		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
     	WEB_SOCKET_DEBUG = true;
 /*			if(typeof(WebSocket) == "undefined") {
 				alert("您的浏览器不支持WebSocket");

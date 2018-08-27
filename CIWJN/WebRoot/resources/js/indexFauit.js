@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 var socket;
 var redata;
 //var welder_no = new Array();
@@ -55,10 +58,12 @@ function getWelderMachine(){
 }
 
 function websocket() {
-	if(typeof(WebSocket) == "undefined") {
+/*	if(typeof(WebSocket) == "undefined") {
 		alert("您的浏览器不支持WebSocket");
 		return;
-	}
+	}*/
+	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+	WEB_SOCKET_DEBUG = true;
 	webclient();
 };
 function webclient(){
@@ -80,6 +85,7 @@ function webclient(){
 	};
 	//关闭事件
 	socket.onclose = function(e) {
+		console.log(e);
         if (e.code == 4001 || e.code == 4002 || e.code == 4003 || e.code == 4005 || e.code == 4006){
             //如果断开原因为4001 , 4002 , 4003 不进行重连.
             return;
@@ -104,7 +110,8 @@ function webclient(){
         }
     };
 	//发生了错误事件
-	socket.onerror = function() {
+	socket.onerror = function(e) {
+		console.log(e);
 		aler("发生异常，正在尝试重新连接服务器！！！");
 	}
 }

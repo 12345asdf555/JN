@@ -3,7 +3,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<%response.setHeader("Cache-Control","no-store");%>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -28,6 +28,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/index.js"></script>
 	<script type="text/javascript" src="resources/js/indexFauit.js"></script>
 <!-- 	<script type="text/javascript" src="resources/js/indexFauit2.js"></script> -->
+	<script type="text/javascript" src="resources/js/swfobject.js"></script>
+	<script type="text/javascript" src="resources/js/web_socket.js"></script>
 	<style type="text/css">
 		a{text-decoration:none;color:inherit;outline:none;}
 	</style>

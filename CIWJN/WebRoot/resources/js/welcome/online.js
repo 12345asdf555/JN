@@ -76,10 +76,12 @@ function websocketurl(){
 }
 
 function websocket() {
-	if(typeof(WebSocket) == "undefined") {
+/*	if(typeof(WebSocket) == "undefined") {
 		alert("您的浏览器不支持WebSocket");
 		return;
-	}
+	}*/
+	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+	WEB_SOCKET_DEBUG = true;
 	webclient();
 };
 function webclient(){
@@ -90,7 +92,7 @@ function webclient(){
 	}
 	setTimeout(function(){
 		if(socket.readyState!=1){
-			alert("与服务器连接失败,请检查网络设置!");
+			alert("online与服务器连接失败,请检查网络设置!");
 		}
 	},10000);
 	socket.onopen = function() {

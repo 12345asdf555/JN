@@ -42,10 +42,12 @@ var back = new Array();
 	})
 	
 		    function w() {
-		if(typeof(WebSocket) == "undefined") {
+    	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+    	WEB_SOCKET_DEBUG = true;
+/*		if(typeof(WebSocket) == "undefined") {
 			alert("您的浏览器不支持WebSocket");
 			return;
-		}
+		}*/
 		$(function() {
 			//实现化WebSocket对象，指定要连接的服务器地址与端口
 			socket = new WebSocket(data1);

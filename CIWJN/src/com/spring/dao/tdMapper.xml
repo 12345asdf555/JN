@@ -61,6 +61,6 @@
 	</select>
 	
 	<select id="allWeldname" resultType="Td">
-		select fname fname,fwelder_no fwelder_no from tb_welder
+		select fid fname,fwelder_no fwelder_no from tb_welder
 	</select>
 </mapper>
