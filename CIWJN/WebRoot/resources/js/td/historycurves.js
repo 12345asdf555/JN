@@ -19,8 +19,8 @@ function Junction(){
 	setParam();
 	$("#dg").datagrid( {
 		fitColumns : true,				
-		height : $("#dgtb").height()/2,
-		width : $("#dgtb").width(),
+		height : $("body").height()/2,
+		width : $("body").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],

@@ -76,10 +76,10 @@ function websocketurl(){
 }
 
 function websocket() {
-	if(typeof(WebSocket) == "undefined") {
-		alert("您的浏览器不支持WebSocket");
-		return;
-	}
+/*	if(typeof(WebSocket) == "undefined") {
+	alert("您的浏览器不支持WebSocket");
+	return;
+	}*/
 	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
 	WEB_SOCKET_DEBUG = true;
 	webclient();
