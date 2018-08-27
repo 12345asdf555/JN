@@ -80,8 +80,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        <li onclick="changeColor(this)">
 			        	<a href="javascript:openPersonChart()">
 			        		<div>
-			        			<img src="resources/images/c-6.png" />&nbsp;&nbsp;焊工
-			        			<div class="menudiv"><img src="resources/images/arrow.png" id="personimg"/></div>
+			        			<img src="resources/images/c-6.png" />&nbsp;&nbsp;焊工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			        			<img src="resources/images/arrow.png" id="personimg"/>
 			        		</div>
 			        	</a>
 			        </li>
@@ -99,8 +99,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        <li onclick="changeColor(this)">
 			        	<a href="javascript:openJunctionChart()">
 			        		<div>
-			        			<img src="resources/images/c-7.png" />&nbsp;&nbsp;任务
-			        			<div class="menudiv"><img src="resources/images/arrow.png" id="junctionimg"/></div>
+			        			<img src="resources/images/c-7.png" />&nbsp;&nbsp;任务&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			        			<img src="resources/images/arrow.png" id="junctionimg"/>
 			        		</div>
 			        	</a>
 			        </li>
@@ -115,8 +115,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        <li onclick="changeColor(this)">
 			        	<a href="javascript:openMachineChart()">
 			        		<div>
-			        			<img src="resources/images/c-12.png" />&nbsp;&nbsp;焊机
-			        			<div class="menudiv"><img src="resources/images/arrow.png" id="machineimg"/></div>
+			        			<img src="resources/images/c-12.png" />&nbsp;&nbsp;焊机&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			        			<img src="resources/images/arrow.png" id="machineimg"/>
 			        		</div>
 			        	</a>
 			        </li>

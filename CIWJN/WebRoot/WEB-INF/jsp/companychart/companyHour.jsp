@@ -50,8 +50,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a href="javascript:serachcompanyHour();" class="easyui-linkbutton" iconCls="icon-select" >搜索</a>
 			</div>
 		</div>
-		<div id="companyHourChart" style="height:50%;width:50%; margin: auto;margin-bottom: 10px;float:left;"></div>
-		<div id="classifydiv" style="height:50%;width:50%; margin: auto;margin-bottom: 10px;float:right;">
+		<div id="companyHourChart" style="height:50%;width:45%; margin: auto;margin-bottom: 10px;float:left;"></div>
+		<div id="classifydiv" style="height:50%;width:45%; margin: auto;margin-bottom: 10px;float:right;">
 			<!-- 自定义多条件查询 -->
 		    <div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">
 		    	<div id="div0">

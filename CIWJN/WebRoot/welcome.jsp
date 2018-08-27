@@ -72,8 +72,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				<div class="wcrighttitle"><img src="resources/images/online.png">&nbsp;任务情况</div><div class="wcrighticon"><img src="resources/images/arrow-1.png" id="onlineimg"/></div>
   			</div>
   			<div id="wconline">
-				<div id="person" style="float:left;height:100%;width:48%;"></div>
-				<div id="welder" style="float:right;height:100%;width:48%;"></div>
+				<div id="person" style="height:180px;width:100%;overflow:auto;"></div>
+				<div id="welder" style="height:180px;width:100%;overflow:auto;"></div>
   			</div>
   		</div>
   		

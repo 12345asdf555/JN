@@ -168,7 +168,7 @@ function classifyDatagrid(){
 	var parent = $("#parent").val();
 	$("#classify").datagrid( {
 		fitColumns : true,
-		height : $("#classifydiv").height(),
+		height : $("body").height()/2,
 		width : $("body").width()/2,
 		idField : 'fid',
 		url : "itemChart/getItemHousClassify?item="+parent,
