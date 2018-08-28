@@ -258,6 +258,7 @@
       // For backword compatibility.
       window.WEB_SOCKET_SWF_LOCATION = WebSocket.__swfLocation;
     }
+    window.WEB_SOCKET_SWF_LOCATION="resources/js/WebSocketMain.swf";
     if (!window.WEB_SOCKET_SWF_LOCATION) {
       logger.error("[WebSocket] set WEB_SOCKET_SWF_LOCATION to location of WebSocketMain.swf");
       return;

@@ -144,13 +144,12 @@ $(function(){
 		}catch(err){
 			alert("地址请求错误，请清除缓存重新连接！！！")
 		}
-/*		setTimeout(function(){
+		setTimeout(function(){
 			if(socket.readyState!=1){
 				alert("与服务器连接失败,请检查网络设置!");
 			}
-		},10000);*/
+		},10000);
 		socket.onopen = function() {
-			alert("dakai");
 //			datatable();
 			//监听加载状态改变  
 			document.onreadystatechange = completeLoading();  
@@ -173,7 +172,6 @@ $(function(){
 		};
 		//关闭事件
 		socket.onclose = function(e) {
-			alert(e.code);
             if (e.code == 4001 || e.code == 4002 || e.code == 4003 || e.code == 4005 || e.code == 4006){
                 //如果断开原因为4001 , 4002 , 4003 不进行重连.
                 return;
@@ -198,8 +196,7 @@ $(function(){
             }
         };
 		//发生了错误事件
-		socket.onerror = function(e) {
-			alert(e.code);
+		socket.onerror = function() {
 			aler("发生异常，正在尝试重新连接服务器！！！");
 		}
 	}

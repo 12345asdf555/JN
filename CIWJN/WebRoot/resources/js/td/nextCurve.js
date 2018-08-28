@@ -42,6 +42,12 @@
     var chart1;
 	var led=["0,1,2,4,5,6","2,5","0,2,3,4,6","0,2,3,5,6","1,2,3,5","0,1,3,5,6","0,1,3,4,5,6","0,2,5","0,1,2,3,4,5,6","0,1,2,3,5,6"];
 	$(function(){
+		var livewidth = $("#livediv").width()-20;
+		var liveheight = $("#livediv").height()/2;
+		$("#body31").width(livewidth);
+		$("#body31").height(liveheight);
+		$("#body32").width(livewidth);
+		$("#body32").height(liveheight);
 		var width = $("#treeDiv").width();
 		$(".easyui-layout").layout({
 			onCollapse:function(){
@@ -368,7 +374,7 @@
 			ele.length=0;
 			for(var i = 0;i < redata.length;i+=69){
 //				if(redata.substring(8+i, 12+i)!="0000"){
-					if(parseInt(redata.substring(4+i, 8+i))==document.getElementById("in2").value){
+//					if(parseInt(redata.substring(4+i, 8+i))==document.getElementById("in2").value){
 						ele.push(parseInt(redata.substring(12+i, 16+i)));
 						vol.push(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2)));
 						var ttme = redata.substring(20+i, 39+i);
@@ -534,7 +540,7 @@
 	                    	 }
 	                    }
                 		}
-					}
+//					}
 //				}
                 z++;
 			};
@@ -564,6 +570,14 @@
 	    		height : $("#body").height(),
 	    		width : $("#body").width()
 	    	});
+	    	var livewidth = $("body").width()*0.75-20;
+	    	var liveheight = $("body").height()*0.74/2;
+			$("#body31").width(livewidth);
+			$("#body31").height(liveheight);
+			$("#body32").width(livewidth);
+			$("#body32").height(liveheight);
+			$('#body31').highcharts().reflow();
+			$('#body32').highcharts().reflow();
 	    }
 	    
 	    

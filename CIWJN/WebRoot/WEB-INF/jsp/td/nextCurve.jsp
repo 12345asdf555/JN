@@ -96,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</table>
 		</div>
 		</div>
-		<div style="overflow-x: auto; overflow-y: auto;width:25%;height:95%;float:left;">属性列表
+		<div style="width:24%;height:95%;float:right;top:100px;">属性列表
 			<table id="attrtable">
 			<tbody>
 			<tr>
@@ -230,7 +230,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</tbody>
 			</table>
 		</div>
-		<div class="x-component x-fieldset-header-text x-component-default" style="width:75%;height:74%;float:left;position:absolute;top:26%;">实时曲线
+		
+		<div id="livediv" style="width:75%;height:74%;float:left;top:26%;">实时曲线
 			<div id="body31" style="width:100%;height:50%;"></div>
 			<div id="body32" style="width:100%;height:48%;"></div>
 		</div>
