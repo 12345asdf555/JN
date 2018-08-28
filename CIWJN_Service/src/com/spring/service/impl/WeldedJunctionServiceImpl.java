@@ -104,15 +104,15 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			JSONObject json = JSONObject.fromObject(object);
 			WeldedJunction wj = new WeldedJunction();
 			wj.setWeldedJunctionno(json.getString("JUNCTIONNO"));
-			if(json.getString("SERIALNO").isEmpty()){
-				wj.setSerialNo(null);
-			}else{
-				wj.setSerialNo(json.getString("SERIALNO"));
-			}
 			if(json.getString("DYNE").isEmpty()){
 				wj.setUnit(null);
 			}else{
 				wj.setUnit((json.getString("DYNE")));
+			}
+			if(json.getString("TASKLEVEL").isEmpty()){
+				wj.setRoomNo(null);
+			}else{
+				wj.setRoomNo(json.getString("TASKLEVEL"));
 			}
 			if(json.getString("EXTERNALDIAMETER").isEmpty()){
 				wj.setExternalDiameter(null);
@@ -144,15 +144,15 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			WeldedJunction wj = new WeldedJunction();
 			wj.setId(new BigInteger(json.getString("ID")));
 			wj.setWeldedJunctionno(json.getString("JUNCTIONNO"));
-			if(json.getString("SERIALNO").isEmpty()){
-				wj.setSerialNo(null);
-			}else{
-				wj.setSerialNo(json.getString("SERIALNO"));
-			}
 			if(json.getString("DYNE").isEmpty()){
 				wj.setUnit(null);
 			}else{
 				wj.setUnit((json.getString("DYNE")));
+			}
+			if(json.getString("TASKLEVEL").isEmpty()){
+				wj.setRoomNo(null);
+			}else{
+				wj.setRoomNo(json.getString("TASKLEVEL"));
 			}
 			if(json.getString("EXTERNALDIAMETER").isEmpty()){
 				wj.setExternalDiameter(null);
@@ -297,7 +297,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				time++;
 				if(socketChannel != null){
 					try {
-						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
+						socketChannel.writeAndFlush("JN"+","+taskid+","+welderid+","+machineid+","+status+","+machineno).sync();
 						socketChannel.close();
 						int count = wjm.getCountBySatus(new BigInteger(taskid),new BigInteger(welderid),new BigInteger(machineid),status);
 						if(count<2){
@@ -341,7 +341,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				time++;
 				if(socketChannel != null){
 					try {
-						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
+						socketChannel.writeAndFlush("JN"+","+taskid+","+welderid+","+machineid+","+status+","+machineno).sync();
 						socketChannel.close();
 						int count = wjm.getCountBySatus(new BigInteger(taskid),new BigInteger(welderid),new BigInteger(machineid),status);
 						if(count<1){
@@ -387,7 +387,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				time++;
 				if(socketChannel != null){
 					try {
-						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
+						socketChannel.writeAndFlush("JN"+","+taskid+","+welderid+","+machineid+","+status+","+machineno).sync();
 						socketChannel.close();
 						wjm.deleteTaskResult(new BigInteger(taskid), new BigInteger(welderid), new BigInteger(machineid));
 					} catch (InterruptedException e) {
@@ -420,7 +420,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				time++;
 				if(socketChannel != null){
 					try {
-						socketChannel.writeAndFlush("JN"+","+taskno+","+welderno+","+machineno+","+status).sync();
+						socketChannel.writeAndFlush("JN"+","+taskid+","+welderid+","+machineid+","+status+","+machineno).sync();
 						socketChannel.close();
 						wj.setStartTime(json.getString("STARTTIME"));
 						wjm.addTaskResult(wj);

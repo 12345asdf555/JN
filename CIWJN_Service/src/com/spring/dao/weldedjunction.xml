@@ -71,12 +71,12 @@
 	</select>
 	
 	<insert id="addJunction" parameterType="com.spring.model.WeldedJunction" useGeneratedKeys="true" keyProperty="id">
-		insert into tb_welded_junction(fwelded_junction_no,fserial_no,fdyne,fexternal_diameter,fitemId,fstart_time,fend_time) 
-		values(#{weldedJunctionno},#{serialNo},#{unit},#{externalDiameter},#{itemid.id},#{startTime},#{endTime});
+		insert into tb_welded_junction(fwelded_junction_no,froom_no,fdyne,fexternal_diameter,fitemId,fstart_time,fend_time) 
+		values(#{weldedJunctionno},#{roomNo},#{unit},#{externalDiameter},#{itemid.id},#{startTime},#{endTime});
 	</insert>
 	
 	<update id="updateJunction" parameterType="com.spring.model.WeldedJunction">
-		update tb_welded_junction set fwelded_junction_no=#{weldedJunctionno},fserial_no=#{serialNo},fdyne=#{unit},
+		update tb_welded_junction set fwelded_junction_no=#{weldedJunctionno},froom_no=#{roomNo},fdyne=#{unit},
 		fitemId=#{itemid.id},fstart_time=#{startTime},fend_time=#{endTime},fexternal_diameter=#{externalDiameter} where fid=#{id};
 	</update>
 	
