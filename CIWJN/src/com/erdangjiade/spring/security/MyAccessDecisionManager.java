@@ -34,7 +34,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
             String needRole = ((SecurityConfig) ca).getAttribute();    
             //gra 为用户所被赋予的权限，needRole为访问相应的资源应具有的权限    
             for (GrantedAuthority gra : authentication.getAuthorities()) {    
-                if ((needRole.trim().equals(gra.getAuthority().trim()))||(gra.getAuthority().trim().equals("ROLE_BruceStifler"))) {    
+                if ((needRole.trim().equals(gra.getAuthority().trim()))||(gra.getAuthority().trim().equals("ROLE_admin"))) {    
                     return;    
                 }    
             }    
