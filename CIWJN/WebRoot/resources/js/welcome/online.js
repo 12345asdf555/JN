@@ -92,7 +92,7 @@ function webclient(){
 	}
 	setTimeout(function(){
 		if(socket.readyState!=1){
-			alert("online与服务器连接失败,请检查网络设置!");
+			alert("与服务器连接失败,请检查网络设置!");
 		}
 	},10000);
 	socket.onopen = function() {
