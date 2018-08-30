@@ -92,6 +92,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<lable><span class="required"></span>任务等级</lable>
 					<select class="easyui-combobox" id="levelid"  name="levelid" data-options="editable:false"></select>
 				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>所属班组</lable>
+					<select class="easyui-combobox" id="itemid"  name="itemid" data-options="required:true,editable:false"></select>
+				</div>
 				<div class="fitem" style="padding-right:30px">
 					<lable><span class="required"></span>预设焊工</lable>
 					<input id="welderid" name="welderid" type="hidden"/>
@@ -101,10 +105,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="fitem">
 					<lable><span class="required"></span>焊工资质</lable>
 					<select class="easyui-combobox" id="quali"  name="quali" data-options="editable:false"></select>
-				</div>
-				<div class="fitem">
-					<lable><span class="required">*</span>所属班组</lable>
-					<select class="easyui-combobox" id="itemid"  name="itemid" data-options="required:true,editable:false"></select>
 				</div>
 				<div class="fitem">
 					<lable><span class="required"></span>计划开始时间</lable>
@@ -164,16 +164,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input class="easyui-textbox" id="levelname"  name="levelname" readonly="readonly">
 				</div>
 				<div class="fitem">
+					<lable><span class="required">*</span>所属班组</lable>
+					<input class="easyui-textbox" id="itemname"  name="itemname" readonly="readonly">
+				</div>
+				<div class="fitem">
 					<lable><span class="required"></span>预设焊工</lable>
 					<input class="easyui-textbox" id="pipelineNo" name="pipelineNo" readonly="readonly"/>
 				</div>
 				<div class="fitem">
 					<lable><span class="required"></span>焊工资质</lable>
 					<input class="easyui-textbox" id="roomNo"  name="roomNo" readonly="readonly">
-				</div>
-				<div class="fitem">
-					<lable><span class="required">*</span>所属班组</lable>
-					<input class="easyui-textbox" id="itemname"  name="itemname" readonly="readonly">
 				</div>
 				<div class="fitem">
 					<lable><span class="required"></span>计划开始时间</lable>
