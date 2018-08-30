@@ -66,14 +66,15 @@
 	</resultMap>
 	
 	<select id="getWeldedJunctionAll" resultMap="wjMap" parameterType="java.lang.String">
-	SELECT j.fid,j.fwelded_junction_no,j.fserial_no,j.froom_no fsystems,dd.fvaluename farea,j.fexternal_diameter,j.fstart_time,j.fend_time,j.fdyne,i.fid iid,w.fwelder_no fpipeline_no,d.fvaluename froom_no,i.fname iname,r.foperatetype fmaterial FROM tb_welded_junction j 
+	SELECT j.fid,j.fwelded_junction_no,j.fserial_no,j.froom_no fsystems,dd.fvaluename farea,j.fexternal_diameter,j.fstart_time,j.fend_time,j.fdyne,i.fid iid,w.fwelder_no fpipeline_no,d.fvaluename froom_no,i.fname iname,r.foperatetype fmaterial,ww.fwelder_no fnext_material FROM tb_welded_junction j 
 	LEFT JOIN tb_welder w ON j.fdyne=w.fid 
 	LEFT JOIN tb_dictionary d ON j.fexternal_diameter=d.fvalue AND d.ftypeid=7 
 	LEFT JOIN tb_dictionary dd ON j.froom_no=dd.fvalue AND dd.ftypeid=17 
 	INNER JOIN tb_insframework i ON j.fitemId = i.fid 
-    LEFT JOIN tb_taskresult r on r.ftaskid=j.fid
+   LEFT JOIN tb_taskresult r on r.ftaskid=j.fid
+   LEFT JOIN tb_welder ww ON r.fwelderid=ww.fid
 	WHERE 1=1 AND (r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid,fwelderid,fmachineid) OR r.foperatetype IS null)
-		<if test="str!=null and str!=''">
+	<if test="str!=null and str!=''">
 			and ${str}
 		</if>
 	ORDER BY j.fid
@@ -89,12 +90,13 @@
 	</select>
 	
 	<select id="getTaskResultAll" resultMap="wjMap" parameterType="java.lang.String">
-	  SELECT r.fid,r.ftaskid counts,r.fwelderid insfid,r.fmachineid machid,i.fid iid, i.fname iname,r.foperatetype fdyne,r.fresult fpipeline_no,r.fresultid fupdatecount,j.fwelded_junction_no,
+	  SELECT r.fid,r.ftaskid counts,r.fwelderid insfid,r.fmachineid machid,i.fid iid, i.fname iname,r.foperatetype fdyne,r.fresult fpipeline_no,r.fresultid fupdatecount,u.users_name fmaterial,j.fwelded_junction_no,
 	  w.fwelder_no fserial_no,m.fequipment_no fequipment_no,d.fvaluename froom_no,r.foperatedate fupdatetime,r.frealstarttime fstart_time,r.frealendtime fend_time FROM tb_taskresult r 
 	  INNER JOIN tb_welded_junction j ON r.ftaskid=j.fid
 	  INNER JOIN tb_insframework i on j.fitemId = i.fid 
 	  LEFT JOIN tb_welding_machine m ON r.fmachineid=m.fid
 	  LEFT JOIN tb_welder w ON r.fwelderid=w.fid
+     LEFT JOIN tb_users u ON u.id=r.foperator
 	  left JOIN tb_dictionary d ON r.fresultid=d.fvalue AND d.ftypeid=16
 	  WHERE 1=1 AND r.foperatetype!=3 AND r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid,fwelderid,fmachineid)
 	  <if test="str!=null and str!=''">

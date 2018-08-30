@@ -97,6 +97,12 @@ function weldedJunctionDatagrid(){
 //			width : 90,
 			halign : "center",
 			align : "left"
+		},{
+			field : 'user',
+			title : '确认操作者',
+//			width : 90,
+			halign : "center",
+			align : "left"
 		}, {
 			field : 'resultid',
 			title : '评价id',
@@ -409,9 +415,9 @@ function serach(){
 			}
 		}
 	})
-	$("#item").combobox({
+	$("#bitem").combobox({
 		onChange : function(newValue,oldValue){
-			var itemid = $("#item").combobox("getValue");
+			var itemid = $("#bitem").combobox("getValue");
 			var status = $("#status").combobox("getValue");
 			if(itemid!=0){
 				parent = "i.fid = "+itemid;
@@ -431,7 +437,7 @@ function serach(){
 	})
 	$("#status").combobox({
 		onChange : function(newValue,oldValue){
-			var itemid = $("#item").combobox("getValue");
+			var itemid = $("#bitem").combobox("getValue");
 			var status = $("#status").combobox("getValue");
 			if(itemid!=0){
 				parent = "i.fid = "+itemid;

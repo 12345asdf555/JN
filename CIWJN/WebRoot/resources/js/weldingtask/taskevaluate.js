@@ -104,6 +104,12 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left"
 		},{
+			field : 'user',
+			title : '确认操作者',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
 			field : 'resultid',
 			title : '评价id',
 //			width : 90,

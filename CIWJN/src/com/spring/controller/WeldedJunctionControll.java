@@ -76,7 +76,7 @@ public class WeldedJunctionControll {
 			request.setAttribute("welderid", request.getParameter("fid"));
 		}
 		if(iutil.isNull(request.getParameter("wjno"))){
-			request.setAttribute("wjno", "00"+request.getParameter("wjno"));
+			request.setAttribute("wjno", request.getParameter("wjno"));
 		}
 		return "td/HistoryCurve";
 	}
@@ -213,7 +213,7 @@ public class WeldedJunctionControll {
 			MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			wj.setCreater(new BigInteger(user.getId()+""));
 			wj.setUpdater(new BigInteger(user.getId()+""));
-			wj.setWeldedJunctionno("00"+request.getParameter("weldedJunctionno"));
+			wj.setWeldedJunctionno(request.getParameter("weldedJunctionno"));
 			wj.setSerialNo(request.getParameter("serialNo"));
 			wj.setUnit(request.getParameter("unit"));
 			wj.setArea(request.getParameter("area"));
@@ -267,7 +267,7 @@ public class WeldedJunctionControll {
 			MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			wj.setUpdater(new BigInteger(user.getId()+""));
 			wj.setId(new BigInteger(request.getParameter("id")));
-			wj.setWeldedJunctionno("00"+request.getParameter("weldedJunctionno"));
+			wj.setWeldedJunctionno(request.getParameter("weldedJunctionno"));
 			wj.setSerialNo(request.getParameter("serialNo"));
 			wj.setUnit(request.getParameter("unit"));
 			wj.setArea(request.getParameter("area"));

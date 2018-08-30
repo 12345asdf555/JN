@@ -63,7 +63,13 @@ function weldedJunctionDatagrid(){
 			align : "left"
 		}, {
 			field : 'pipelineNo',
-			title : '焊工工号',
+			title : '预设焊工',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'realwelder',
+			title : '实际焊工',
 //			width : 90,
 			halign : "center",
 			align : "left"

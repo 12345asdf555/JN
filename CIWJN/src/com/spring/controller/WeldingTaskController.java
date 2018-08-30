@@ -178,6 +178,7 @@ public class WeldingTaskController {
 				json.put("roomNo", w.getRoomNo());
 				json.put("levelid", w.getSystems());
 				json.put("levelname", w.getArea());
+				json.put("realwelder", w.getNext_material());
 				if( w.getItemid()!=null && !"".equals( w.getItemid())){
 					json.put("itemname", w.getItemid().getName());
 					json.put("itemid", w.getItemid().getId());
@@ -272,6 +273,7 @@ public class WeldingTaskController {
 				json.put("starttime", w.getStartTime());
 				json.put("endtime", w.getEndTime());
 				json.put("fitemid", w.getArea());
+				json.put("user", w.getMaterial());
 				if(w.getItemid()!=null && !"".equals(w.getItemid())){
 					json.put("itemid", w.getItemid().getId());
 					json.put("itemname", w.getItemid().getName());

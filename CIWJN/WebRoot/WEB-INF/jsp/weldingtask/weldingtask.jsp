@@ -93,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<select class="easyui-combobox" id="levelid"  name="levelid" data-options="editable:false"></select>
 				</div>
 				<div class="fitem" style="padding-right:30px">
-					<lable><span class="required"></span>焊工编号</lable>
+					<lable><span class="required"></span>预设焊工</lable>
 					<input id="welderid" name="welderid" type="hidden"/>
 					<input class="easyui-textbox" id="pipelineNo" name="pipelineNo" readonly="readonly"/>
 					<a href="javascript:selectWelder();" class="easyui-linkbutton">选择</a>
@@ -164,7 +164,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input class="easyui-textbox" id="levelname"  name="levelname" readonly="readonly">
 				</div>
 				<div class="fitem">
-					<lable><span class="required"></span>焊工编号</lable>
+					<lable><span class="required"></span>预设焊工</lable>
 					<input class="easyui-textbox" id="pipelineNo" name="pipelineNo" readonly="readonly"/>
 				</div>
 				<div class="fitem">

@@ -293,7 +293,11 @@ function WelderDatagrid(){
 
 function dlgSearchGather(){
 	  if($("#searchname").val()){
-	    searchStr +=  " and tb_welder.fwelder_no=" + $("#searchname").val();
+		  if($("#userinsall").val()){
+			    searchStr +=  " and tb_welder.fwelder_no=" + $("#searchname").val();
+		  }else{
+			    searchStr +=  " tb_welder.fwelder_no=" + $("#searchname").val();
+		  }
 	  }
 	  WelderDatagrid();
 	  searchStr = $("#userinsall").val();

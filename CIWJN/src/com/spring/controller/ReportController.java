@@ -619,7 +619,7 @@ public class ReportController {
 			}
 		}
 		String str = request.getParameter("searchStr");
-		String fid = "00"+request.getParameter("fid");
+		String fid = request.getParameter("fid");
 		pageIndex = 1;
 		pageSize = 52224;
 		page = new Page(pageIndex,pageSize,total);

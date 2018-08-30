@@ -18,8 +18,8 @@ $(function(){
 			for(var i=0;i<8-len;i++){
 				welderno = "0"+welderno;
 			}
+			$("#welderno").textbox('setValue',welderno);
 		}
-		$("#welderno").textbox('setValue',welderno);
 	});
 })
 
@@ -134,6 +134,12 @@ function editWelder(){
 }
 //提交
 function save(){
+	var welderno = $("#welderno").val();
+	var len = welderno.length;
+	if(len>8){
+		alert("焊工编号超出指定的8位长度!!!");
+		return;
+	}
     var insframework = $('#owner').combobox('getValue');
     var leve = $('#leveid').combobox('getValue');
     var qua = $('#quali').combobox('getValue');
