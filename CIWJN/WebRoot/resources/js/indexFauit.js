@@ -112,7 +112,7 @@ function webclient(){
 	//发生了错误事件
 	socket.onerror = function(e) {
 		console.log(e);
-		aler("发生异常，正在尝试重新连接服务器！！！");
+		alert("发生异常，正在尝试重新连接服务器！！！");
 	}
 }
 

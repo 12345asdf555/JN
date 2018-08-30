@@ -29,7 +29,7 @@ public class Report{
 	private int fstatus;
 	private double finspower;
 	private String fafv;
-	private Date fweldingtime;
+	private String fweldingtime;
 	private Date fboottime;
 	private Date fofftime;
 	private Date fonlinetime;
@@ -195,10 +195,10 @@ public class Report{
 	public void setFafv(String fafv) {
 		this.fafv = fafv;
 	}
-	public Date getFweldingtime() {
+	public String getFweldingtime() {
 		return fweldingtime;
 	}
-	public void setFweldingtime(Date fweldingtime) {
+	public void setFweldingtime(String fweldingtime) {
 		this.fweldingtime = fweldingtime;
 	}
 	public Date getFboottime() {
@@ -267,7 +267,7 @@ public class Report{
 	public void setFwarn(String fwarn) {
 		this.fwarn = fwarn;
 	}
-	public Report(BigInteger result1,BigInteger result2,BigInteger num3,String eno,String model,String time,String dia,BigInteger id,String fwsid,String fteamid,String fmachineid,String fmachinestatus,String fmachinemodel,double fstandardele,double fstandardvol,double frealvol,double frealele,String fcurrentwelder,int fstatus,double finspower,String fafv,Date fweldingtime,Date fboottime,Date fofftime,Date fonlinetime,Date ffirsttime,Date fvalidtime,double fdiameter,String fspeed,String fback,String fweldernum,String fphone,String fwarn) {
+	public Report(BigInteger result1,BigInteger result2,BigInteger num3,String eno,String model,String time,String dia,BigInteger id,String fwsid,String fteamid,String fmachineid,String fmachinestatus,String fmachinemodel,double fstandardele,double fstandardvol,double frealvol,double frealele,String fcurrentwelder,int fstatus,double finspower,String fafv,String fweldingtime,Date fboottime,Date fofftime,Date fonlinetime,Date ffirsttime,Date fvalidtime,double fdiameter,String fspeed,String fback,String fweldernum,String fphone,String fwarn) {
 		super();
 		this.id = id;
 		this.result1 = result1;

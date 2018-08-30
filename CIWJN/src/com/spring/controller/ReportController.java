@@ -638,14 +638,14 @@ public class ReportController {
 				for(Report repo:list){
 					json.put("ele", repo.getFstandardele());
 					json.put("vol", repo.getFstandardvol());
-					json.put("time", sdf.format(repo.getFweldingtime()));
+					json.put("time", repo.getFweldingtime());
 					ary.add(json);
 				}
 			}else{
 				for(Report repo:list){
 					json.put("ele", repo.getFstandardele());
 					json.put("vol", repo.getFstandardvol());
-					json.put("time", sdf.format(repo.getFweldingtime()));
+					json.put("time", repo.getFweldingtime());
 					ary.add(json);
 				}
 				for(pageIndex=2;pageIndex<=total;pageIndex++){
@@ -653,7 +653,7 @@ public class ReportController {
 					for(Report repo1:list1){
 						json.put("ele", repo1.getFstandardele());
 						json.put("vol", repo1.getFstandardvol());
-						json.put("time", sdf.format(repo1.getFweldingtime()));
+						json.put("time", repo1.getFweldingtime());
 						ary.add(json);
 					}
 				}
