@@ -363,7 +363,7 @@ public class DataStatisticsController {
 						json.put("t2", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
 						json.put("t3", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
 						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t4", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))));//规范符合率
+							json.put("t4", new DecimalFormat("0.00").format((float)(Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString())))*100));//规范符合率
 						}else{
 							json.put("t4",0);
 						}
@@ -588,7 +588,7 @@ public class DataStatisticsController {
 						json.put("t3", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
 						json.put("t4", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
 						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t5", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))));//规范符合率
+							json.put("t5", new DecimalFormat("0.00").format((float)(Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString())))*100));//规范符合率
 						}else{
 							json.put("t5",0);
 						}
@@ -802,7 +802,7 @@ public class DataStatisticsController {
 						json.put("t3", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
 						json.put("t4", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
 						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t5", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))));//规范符合率
+							json.put("t5", new DecimalFormat("0.00").format((float)(Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString())))*100));//规范符合率
 						}else{
 							json.put("t5",0);
 						}
@@ -1014,7 +1014,7 @@ public class DataStatisticsController {
 						json.put("t2", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
 						json.put("t3", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
 						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t4", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))));//规范符合率
+							json.put("t4", new DecimalFormat("0.00").format((float)(Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString())))*100));//规范符合率
 						}else{
 							json.put("t4",0);
 						}

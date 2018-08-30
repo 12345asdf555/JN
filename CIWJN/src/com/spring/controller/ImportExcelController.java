@@ -321,14 +321,6 @@ public class ImportExcelController {
 			file.delete();
 			for(WeldedJunction w:we){
 				String wjno = w.getWeldedJunctionno();
-				if(wjno!=""&&wjno!=null&&wjno!="null"){
-					int len = wjno.length();
-					if(len<8){
-						for(int b=0;b<8-len;b++){
-							wjno = "0" + wjno;
-						}
-					}
-				}
 				w.setWeldedJunctionno(wjno);
 				json.put("taskNo", w.getWeldedJunctionno());
 				if(w.getWeldedJunctionno()==null||w.getWeldedJunctionno()==""){
@@ -338,10 +330,6 @@ public class ImportExcelController {
 					int count = wjs.getWeldedjunctionByNo(wjno);
 					if(count>0){
 						str+="任务编号已经存在;";
-						biaozhi=1;
-					}
-					if(w.getWeldedJunctionno().length()>8){
-						str+="任务编号超出指定长度;";
 						biaozhi=1;
 					}
 				}
@@ -379,7 +367,7 @@ public class ImportExcelController {
 					json.put("welderNo", w.getPipelineNo());
 					Person www = ps.getIdByWelderno(w.getPipelineNo());
 					if(String.valueOf(www)==null||String.valueOf(www)=="null"){
-						str+="焊工不存在；";
+						str+="焊工不存在;";
 						biaozhi=1;
 					}else{
 						if(!www.getInsid().equals(iii)){

@@ -319,6 +319,7 @@ function saveWelder(){
 function cancelWelder(){
 	  $("#pipelineNo").textbox('clear');
 	  $("#welderid").val("");
+	  $('#fdlg').dialog('close');
 }
 
 function itemidChange(){

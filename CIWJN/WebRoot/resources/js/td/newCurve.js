@@ -54,7 +54,10 @@ $(function(){
 	$("#myTree").tree({  
 		onClick : function(node){
 			$("#bodys").empty();
-			getMachine(node.id);
+			var leve = $(this).tree("getLevel", $(this).tree("getSelected").target);
+			var str = "";
+			str += node.id+","+leve;
+			getMachine(str);
 		 }
 	})
 	$.ajax({  
@@ -95,7 +98,7 @@ $(function(){
 	if(value==""||value==null){
 		var url="td/getAllPosition";
 	}else{
-		var url="td/getAllPosition?parent="+value;
+		var url="td/getAllPosition?str="+value;
 	}
 		$.ajax({  
 		      type : "post",  
@@ -206,7 +209,7 @@ $(function(){
         };
 		//发生了错误事件
 		socket.onerror = function() {
-			aler("发生异常，正在尝试重新连接服务器！！！");
+			alert("发生异常，正在尝试重新连接服务器！！！");
 		}
 	}
 

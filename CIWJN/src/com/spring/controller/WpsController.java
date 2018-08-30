@@ -446,7 +446,7 @@ public class WpsController {
 				co = wpsService.findCount(mac,ch);
 			}
 			BigInteger parent = null;
-			List<Td> getAP = tdService.getAllPosition(parent);
+			List<Td> getAP = tdService.getAllPosition(parent,null);
 			for(Td td:getAP){
 	        if(null!=str&&""!=str){
 	        String[] ss = str.split(",");

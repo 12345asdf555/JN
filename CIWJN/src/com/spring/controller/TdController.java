@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.spring.page.Page;
 import com.spring.util.IsnullUtil;
+import com.spring.model.Insframework;
 import com.spring.model.MyUser;
 import com.spring.model.Td;
 import com.spring.model.User;
+import com.spring.service.InsframeworkService;
 import com.spring.service.TdService;
 
 import net.sf.json.JSON;
@@ -35,6 +37,8 @@ public class TdController {
 	
 	@Autowired
 	private TdService tdService;
+	@Autowired
+	private InsframeworkService insm;
 	private Td td;
 	
 	IsnullUtil iutil = new IsnullUtil();
@@ -380,11 +384,36 @@ public class TdController {
 	@ResponseBody
 	public String getAllPosition(HttpServletRequest request){
 		String parentId = request.getParameter("parent");
+		String str = request.getParameter("str");
+		String[] ssr = null;
+		if(str!=null&&""!=str){
+			ssr = str.split(",");
+		}
+		str="";
+		int bz=0;
+		if(ssr!=null){
+			if(Integer.valueOf(ssr[1])==1){
+				
+			}else if(Integer.valueOf(ssr[1])==4){
+				str = "finsframework_id="+ssr[0];
+			}else{
+				List<Insframework> ls = insm.getInsIdByParent(new BigInteger(ssr[0]),24);
+				for(Insframework inns : ls ){
+					if(bz==0){
+						str=str+"(finsframework_id="+inns.getId();
+					}else{
+						str=str+" or finsframework_id="+inns.getId();
+					}
+					bz++;
+				}
+				str=str+" or finsframework_id="+ssr[0]+")";
+			}
+		}
 		BigInteger parent = null;
 		if(iutil.isNull(parentId)){
 			parent = new BigInteger(parentId);
 		}
-		List<Td> getAP = tdService.getAllPosition(parent);
+		List<Td> getAP = tdService.getAllPosition(parent,str);
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();

@@ -460,7 +460,7 @@
 			<if test="itemid!=null and itemid!=''">
 				and m.finsframework_id= #{itemid}
 			</if>
-		)temp 
+		)temp ORDER BY fname
 	</select>
 	
 	<!-- 查询焊机超规范焊接时长 -->
@@ -500,7 +500,7 @@
 			</if>
 		</if>
 		    GROUP BY m.fid )
-		)temp 
+		)temp ORDER BY fname
 	</select>
 	
 	<!-- 查询焊工正常焊接时长 -->

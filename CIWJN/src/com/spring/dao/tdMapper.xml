@@ -48,6 +48,9 @@
 		<if test="parent!=null and parent!=''">
 			and finsframework_id=#{parent}
 		</if>
+		<if test="str!=null and str!=''">
+			and ${str}
+		</if>
 	</select>
 	
 	<select id="getMachine" parameterType="String" resultType="Td">
