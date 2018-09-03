@@ -27,15 +27,6 @@ var fmch;
 var sint=0;
 var led=["0,1,2,4,5,6","2,5","0,2,3,4,6","0,2,3,5,6","1,2,3,5","0,1,3,5,6","0,1,3,4,5,6","0,2,5","0,1,2,3,4,5,6","0,1,2,3,5,6"];
 $(function(){
-	function getBrowserInfo(){
-	    var Sys = {};
-	    var ua = navigator.userAgent.toLowerCase();
-	    var re =/(msie|firefox|chrome|opera|version).*?([\d.]+)/;
-	    var m = ua.match(re);
-	    Sys.browser = m[1].replace(/version/, "'safari");
-	    Sys.ver = m[2];
-	    return Sys;
-	}
 	var width = $("#treeDiv").width();
 	$(".easyui-layout").layout({
 		onCollapse:function(){
@@ -142,12 +133,10 @@ $(function(){
 	};
 
     function websocket() {
-    	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
-    	WEB_SOCKET_DEBUG = true;
-/*		if(typeof(WebSocket) == "undefined") {
-			alert("您的浏览器不支持WebSocket");
-			return;
-		}*/
+		if(typeof(WebSocket) == "undefined") {
+	    	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+	    	WEB_SOCKET_DEBUG = true;
+		}
 		webclient();
 	};
 	function webclient(){
@@ -219,14 +208,14 @@ $(function(){
 				for(var f=0;f<fmch.length;f++){
 /*					alert(document.getElementById("labf"+fmch[f].fequipment_no).innerText);
 					alert(parseInt(redata.substring(4+i, 8+i)));*/
-					if((document.getElementById("labf"+fmch[f].fequipment_no).innerText)==(parseInt(redata.substring(4+i, 8+i)))){
+					if((document.getElementById("labf"+fmch[f].fequipment_no).innerText)==(parseInt(redata.substring(4+i, 8+i),10))){
 						for(var k=0;k<welderName.length;k++){
 							if(welderName[k].fwelder_no==redata.substring(8+i, 12+i)){
 								document.getElementById("lab3"+fmch[f].fequipment_no).innerHTML="操作人员："+welderName[k].fname;
 							}
 						}
-						document.getElementById("lab4"+fmch[f].fequipment_no).innerHTML="焊接电流："+parseInt(redata.substring(12+i, 16+i))+"A";
-						document.getElementById("lab5"+fmch[f].fequipment_no).innerHTML="焊接电压："+parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2))+"V";
+						document.getElementById("lab4"+fmch[f].fequipment_no).innerHTML="焊接电流："+parseInt(redata.substring(12+i, 16+i),10)+"A";
+						document.getElementById("lab5"+fmch[f].fequipment_no).innerHTML="焊接电压："+parseFloat((parseInt(redata.substring(16+i, 20+i),10)/10).toFixed(2))+"V";
 						var mstatus=redata.substring(0+i, 2+i);
 						switch (mstatus){
 						case "00":

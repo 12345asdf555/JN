@@ -12,7 +12,7 @@ function statusChange(){
 			if(newValue==1){
 				searchStr = " foperatetype=1";
 			}else if(newValue==0){
-				searchStr = " foperatetype=0 or foperatetype=2";
+				searchStr = " (foperatetype=0 or foperatetype=2)";
 			}else if(newValue==3){
 				searchStr = " foperatetype is null"
 			}
@@ -147,7 +147,7 @@ function weldedJunctionDatagrid(){
 			align : "left",
 			formatter: function(value,row,index){
 				var str = "";
-				if(row.status==0||row.status==2){
+				if(row.status==0){
 					str = '<a id="confirm" class="easyui-linkbutton" href="javascript:confirm()" disabled="true"/>';
 				}
 				if(row.status==1){

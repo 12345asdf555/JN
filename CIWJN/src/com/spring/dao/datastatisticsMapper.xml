@@ -301,7 +301,7 @@
 
 	<!-- 查询所有焊机id，编号，组织机构id及名称 -->
 	<select id="getAllMachine" resultMap="dataMap">
-		SELECT m.fid,m.fequipment_no fname,i.fid insid,fname insname FROM tb_welding_machine m inner join tb_insframework i on i.fid = m.finsframework_id where ftype=23
+		SELECT m.fid,m.fequipment_no fname,i.fid insid,fname insname FROM tb_welding_machine m inner join tb_insframework i on i.fid = m.finsframework_id where 1=1
 		<if test="item!=null and item!=''">
 			and i.fid = #{item}
 		</if>

@@ -621,7 +621,7 @@ function serach(){
 			if(status==1){
 				searchStr = " foperatetype=1";
 			}else if(status==0){
-				searchStr = " foperatetype=0 or foperatetype=2";
+				searchStr = " (foperatetype=0 or foperatetype=2)";
 			}
 			$("#weldTaskTable").datagrid('reload',{
 				"searchStr" : searchStr,
@@ -641,7 +641,7 @@ function serach(){
 			if(status==1){
 				searchStr = " foperatetype=1";
 			}else if(status==0){
-				searchStr = " foperatetype=0 or foperatetype=2";
+				searchStr = " (foperatetype=0 or foperatetype=2)";
 			}
 			$("#weldTaskTable").datagrid('reload',{
 				"searchStr" : searchStr,

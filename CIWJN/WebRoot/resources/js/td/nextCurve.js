@@ -121,12 +121,10 @@
 	})
 
 	    function websocket() {
-		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
-    	WEB_SOCKET_DEBUG = true;
-/*			if(typeof(WebSocket) == "undefined") {
-				alert("您的浏览器不支持WebSocket");
-				return;
-			}*/
+			if(typeof(WebSocket) == "undefined") {
+				WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+		    	WEB_SOCKET_DEBUG = true;
+			}
 			webclient();
 		};
 		function webclient(){
@@ -375,17 +373,17 @@
 			for(var i = 0;i < redata.length;i+=69){
 //				if(redata.substring(8+i, 12+i)!="0000"){
 //					if(parseInt(redata.substring(4+i, 8+i))==document.getElementById("in2").value){
-						ele.push(parseInt(redata.substring(12+i, 16+i)));
-						vol.push(parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2)));
+						ele.push(parseInt(redata.substring(12+i, 16+i),10));
+						vol.push(parseFloat((parseInt(redata.substring(16+i, 20+i),10)/10).toFixed(2)));
 						var ttme = redata.substring(20+i, 39+i);
 //						time.push(Date.parse(redata.substring(20+i, 39+i)));
 						ttme=ttme.replace(/-/g, '/');
 						time.push(Date.parse(new Date(ttme))); 
 						machstatus.push(redata.substring(0+i, 2+i));
-						maxele = parseInt(redata.substring(41+i, 44+i));
-						minele = parseInt(redata.substring(44+i, 47+i));
-						maxvol = parseInt(redata.substring(47+i, 50+i));
-						minvol = parseInt(redata.substring(50+i, 53+i));
+						maxele = parseInt(redata.substring(41+i, 44+i),10);
+						minele = parseInt(redata.substring(44+i, 47+i),10);
+						maxvol = parseInt(redata.substring(47+i, 50+i),10);
+						minvol = parseInt(redata.substring(50+i, 53+i),10);
 						if(symbol==0){
 							elecurve();
 							volcurve();
@@ -393,8 +391,8 @@
 						}
 						document.getElementById("in5").value=(maxele+minele)/2;
 						document.getElementById("in6").value=(maxvol+minvol)/2;
-						document.getElementById("in7").value=parseInt(redata.substring(12+i, 16+i));
-						document.getElementById("in8").value=parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
+						document.getElementById("in7").value=parseInt(redata.substring(12+i, 16+i),10);
+						document.getElementById("in8").value=parseFloat((parseInt(redata.substring(16+i, 20+i),10)/10).toFixed(2));
 						for(var k=0;k<welderName.length;k++){
 							if(welderName[k].fwelder_no==redata.substring(8+i, 12+i)){
 								document.getElementById("in13").value=welderName[k].fname;
