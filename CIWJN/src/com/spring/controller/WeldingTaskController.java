@@ -204,6 +204,81 @@ public class WeldingTaskController {
 		return obj.toString();
 	}
 	
+	@RequestMapping("/getWeldTask")
+	@ResponseBody
+	public String getWeldTask(HttpServletRequest request){
+		String serach="";
+		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+		int bz=0;
+		if(instype==20){
+			
+		}else if(instype==23){
+			serach = "j.fitemId="+userinsid;
+		}else{
+			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+			for(Insframework inns : ls ){
+				if(bz==0){
+					serach=serach+"(j.fitemId="+inns.getId();
+				}else{
+					serach=serach+" or j.fitemId="+inns.getId();
+				}
+				bz++;
+			}
+			serach=serach+" or j.fitemId="+userinsid+")";
+		}
+		if(request.getParameter("searchStr")!=null&&serach!=null&&serach!=""){
+			serach=serach+" and "+request.getParameter("searchStr");
+		}
+		if(request.getParameter("searchStr")!=null&&(serach==null||serach=="")){
+			serach=serach+request.getParameter("searchStr");
+		}
+		List<WeldedJunction> list = wjm.getWeldedJunction(serach);
+		long total = 0;
+		
+		if(list != null){
+			PageInfo<WeldedJunction> pageinfo = new PageInfo<WeldedJunction>(list);
+			total = pageinfo.getTotal();
+		}
+		
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(WeldedJunction w:list){
+				json.put("id", w.getId());
+				json.put("weldedJunctionno", w.getWeldedJunctionno());
+				json.put("serialNo", w.getSerialNo());
+				json.put("pipelineNo", w.getPipelineNo());
+				json.put("roomNo", w.getRoomNo());
+				json.put("levelid", w.getSystems());
+				json.put("levelname", w.getArea());
+				json.put("realwelder", w.getNext_material());
+				if( w.getItemid()!=null && !"".equals( w.getItemid())){
+					json.put("itemname", w.getItemid().getName());
+					json.put("itemid", w.getItemid().getId());
+				}
+				if(w.getMaterial()==null){
+					json.put("status", 2);
+				}else if(Integer.valueOf(w.getMaterial())==1){
+					json.put("status", 1);
+				}else{
+					json.put("status", 0);
+				}
+				json.put("welderid", w.getDyne());
+				json.put("quali", w.getExternalDiameter());
+				json.put("dtoTime1",w.getStartTime());
+				json.put("dtoTime2", w.getEndTime());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
 	@RequestMapping("/getTaskResultList")
 	@ResponseBody
 	public String getTaskResultList(HttpServletRequest request){

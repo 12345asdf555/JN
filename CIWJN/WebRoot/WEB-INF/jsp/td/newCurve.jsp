@@ -22,12 +22,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="resources/css/base.css" />
 	<link rel="stylesheet" type="text/css" href="resources/css/iconfont.css">
 	
-<!-- 	<script type="text/javascript" src="resources/js/loading.js"></script> -->
+	<script type="text/javascript" src="resources/js/loading.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.min.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
 	<script type="text/javascript" src="resources/js/highcharts.js"></script>
+	<script type="text/javascript" src="resources/js/session-overdue.js"></script>
 	<script type="text/javascript" src="resources/js/exporting.js"></script>
 	<script type="text/javascript" src="resources/js/td/newCurve.js"></script>
 	<script type="text/javascript" src="resources/js/insframework/insframeworktree.js"></script>
@@ -39,6 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body class="easyui-layout">
 	<jsp:include  page="../insframeworktree.jsp"/>
 	<div id="bodys" region="center"  hide="true"  split="true" title="实时界面" style="background: #eee; height: 335px;">
+		<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
 	</div>
 </body>
 </html>

@@ -95,4 +95,9 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService{
 		return wjm.getFreeJunction(str);
 	}
 
+	@Override
+	public List<WeldedJunction> getWeldedJunction(String str) {
+		return wjm.getWeldedJunctionAll(str);
+	}
+
 }

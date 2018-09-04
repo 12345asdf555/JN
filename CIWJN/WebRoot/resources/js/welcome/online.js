@@ -105,7 +105,7 @@ function webclient(){
 		if(xxx.substring(0,2)!="7E"){
 		redata=msg.data;
 		//53改为69
-		for(var i = 0;i < redata.length;i+=69){
+		for(var i = 0;i < redata.length;i+=7){
 			if(redata.substring(8+i, 12+i)!="0000"){
 				if(weld.length==0){
 					weld.push(redata.substring(8+i, 12+i));

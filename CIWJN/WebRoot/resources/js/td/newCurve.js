@@ -10,6 +10,7 @@ var wait = new Array();
 var dglength;
 var websocketURL;
 var welderName;
+var taskNum;
 var symbol=0;
 var symbol1=0;
 var sym=0;
@@ -81,6 +82,21 @@ $(function(){
 	          alert("数据请求失败，请联系系统管理员!");  
 	      }  
 	 });
+	$.ajax({  
+	      type : "post",  
+	      async : false,
+	      url : "weldtask/getWeldTask",  
+	      data : {},  
+	      dataType : "json", //返回数据形式为json  
+	      success : function(result) {
+	          if (result) {
+	        	  taskNum=eval(result.rows);
+	          }  
+	      },
+	      error : function(errorMsg) {  
+	          alert("数据请求失败，请联系系统管理员!");  
+	      }  
+	 });
 	getMachine();
     websocket();
 })
@@ -106,7 +122,7 @@ $(function(){
 						'<div style="float:left">'+
 						'<div style="display:none"><label id="labf'+fmch[f].fequipment_no+'">'+fmch[f].fid+'</label></div>'+
 						'<div><label id="lab1'+fmch[f].fequipment_no+'">设备编号：'+fmch[f].fequipment_no+'</label></div>'+
-						/*'<div><label id="lab2'+fmch[f].fequipment_no+'">焊缝编号：--</label></div>'+*/
+						'<div><label id="lab2'+fmch[f].fequipment_no+'">任务编号：--</label></div>'+
 						'<div><label id="lab3'+fmch[f].fequipment_no+'">操作人员：--</label></div>'+
 						'<div><label id="lab4'+fmch[f].fequipment_no+'">焊接电流：--A</label></div>'+
 						'<div><label id="lab5'+fmch[f].fequipment_no+'">焊接电压：--V</label></div>'+
@@ -203,15 +219,20 @@ $(function(){
 	}
 
 	function iview(){
-		for(var i = 0;i < redata.length;i+=69){
-			if(redata.substring(8+i, 12+i)!="0000"){
+		for(var i = 0;i < redata.length;i+=77){
+//			if(redata.substring(8+i, 12+i)!="0000"){
 				for(var f=0;f<fmch.length;f++){
 /*					alert(document.getElementById("labf"+fmch[f].fequipment_no).innerText);
 					alert(parseInt(redata.substring(4+i, 8+i)));*/
 					if((document.getElementById("labf"+fmch[f].fequipment_no).innerText)==(parseInt(redata.substring(4+i, 8+i),10))){
 						for(var k=0;k<welderName.length;k++){
-							if(welderName[k].fwelder_no==redata.substring(8+i, 12+i)){
-								document.getElementById("lab3"+fmch[f].fequipment_no).innerHTML="操作人员："+welderName[k].fname;
+							if(welderName[k].fname==parseInt(redata.substring(8+i, 12+i))){
+								document.getElementById("lab3"+fmch[f].fequipment_no).innerHTML="操作人员："+welderName[k].fwelder_no;
+							}
+						}
+						for(var t=0;t<taskNum.length;t++){
+							if(taskNum[t].id==parseInt(redata.substring(69+i, 77+i))){
+								document.getElementById("lab2"+fmch[f].fequipment_no).innerHTML="任务编号："+taskNum[t].weldedJunctionno;
 							}
 						}
 						document.getElementById("lab4"+fmch[f].fequipment_no).innerHTML="焊接电流："+parseInt(redata.substring(12+i, 16+i),10)+"A";
@@ -317,7 +338,7 @@ $(function(){
 						}
 					}
 				}
-			}
+//			}
 		};
 	}
 	

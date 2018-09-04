@@ -20,6 +20,7 @@ import com.spring.model.MyUser;
 import com.spring.model.Td;
 import com.spring.model.User;
 import com.spring.service.InsframeworkService;
+import com.spring.service.LiveDataService;
 import com.spring.service.TdService;
 
 import net.sf.json.JSON;
@@ -37,6 +38,8 @@ public class TdController {
 	
 	@Autowired
 	private TdService tdService;
+	@Autowired
+	private LiveDataService lm;
 	@Autowired
 	private InsframeworkService insm;
 	private Td td;
@@ -65,6 +68,7 @@ public class TdController {
 		long uid = myuser.getId();
 		String insname = tdService.findInsname(tdService.findIns(uid));
 		request.setAttribute("insname", insname);*/
+		lm.getUserId(request);
 		return "td/newCurve";
 	}
 	

@@ -63,9 +63,8 @@
 	
 	<select id="getFreeWelder" resultType="Person">
 		select tb_welder.fid id,fwelder_no welderno,tb_welder.fname name,d.fvaluename qualiname,tb_welder.Fback,i.fname levename,i.fid insid from tb_welder 
-		INNER JOIN tb_insframework i on i.fid = tb_welder.Fowner INNER JOIN tb_dictionary d on d.fvalue = tb_welder.Fqualification where d.ftypeid=7 and tb_welder.fid not in (
-		SELECT DISTINCT(fdyne) FROM tb_welded_junction j where j.fdyne not in (SELECT fwelderid from tb_taskresult))
-		and tb_welder.fid not in (SELECT DISTINCT(fwelderid) from tb_taskresult where foperatetype=0 and foperatetype=2)
+		INNER JOIN tb_insframework i on i.fid = tb_welder.Fowner INNER JOIN tb_dictionary d on d.fvalue = tb_welder.Fqualification where d.ftypeid=7 
+		and tb_welder.fid  in  (select fid from tb_welder  where fid not in (select fwelderid from tb_taskresult) union SELECT DISTINCT(fwelderid) fid from tb_taskresult where foperatetype=1)
 		<if test="str!=null and str!=''">
 			and ${str}
 		</if>

@@ -130,7 +130,7 @@
 	<!-- 获取工作的焊口数-->
 	<select id="getWorkJunctionNum" resultMap="dataMap">
 		select count(fjunction_id) junctionnum from(
-		select fjunction_id from tb_work where 1=1
+		select fjunction_id from tb_work where 1=1 and fjunction_id!=0
 		<if test="itemid!=null and itemid!=''">
 			and fitemid= #{itemid}
 		</if>
@@ -149,7 +149,7 @@
 			</if>
 		</if>
 		union
-		select fjunction_id from tb_standby where 1=1
+		select fjunction_id from tb_standby where 1=1 and fjunction_id!=0
 		<if test="itemid!=null and itemid!=''">
 			and fitemid= #{itemid}
 		</if>

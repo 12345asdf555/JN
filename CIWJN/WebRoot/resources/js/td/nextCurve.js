@@ -20,6 +20,7 @@
 	var dglength;
 	var websocketURL;
 	var welderName;
+	var taskNum;
 	var symbol=0;
 	var symbol1=0;
 	var sym=0;
@@ -94,6 +95,21 @@
 		      success : function(result) {
 		          if (result) {
 		        	  welderName=eval(result.rows);
+		          }  
+		      },
+		      error : function(errorMsg) {  
+		          alert("数据请求失败，请联系系统管理员!");  
+		      }  
+		 });
+		$.ajax({  
+		      type : "post",  
+		      async : false,
+		      url : "weldtask/getWeldTask",  
+		      data : {},  
+		      dataType : "json", //返回数据形式为json  
+		      success : function(result) {
+		          if (result) {
+		        	  taskNum=eval(result.rows);
 		          }  
 		      },
 		      error : function(errorMsg) {  
@@ -370,9 +386,9 @@
 			
 			vol.length=0;
 			ele.length=0;
-			for(var i = 0;i < redata.length;i+=69){
+			for(var i = 0;i < redata.length;i+=77){
 //				if(redata.substring(8+i, 12+i)!="0000"){
-//					if(parseInt(redata.substring(4+i, 8+i))==document.getElementById("in2").value){
+					if(parseInt(redata.substring(4+i, 8+i))==document.getElementById("in2").value){
 						ele.push(parseInt(redata.substring(12+i, 16+i),10));
 						vol.push(parseFloat((parseInt(redata.substring(16+i, 20+i),10)/10).toFixed(2)));
 						var ttme = redata.substring(20+i, 39+i);
@@ -394,8 +410,13 @@
 						document.getElementById("in7").value=parseInt(redata.substring(12+i, 16+i),10);
 						document.getElementById("in8").value=parseFloat((parseInt(redata.substring(16+i, 20+i),10)/10).toFixed(2));
 						for(var k=0;k<welderName.length;k++){
-							if(welderName[k].fwelder_no==redata.substring(8+i, 12+i)){
-								document.getElementById("in13").value=welderName[k].fname;
+							if(welderName[k].fname==parseInt(redata.substring(8+i, 12+i))){
+								document.getElementById("in13").value=welderName[k].fwelder_no;
+							}
+						}
+						for(var t=0;t<taskNum.length;t++){
+							if(taskNum[t].id==parseInt(redata.substring(69+i, 77+i))){
+								document.getElementById("in14").value=taskNum[t].weldedJunctionno;
 							}
 						}
 						document.getElementById("in11").value=redata.substring(53+i, 61+i);
@@ -538,7 +559,7 @@
 	                    	 }
 	                    }
                 		}
-//					}
+					}
 //				}
                 z++;
 			};

@@ -17,6 +17,11 @@ public interface WeldedJunctionService {
 	List<WeldedJunction> getWeldedJunctionAll(Page page, String str);
 	
 	/**
+	 * 查询所有任务(不包含分页信息)
+	 */
+	List<WeldedJunction> getWeldedJunction(String str);
+	
+	/**
 	 * 根据id查询
 	 * @param id 任务id
 	 * @return

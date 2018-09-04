@@ -140,6 +140,10 @@ function save(){
 		alert("焊工编号超出指定的8位长度!!!");
 		return;
 	}
+	if(welderno=="00000000"){
+		alert("焊工编号不能全为0!!!");
+		return;
+	}
     var insframework = $('#owner').combobox('getValue');
     var leve = $('#leveid').combobox('getValue');
     var qua = $('#quali').combobox('getValue');

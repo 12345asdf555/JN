@@ -76,7 +76,7 @@ var back = new Array();
 				var xxx = msg.data;
 				
 				var dd = msg.data;
-				for(var n = 0;n < dd.length;n+=69){
+				for(var n = 0;n < dd.length;n+=77){
 					if(dd.substring(8+n, 12+n)!="0000"){		
 						if(back.length==0){
 							var l=1;
@@ -112,7 +112,7 @@ var back = new Array();
 				var i;
 	    		var rows = $('#dg').datagrid("getRows"); 
     			/*alert(rows[dex][columns[0][0].field]);*/
-    			for(var g = 0;g < dd.length;g+=69*3){
+    			for(var g = 0;g < dd.length;g+=77*3){
     			for(var dex=0;dex<rows.length;dex++){
     				/*alert(rows[dex][columns[0][1].field]);*/
     		    if((dd.substring(8+g, 12+g)!="0000")&&(dd.substring(4+g, 8+g)==rows[dex].machineid)){
