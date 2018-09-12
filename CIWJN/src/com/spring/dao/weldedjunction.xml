@@ -43,14 +43,8 @@
         <result property="updater" column="fupdater"></result>
         <result property="creater" column="fcreater"></result>
         <result property="insfid" column="insfid"></result>
-        <association property="itemid" column="fitemId" javaType="com.spring.model.Insframework">  
-            <id property="id" column="iid"></id> 
-            <result property="name" column="iname"></result>  
-            <result property="logogram" column="flogogram"></result>  
-            <result property="code" column="fcode"></result>
-        	<result property="parent" column="fparent"></result>
-        	<result property="type" column="ftype"></result>
-        </association>
+		<result property="iid" column="iid" />
+		<result property="iname" column="iname" />
 	</resultMap>
 	
 	<resultMap id="wmMap" type="com.spring.model.WeldedJunction">
@@ -66,18 +60,23 @@
 	</resultMap>
 	
 	<select id="getWeldedJunctionAll" resultMap="wjMap" parameterType="java.lang.String">
-	SELECT j.fid,j.fwelded_junction_no,j.fserial_no,j.froom_no fsystems,dd.fvaluename farea,j.fexternal_diameter,j.fstart_time,j.fend_time,j.fdyne,i.fid iid,w.fwelder_no fpipeline_no,d.fvaluename froom_no,i.fname iname,r.foperatetype fmaterial,ww.fwelder_no fnext_material FROM tb_welded_junction j 
+<!-- 	SELECT j.fid,j.fwelded_junction_no,j.fserial_no,j.froom_no fsystems,dd.fvaluename farea,j.fexternal_diameter,j.fstart_time,j.fend_time,j.fdyne,i.fid iid,w.fwelder_no fpipeline_no,d.fvaluename froom_no,i.fname iname,r.foperatetype fmaterial,ww.fwelder_no fnext_material FROM tb_welded_junction j 
 	LEFT JOIN tb_welder w ON j.fdyne=w.fid 
 	LEFT JOIN tb_dictionary d ON j.fexternal_diameter=d.fvalue AND d.ftypeid=7 
 	LEFT JOIN tb_dictionary dd ON j.froom_no=dd.fvalue AND dd.ftypeid=17 
 	INNER JOIN tb_insframework i ON j.fitemId = i.fid 
    LEFT JOIN tb_taskresult r on r.ftaskid=j.fid
    LEFT JOIN tb_welder ww ON r.fwelderid=ww.fid
-	WHERE 1=1 AND (r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid,fwelderid,fmachineid) OR r.foperatetype IS null)
+	WHERE 1=1 AND (r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid,fwelderid,fmachineid) OR r.foperatetype IS null) -->
+	SELECT j.fid,j.fwelded_junction_no,j.froom_no,dd.fvaluename farea,j.fstart_time,j.fend_time,i.fid iid,i.fname iname,r.foperatetype fmaterial FROM tb_welded_junction j 
+	LEFT JOIN tb_dictionary dd ON j.froom_no=dd.fvalue AND dd.ftypeid=7 
+	INNER JOIN tb_insframework i ON j.fitemId = i.fid 
+    LEFT JOIN tb_taskresult r on r.ftaskid=j.fid
+	WHERE 1=1 AND (r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid) OR r.foperatetype IS null)
 	<if test="str!=null and str!=''">
 			and ${str}
 		</if>
-	ORDER BY j.fid
+	ORDER BY r.foperatedate desc
 	</select>
 	
 	<select id="getFreeJunction" resultMap="wjMap">
@@ -90,7 +89,7 @@
 	</select>
 	
 	<select id="getTaskResultAll" resultMap="wjMap" parameterType="java.lang.String">
-	  SELECT r.fid,r.ftaskid counts,r.fwelderid insfid,r.fmachineid machid,i.fid iid, i.fname iname,r.foperatetype fdyne,r.fresult fpipeline_no,r.fresultid fupdatecount,u.users_name fmaterial,j.fwelded_junction_no,
+<!-- 	  SELECT r.fid,r.ftaskid counts,r.fwelderid insfid,r.fmachineid machid,i.fid iid, i.fname iname,r.foperatetype fdyne,r.fresult fpipeline_no,r.fresultid fupdatecount,u.users_name fmaterial,j.fwelded_junction_no,
 	  w.fwelder_no fserial_no,m.fequipment_no fequipment_no,d.fvaluename froom_no,r.foperatedate fupdatetime,r.frealstarttime fstart_time,r.frealendtime fend_time FROM tb_taskresult r 
 	  INNER JOIN tb_welded_junction j ON r.ftaskid=j.fid
 	  INNER JOIN tb_insframework i on j.fitemId = i.fid 
@@ -98,11 +97,18 @@
 	  LEFT JOIN tb_welder w ON r.fwelderid=w.fid
      LEFT JOIN tb_users u ON u.id=r.foperator
 	  left JOIN tb_dictionary d ON r.fresultid=d.fvalue AND d.ftypeid=16
-	  WHERE 1=1 AND r.foperatetype!=3 AND r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid,fwelderid,fmachineid)
+	  WHERE 1=1 AND r.foperatetype!=3 AND r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid,fwelderid,fmachineid) -->
+	  	  SELECT r.fid,r.ftaskid counts,i.fid iid, i.fname iname,r.foperatetype fdyne,r.fresult fpipeline_no,r.fresultid fupdatecount,u.users_name fmaterial,j.fwelded_junction_no,
+	  d.fvaluename froom_no,r.foperatedate fupdatetime,r.frealstarttime fstart_time,r.frealendtime fend_time FROM tb_taskresult r 
+	  INNER JOIN tb_welded_junction j ON r.ftaskid=j.fid
+	  INNER JOIN tb_insframework i on j.fitemId = i.fid 
+     LEFT JOIN tb_users u ON u.id=r.foperator
+	  left JOIN tb_dictionary d ON r.fresultid=d.fvalue AND d.ftypeid=16
+	  WHERE 1=1 AND r.foperatetype!=3 AND r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid)
 	  <if test="str!=null and str!=''">
 			and ${str}
 	  </if>
-	  ORDER BY r.fid 
+	  ORDER BY r.foperatedate desc
 	</select>
 	
 	<select id="getJunctionByWelder" resultMap="wjMap">
@@ -203,8 +209,12 @@
 	    </if>
 	</select>
 	
+	<select id="getRealWelder" resultMap="wjMap" parameterType="java.math.BigInteger">
+		SELECT t.fid,t.ftaskid fcreater,j.fwelded_junction_no,t.fwelderid iid,w.fwelder_no froom_no,w.fname iname,t.fmachineid machid,m.fequipment_no FROM tb_taskresult t LEFT JOIN tb_welder w ON t.fwelderid=w.fid LEFT JOIN tb_welding_machine m ON t.fmachineid=m.fid LEFT JOIN tb_welded_junction j ON j.fid=t.ftaskid where t.ftaskid=#{taskid}
+	</select>
+	
 	<insert id="addTask" parameterType="com.spring.model.WeldedJunction">
-		insert into tb_welded_junction(fwelded_junction_no,froom_no,fdyne,fexternal_diameter,fitemId,fstart_time,fend_time) 
-		values(#{weldedJunctionno},#{roomNo},#{unit},#{externalDiameter},#{itemid.id},#{startTime},#{endTime});
+		insert into tb_welded_junction(fwelded_junction_no,froom_no,fitemId,fstart_time,fend_time) 
+		values(#{weldedJunctionno},#{roomNo},#{iid},#{startTime},#{endTime});
 	</insert>
 </mapper>

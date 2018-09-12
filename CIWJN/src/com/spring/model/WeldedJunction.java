@@ -47,8 +47,8 @@ public class WeldedJunction {
 	private BigInteger updater;
 	private BigInteger creater;
 	private BigInteger insfid;
-	@Transient
-	private Insframework itemid;//所属项目（新增字段）
+	private BigInteger iid;
+	private String iname;
 	
 	public BigInteger getInsfid() {
 		return insfid;
@@ -224,12 +224,6 @@ public class WeldedJunction {
 	public void setNextexternaldiameter(String nextexternaldiameter) {
 		this.nextexternaldiameter = nextexternaldiameter;
 	}
-	public Insframework getItemid() {
-		return itemid;
-	}
-	public void setItemid(Insframework itemid) {
-		this.itemid = itemid;
-	}
 	public String getCreatTime() {
 		return creatTime;
 	}
@@ -259,6 +253,18 @@ public class WeldedJunction {
 	}
 	public void setNext_material(String next_material) {
 		this.next_material = next_material;
+	}
+	public BigInteger getIid() {
+		return iid;
+	}
+	public void setIid(BigInteger iid) {
+		this.iid = iid;
+	}
+	public String getIname() {
+		return iname;
+	}
+	public void setIname(String iname) {
+		this.iname = iname;
 	}
 	
 }

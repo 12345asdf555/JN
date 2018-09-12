@@ -202,6 +202,38 @@ public class WeldingMachineController {
 	}
 	
 	/**
+	 * 获取焊机及其对应的采集模块
+	 * @return
+	 */
+	@RequestMapping("/getMachineGather")
+	@ResponseBody
+	public String getMachineGather(HttpServletRequest request){
+		List<WeldingMachine> list = wmm.getMachineGather();
+		
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(WeldingMachine wm:list){
+				json.put("id", wm.getId());
+				json.put("gatherId", wm.getGatherId());
+				if(wm.getGatherId()!=null && !("").equals(wm.getGatherId())){
+					json.put("gatherId", wm.getGatherId().getGatherNo());
+					json.put("gid", wm.getGatherId().getId());
+				}else{
+					json.put("gatherId", null);
+					json.put("gid", null);
+				}
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	/**
 	 * 获取设备类型
 	 * @return
 	 */
@@ -236,7 +268,7 @@ public class WeldingMachineController {
 		JSONArray ary = new JSONArray();
 		JSONObject obj = new JSONObject();
 		try{
-			List<Insframework> list = im.getInsAll(0);
+			List<Insframework> list = im.getOperateArea(null,23);
 			for(Insframework i:list){
 				json.put("id", i.getId());
 				json.put("name", i.getName());

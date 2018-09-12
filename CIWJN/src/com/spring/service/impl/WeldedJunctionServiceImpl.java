@@ -100,4 +100,10 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService{
 		return wjm.getWeldedJunctionAll(str);
 	}
 
+	@Override
+	public List<WeldedJunction> getRealWelder(Page page,BigInteger taskid) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return wjm.getRealWelder(taskid);
+	}
+
 }

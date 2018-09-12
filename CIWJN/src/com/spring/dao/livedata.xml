@@ -58,14 +58,8 @@
 	        <result property="endTime" column="fend_time"></result>
 	        <result property="material" column="fmaterial"></result>
 	        <result property="nextexternaldiameter" column="fnextExternal_diameter"></result>
-	        <association property="itemid" column="fitemId" javaType="com.spring.model.Insframework">  
-	            <id property="id" column="iid"></id> 
-	            <result property="name" column="iname"></result>  
-	            <result property="logogram" column="flogogram"></result>  
-	            <result property="code" column="fcode"></result>
-	        	<result property="parent" column="fparent"></result>
-	        	<result property="type" column="ftype"></result>
-        	</association>
+			<result property="iid" column="iid" />
+			<result property="iname" column="iname" />
        	</association>
 	</resultMap>
 	

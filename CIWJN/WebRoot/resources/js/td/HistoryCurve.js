@@ -205,7 +205,7 @@ function setParam(){
 					setParam();
 					   $.ajax({
 						   type: "post", 
-						   url: "rep/getWpsByMid"+"?fid="+row.weldedJunctionno,
+						   url: "rep/getWpsByMid"+"?fid="+encodeURI(row.weldedJunctionno),
 						   dataType: "json",
 						   data: {},
 						   success: function (result) {
@@ -231,7 +231,7 @@ function setParam(){
 
 					   $.ajax({
 						   type: "post", 
-						   url: "rep/historyCurve"+chartStr+"&fid="+row.weldedJunctionno+"&mach="+row.machid+"&welderid="+$("#welderid").val(),
+						   url: "rep/historyCurve"+chartStr+"&fid="+encodeURI(row.weldedJunctionno)+"&mach="+row.machid+"&welderid="+$("#welderid").val(),
 						   dataType: "json",
 						   data: {},
 						   success: function (result) {

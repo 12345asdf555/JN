@@ -273,7 +273,7 @@ public class ImportExcelController {
 				}
 				w.setWeldedJunctionno(wjno);
 				int count = wjs.getWeldedjunctionByNo(wjno);
-				w.setInsfid(wmm.getInsframeworkByName(w.getItemid().getName()));
+				w.setInsfid(wmm.getInsframeworkByName(w.getIname()));
 				MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				w.setCreater(new BigInteger(user.getId()+""));
 				w.setUpdater(new BigInteger(user.getId()+""));
@@ -347,13 +347,13 @@ public class ImportExcelController {
 				}
 //				json.put("insName", w.getItemid().getName());
 				BigInteger iii = null;
-				if(w.getItemid()==null){
+				if(w.getIname()==null){
 					str+="班组不能为空;";
 					json.put("insName", "");
 					biaozhi=1;
 				}else{
-					json.put("insName", w.getItemid().getName());
-					iii = wmm.getInsframeworkByName(w.getItemid().getName());
+					json.put("insName", w.getIname());
+					iii = wmm.getInsframeworkByName(w.getIname());
 					if(String.valueOf(iii)==null||String.valueOf(iii)=="null"){
 						str+="该班组不存在;";
 						biaozhi=1;
@@ -361,7 +361,7 @@ public class ImportExcelController {
 						json.put("insId", iii);
 					}
 				}
-				if((w.getPipelineNo()==null)||(w.getPipelineNo()=="")){
+/*				if((w.getPipelineNo()==null)||(w.getPipelineNo()=="")){
 					json.put("welderNo", "");
 				}else{
 					json.put("welderNo", w.getPipelineNo());
@@ -389,7 +389,7 @@ public class ImportExcelController {
 					}else{
 						json.put("qualiid", String.valueOf(qqq));
 					}
-				}
+				}*/
 				json.put("start", w.getUnit());
 				json.put("end", w.getArea());
 				json.put("str", str);
@@ -1018,9 +1018,9 @@ public class ImportExcelController {
 						break;
 					}
 					else if(k == 24){
-						Insframework insf = new Insframework();
-						insf.setName(cellValue);
-						p.setItemid(insf);//所属部门
+/*						Insframework insf = new Insframework();
+						insf.setName(cellValue);*/
+						p.setIname(cellValue);//所属部门
 						break;
 					}
 					break;
@@ -1123,25 +1123,25 @@ public class ImportExcelController {
 						p.setSerialNo(cellValue);//任务等级
 						break;
 					}
-					else if(k == 2){
+/*					else if(k == 2){
 						p.setPipelineNo(cellValue);//焊工编号
 						break;
 					}
 					else if(k == 3){
 						p.setRoomNo(cellValue);//焊工资质
 						break;
-					}
-					else if(k == 4){
-						Insframework insf = new Insframework();
-						insf.setName(cellValue);
-						p.setItemid(insf);//所属部门
+					}*/
+					else if(k == 2){
+/*						Insframework insf = new Insframework();
+						insf.setName(cellValue);*/
+						p.setIname(cellValue);//所属部门
 						break;
 					}
-					else if(k == 5){
+					else if(k == 3){
 						p.setUnit(cellValue);//开始时间
 						break;
 					}
-					else if(k == 6){
+					else if(k == 4){
 						p.setArea(cellValue);//结束时间
 						break;
 					}
@@ -1156,25 +1156,25 @@ public class ImportExcelController {
 						p.setSerialNo(cellValue);//任务等级
 						break;
 					}
-					else if(k == 2){
+/*					else if(k == 2){
 						p.setPipelineNo(cellValue);//焊工资质
 						break;
 					}
 					else if(k == 3){
 						p.setRoomNo(cellValue);//焊工编号
 						break;
-					}
-					else if(k == 4){
-						Insframework insf = new Insframework();
-						insf.setName(cellValue);
-						p.setItemid(insf);//所属部门
+					}*/
+					else if(k == 2){
+/*						Insframework insf = new Insframework();
+						insf.setName(cellValue);*/
+						p.setIname(cellValue);//所属部门
 						break;
 					}
-					else if(k == 5){
+					else if(k == 3){
 						p.setUnit(cellValue);//开始时间
 						break;
 					}
-					else if(k == 6){
+					else if(k == 4){
 						p.setArea(cellValue);//结束时间
 						break;
 					}

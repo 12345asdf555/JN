@@ -10,9 +10,10 @@ $(function(){
 	$("#fm").form("disableValidation");
 })
 
-function editWeldedjunction(){ 
+function editWeldedjunction(value){ 
 	flag = 2;
 	var row = $('#weldTaskTable').datagrid('getSelected');
+	value = eval(value);
 	$.ajax({  
       type : "post",  
       async : false,
@@ -29,11 +30,16 @@ function editWeldedjunction(){
                 modal : true
               });
               $('#dlg').window('open');
-              $('#fm').form('load', row);
+//              $('#fm').form('load', row);
               $("#oldno").val(row.taskNo);   //不加会出现不能保存相同名的id这个错误
-              $("#machineid").val(row.machineid);
-              $("#taskid").val(row.taskid);
-              url = "weldtask/getEvaluate?id="+row.id+"&result="+""+"&starttime="+row.starttime+"&endtime="+row.endtime+"&welderid="+row.welderid;
+              $("#machineid").val(value.machid);
+              $("#taskid").val(value.taskid);
+              $("#welderNo").val(value.welderno);
+//              $("#taskNo").val(row.taskNo);
+//              $("#machineNo").val(value5);
+              $("#taskNo").textbox('setValue',row.taskNo);
+              $("#machineNo").textbox('setValue',value.machno);
+              url = "weldtask/getEvaluate?id="+value.id+"&result="+""+"&starttime="+row.starttime+"&endtime="+row.endtime+"&welderid="+value.welderid;
 
               //url = "weldtask/editWeldTask?id="+ row.id;
             }

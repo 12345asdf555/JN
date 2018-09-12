@@ -87,6 +87,14 @@
 		where (d.ftypeid=3 and di.ftypeid=4 and dic.ftypeid=14) and w.fid = #{wid}
 	</select>
 	
+	<select id="getMachineGather"  resultMap="wmMap">
+		SELECT 
+		w.fid fid,g.fid gid,fgather_no
+		FROM tb_welding_machine w
+		left JOIN tb_gather g ON g.fid = w.fgather_id
+		where 1=1
+	</select>
+	
 	<select id="getEquipmentno" resultMap="wmMap">
 		SELECT fid, fequipment_no FROM tb_welding_machine 
 	</select>

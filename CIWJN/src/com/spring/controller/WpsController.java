@@ -360,13 +360,13 @@ public class WpsController {
 			wps.setFhysteresis(fhysteresis);
 			wps.setFini_ele(fini_ele);
 			wps.setFini_vol(fini_vol);
-			wps.setFini_vol(fini_vol1);
+			wps.setFini_vol1(fini_vol1);
 			wps.setFweld_ele(fweld_ele);
 			wps.setFweld_vol(fweld_vol);
-			wps.setFweld_vol(fweld_vol1);
+			wps.setFweld_vol1(fweld_vol1);
 			wps.setFarc_ele(farc_ele);
 			wps.setFarc_vol(farc_vol);
-			wps.setFarc_vol(farc_vol1);
+			wps.setFarc_vol1(farc_vol1);
 			wps.setFweld_tuny_ele(fweld_tuny_ele);
 			wps.setFweld_tuny_vol(fweld_tuny_vol);
 			wps.setFarc_tuny_ele(farc_tuny_ele);
@@ -481,9 +481,19 @@ public class WpsController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		JSONObject obj = new JSONObject();
 		try{
-	        wps.setFinitial(request.getParameter("finitial"));
-	        wps.setFcontroller(request.getParameter("fcontroller"));
-
+			wps.setFwpsnum(request.getParameter("fwn"));
+			wps.setFweld_i(Integer.valueOf(request.getParameter("Fweld_I")));
+			wps.setFweld_v(Integer.valueOf(request.getParameter("Fweld_V")));
+			wps.setFweld_i_max(Integer.valueOf(request.getParameter("Fweld_I_MAX")));
+			wps.setFweld_i_min(Integer.valueOf(request.getParameter("Fweld_I_MIN")));
+			wps.setFweld_v_max(Integer.valueOf(request.getParameter("Fweld_V_MAX")));
+			wps.setFweld_v_min(Integer.valueOf(request.getParameter("Fweld_V_MIN")));
+			wps.setFweld_alter_i(Integer.valueOf(request.getParameter("Fweld_Alter_I")));
+			wps.setFweld_alter_v(Integer.valueOf(request.getParameter("Fweld_Alter_V")));
+			wps.setFweld_prechannel(Integer.valueOf(request.getParameter("Fweld_PreChannel")));
+			wps.setFname(request.getParameter("Fname"));
+			wps.setFback(request.getParameter("Fback"));
+			wps.setFdiameter(Double.valueOf(request.getParameter("Fdiameter")));
 			wps.setFcreater(myuser.getId());
 			wps.setFupdater(myuser.getId());
 			wps.setFowner(Long.parseLong(request.getParameter("ins")));

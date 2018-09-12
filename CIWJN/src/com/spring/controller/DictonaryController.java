@@ -117,6 +117,7 @@ public class DictonaryController {
 	@RequestMapping("/editDictionary")
 	@ResponseBody
 	public String EditDictionary(Dictionarys dic,HttpServletRequest request){
+/*		Dictionarys dic = new Dictionarys();*/
 		JSONObject obj=new JSONObject();
 		try{
 			String backs=request.getParameter("back");

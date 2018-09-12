@@ -2,6 +2,7 @@ package com.spring.controller;
 
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -576,12 +577,14 @@ public class ReportController {
 	@RequestMapping("/historyCurve")
 	@ResponseBody
 	public String historyCurve(HttpServletRequest request){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar c = Calendar.getInstance();
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
 		String parentId = request.getParameter("parent");
-		String insid = request.getParameter("insid");
-		String type = request.getParameter("otype");
 		String welderid = request.getParameter("welderid");
 		BigInteger mach = new BigInteger(request.getParameter("mach"));
 		WeldDto dto = new WeldDto();
@@ -597,67 +600,47 @@ public class ReportController {
 				parentId = insm.getUserInsfId(uid).toString();
 			}
 		}
-		BigInteger parent = null;
 		if(iutil.isNull(time1)){
 			dto.setDtoTime1(time1);
 		}
 		if(iutil.isNull(time2)){
 			dto.setDtoTime2(time2);
 		}
-		if(iutil.isNull(parentId)){
-			parent = new BigInteger(parentId);
-		}
-		if(iutil.isNull(type)){
-			if(type.equals("1")){
-				dto.setYear("year");
-			}else if(type.equals("2")){
-				dto.setMonth("month");
-			}else if(type.equals("3")){
-				dto.setDay("day");
-			}else if(type.equals("4")){
-				dto.setWeek("week");
-			}
-		}
-		String str = request.getParameter("searchStr");
 		String fid = request.getParameter("fid");
-		pageIndex = 1;
-		pageSize = 52224;
+		List<Report> list;
+		pageIndex=1;
+		pageSize = 28800;
 		page = new Page(pageIndex,pageSize,total);
-		List<Report> list = reportService.historyData(page,dto,fid,mach,welderid);
-		long total = 0;
-		
-		if(list != null){
-			PageInfo<Report> pageinfo = new PageInfo<Report>(list);
-			total = pageinfo.getPages();
-		}
-		JSONObject json = new JSONObject();
-		JSONArray ary = new JSONArray();
-		JSONObject obj = new JSONObject();
 		try{
-			if(pageIndex==total){
-				for(Report repo:list){
-					json.put("ele", repo.getFstandardele());
-					json.put("vol", repo.getFstandardvol());
-					json.put("time", repo.getFweldingtime());
-					ary.add(json);
-				}
-			}else{
-				for(Report repo:list){
-					json.put("ele", repo.getFstandardele());
-					json.put("vol", repo.getFstandardvol());
-					json.put("time", repo.getFweldingtime());
-					ary.add(json);
-				}
-				for(pageIndex=2;pageIndex<=total;pageIndex++){
-					List<Report> list1 = reportService.historyData(page,dto,fid,mach,welderid);
-					for(Report repo1:list1){
-						json.put("ele", repo1.getFstandardele());
-						json.put("vol", repo1.getFstandardvol());
-						json.put("time", repo1.getFweldingtime());
+			do{
+				list = reportService.historyData(page,dto,fid,mach,welderid);
+				if(list.size()!=0){
+					for(int i=0;i<list.size();i++){
+						if(list.get(i).getFstatus()==5){
+			                c.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(list.get(i).getFweldingtime()));
+			                c.add(Calendar.SECOND,1);
+							json.put("ele", 0);
+							json.put("vol", 0);
+							json.put("time", sdf.format(c.getTime()));
+							ary.add(json);
+							
+						}else if(list.get(i).getFstatus()==7){
+			                c.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(list.get(i).getFweldingtime()));
+			                c.add(Calendar.SECOND,-1);
+							json.put("ele", 0);
+							json.put("vol", 0);
+							json.put("time", sdf.format(c.getTime()));
+							ary.add(json);
+						}
+						json.put("ele", list.get(i).getFstandardele());
+						json.put("vol", list.get(i).getFstandardvol());
+						json.put("time", list.get(i).getFweldingtime());
 						ary.add(json);
 					}
 				}
-			}
+				pageIndex+=pageSize;
+				page = new Page(pageIndex,pageSize,total);
+			}while(list.size()==28800);
 		}catch(Exception e){
 			e.printStackTrace();
 			e.getMessage();

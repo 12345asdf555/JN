@@ -1,7 +1,7 @@
 $(function(){
 	weldedJunctionDatagrid();
-	dayinDatagrid();
-	exporttable();
+//	dayinDatagrid();
+//	exporttable();
 	statusChange();
 });
 
@@ -27,6 +27,7 @@ function statusChange(){
 function weldedJunctionDatagrid(){
 	$("#weldTaskTable").datagrid( {
 //		fitColumns : true,
+		view: detailview,
 		height : $("#body").height(),
 		width : $("#body").width(),
 		idField : 'id',
@@ -61,7 +62,7 @@ function weldedJunctionDatagrid(){
 //			width : 150,
 			halign : "center",
 			align : "left"
-		}, {
+		}, /*{
 			field : 'pipelineNo',
 			title : '预设焊工',
 //			width : 90,
@@ -93,7 +94,7 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left",
 			hidden:true
-		},{
+		},*/{
 			field : 'itemid',
 			title : '项目id',
 //			width : 90,
@@ -125,14 +126,14 @@ function weldedJunctionDatagrid(){
 //			width : 150,
 			halign : "center",
 			align : "left"
-		},{
+		},/*{
 			field : 'dyne',
 			title : '焊工id',
 			width : 90,
 			halign : "center",
 			align : "left",
 			hidden:true
-		},{
+		},*/{
 			field : 'status',
 			title : '状态值',
 			width : 90,
@@ -190,6 +191,54 @@ function weldedJunctionDatagrid(){
 			if($("#confirm2").length!=0){
 				$("a[id='confirm2']").linkbutton({text:'未领取',plain:true,iconCls:'icon-assign'});
 			}
+		},
+		detailFormatter:function(index,row2){//严重注意喔
+			return '<div"><table id="ddv-' + index + '" style=""></table></div>';
+		},
+		onExpandRow: function(index,row){//嵌套第一层，严重注意喔
+			var ddv = $(this).datagrid('getRowDetail',index).find('#ddv-'+index);//严重注意喔
+			ddv.datagrid({
+//				fitColumns : true,
+				idField : 'id',
+				pageSize : 10,
+				pageList : [ 10, 20, 30, 40, 50 ],
+				url : "weldtask/getRealWelder?searchStr="+row.id,
+				singleSelect : true,
+				rownumbers : true,
+				showPageList : false,
+				columns : [ [ { 
+					field : 'id',
+					title : '序号',
+					width : 30,
+					halign : "center",
+					align : "left",
+					hidden:true
+				}, {
+					field : 'welderno',
+					title : '焊工编号',
+					halign : "center",
+					align : "left",
+					width : 200
+				}, {
+					field : 'weldername',
+					title : '焊工姓名',
+					halign : "center",
+					align : "left",
+					width : 200
+				}
+				] ],
+				pagination : true,
+				onResize:function(){
+					$('#weldTaskTable').datagrid('fixDetailRowHeight',index);
+				},
+				onLoadSuccess:function(){
+					$('#weldTaskTable').datagrid("selectRow", index)
+					setTimeout(function(){
+						$('#weldTaskTable').datagrid('fixDetailRowHeight',index);
+					},0);
+				}
+			});
+			$('#weldTaskTable').datagrid('fixDetailRowHeight',index);
 		}
 	});
 }
@@ -207,30 +256,69 @@ function dayinDatagrid(){
 		rownumbers : true,
 		showPageList : false,
 		columns : [ [ {
+			field : 'id',
+			title : '序号',
+			width : 30,
+			halign : "center",
+			align : "left",
+			hidden:true
+		}, {
 			field : 'weldedJunctionno',
 			title : '任务编号',
 //			width : 90,
 			halign : "center",
 			align : "left"
-		}, {
+		}, /*{
 			field : 'serialNo',
 			title : '任务描述',
 //			width : 90,
 			halign : "center",
 			align : "left"
-//			hidden:true
-		}, {
+		}, */{
+			field : 'levelname',
+			title : '任务等级',
+//			width : 150,
+			halign : "center",
+			align : "left"
+		}, /*{
 			field : 'pipelineNo',
-			title : '焊工工号',
+			title : '预设焊工',
 //			width : 90,
 			halign : "center",
 			align : "left"
-		}, {
+		},*/{
+			field : 'realwelder',
+			title : '实际焊工',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		}, /*{
 			field : 'roomNo',
 			title : '焊工资质',
 //			width : 90,
 			halign : "center",
 			align : "left"
+		}, {
+			field : 'welderid',
+			title : '焊工id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		},{
+			field : 'quali',
+			title : '资质id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		},*/{
+			field : 'itemid',
+			title : '项目id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
 		}, {
 			field : 'itemname',
 			title : '所属班组',
@@ -238,6 +326,13 @@ function dayinDatagrid(){
 			halign : "center",
 			align : "left"
 		}, {
+			field : 'levelid',
+			title : '任务等级id',
+//			width : 150,
+			halign : "center",
+			align : "left",
+			hidden:true
+		},{
 			field : 'dtoTime1',
 			title : '计划开始时间',
 //			width : 150,
@@ -249,8 +344,29 @@ function dayinDatagrid(){
 //			width : 150,
 			halign : "center",
 			align : "left"
+		},{
+			field : 'dyne',
+			title : '焊工id',
+			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		},{
+			field : 'status',
+			title : '状态值',
+			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
 		}] ],
-		pagination : true
+		pagination : true,
+		rowStyler: function(index,row){
+            if ((index % 2)!=0){
+            	//处理行代背景色后无法选中
+            	var color=new Object();
+                return color;
+            }
+        }
 	});
 }
 
@@ -286,7 +402,7 @@ function exporttable(){
 			halign : "center",
 			align : "left",
 			hidden:true
-		}, {
+		}, /*{
 			field : 'welderNo',
 			title : '焊工工号',
 //			width : 90,
@@ -312,7 +428,7 @@ function exporttable(){
 			halign : "center",
 			align : "left",
 			hidden:true
-		},{
+		},*/{
 			field : 'insId',
 			title : '项目id',
 //			width : 90,
@@ -348,6 +464,7 @@ function exporttable(){
 }
 
 function openDayin(){
+	dayinDatagrid();
 	$('#dayin').dialog('open');
 }
 
@@ -381,7 +498,6 @@ function importWeldingMachine(){
 			    		document.getElementById("load").style.display ='none';
 			    		document.getElementById("show").style.display ='none';
 						$('#importdiv').dialog('close');
-						$("#exporttable").datagrid("loadData", result.rows);
 						$('#exportdlg').window( {
 							title : "任务确认与导入",
 							modal : true
@@ -392,6 +508,8 @@ function importWeldingMachine(){
 							$('#imexcel').linkbutton('enable');
 						}
 						$('#exportdlg').window('open');
+						exporttable();
+						$("#exporttable").datagrid("loadData", result.rows);
 					}
 				}
 				
