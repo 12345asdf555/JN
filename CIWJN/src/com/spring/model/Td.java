@@ -21,6 +21,8 @@ public class Td {
 	private int fci;
 	private int fct;
 	private String fcn;
+	private double time;
+	private double worktime;
 	public Td(){
 		super();
 	}
@@ -144,8 +146,18 @@ public class Td {
 	public void setFcn(String fcn) {
 		this.fcn = fcn;
 	}
-
-
+	public double getTime() {
+		return time;
+	}
+	public void setTime(double time) {
+		this.time = time;
+	}
+	public double getWorktime() {
+		return worktime;
+	}
+	public void setWorktime(double worktime) {
+		this.worktime = worktime;
+	}
 	public Td(int id,double electricity,double voltage,String fposition,String fwelder_no,String fname,String fequipment_no,String finsframework_id,String fstatus_id,int fpt,int fpp,int fpi, int fdt,int fdp,int fdi,int fct,int fci,String fcn,String fdn,String fpn) {
 		super();
 		this.id = id;

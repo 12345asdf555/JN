@@ -87,4 +87,9 @@ public class PersonServiceImpl implements PersonService{
 		return mapper.getFreeWelder(str);
 	}
 
+	@Override
+	public List<Person> findAll(BigInteger parent) {
+		return mapper.findAll(parent,null);
+	}
+
 }

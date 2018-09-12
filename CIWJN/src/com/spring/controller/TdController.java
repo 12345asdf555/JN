@@ -1,6 +1,8 @@
 package com.spring.controller;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,21 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageInfo;
-import com.spring.page.Page;
-import com.spring.util.IsnullUtil;
 import com.spring.model.Insframework;
 import com.spring.model.MyUser;
+import com.spring.model.Person;
 import com.spring.model.Td;
-import com.spring.model.User;
+import com.spring.model.WeldingMachine;
 import com.spring.service.InsframeworkService;
 import com.spring.service.LiveDataService;
+import com.spring.service.PersonService;
 import com.spring.service.TdService;
+import com.spring.service.WeldingMachineService;
+import com.spring.util.IsnullUtil;
 
-import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -31,18 +32,17 @@ import net.sf.json.JSONObject;
 @RequestMapping(value = "/td",produces = { "text/json;charset=UTF-8" })
 public class TdController {
 	
-	private Page page;
-	private int pageIndex = 1;
-	private int pageSize = 10;
-	private int total = 0;
-	
 	@Autowired
 	private TdService tdService;
 	@Autowired
 	private LiveDataService lm;
 	@Autowired
 	private InsframeworkService insm;
-	private Td td;
+	@Autowired
+	private PersonService ps;
+	
+	@Autowired
+	private WeldingMachineService wm;
 	
 	IsnullUtil iutil = new IsnullUtil();
 	/**
@@ -74,6 +74,7 @@ public class TdController {
 	
 	@RequestMapping("/goNextcurve")
 	public String goNextcurve(HttpServletRequest request){
+		lm.getUserId(request);
 	    String value = request.getParameter("value");
 	    String valuename = request.getParameter("valuename");
 	    request.setAttribute("value", value);
@@ -437,6 +438,76 @@ public class TdController {
 		return obj.toString();
 	}
 	
+	@RequestMapping("/getLiveMachine")
+	@ResponseBody
+	public String getLiveMachine(HttpServletRequest request){
+		String parentId = request.getParameter("parent");
+		BigInteger parent = null;
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		if(iutil.isNull(parentId)){
+			parent = new BigInteger(parentId);
+			List<Td> getAP = tdService.getAllPosition(parent,null);
+			try{
+				for(Td td:getAP){
+					json.put("fid",td.getId());
+					json.put("fequipment_no", td.getFequipment_no());
+					json.put("fposition", td.getFposition());
+					json.put("finsid", td.getFci());
+					json.put("finsname", td.getFcn());
+					ary.add(json);
+				}
+			}catch(Exception e){
+				e.getMessage();
+			}
+		}else{
+			MyUser myuser = (MyUser) SecurityContextHolder.getContext()  
+				    .getAuthentication()  
+				    .getPrincipal();
+			long uid = myuser.getId();
+			List<Insframework> insframework = insm.getInsByUserid(BigInteger.valueOf(uid));
+			parent = insframework.get(0).getId();
+			if(insframework.get(0).getType()==20){
+				List<Td> getAP = tdService.getAllPosition(parent,null);
+				try{
+					for(Td td:getAP){
+						json.put("fid",td.getId());
+						json.put("fequipment_no", td.getFequipment_no());
+						json.put("fposition", td.getFposition());
+						json.put("finsid", td.getFci());
+						json.put("finsname", td.getFcn());
+						ary.add(json);
+					}
+				}catch(Exception e){
+					e.getMessage();
+				}
+			}else{
+				List<Insframework> in = insm.getInsIdByParent(insm.getInsByUserid(BigInteger.valueOf(uid)).get(0).getId(),24);
+				List<Td> getAP = tdService.getAllPosition(parent,null);
+				try{
+					for(Td td:getAP){
+						for(Insframework ins:in){
+							if(td.getFci()==Integer.valueOf(ins.getId().toString())){
+								json.put("fid",td.getId());
+								json.put("fequipment_no", td.getFequipment_no());
+								json.put("fposition", td.getFposition());
+								json.put("finsid", td.getFci());
+								json.put("finsname", td.getFcn());
+								ary.add(json);
+							}
+						}
+					}
+				}catch(Exception e){
+					e.getMessage();
+				}
+			}
+		}
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	
 	@RequestMapping("/getMachine")
 	@ResponseBody
 	public String getMachine(HttpServletRequest request){
@@ -526,4 +597,58 @@ public class TdController {
 		obj.put("rows", ary);
 		return obj.toString();
 	}
+	
+
+	@RequestMapping("/getLiveWelder")
+	@ResponseBody
+	public String getLiveWelder(HttpServletRequest request){
+		BigInteger uid = lm.getUserId(request);
+		BigInteger parent = null;
+		List<Person> list = ps.findAll(parent);
+		String parentId = request.getParameter("parent");
+		if(iutil.isNull(parentId)){
+			parent = new BigInteger(parentId);
+		}else{
+			parent = insm.getUserInsfId(uid);
+		}
+		JSONObject obj = new JSONObject();
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		try{
+			Insframework insname = insm.getInsById(parent);
+			for(int i=0;i<list.size();i++){
+				json.put("fid",list.get(i).getId());
+				json.put("fname",list.get(i).getName());
+				json.put("fwelder_no", list.get(i).getWelderno());
+				json.put("fitemid", list.get(i).getInsid());
+				json.put("fitemname", insname.getName());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getLiveTime")
+	@ResponseBody
+	public String getLiveTime(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String time = sdf.format(new Date());
+			Td list = tdService.getLiveTime(time, new BigInteger(request.getParameter("machineid")));
+			WeldingMachine machinelist = wm.getWeldingMachineById(new BigInteger(request.getParameter("machineid")));
+			json.put("machineno", machinelist.getTypename());
+			if(list!=null){
+				json.put("worktime",list.getWorktime());
+				json.put("time",list.getTime());
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return json.toString();
+	}
+	
 }
