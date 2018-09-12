@@ -40,7 +40,7 @@ function getHierarchy(){
 			}
 		},
 		error:function(errorMsg){
-			alert("数据请求失败，请联系系统管理员!");
+//			alert("数据请求失败，请联系系统管理员!");
 		}
 	})
 }

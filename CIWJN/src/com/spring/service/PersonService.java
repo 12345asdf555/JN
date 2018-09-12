@@ -9,6 +9,7 @@ import com.spring.page.Page;
 public interface PersonService {
 
 	List<Person> findAll(Page page, BigInteger parent,String str);
+	List<Person> findAll(BigInteger parent);
 	List<Person> findLeve(int type);
 	List<Person> dic();
 	List<Person> ins();

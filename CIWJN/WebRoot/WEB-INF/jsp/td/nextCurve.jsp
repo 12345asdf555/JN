@@ -27,6 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
+	<script type="text/javascript" src="resources/js/session-overdue.js"></script>
 	<script type="text/javascript" src="resources/js/highcharts.js"></script>
 	<script type="text/javascript" src="resources/js/exporting.js"></script>
 	<script type="text/javascript" src="resources/js/td/nextCurve.js"></script>
@@ -43,197 +44,104 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
 <body class="easyui-layout">
-	<div id="bodys" region="center"  hide="true"  split="true" title="实时界面" style="background: #eee; height: 335px;">
-		<div class="x-component x-fieldset-header-text x-component-default" style="width:25%;height:25%;float:left;">点击示意图返回<br/>
-			<img id="mrjpg" src="resources/images/WDgj.png" onclick="javascript:back()" width="32%" height="70%" style="margin-left:20px">
+	<input id="machineid" typt="text" value="${value }"/>
+	<input  name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
+	<div id="bodys" region="center"  hide="true"  split="true" title="设备运行参数监控">
+		<div style="width:25%;height:150px;float:left;margin-left:20px;position: relative;">
+			<fieldset>
+				<legend>设备信息</legend>
+				<div style="float:left;width:40%;height:150px;margin-left:10px;"><a href="td/AllTd"><img id="mrjpg" src="resources/images/welder_04.png" style="height:90%;width:85%;padding-top:10px;"></a></div>
+				<div style="float:left;width:60%;height:150px;top:30px;left:45%;margin:auto;position:absolute;">
+					<ul>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						设备编号：<span id="l1"></span>${valuename}</li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						设备类型：<span id="l2"></span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						任务编号：<span id="l3"></span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						操作人员：<span id="l4"></span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						设备状态：<input type="text" readonly="readonly" id="l5" value="关机" style="border-radius: 5px;width:80px;height:20px;text-align:center;color:#ffffff;background: #818181"></li>
+					</ul>
+				</div>
+			</fieldset>
 		</div>
-		<div class="x-component x-fieldset-header-text x-component-default" style="width:50%;height:25%;float:left;">
-		<div style="float:right;width:100%;">基本参数<!-- border:1px solid #3898f2; -->
-			<table  width="100%">
-				<tbody>
-					<tr>
-						<td align="center" width="50%">
-							<label id="la1">设备序号</label>
-							<input id="in1" value="" type="text" readonly="readonly" disabled="true" style="text-align:center;color:#000000;width:200px;height:32px;font-size:18px;background-color:#EEEEEE;border:0px;">
-						</td>
-						<td align="center" width="50%">
-							<label id="la2">设备编号</label>
-							<input id="in2" value="${value}" readonly="readonly" type="text" disabled="true" style="display:none;text-align:center;color:#000000;width:200px;height:32px;font-size:18px;background-color:#EEEEEE;border:0px;">
-							<input id="inn2" value="${valuename}" readonly="readonly" type="text" disabled="true" style="text-align:center;color:#000000;width:200px;height:32px;font-size:18px;background-color:#EEEEEE;border:0px;">
-						</td>
-					</tr>
-					<tr>
-						<td align="center" width="50%">
-							<label id="la3">机型</label>
-							<input id="in3" value="" type="text" readonly="readonly" disabled="true" style="text-align:center;color:#000000;width:200px;height:32px;font-size:18px;background-color:#EEEEEE;border:0px;">
-						</td>
-						<td id="td1" align="center" width="50%">
-							<label id="la4">设备状态</label>
-							<input id="in4" value="关机" type="text" readonly="readonly" disabled="true" style="text-align:center;color:#000000;width:200px;height:32px;font-size:10px;background-color:#EEEEEE;border:0px;">
-						</td>
-					</tr>
-					<tr>
-						<td align="center" width="50%">
-							<label id="la5">预置电流</label>
-							<input id="in5" value="" type="text" readonly="readonly" disabled="true" style="text-align:center;color:#000000;width:200px;height:32px;font-size:18px;background-color:#EEEEEE;border:0px;">A
-						</td>
-						<td align="center" width="50%">
-							<label id="la6">预置电压</label>
-							<input id="in6" value="" type="text" readonly="readonly" disabled="true" style="text-align:center;color:#000000;width:200px;height:32px;font-size:18px;background-color:#EEEEEE;border:0px;">V
-						</td>
-					</tr>
-					<tr>
-						<td align="center" width="50%">
-							<label id="la7">焊接电流</label>
-							<input id="in7" value="" type="text" readonly="readonly" disabled="true" style="text-align:center;color:#000000;width:200px;height:32px;font-size:18px;background-color:#EEEEEE;border:0px;">A
-						</td>
-						<td align="center" width="50%">
-							<label id="la8">焊接电压</label>
-							<input id="in8" value="" type="text" readonly="readonly" disabled="true" style="text-align:center;color:#000000;width:200px;height:32px;font-size:18px;background-color:#EEEEEE;border:0px;">V
-						</td>
-					</tr>
-				</tbody>
-			</table>
+		<div style="width:23%;height:150px;float:left;margin-left:10px;position: relative;">
+			<fieldset>
+				<legend>焊接参数</legend>
+				<div style="width:95%;height:75px;margin-left:20px;">
+					<div style="float:left;background-color: #37d512;width:100px;height:40px;border-radius: 10px;margin-top:10px;font-size:20pt;text-align: center;color:#ffffff">电流</div>
+					<div style="float:left;width:60px;height:40px;margin-left:15px;font-size:26pt;font-weight: bold;text-align: center;"><span id="c1">0</span>&nbsp;&nbsp;A</div>
+				</div>
+				<div style="width:95%;height:75px;margin-left:20px;">
+					<div style="float:left;background-color: #f05e0e;width:100px;height:40px;border-radius: 10px;font-size:20pt;text-align:center;color:#ffffff">电压</div>
+					<div style="float:left;width:60px;height:40px;margin-top:-8px;margin-left:15px;font-size:26pt;font-weight: bold;text-align: center;"><span id="c2">0</span>&nbsp;&nbsp;V</div>
+				</div>
+			</fieldset>
 		</div>
+		<div style="width:47%;height:150px;float:left;margin-left:10px;position: relative;">
+			<fieldset>
+				<legend>设备特征</legend>
+				<div style="float:left;width:20%;height:120px;padding-top:30px;margin-left:20px;">
+					<ul>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						开机时长：<span id="r1"></span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						离线时长：<span id="r2"></span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						工作时长：<span id="r3">00:00:00</span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						焊接时长：<span id="r4">00:00:00</span></li>
+					</ul>
+				</div>
+				<div style="float:left;width:20%;height:120px;padding-top:30px;margin-left:20px;">
+					<ul>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						通道总数：<span id="r5">30</span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						当前通道：<span id="r6"></span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						焊接控制：<span id="r7"></span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						焊接方式：<span id="r8"></span></li>
+					</ul>
+				</div>
+				<div style="float:left;width:20%;height:120px;padding-top:30px;margin-left:20px;">
+					<ul>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						气体流量：<span id="r9"></span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						瞬时功率：<span id="r10"></span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						提前送气时间：<span id="r11"></span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						滞后停气时间：<span id="r12"></span></li>
+					</ul>
+				</div>
+				<div style="float:left;width:20%;height:120px;padding-top:30px;margin-left:20px;">
+					<ul>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						预置电流：<span id="r13"></span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						预置电压：<span id="r14"></span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						初期电流：<span id="r15"></span></li>
+						<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
+						收弧电流：<span id="r16"></span></li>
+					</ul>
+				</div>
+			</fieldset>
 		</div>
-		<div style="width:24%;height:95%;float:right;top:100px;">属性列表
-			<table id="attrtable">
-			<tbody>
-			<tr>
-			<td align="center" width="50%">
-			<label id="la9">关机时间:</label>
-			</td>
-			<td>
-			<input id="in9" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la10">开机时间:</label>
-			</td>
-			<td>
-			<input id="in10" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la11">焊接时间:</label>
-			</td>
-			<td>
-			<input id="in11" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la12">工作时间:</label>
-			</td>
-			<td>
-			<input id="in12" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la13">焊工:</label>
-			</td>
-			<td>
-			<input id="in13" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la14">任务编号:</label>
-			</td>
-			<td>
-			<input id="in14" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la15">当前通道:</label>
-			</td>
-			<td>
-			<input id="in15" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la16">通道总数:</label>
-			</td>
-			<td>
-			<input id="in16" readonly="readonly" value="30">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la18">焊接控制:</label>
-			</td>
-			<td>
-			<input id="in18" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la21">初期电流:</label>
-			</td>
-			<td>
-			<input id="in21" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la22">收弧电流:</label>
-			</td>
-			<td>
-			<input id="in22" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la24">气体流量:</label>
-			</td>
-			<td>
-			<input id="in24" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la25">瞬时功率:</label>
-			</td>
-			<td>
-			<input id="in25" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la33">焊接方法:</label>
-			</td>
-			<td>
-			<input id="in33" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la35">提前送气时间:</label>
-			</td>
-			<td>
-			<input id="in35" readonly="readonly">
-			</td>
-			</tr>
-						<tr>
-			<td align="center" width="50%">
-			<label id="la36">滞后停气时间:</label>
-			</td>
-			<td>
-			<input id="in36" readonly="readonly">
-			</td>
-			</tr>
-			</tbody>
-			</table>
-		</div>
-		
-		<div id="livediv" style="width:75%;height:74%;float:left;top:26%;">实时曲线
-			<div id="body31" style="width:100%;height:50%;"></div>
-			<div id="body32" style="width:100%;height:48%;"></div>
+		<div style="float:left; width:100%;height:20px;margin-top:25px;background-color: #C4C4C4;text-align:center;">焊接曲线</div>
+		<div id="livediv" style="width:100%;height:68%;float:left;top:26%;">
+			<div style="float:left; padding-top:2%;width:40px;height:42%;background-color: #37d512;border-radius: 6px;font-size:16pt;color:#ffffff;margin:10px;text-align: center;">
+			电流曲线<div style="width:25px;height:25px;border-radius: 60px;font-size:14pt;background-color: #ffffff;color: #000;margin-left:7px;">A</div></div>
+			<div id="body31" style="float:left;width:90%;height:48%;"></div>
+			<div style="float:left; width:100%;height:10px;background-color: #C4C4C4;"></div>
+			<div style="float:left; padding-top:2%;width:40px;height:42%;background-color: #f05e0e;border-radius: 6px;font-size:16pt;color:#ffffff;margin:10px;text-align: center;">
+			电压曲线<div style="width:25px;height:25px;border-radius: 60px;font-size:14pt;background-color: #ffffff;color: #000;margin-left:7px;">V</div></div>
+			<div id="body32" style="float:left;width:90%;height:48%;"></div>
 		</div>
 	</div>
 </body>

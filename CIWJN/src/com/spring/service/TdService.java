@@ -21,4 +21,12 @@ public interface TdService {
 	String findPosition(String equip);
 	List<Td> allWeldname();
 	List<Td> getAllMachine(String ins);
+	
+	/**
+	 * 获取某天工作、焊接时长
+	 * @param time 日期格式年-月-日
+	 * @param machineid 焊机id
+	 * @return
+	 */
+	Td getLiveTime(String time,BigInteger machineid);
 }
