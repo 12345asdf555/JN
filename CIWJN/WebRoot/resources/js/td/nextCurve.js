@@ -135,6 +135,10 @@ $(function() {
 				if(worktime.time!=null && worktime.time!=''){
 					time2 = worktime.time;
 				}
+				var t1 = secondToDate(time1);
+			    $("#r3").html(t1);
+			    var t2 = secondToDate(time2);
+			    $("#r4").html(t2);
 			}
 		},
 		error : function(errorMsg) {
@@ -413,6 +417,14 @@ function iview() {
 	for (var i = 0; i < redata.length; i += 77) {
 		//				if(redata.substring(8+i, 12+i)!="0000"){
 		if (parseInt(redata.substring(4 + i, 8 + i)) == $("#machineid").val()) {
+		    time1++;
+		    var t1 = secondToDate(time1);
+		    $("#r3").html(t1);
+		    if(redata.substring(0 + i, 2 + i)!=00){
+			    time2++;
+			    var t2 = secondToDate(time2);
+			    $("#r4").html(t2);
+		    }
 			ele.push(parseInt(redata.substring(12 + i, 16 + i), 10));
 			vol.push(parseFloat((parseInt(redata.substring(16 + i, 20 + i), 10) / 10).toFixed(2)));
 			var ttme = redata.substring(20 + i, 39 + i);
@@ -433,24 +445,16 @@ function iview() {
 			$("#r14").html((maxvol + minvol) / 2);
 			$("#c1").html(parseInt(redata.substring(12 + i, 16 + i), 10));
 			$("#c2").html((parseInt(redata.substring(16 + i, 20 + i), 10) / 10).toFixed(1));
-			/*document.getElementById("in5").value=(maxele+minele)/2;
-			document.getElementById("in6").value=(maxvol+minvol)/2;
-			document.getElementById("in7").value=parseInt(redata.substring(12+i, 16+i),10);
-			document.getElementById("in8").value=parseFloat((parseInt(redata.substring(16+i, 20+i),10)/10).toFixed(2));*/
 			for (var k = 0; k < welderName.length; k++) {
 				if (welderName[k].fid == parseInt(redata.substring(8 + i, 12 + i))) {
-					/*document.getElementById("in13").value=welderName[k].fwelder_no;*/
 					$("#l4").html(welderName[k].fwelder_no);
 				}
 			}
 			for (var t = 0; t < taskNum.length; t++) {
 				if (taskNum[t].id == parseInt(redata.substring(69 + i, 77 + i))) {
 					$("#l3").html(taskNum[t].weldedJunctionno);
-				/*document.getElementById("in14").value=taskNum[t].weldedJunctionno;*/
 				}
 			}
-			/*document.getElementById("in11").value=redata.substring(53+i, 61+i);
-			document.getElementById("in12").value=redata.substring(61+i, 69+i);*/
 			$("#l2").html(worktime.machineno);
 			if (time.length != 0 && z < time.length) {
 				var mstatus = redata.substring(0 + i, 2 + i);
@@ -461,6 +465,9 @@ function iview() {
 					$("#mrjpg").attr("src", "resources/images/welder_02.png");
 					break;
 				case "01":
+				    var t2 = secondToDate(time2);
+				    $("#r4").html(t2);
+				    time2++;
 					$("#l5").val("E-010 焊枪开关OFF等待");
 					$("#l5").css("background-color", "#fe0002");
 					$("#mrjpg").attr("src", "resources/images/welder_03.png");
@@ -702,7 +709,7 @@ function activeLastPointToolip1(chart) {
 }
 
 
-setInterval(function(){
+/*setInterval(function(){
 	if($("#l5").val()!="关机"){
 	    var t1 = secondToDate(time1);
 	    $("#r3").html(t1);
@@ -713,7 +720,7 @@ setInterval(function(){
 	}
     time1++;
     time2++;
-},1000)
+},1000)*/
 function secondToDate(result) {
 	var h = Math.floor(result / 3600) < 10 ? '0' + Math.floor(result / 3600) : Math.floor(result / 3600);
 	var m = Math.floor((result / 60 % 60)) < 10 ? '0' + Math.floor((result / 60 % 60)) : Math.floor((result / 60 % 60));
