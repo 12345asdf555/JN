@@ -48,7 +48,7 @@ function loadtree() {
 					insfid = nownodes.id;
 				/*}*/
 				//默认选中第一个项目部
-				var defaultnode = $('#myTree').tree('find', insfid);
+				/*var defaultnode = $('#myTree').tree('find', insfid);*/
 				$('#myTree').tree('select', nownodes.target);
 				/*$('#itemname').html(nownodes.text);*/
 				getMachine(insfid);
