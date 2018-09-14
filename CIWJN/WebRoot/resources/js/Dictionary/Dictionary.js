@@ -127,12 +127,12 @@ function save(){
 	var back=$("#desc").combobox('getText');
 	if(flag==1){
 		messager = "新增成功！";
-		url2 = url+"?back="+back;
+		url2 = url+"?back="+encodeURI(back);
 	}else{
 		messager = "修改成功！";
-		url2 = url+"&back="+back;
+		url2 = url+"&back="+encodeURI(back);
 	}
-	$('#fm').form('submit', {
+	/*$('#fm').form('submit', {
 		url : url2,
 		onSubmit : function() {
 			return $(this).form('enableValidation').form('validate');
@@ -146,6 +146,31 @@ function save(){
 						msg : result.errorMsg
 					});
 				} else {
+					$.messager.alert("提示", messager);
+					$('#dlg').dialog('close');
+					$('#dg').datagrid('reload');
+				}
+			}
+			
+		},  
+	    error : function(errorMsg) {  
+	        alert("数据请求失败，请联系系统管理员!");  
+	    } 
+	});*/
+	$('#fm').form('submit', {
+		url : url2,
+		onSubmit : function() {
+			return $(this).form('enableValidation').form('validate');
+		},
+		success : function(result) {
+			if(result){
+				var result = eval('(' + result + ')');
+				if (!result.success) {
+					$.messager.show( {
+						title : 'Error',
+						msg : result.errorMsg
+					});
+				}else{
 					$.messager.alert("提示", messager);
 					$('#dlg').dialog('close');
 					$('#dg').datagrid('reload');

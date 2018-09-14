@@ -133,10 +133,8 @@ public class WeldedJunctionControll {
 				json.put("minValtage", w.getMinValtage());
 				json.put("material", w.getMaterial());
 				json.put("nextexternaldiameter", w.getNextexternaldiameter());
-				if( w.getItemid()!=null && !"".equals( w.getItemid())){
-					json.put("itemname", w.getItemid().getName());
-					json.put("itemid", w.getItemid().getId());
-				}
+				json.put("itemname", w.getIname());
+				json.put("itemid", w.getIid());
 				json.put("startTime", w.getStartTime());
 				json.put("endTime", w.getEndTime());
 				json.put("creatTime", w.getCreatTime());
@@ -191,9 +189,7 @@ public class WeldedJunctionControll {
 				json.put("minElectricity", w.getMinElectricity());
 				json.put("maxValtage", w.getMaxValtage());
 				json.put("minValtage", w.getMinValtage());
-				if( w.getItemid()!=null && !"".equals( w.getItemid())){
-					json.put("itemname", w.getItemid().getName());
-				}
+				json.put("itemname", w.getIname());
 				ary.add(json);
 			}
 		}catch(Exception e){

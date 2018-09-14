@@ -129,7 +129,7 @@ function loadChart(row){
 	setParam();
 	$.ajax({
 		   type: "post", 
-		   url: "rep/historyCurve"+chartStr+"&fid="+row.weldedJunctionno+"&mach="+row.machid+"&welderid="+$("#welderid").val(),
+		   url: "rep/historyCurve"+chartStr+"&fid="+encodeURI(row.weldedJunctionno)+"&mach="+row.machid+"&welderid="+$("#welderid").val(),
 		   dataType: "json",
 		   data: {},
 		   success: function (result) {

@@ -9,6 +9,7 @@ $(function(){
 function weldedJunctionDatagrid(){
 	$("#weldTaskTable").datagrid( {
 //		fitColumns : true,
+		view: detailview,
 		height : $("#body").height(),
 		width : $("#body").width(),
 		idField : 'id',
@@ -31,7 +32,7 @@ function weldedJunctionDatagrid(){
 //			width : 90,
 			halign : "center",
 			align : "left"
-		},{
+		},/*{
 			field : 'welderNo',
 			title : '焊工编号',
 //			width : 90,
@@ -44,7 +45,7 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left"
 //			hidden:true
-		}, {
+		},*/ {
 			field : 'itemid',
 			title : '班组id',
 //			width : 90,
@@ -64,7 +65,7 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left",
 			hidden:true
-		}, {
+		}, /*{
 			field : 'welderid',
 			title : '焊工id',
 //			width : 90,
@@ -78,7 +79,7 @@ function weldedJunctionDatagrid(){
 			halign : "center",
 			align : "left",
 			hidden:true
-		},{
+		},*/{
 			field : 'getdatatime',
 			title : '操作时间',
 //			width : 100,
@@ -182,6 +183,86 @@ function weldedJunctionDatagrid(){
 			if($("#confirm1").length!=0){
 				$("a[id='confirm1']").linkbutton({text:'已完成',plain:true,iconCls:'icon-finish'});
 			}
+		},
+		detailFormatter:function(index,row2){//严重注意喔
+			return '<div"><table id="ddv-' + index + '" style=""></table></div>';
+		},
+		onExpandRow: function(index,row){//嵌套第一层，严重注意喔
+			var ddv = $(this).datagrid('getRowDetail',index).find('#ddv-'+index);//严重注意喔
+			ddv.datagrid({
+//				fitColumns : true,
+				idField : 'id',
+				pageSize : 10,
+				pageList : [ 10, 20, 30, 40, 50 ],
+				url : "weldtask/getRealWelder?searchStr="+row.taskid,
+				singleSelect : true,
+				rownumbers : true,
+				showPageList : false,
+				columns : [ [ { 
+					field : 'id',
+					title : 'id',
+					width : 30,
+					halign : "center",
+					align : "left",
+					hidden:true
+				}, { 
+					field : 'taskid',
+					title : '任务id',
+					width : 30,
+					halign : "center",
+					align : "left",
+					hidden:true
+				},{ 
+					field : 'taskno',
+					title : '任务编号',
+					width : 30,
+					halign : "center",
+					align : "left",
+					hidden:true
+				},{ 
+					field : 'welderid',
+					title : '焊工编号',
+					width : 30,
+					halign : "center",
+					align : "left",
+					hidden:true
+				}, {
+					field : 'welderno',
+					title : '焊工编号',
+					halign : "center",
+					align : "left",
+					width : 200
+				}, {
+					field : 'weldername',
+					title : '焊工姓名',
+					halign : "center",
+					align : "left",
+					width : 200
+				}, {
+					field : 'machid',
+					title : '焊机id',
+					width : 100,
+					hidden:true
+				}, {
+					field : 'machno',
+					title : '焊机编号',
+					halign : "center",
+					align : "left",
+					width : 200
+				}
+				] ],
+				pagination : true,
+				onResize:function(){
+					$('#weldTaskTable').datagrid('fixDetailRowHeight',index);
+				},
+				onLoadSuccess:function(){
+					$('#weldTaskTable').datagrid("selectRow", index)
+					setTimeout(function(){
+						$('#weldTaskTable').datagrid('fixDetailRowHeight',index);
+					},0);
+				}
+			});
+			$('#weldTaskTable').datagrid('fixDetailRowHeight',index);
 		}
 	});
 }

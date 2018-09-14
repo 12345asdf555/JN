@@ -67,7 +67,7 @@ function leveCombobox(){
 	         }
 	         $("#leveid").html(optionstring);
 	      } else {
-	         alert('部门加载失败');
+	         alert('数据加载失败');
 	      }
 	      $("#leveid").combobox();
 	   },
@@ -94,7 +94,7 @@ function quaidCombobox(){
 		         }
 		         $("#quali").html(optionstring);
 		      } else {
-		         alert('部门加载失败');
+		         alert('数据加载失败');
 		      }
 		      $("#quali").combobox();
 		   },

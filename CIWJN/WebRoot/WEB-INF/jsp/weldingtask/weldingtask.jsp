@@ -21,8 +21,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="resources/themes/default/easyui.css" />
 	<link rel="stylesheet" type="text/css" href="resources/css/base.css" />
 	
+	<script type="text/javascript" src="resources/js/weldingtask/json2.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.min.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="resources/js/datagrid-detailview.js" charset="utf-8"></script>
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
 	<script type="text/javascript" src="resources/js/weldingtask/weldtask.js"></script>
@@ -96,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<lable><span class="required">*</span>所属班组</lable>
 					<select class="easyui-combobox" id="itemid"  name="itemid" data-options="required:true,editable:false"></select>
 				</div>
-				<div class="fitem" style="padding-right:30px">
+<!-- 				<div class="fitem" style="padding-right:30px">
 					<lable><span class="required"></span>预设焊工</lable>
 					<input id="welderid" name="welderid" type="hidden"/>
 					<input class="easyui-textbox" id="pipelineNo" name="pipelineNo" readonly="readonly"/>
@@ -105,7 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="fitem">
 					<lable><span class="required"></span>焊工资质</lable>
 					<select class="easyui-combobox" id="quali"  name="quali" data-options="editable:false"></select>
-				</div>
+				</div> -->
 				<div class="fitem">
 					<lable><span class="required"></span>计划开始时间</lable>
 					<input class="easyui-datetimebox" name="dtoTime1" id="dtoTime1">
@@ -167,14 +169,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<lable><span class="required">*</span>所属班组</lable>
 					<input class="easyui-textbox" id="itemname"  name="itemname" readonly="readonly">
 				</div>
-				<div class="fitem">
+<!-- 				<div class="fitem">
 					<lable><span class="required"></span>预设焊工</lable>
 					<input class="easyui-textbox" id="pipelineNo" name="pipelineNo" readonly="readonly"/>
 				</div>
 				<div class="fitem">
 					<lable><span class="required"></span>焊工资质</lable>
 					<input class="easyui-textbox" id="roomNo"  name="roomNo" readonly="readonly">
-				</div>
+				</div> -->
 				<div class="fitem">
 					<lable><span class="required"></span>计划开始时间</lable>
 					<input class="easyui-textbox" name="dtoTime1" id="dtoTime1" readonly="readonly">

@@ -20,7 +20,7 @@
 		left join tb_insframework ins on ins.fid = i.fparent
 		where d.ftypeid=2
 		<if test="parent!=null and parent!=''">
-			 and i.fparent=#{parent}
+			 and (i.fparent=#{parent} or i.fid=#{parent})
 		</if>
 		<if test="str!=null and str!=''">
 			and ${str}

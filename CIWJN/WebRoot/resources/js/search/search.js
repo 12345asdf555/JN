@@ -650,8 +650,8 @@ function searchWTCombobox(){
 	var optionFields = 
 		"<option value='j.fwelded_junction_no'>任务编号</option>" +
 		"<option value='dd.fvaluename'>任务等级</option>" +
-		"<option value='w.fwelder_no'>焊工编号</option>" +
-		"<option value='d.fvaluename'>焊工资质</option>" +
+/*		"<option value='w.fwelder_no'>焊工编号</option>" +
+		"<option value='d.fvaluename'>焊工资质</option>" +*/
 		"<option value='i.fname'>所属班组</option>"+
 		"<option value='j.fstart_time'>开始时间</option>" +
 		"<option value='j.fend_time'>结束时间</option>";

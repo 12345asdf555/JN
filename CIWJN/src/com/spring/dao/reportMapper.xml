@@ -199,23 +199,8 @@
 		SELECT m.fid id,m.fequipment_no eno,m.fmodel model,mw.Fweld_I fstandardele,mw.Fweld_v fstandardvol,mw.Fdiameter dia FROM tb_welding_machine m LEFT JOIN tb_wps_welddevices ww ON m.fid=ww.FWeldDevicesID LEFT JOIN tb_mainwps mw ON ww.FWeldWPSID=mw.FID GROUP BY m.fequipment_no
 	</select>
 	
-		<select id="historyData" resultType="Report">
-		SELECT 
-		<if test="dto!=null and dto!=''">
-			<if test="dto.year!=null and dto.year!=''">
-				DATE_FORMAT( fweldtime,  '%Y' ),
-			</if>
-			<if test="dto.month!=null and dto.month!=''">
-				DATE_FORMAT( fweldtime,  '%Y-%m' ),
-			</if>
-			<if test="dto.day!=null and dto.day!=''">
-				DATE_FORMAT( fweldtime,  '%Y-%m-%d' ),
-			</if>
-			<if test="dto.week!=null and dto.week!=''">
-				weekofyear(fweldtime),
-			</if>
-		</if>
-		`felectricity` fstandardele,`fvoltage` fstandardvol,`FWeldTime` fweldingtime FROM `tb_live_data` WHERE fjunction_id=#{fid} and fmachine_id=#{mach} and fstatus='3' 
+	<select id="historyData" resultType="Report">
+		SELECT `felectricity` fstandardele,`fvoltage` fstandardvol,`FWeldTime` fweldingtime,`fstatus` fstatus FROM `tb_live_data` WHERE fjunction_id=#{fid} and fmachine_id=#{mach} and (fstatus='3' or fstatus='5' or fstatus='7')
 		<if test="welderid!=null and welderid!=''">
 			and `fwelder_id`=#{welderid}
 		</if>

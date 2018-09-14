@@ -46,8 +46,8 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				obj.put("WELDERNAME",jutil.setValue(list.get(i).getRoomNo()));
 				obj.put("MACHINEID", jutil.setValue(list.get(i).getMachineid()));
 				obj.put("MACHINENO", jutil.setValue(list.get(i).getUnit()));
-				obj.put("ITEMID",jutil.setValue(list.get(i).getItemid().getId()));
-				obj.put("ITEMNAME",jutil.setValue(list.get(i).getItemid().getName()));
+				obj.put("ITEMID",jutil.setValue(list.get(i).getIid()));
+				obj.put("ITEMNAME",jutil.setValue(list.get(i).getIname()));
 				obj.put("OPERATESTATUS",jutil.setValue(list.get(i).getSystems()));
 				obj.put("STARTTIME", jutil.setValue(list.get(i).getStartTime()));
 				obj.put("ENDTIME", jutil.setValue(list.get(i).getEndTime()));
@@ -77,8 +77,8 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				obj.put("ROOMNO",jutil.setValue(list.getRoomNo()));
 				obj.put("DYNE",jutil.setValue(list.getDyne()));
 				obj.put("UPDATECOUNT",jutil.setValue(list.getUpdatecount()));
-				obj.put("ITEMID",jutil.setValue(list.getItemid().getId()));
-				obj.put("ITEMNAME",jutil.setValue(list.getItemid().getName()));
+				obj.put("ITEMID",jutil.setValue(list.getIid()));
+				obj.put("ITEMNAME",jutil.setValue(list.getIname()));
 			}
 			return JSON.toJSONString(obj);
 		}catch(Exception e){
@@ -104,21 +104,21 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			JSONObject json = JSONObject.fromObject(object);
 			WeldedJunction wj = new WeldedJunction();
 			wj.setWeldedJunctionno(json.getString("JUNCTIONNO"));
-			if(json.getString("DYNE").isEmpty()){
+/*			if(json.getString("DYNE").isEmpty()){
 				wj.setUnit(null);
 			}else{
 				wj.setUnit((json.getString("DYNE")));
-			}
+			}*/
 			if(json.getString("TASKLEVEL").isEmpty()){
 				wj.setRoomNo(null);
 			}else{
 				wj.setRoomNo(json.getString("TASKLEVEL"));
 			}
-			if(json.getString("EXTERNALDIAMETER").isEmpty()){
+/*			if(json.getString("EXTERNALDIAMETER").isEmpty()){
 				wj.setExternalDiameter(null);
 			}else{
 				wj.setExternalDiameter(json.getString("EXTERNALDIAMETER"));
-			}
+			}*/
 			String starttime =json.getString("STARTTIME");
 			if(starttime!=null && !"".equals(starttime)){
 				wj.setStartTime(starttime);
@@ -127,9 +127,9 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			if(endtime!=null && !"".equals(endtime)){
 				wj.setEndTime(endtime);
 			}
-			Insframework itemid = new Insframework();
-			itemid.setId(new BigInteger(json.getString("INSFID")));
-			wj.setItemid(itemid);
+/*			Insframework itemid = new Insframework();
+			itemid.setId(new BigInteger(json.getString("INSFID")));*/
+			wj.setIid(new BigInteger(json.getString("INSFID")));
 			return wjm.addJunction(wj);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -144,21 +144,21 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			WeldedJunction wj = new WeldedJunction();
 			wj.setId(new BigInteger(json.getString("ID")));
 			wj.setWeldedJunctionno(json.getString("JUNCTIONNO"));
-			if(json.getString("DYNE").isEmpty()){
+/*			if(json.getString("DYNE").isEmpty()){
 				wj.setUnit(null);
 			}else{
 				wj.setUnit((json.getString("DYNE")));
-			}
+			}*/
 			if(json.getString("TASKLEVEL").isEmpty()){
 				wj.setRoomNo(null);
 			}else{
 				wj.setRoomNo(json.getString("TASKLEVEL"));
 			}
-			if(json.getString("EXTERNALDIAMETER").isEmpty()){
+/*			if(json.getString("EXTERNALDIAMETER").isEmpty()){
 				wj.setExternalDiameter(null);
 			}else{
 				wj.setExternalDiameter(json.getString("EXTERNALDIAMETER"));
-			}
+			}*/
 			String starttime =json.getString("STARTTIME");
 			if(starttime!=null && !"".equals(starttime)){
 				wj.setStartTime(starttime);
@@ -167,9 +167,9 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			if(endtime!=null && !"".equals(endtime)){
 				wj.setEndTime(endtime);
 			}
-			Insframework itemid = new Insframework();
-			itemid.setId(new BigInteger(json.getString("INSFID")));
-			wj.setItemid(itemid);
+/*			Insframework itemid = new Insframework();
+			itemid.setId(new BigInteger(json.getString("INSFID")));*/
+			wj.setIid(new BigInteger(json.getString("INSFID")));
 			return wjm.updateJunction(wj);
 		}catch(Exception e){
 			e.printStackTrace();

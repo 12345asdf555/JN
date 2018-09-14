@@ -50,7 +50,7 @@ function save(){
     var insframework = $('#insid').combobox('getValue');
 	if(flag==1){
 		messager = "新增成功！";
-		url2 = url+"?ins="+insframework+"&fwn="+fwn;
+		url2 = url+"?ins="+insframework + "&fwn=" + fwn;
 	}else{
 		messager = "修改成功！";
 		url2 = url+"&ins="+insframework;

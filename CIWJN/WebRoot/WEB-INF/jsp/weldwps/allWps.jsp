@@ -66,46 +66,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<form id="fm" class="easyui-form" method="post" data-options="novalidate:true">
            		<div class="fitem">
 	            	<lable><span class="required">*</span>工艺编号</lable>
-	                <input name="fwpsnum" id="validName" type="hidden">
-	                <input id="FWPSNum" class="easyui-textbox" data-options="validType:'wpsValidate',required:true">
+	                <input id="validName" type="hidden">
+	                <input id="FWPSNum" name="FWPSNum" class="easyui-textbox" data-options="validType:'wpsValidate',required:true">
 	            	<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>预置通道</lable>
-	                <input name="Fweld_PreChannel" class="easyui-numberbox"  data-options="required:true">
+	                <input name="Fweld_PreChannel" id="Fweld_PreChannel" class="easyui-numberbox"  data-options="required:true">
 	            </div>
 	            <div class="fitem">
 	            	<lable><span class="required">*</span>报警电流</lable>
-	                <input name="Fweld_Alter_I" class="easyui-numberbox"  data-options="required:true">
+	                <input name="Fweld_Alter_I" id="Fweld_Alter_I" class="easyui-numberbox"  data-options="required:true">
 	            	<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>报警电压</lable>
-	                <input name="Fweld_Alter_V" class="easyui-numberbox"  data-options="required:true">
+	                <input name="Fweld_Alter_V" id="Fweld_Alter_V" class="easyui-numberbox"  data-options="required:true">
 	            </div>
 	            <div class="fitem">
 	            	<lable><span class="required">*</span>标准焊接电流</lable>
-	                <input name="Fweld_I" class="easyui-numberbox"   data-options="required:true">
+	                <input name="Fweld_I" id="Fweld_I" class="easyui-numberbox"   data-options="required:true">
 	            	<lable><span class="required">*</span>标准焊接电压</lable>
-	                <input name="Fweld_V" type="easyui-textbox" class="easyui-numberbox" data-options="required:true">
+	                <input name="Fweld_V" id="Fweld_V" type="easyui-textbox" class="easyui-numberbox" data-options="required:true">
 	            </div>
 	            <div class="fitem">
 	            	<lable><span class="required">*</span>最大焊接电流</lable>
-	                <input name="Fweld_I_MAX" class="easyui-numberbox"  data-options="required:true">
+	                <input name="Fweld_I_MAX" id="Fweld_I_MAX" class="easyui-numberbox"  data-options="required:true">
 	            	<lable><span class="required">*</span>最小焊接电流</lable>
-	                <input name="Fweld_I_MIN" class="easyui-numberbox"  data-options="required:true">
+	                <input name="Fweld_I_MIN" id="Fweld_I_MIN" class="easyui-numberbox"  data-options="required:true">
 	            </div>
 	            <div class="fitem">
 	            	<lable><span class="required">*</span>最大焊接电压</lable>
-	                <input name="Fweld_V_MAX" class="easyui-numberbox"   data-options="required:true">
+	                <input name="Fweld_V_MAX" id="Fweld_V_MAX" class="easyui-numberbox"   data-options="required:true">
 	            	<lable><span class="required">*</span>最小焊接电压</lable>
-	                <input name="Fweld_V_MIN" class="easyui-numberbox" data-options="required:true">
+	                <input name="Fweld_V_MIN" id="Fweld_V_MIN" class="easyui-numberbox" data-options="required:true">
 	            </div>
 	            <div class="fitem">
 	            	<lable><span class="required">*</span>工艺参数名称</lable>
-	                <input name="Fname" class="easyui-textbox" data-options="required:true">
+	                <input name="Fname" id="Fname" class="easyui-textbox" data-options="required:true">
 	            	<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="required">*</span>焊丝直径</lable>
-	                <input name="Fdiameter" class="easyui-numberbox"  min="0.001" precision="3" data-options="required:true">
+	                <input name="Fdiameter" id="Fdiameter" class="easyui-numberbox"  min="0.001" precision="3" data-options="required:true">
 	            </div>
 	            <div class="fitem">
 					<lable><span class="required">*</span>部门</lable>
 					<select class="easyui-combobox" name="insid" id="insid" data-options="required:true,editable:false"></select>
 	            	<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注</lable>
-	                <input name="Fback" class="easyui-textbox">
+	                <input name="Fback" id="Fback" class="easyui-textbox">
 	        	</div>
 			</form>
 		</div>

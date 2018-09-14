@@ -173,16 +173,15 @@ public class WeldingTaskController {
 			for(WeldedJunction w:list){
 				json.put("id", w.getId());
 				json.put("weldedJunctionno", w.getWeldedJunctionno());
-				json.put("serialNo", w.getSerialNo());
-				json.put("pipelineNo", w.getPipelineNo());
-				json.put("roomNo", w.getRoomNo());
-				json.put("levelid", w.getSystems());
+//				json.put("serialNo", w.getSerialNo());
+//				json.put("pipelineNo", w.getPipelineNo());
+//				json.put("roomNo", w.getRoomNo());
+//				json.put("levelid", w.getSystems());
+				json.put("levelid", w.getRoomNo());
 				json.put("levelname", w.getArea());
-				json.put("realwelder", w.getNext_material());
-				if( w.getItemid()!=null && !"".equals( w.getItemid())){
-					json.put("itemname", w.getItemid().getName());
-					json.put("itemid", w.getItemid().getId());
-				}
+//				json.put("realwelder", w.getNext_material());
+				json.put("itemname", w.getIname());
+				json.put("itemid", w.getIid());
 				if(w.getMaterial()==null){
 					json.put("status", 2);
 				}else if(Integer.valueOf(w.getMaterial())==1){
@@ -190,8 +189,8 @@ public class WeldingTaskController {
 				}else{
 					json.put("status", 0);
 				}
-				json.put("welderid", w.getDyne());
-				json.put("quali", w.getExternalDiameter());
+//				json.put("welderid", w.getDyne());
+//				json.put("quali", w.getExternalDiameter());
 				json.put("dtoTime1",w.getStartTime());
 				json.put("dtoTime2", w.getEndTime());
 				ary.add(json);
@@ -255,10 +254,8 @@ public class WeldingTaskController {
 				json.put("levelid", w.getSystems());
 				json.put("levelname", w.getArea());
 				json.put("realwelder", w.getNext_material());
-				if( w.getItemid()!=null && !"".equals( w.getItemid())){
-					json.put("itemname", w.getItemid().getName());
-					json.put("itemid", w.getItemid().getId());
-				}
+				json.put("itemname", w.getIname());
+				json.put("itemid", w.getIid());
 				if(w.getMaterial()==null){
 					json.put("status", 2);
 				}else if(Integer.valueOf(w.getMaterial())==1){
@@ -335,24 +332,22 @@ public class WeldingTaskController {
 			for(WeldedJunction w:list){
 				json.put("id", w.getId());
 				json.put("taskid", w.getCounts());
-				json.put("welderid", w.getInsfid());
-				json.put("machineid", w.getMachid());
+/*				json.put("welderid", w.getInsfid());
+				json.put("machineid", w.getMachid());*/
 				json.put("operateid",w.getDyne());
 				json.put("result", w.getPipelineNo());
 				json.put("resultid", w.getUpdatecount());
 				json.put("taskNo",w.getWeldedJunctionno());
-				json.put("welderNo", w.getSerialNo());
-				json.put("machineNo", w.getMachine_num());
+/*				json.put("welderNo", w.getSerialNo());
+				json.put("machineNo", w.getMachine_num());*/
 				json.put("resultName", w.getRoomNo());
 				json.put("getdatatime", w.getUpdateTime());
 				json.put("starttime", w.getStartTime());
 				json.put("endtime", w.getEndTime());
 				json.put("fitemid", w.getArea());
 				json.put("user", w.getMaterial());
-				if(w.getItemid()!=null && !"".equals(w.getItemid())){
-					json.put("itemid", w.getItemid().getId());
-					json.put("itemname", w.getItemid().getName());
-				}
+				json.put("itemname", w.getIname());
+				json.put("itemid", w.getIid());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -362,7 +357,45 @@ public class WeldingTaskController {
 		obj.put("rows", ary);
 		return obj.toString();
 	}
-
+	
+	@RequestMapping("/getRealWelder")
+	@ResponseBody
+	public String getRealWelder(HttpServletRequest request){
+		String str = request.getParameter("searchStr");
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		page = new Page(pageIndex,pageSize,total);
+		List<WeldedJunction> list = wjm.getRealWelder(page,new BigInteger(str));
+		long total = 0;
+		
+		if(list != null){
+			PageInfo<WeldedJunction> pageinfo = new PageInfo<WeldedJunction>(list);
+			total = pageinfo.getTotal();
+		}
+		
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(WeldedJunction w:list){
+				json.put("id", w.getId());
+				json.put("taskid", w.getCreater());
+				json.put("taskno", w.getWeldedJunctionno());
+				json.put("welderid", w.getIid());
+				json.put("welderno", w.getRoomNo());
+				json.put("weldername", w.getIname());
+				json.put("machid", w.getMachid());
+				json.put("machno", w.getMachine_num());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
 	@RequestMapping("/getJunctionByWelder")
 	@ResponseBody
 	public String getJunctionByWelder(HttpServletRequest request){
@@ -398,9 +431,7 @@ public class WeldingTaskController {
 				json.put("minElectricity", w.getMinElectricity());
 				json.put("maxValtage", w.getMaxValtage());
 				json.put("minValtage", w.getMinValtage());
-				if( w.getItemid()!=null && !"".equals( w.getItemid())){
-					json.put("itemname", w.getItemid().getName());
-				}
+				json.put("itemname", w.getIname());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -725,7 +756,7 @@ public class WeldingTaskController {
 				}else{
 					wj.setRoomNo(String.valueOf(obj.get("levelid")));
 				}
-				if(obj.get("welderId")==null||obj.get("welderId")==""){
+/*				if(obj.get("welderId")==null||obj.get("welderId")==""){
 					wj.setUnit(null);
 				}else{
 					wj.setUnit(String.valueOf(obj.get("welderId")));
@@ -734,10 +765,10 @@ public class WeldingTaskController {
 					wj.setExternalDiameter(null);
 				}else{
 					wj.setExternalDiameter(String.valueOf(obj.get("qualiid")));
-				}
-				Insframework itemid = new Insframework();
-				itemid.setId(new BigInteger(String.valueOf(obj.get("insId"))));
-				wj.setItemid(itemid);
+				}*/
+/*				Insframework itemid = new Insframework();
+				itemid.setId(new BigInteger(String.valueOf(obj.get("insId"))));*/
+				wj.setIid(new BigInteger(String.valueOf(obj.get("insId"))));
 				if(obj.get("start")==null||obj.get("start")==""){
 					wj.setStartTime(null);
 				}else{
@@ -791,9 +822,9 @@ public class WeldingTaskController {
 				}else{
 					wj.setExternalDiameter(String.valueOf(obj.get("machineNo")));
 				}
-				Insframework itemid = new Insframework();
-				itemid.setId(new BigInteger(String.valueOf(obj.get("id"))));
-				wj.setItemid(itemid);
+/*				Insframework itemid = new Insframework();
+				itemid.setId(new BigInteger(String.valueOf(obj.get("id"))));*/
+				wj.setIid(new BigInteger(String.valueOf(obj.get("insId"))));
 				wj.setStartTime(String.valueOf(obj.get("starttime")));
 				wj.setEndTime(sdf.format(new Date()));
 				System.out.println(sdf.format(new Date()));

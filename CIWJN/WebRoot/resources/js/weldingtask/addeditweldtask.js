@@ -8,7 +8,7 @@ $(function(){
 			$("#fm").form("disableValidation");
 		}
 	});
-	itemidChange();
+//	itemidChange();
 	$("#fm").form("disableValidation");
 /*	$("#weldedJunctionno").textbox('textbox').blur(function(){
 		var wjno = $("#weldedJunctionno").val();
@@ -84,18 +84,20 @@ function save(){
 		document.getElementById("show").style.display="block";
 		var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 		var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
-		var fwelderid = $('#welderid').val();
+//		var fwelderid = $('#welderid').val();
 		var fitemid = $('#itemid').combobox('getValue');
-		var quali = $('#quali').combobox('getValue');
+//		var quali = $('#quali').combobox('getValue');
 		var tasklevel = $('#levelid').combobox('getValue');
 		var messager = "";
 		var url2 = "";
 		if(flag==1){
 			messager = "新增成功！";
-			url2 = url+"?fitemid="+fitemid+"&fwelderid="+fwelderid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&quali="+quali+"&tasklevel="+tasklevel;
+//			url2 = url+"?fitemid="+fitemid+"&fwelderid="+fwelderid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&quali="+quali+"&tasklevel="+tasklevel;
+			url2 = url+"?fitemid="+fitemid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&tasklevel="+tasklevel;
 		}else{
 			messager = "修改成功！";
-			url2 = url+"&fitemid="+fitemid+"&fwelderid="+fwelderid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&quali="+quali+"&tasklevel="+tasklevel;
+//			url2 = url+"&fitemid="+fitemid+"&fwelderid="+fwelderid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&quali="+quali+"&tasklevel="+tasklevel;
+			url2 = url+"&fitemid="+fitemid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&tasklevel="+tasklevel;
 		}
 		$('#fm').form('submit', {
 			url : url2,
@@ -184,7 +186,7 @@ function taskCombobox(){
 	$.ajax({  
   type : "post",  
   async : false,
-  url : "Dictionary/getValueByTypeid?type="+17,  
+  url : "Dictionary/getValueByTypeid?type="+8,  
   data : {},  
   dataType : "json", //返回数据形式为json  
   success : function(result) {  

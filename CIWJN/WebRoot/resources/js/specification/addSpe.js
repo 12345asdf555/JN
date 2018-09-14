@@ -17,7 +17,9 @@ var x=0;
 var xx=0;
 var rows1;
 var itemrow;
+var machga;
 $(function(){
+	gfsd();
 //	inscombobox();
 	$('#dlg').dialog( {
 		onClose : function() {
@@ -62,14 +64,31 @@ $(function(){
 	    error : function(errorMsg) {  
 	        alert("数据请求失败，请联系系统管理员!");  
 	    }  
-		}); 
+		});
+	
 		$("#item").combobox();
+		
+		$.ajax({  
+		      type : "post",  
+		      async : false,
+		      url : "weldingMachine/getMachineGather",  
+		      data : {},  
+		      dataType : "json", //返回数据形式为json  
+		      success : function(result) {
+		          if (result) {
+		        	  machga = eval(result.rows);
+		          }  
+		      },
+		      error : function(errorMsg) {  
+		          alert("数据请求失败，请联系系统管理员!");  
+		      }  
+		 });
  })
  
  function w() {
 	if(typeof(WebSocket) == "undefined") {
-		alert("您的浏览器不支持WebSocket");
-		return;
+    	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+    	WEB_SOCKET_DEBUG = true;
 	}
 	ws();
 };
@@ -110,20 +129,30 @@ $(document).ready(function () {
 			          if (result) {
 			        	yshu = eval(result.rows);
 			        	if(yshu.length!=0){
-			      		$('#chanel').combobox('select',yshu[0].FWPSNum);
-			      		$('#fselect').combobox('select',yshu[0].Fweld_I_MAX);
-			    		$("#fadvance").numberbox('setValue',yshu[0].fadvance);
-			    		$("#fweld_vol").numberbox('setValue',yshu[0].fweld_vol);
-			    		$("#fweld_vol1").numberbox('setValue',yshu[0].fweld_vol1);
-			    		$("#fweld_ele").numberbox('setValue',yshu[0].fweld_ele);
-			    		$("#fhysteresis").numberbox('setValue',yshu[0].fhysteresis);
-			    		$("#fcharacter").numberbox('setValue',yshu[0].Fweld_V_MAX);
-			    		$('#fgas').combobox('select',yshu[0].Fweld_Alter_V);
-			    		$('#fdiameter').combobox('select',yshu[0].Fweld_PreChannel);
-			    		$('#fmaterial').combobox('select',yshu[0].Fweld_Alter_I);
-			    		$("#fweld_tuny_ele").numberbox('setValue',yshu[0].fweld_tuny_ele);
-			    		$("#fweld_tuny_vol").numberbox('setValue',yshu[0].fweld_tuny_vol);
-			    		$("#fweld_tuny_vol1").numberbox('setValue',yshu[0].fweld_tuny_vol);
+				      		$('#chanel').combobox('select',yshu[0].FWPSNum);
+				      		$('#fselect').combobox('select',yshu[0].Fweld_I_MAX);
+				    		$("#ftime").numberbox('setValue',yshu[0].ftime);
+				    		$("#fadvance").numberbox('setValue',yshu[0].fadvance);
+				    		$("#fini_ele").numberbox('setValue',yshu[0].fini_ele);
+				    		$("#fini_vol").numberbox('setValue',yshu[0].fini_vol);
+				    		$("#fini_vol1").numberbox('setValue',yshu[0].fini_vol1);
+				    		$("#fweld_vol").numberbox('setValue',yshu[0].fweld_vol);
+				    		$("#fweld_vol1").numberbox('setValue',yshu[0].fweld_vol1);
+				    		$("#farc_vol").numberbox('setValue',yshu[0].farc_vol);
+				    		$("#farc_vol1").numberbox('setValue',yshu[0].farc_vol1);
+				    		$("#fweld_ele").numberbox('setValue',yshu[0].fweld_ele);
+				    		$("#farc_ele").numberbox('setValue',yshu[0].farc_ele);
+				    		$("#fhysteresis").numberbox('setValue',yshu[0].fhysteresis);
+				    		$("#fcharacter").numberbox('setValue',yshu[0].Fweld_V_MAX);
+				    		$('#fgas').combobox('select',yshu[0].Fweld_Alter_V);
+				    		$('#fdiameter').combobox('select',yshu[0].Fweld_PreChannel);
+				    		$('#fmaterial').combobox('select',yshu[0].Fweld_Alter_I);
+				    		$("#fweld_tuny_ele").numberbox('setValue',yshu[0].fweld_tuny_ele);
+				    		$("#fweld_tuny_vol").numberbox('setValue',yshu[0].fweld_tuny_vol);
+				    		$("#farc_tuny_ele").numberbox('setValue',yshu[0].farc_tuny_ele);
+				    		$("#farc_tuny_vol").numberbox('setValue',yshu[0].Fdiameter);
+				    		$("#farc_tuny_vol1").numberbox('setValue',yshu[0].Fdiameter);
+				    		$("#fweld_tuny_vol1").numberbox('setValue',yshu[0].fweld_tuny_vol);
 			    		if(yshu[0].Fweld_I=="1"){
 			    			$("#finitial").prop("checked",true);
 			    		}
@@ -158,21 +187,31 @@ function chushihua(){
 	$("#finitial").prop("checked",false);
 	$("#fcontroller").prop("checked",false);
 	$('#fselect').combobox('select',102);
+	$("#ftime").numberbox('setValue',30.0);
 	$("#fadvance").numberbox('setValue',1.0);
+	$("#fini_ele").numberbox('setValue',100);
 	$("#fweld_ele").numberbox('setValue',100);
+	$("#farc_ele").numberbox('setValue',100);
 	$("#fhysteresis").numberbox('setValue',1.0);
 	$("#fcharacter").numberbox('setValue',0);
 	$('#fgas').combobox('select',121);
 	$('#fdiameter').combobox('select',132);
 	$('#fmaterial').combobox('select',91);
 	$("#fweld_tuny_ele").numberbox('setValue',0);
+	$("#farc_tuny_ele").numberbox('setValue',0);
+	$("#fini_vol").numberbox('setValue',19.0);
 	$("#fweld_vol").numberbox('setValue',19.0);
+	$("#farc_vol").numberbox('setValue',19.0);
 	$("#fweld_tuny_vol").numberbox('setValue',0.0);
+	$("#farc_tuny_vol").numberbox('setValue',0.0);
+	$("#fini_vol1").numberbox('setValue',0);
 	$("#fweld_vol1").numberbox('setValue',0);
+	$("#farc_vol1").numberbox('setValue',0);
 	$("#fweld_tuny_vol1").numberbox('setValue',0);
+	$("#farc_tuny_vol1").numberbox('setValue',0);
 }
 
-$(document).ready(function () {
+function gfsd() {
     var mySelect=$("#fgas option");
 	$("#fselect").combobox({
 		onSelect: function (record) {
@@ -192,35 +231,6 @@ $(document).ready(function () {
 		}
 	});
 
-	$("#fmaterial").combobox({
-		onSelect: function (record) {
-			if(record.value==91){
-				$('#fgas').combobox('clear');
-				$('#fgas').combobox('loadData', [{"text": "CO2", "value": "121"},{"text": "MAG", "value": "122"}]);
-				$('#fdiameter').combobox('clear');
-				$('#fdiameter').combobox('loadData', [{"text": "Φ1.0", "value": "131"},{"text": "Φ1.2", "value": "132"},{"text": "Φ1.4", "value": "133"},{"text": "Φ1.6", "value": "134"}]);
-			}else if(record.value==92){
-				$('#fgas').combobox('clear');
-				$('#fgas').combobox('loadData', [{"text": "MIG", "value": "123"}]);
-				$('#fdiameter').combobox('clear');
-				$('#fdiameter').combobox('loadData', [{"text": "Φ1.2", "value": "132"},{"text": "Φ1.6", "value": "134"}]);
-			}else if(record.value==93){
-				$('#fgas').combobox('clear');
-				$('#fgas').combobox('loadData', [{"text": "CO2", "value": "121"}]);
-				$('#fdiameter').combobox('clear');
-				$('#fdiameter').combobox('loadData', [{"text": "Φ1.2", "value": "132"},{"text": "Φ1.4", "value": "133"},{"text": "Φ1.6", "value": "134"}]);
-			}else{
-				$('#fgas').combobox('clear');
-				$('#fgas').combobox('loadData', [{"text": "CO2", "value": "121"}]);
-				$('#fdiameter').combobox('clear');
-				$('#fdiameter').combobox('loadData', [{"text": "Φ1.2", "value": "132"},{"text": "Φ1.6", "value": "134"}]);
-			}
-			var fgas = $('#fgas').combobox('getData');
-			var fdiameter = $('#fdiameter').combobox('getData');
-			$('#fgas').combobox('select',fgas[0].value);
-			$('#fdiameter').combobox('select',fdiameter[0].value);
-		}
-	});
 	$("#farc").combobox({
 		onSelect: function (record) {
 			if(record.value==111){
@@ -301,7 +311,37 @@ $(document).ready(function () {
 			$('#fini_vol1').numberbox("disable",true);
 		}
 	});
-});
+	
+	$("#fmaterial").combobox({
+		onSelect: function (record) {
+			if(record.value==91){
+				$('#fgas').combobox('clear');
+				$('#fgas').combobox('loadData', [{"text": "CO2", "value": "121"},{"text": "MAG", "value": "122"}]);
+				$('#fdiameter').combobox('clear');
+				$('#fdiameter').combobox('loadData', [{"text": "Φ1.0", "value": "131"},{"text": "Φ1.2", "value": "132"},{"text": "Φ1.4", "value": "133"},{"text": "Φ1.6", "value": "134"}]);
+			}else if(record.value==92){
+				$('#fgas').combobox('clear');
+				$('#fgas').combobox('loadData', [{"text": "MIG", "value": "123"}]);
+				$('#fdiameter').combobox('clear');
+				$('#fdiameter').combobox('loadData', [{"text": "Φ1.2", "value": "132"},{"text": "Φ1.6", "value": "134"}]);
+			}else if(record.value==93){
+				$('#fgas').combobox('clear');
+				$('#fgas').combobox('loadData', [{"text": "CO2", "value": "121"}]);
+				$('#fdiameter').combobox('clear');
+				$('#fdiameter').combobox('loadData', [{"text": "Φ1.2", "value": "132"},{"text": "Φ1.4", "value": "133"},{"text": "Φ1.6", "value": "134"}]);
+			}else{
+				$('#fgas').combobox('clear');
+				$('#fgas').combobox('loadData', [{"text": "CO2", "value": "121"}]);
+				$('#fdiameter').combobox('clear');
+				$('#fdiameter').combobox('loadData', [{"text": "Φ1.2", "value": "132"},{"text": "Φ1.6", "value": "134"}]);
+			}
+			var fgas = $('#fgas').combobox('getData');
+			var fdiameter = $('#fdiameter').combobox('getData');
+			$('#fgas').combobox('select',fgas[0].value);
+			$('#fdiameter').combobox('select',fdiameter[0].value);
+		}
+	});
+};
 
  var url = "";
 var flag = 1;
@@ -332,7 +372,54 @@ function editWps(){
 }
 //提交
 function save(value){
-	yanzheng();
+    if($('#fadvance').numberbox('getValue')<0||$('#fadvance').numberbox('getValue')>100){
+   	 alert("提前送气范围：0~100");
+   	 return;
+    }
+    if($('#fini_ele').numberbox('getValue')<30||$('#fini_ele').numberbox('getValue')>550){
+   	 alert("初期电流范围：30~550");
+   	 return;
+    }
+    if($('#fini_vol').numberbox('getValue')<12||$('#fini_vol').numberbox('getValue')>50){
+   	 alert("初期电压范围：12~50");
+   	 return;
+    }
+    if($('#fini_vol1').numberbox('getValue')<(-30)||$('#fini_vol1').numberbox('getValue')>(30)){
+   	 alert("初期电压一元范围：-30~30");
+   	 return;
+    }
+    if($('#fweld_ele').numberbox('getValue')<30||$('#fweld_ele').numberbox('getValue')>550){
+   	 alert("焊接电流范围：30~550");
+   	 return;
+    }
+    if($('#fweld_vol').numberbox('getValue')<12||$('#fweld_vol').numberbox('getValue')>50){
+   	 alert("焊接电压范围：12~50");
+   	 return;
+    }
+    if($('#fweld_vol1').numberbox('getValue')<(-30)||$('#fweld_vol1').numberbox('getValue')>(30)){
+   	 alert("焊接电压一元范围：-30~30");
+   	 return;
+    }
+    if($('#farc_ele').numberbox('getValue')<30||$('#farc_ele').numberbox('getValue')>550){
+   	 alert("收弧电流范围：30~550");
+   	 return;
+    }
+    if($('#farc_vol').numberbox('getValue')<12||$('#farc_vol').numberbox('getValue')>50){
+   	 alert("收弧电压范围：12~50");
+   	 return;
+    }
+    if($('#farc_vol1').numberbox('getValue')<(-30)||$('#farc_vol1').numberbox('getValue')>(30)){
+   	 alert("收弧电压一元范围：-30~30");
+   	 return;
+    }
+    if($('#fhysteresis').numberbox('getValue')<0||$('#fhysteresis').numberbox('getValue')>100){
+   	 alert("滞后送气范围：0~100");
+   	 return;
+    }
+    if($('#fcharacter').numberbox('getValue')<(-99)||$('#fcharacter').numberbox('getValue')>(99)){
+   	 alert("电弧特性范围：-99~99");
+   	 return;
+    }
 	var url2 = "";
 	var finitial;
 	var fcontroller;
@@ -354,10 +441,12 @@ function save(value){
     }
     var fselect = $('#fselect').combobox('getValue');
     var farc = $('#farc').combobox('getValue');
-//    var fmaterial = $('#fmaterial').combobox('getValue');
-    var fmaterial = document.getElementById('fmaterial').value;
-    var fgas = document.getElementById('fgas').value;
-    var fdiameter = document.getElementById('fdiameter').value;
+    var fmaterial = $('#fmaterial').combobox('getValue');
+//    var fmaterial = document.getElementById('fmaterial').value;
+//    var fgas = document.getElementById('fgas').value;
+//    var fdiameter = document.getElementById('fdiameter').value;
+    var fgas = $('#fgas').combobox('getValue');
+    var fdiameter = $('#fdiameter').combobox('getValue');
     var chanel = $('#chanel').combobox('getValue');
 	var ftime = $('#ftime').numberbox('getValue');
 	var fadvance = $('#fadvance').numberbox('getValue');
@@ -476,8 +565,8 @@ $(document).ready(function () {
 function suoqu(){
 	symbol=0;
 	if(typeof(WebSocket) == "undefined") {
-		alert("您的浏览器不支持WebSocket");
-		return;
+    	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+    	WEB_SOCKET_DEBUG = true;
 	}
 	socketfc = new WebSocket(data1);
 	//打开事件
@@ -490,7 +579,23 @@ function suoqu(){
         	chanel = "0" + chanel;
         }
       }
-	socketfc.send("7E"+chanel+"560101017D");
+	var mach;
+	if(machga!=null){
+		for(var q=0;q<machga.length;q++){
+			if(machga[q].id==node11.id){
+				mach = parseInt(machga[q].gatherId).toString(16);
+				if(mach.length<4){
+					var length = 4 - mach.length;
+			        for(var i=0;i<length;i++){
+			        	mach = "0" + mach;
+			        };
+			        break;
+				}
+			}
+		}
+	}
+	
+	socketfc.send("7E"+chanel+"56"+mach+"017D");
 	if(symbol==0){
 		window.setTimeout(function() {
 			if(symbol==0){
@@ -610,14 +715,61 @@ function suoqu(){
 }
 
 function xiafa(){
-	yanzheng();
+    if($('#fadvance').numberbox('getValue')<0||$('#fadvance').numberbox('getValue')>100){
+   	 alert("提前送气范围：0~100");
+   	 return;
+    }
+    if($('#fini_ele').numberbox('getValue')<30||$('#fini_ele').numberbox('getValue')>550){
+   	 alert("初期电流范围：30~550");
+   	 return;
+    }
+    if($('#fini_vol').numberbox('getValue')<12||$('#fini_vol').numberbox('getValue')>50){
+   	 alert("初期电压范围：12~50");
+   	 return;
+    }
+    if($('#fini_vol1').numberbox('getValue')<(-30)||$('#fini_vol1').numberbox('getValue')>(30)){
+   	 alert("初期电压一元范围：-30~30");
+   	 return;
+    }
+    if($('#fweld_ele').numberbox('getValue')<30||$('#fweld_ele').numberbox('getValue')>550){
+   	 alert("焊接电流范围：30~550");
+   	 return;
+    }
+    if($('#fweld_vol').numberbox('getValue')<12||$('#fweld_vol').numberbox('getValue')>50){
+   	 alert("焊接电压范围：12~50");
+   	 return;
+    }
+    if($('#fweld_vol1').numberbox('getValue')<(-30)||$('#fweld_vol1').numberbox('getValue')>(30)){
+   	 alert("焊接电压一元范围：-30~30");
+   	 return;
+    }
+    if($('#farc_ele').numberbox('getValue')<30||$('#farc_ele').numberbox('getValue')>550){
+   	 alert("收弧电流范围：30~550");
+   	 return;
+    }
+    if($('#farc_vol').numberbox('getValue')<12||$('#farc_vol').numberbox('getValue')>50){
+   	 alert("收弧电压范围：12~50");
+   	 return;
+    }
+    if($('#farc_vol1').numberbox('getValue')<(-30)||$('#farc_vol1').numberbox('getValue')>(30)){
+   	 alert("收弧电压一元范围：-30~30");
+   	 return;
+    }
+    if($('#fhysteresis').numberbox('getValue')<0||$('#fhysteresis').numberbox('getValue')>100){
+   	 alert("滞后送气范围：0~100");
+   	 return;
+    }
+    if($('#fcharacter').numberbox('getValue')<(-99)||$('#fcharacter').numberbox('getValue')>(99)){
+   	 alert("电弧特性范围：-99~99");
+   	 return;
+    }
 	if($('#fselect').combobox('getValue')==102){
 		if(($('#fweld_tuny_vol').numberbox('getValue')>5||$('#fweld_tuny_vol').numberbox('getValue')<0)){
 			alert("个别模式下微调电压范围为0~5")
 		}else{
 			if(typeof(WebSocket) == "undefined") {
-				alert("您的浏览器不支持WebSocket");
-				return;
+		    	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+		    	WEB_SOCKET_DEBUG = true;
 			}
 			symbol1=0;
 			socketfc = new WebSocket(data1);
@@ -843,7 +995,24 @@ function xiafa(){
 			        	con = "0" + con;
 			        }
 			      }
-			var xiafasend1 = "7E00520101"+chanel+ftime+fadvance+fini_ele+fini_vol+fini_vol1+fweld_ele+fweld_vol+fweld_vol1+farc_ele+farc_vol+farc_vol1+fhysteresis+fcharacter+fgas
+				
+				var mach;
+				if(machga!=null){
+					for(var q=0;q<machga.length;q++){
+						if(machga[q].id==node11.id){
+							mach = parseInt(machga[q].gatherId).toString(16);
+							if(mach.length<4){
+								var length = 4 - mach.length;
+						        for(var i=0;i<length;i++){
+						        	mach = "0" + mach;
+						        };
+						        break;
+							}
+						}
+					}
+				}
+				
+			var xiafasend1 = "7E0052"+mach+chanel+ftime+fadvance+fini_ele+fini_vol+fini_vol1+fweld_ele+fweld_vol+fweld_vol1+farc_ele+farc_vol+farc_vol1+fhysteresis+fcharacter+fgas
 			+fdiameter+fmaterial+"0000"+con+fweld_tuny_ele+fweld_tuny_vol+farc_tuny_ele+farc_tuny_vol;
 			
 		/*	var xiafasend2 = xiafasend1.replace(/00/g, '7C20');
@@ -906,8 +1075,8 @@ function xiafa(){
 			alert("一元模式下微调电压范围为0~20")
 		}else{
 			if(typeof(WebSocket) == "undefined") {
-				alert("您的浏览器不支持WebSocket");
-				return;
+		    	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+		    	WEB_SOCKET_DEBUG = true;
 			}
 			/*$.messager.alert("提示", "正在下发，请稍等。。。");*/
 			symbol1=0;
@@ -1131,7 +1300,24 @@ function xiafa(){
 				        	con = "0" + con;
 				        }
 				      }
-			var xiafasend1 = "7E00520101"+chanel+ftime+fadvance+fini_ele+fini_vol+fini_vol1+fweld_ele+fweld_vol+fweld_vol1+farc_ele+farc_vol+farc_vol1+fhysteresis+fcharacter+fgas
+					
+					var mach;
+					if(machga!=null){
+						for(var q=0;q<machga.length;q++){
+							if(machga[q].id==node11.id){
+								mach = parseInt(machga[q].gatherId).toString(16);
+								if(mach.length<4){
+									var length = 4 - mach.length;
+							        for(var i=0;i<length;i++){
+							        	mach = "0" + mach;
+							        };
+							        break;
+								}
+							}
+						}
+					}
+					
+			var xiafasend1 = "7E0052"+mach+chanel+ftime+fadvance+fini_ele+fini_vol+fini_vol1+fweld_ele+fweld_vol+fweld_vol1+farc_ele+farc_vol+farc_vol1+fhysteresis+fcharacter+fgas
 			+fdiameter+fmaterial+"0000"+con+fweld_tuny_ele+fweld_tuny_vol+farc_tuny_ele+farc_tuny_vol;
 			
 		/*	var xiafasend2 = xiafasend1.replace(/00/g, '7C20');
@@ -1194,51 +1380,51 @@ function xiafa(){
 function yanzheng(){
      if($('#fadvance').numberbox('getValue')<0||$('#fadvance').numberbox('getValue')>100){
     	 alert("提前送气范围：0~100");
-    	 return false;
+    	 return;
      }
      if($('#fini_ele').numberbox('getValue')<30||$('#fini_ele').numberbox('getValue')>550){
     	 alert("初期电流范围：30~550");
-    	 return false;
+    	 return;
      }
      if($('#fini_vol').numberbox('getValue')<12||$('#fini_vol').numberbox('getValue')>50){
     	 alert("初期电压范围：12~50");
-    	 return false;
+    	 return;
      }
      if($('#fini_vol1').numberbox('getValue')<(-30)||$('#fini_vol1').numberbox('getValue')>(30)){
     	 alert("初期电压一元范围：-30~30");
-    	 return false;
+    	 return;
      }
      if($('#fweld_ele').numberbox('getValue')<30||$('#fweld_ele').numberbox('getValue')>550){
     	 alert("焊接电流范围：30~550");
-    	 return false;
+    	 return;
      }
      if($('#fweld_vol').numberbox('getValue')<12||$('#fweld_vol').numberbox('getValue')>50){
     	 alert("焊接电压范围：12~50");
-    	 return false;
+    	 return;
      }
      if($('#fweld_vol1').numberbox('getValue')<(-30)||$('#fweld_vol1').numberbox('getValue')>(30)){
     	 alert("焊接电压一元范围：-30~30");
-    	 return false;
+    	 return;
      }
      if($('#farc_ele').numberbox('getValue')<30||$('#farc_ele').numberbox('getValue')>550){
     	 alert("收弧电流范围：30~550");
-    	 return false;
+    	 return;
      }
      if($('#farc_vol').numberbox('getValue')<12||$('#farc_vol').numberbox('getValue')>50){
     	 alert("收弧电压范围：12~50");
-    	 return false;
+    	 return;
      }
      if($('#farc_vol1').numberbox('getValue')<(-30)||$('#farc_vol1').numberbox('getValue')>(30)){
     	 alert("收弧电压一元范围：-30~30");
-    	 return false;
+    	 return;
      }
      if($('#fhysteresis').numberbox('getValue')<0||$('#fhysteresis').numberbox('getValue')>100){
     	 alert("滞后送气范围：0~100");
-    	 return false;
+    	 return;
      }
      if($('#fcharacter').numberbox('getValue')<(-99)||$('#fcharacter').numberbox('getValue')>(99)){
     	 alert("电弧特性范围：-99~99");
-    	 return false;
+    	 return;
      }
 /*	if($('#ftime').numberbox('getValue')==""){
 		$("#ftime").numberbox('setValue',30.0);
@@ -1647,7 +1833,23 @@ function ccp(){
         	con1 = "0" + con1;
         }
       }
-var xiafasend1 = "7E00520101"+chanel+ftime+fadvance+fini_ele+fini_vol+fini_vol1+fweld_ele+fweld_vol+fweld_vol1+farc_ele+farc_vol+farc_vol1+fhysteresis+fcharacter+fgas
+	var mach;
+	if(machga!=null){
+		for(var q=0;q<machga.length;q++){
+			if(machga[q].id==node11.id){
+				mach = parseInt(machga[q].gatherId).toString(16);
+				if(mach.length<4){
+					var length = 4 - mach.length;
+			        for(var i=0;i<length;i++){
+			        	mach = "0" + mach;
+			        };
+			        break;
+				}
+			}
+		}
+	}
+	
+var xiafasend1 = "7E0052"+mach+chanel+ftime+fadvance+fini_ele+fini_vol+fini_vol1+fweld_ele+fweld_vol+fweld_vol1+farc_ele+farc_vol+farc_vol1+fhysteresis+fcharacter+fgas
 +fdiameter+fmaterial+"0000"+con1+fweld_tuny_ele+fweld_tuny_vol+farc_tuny_ele+farc_tuny_vol;
 
 var xxx = xiafasend1.toUpperCase();

@@ -82,4 +82,10 @@ public interface WeldingMachineService {
 	 * 根据组织机构获取对应焊机
 	 */
 	List<WeldingMachine> getMachineByIns(BigInteger id);
+	
+	/**
+	 * 获取所有焊机及其对应的采集模块
+	 * @return
+	 */
+	List<WeldingMachine> getMachineGather();
 }

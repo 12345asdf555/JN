@@ -106,4 +106,11 @@ public interface WeldedJunctionService {
 	 * @return
 	 */
 	List<WeldedJunction> getFreeJunction(Page page,String str);
+
+	/**
+	 * 查询任务的所有焊工
+	 * @param page
+	 * @return
+	 */
+	List<WeldedJunction> getRealWelder(Page page,BigInteger taskid);
 }
