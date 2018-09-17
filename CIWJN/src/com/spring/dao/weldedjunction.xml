@@ -210,7 +210,7 @@
 	</select>
 	
 	<select id="getRealWelder" resultMap="wjMap" parameterType="java.math.BigInteger">
-		SELECT t.fid,t.ftaskid fcreater,j.fwelded_junction_no,t.fwelderid iid,w.fwelder_no froom_no,w.fname iname,t.fmachineid machid,m.fequipment_no FROM tb_taskresult t LEFT JOIN tb_welder w ON t.fwelderid=w.fid LEFT JOIN tb_welding_machine m ON t.fmachineid=m.fid LEFT JOIN tb_welded_junction j ON j.fid=t.ftaskid where t.ftaskid=#{taskid}
+		SELECT t.fid,t.ftaskid fcreater,j.fwelded_junction_no,t.fwelderid iid,w.fwelder_no froom_no,w.fname iname,t.fmachineid machid,m.fequipment_no FROM tb_taskresult t LEFT JOIN tb_welder w ON t.fwelderid=w.fid LEFT JOIN tb_welding_machine m ON t.fmachineid=m.fid LEFT JOIN tb_welded_junction j ON j.fid=t.ftaskid where t.foperatetype!=3 AND t.fwelderid IS NOT null and t.ftaskid=#{taskid} GROUP BY t.ftaskid,t.fwelderid,t.fmachineid
 	</select>
 	
 	<insert id="addTask" parameterType="com.spring.model.WeldedJunction">

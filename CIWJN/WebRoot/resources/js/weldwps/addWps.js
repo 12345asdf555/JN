@@ -45,6 +45,18 @@ function editWps(){
 }
 //提交
 function save(){
+	if(parseInt($("#Fweld_I").numberbox('getValue'))<30||parseInt($("#Fweld_I").numberbox('getValue'))>550){
+		alert("电流范围为30~550");
+		return;
+	};
+	if(parseInt($("#Fweld_V").numberbox('getValue'))<12||parseInt($("#Fweld_V").numberbox('getValue'))>50){
+		alert("电压范围为12~50");
+		return;
+	};
+	if(parseInt($("#Fweld_PreChannel").numberbox('getValue'))<1||parseInt($("#Fweld_PreChannel").numberbox('getValue'))>30){
+		alert("通道范围1~30");
+		return;
+	}
 	var url2 = "";
     var fwn = $('#FWPSNum').val();
     var insframework = $('#insid').combobox('getValue');

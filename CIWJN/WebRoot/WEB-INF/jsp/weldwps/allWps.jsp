@@ -30,6 +30,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/search/search.js"></script>
 	<script type="text/javascript" src="resources/js/weldwps/addWps.js"></script>
 	<script type="text/javascript" src="resources/js/weldwps/destroyWps.js"></script>
+	<script type="text/javascript" src="resources/js/weldwps/giveWps.js"></script>
+	<script type="text/javascript" src="resources/js/swfobject.js"></script>
+	<script type="text/javascript" src="resources/js/web_socket.js"></script>
 
   </head>
   
@@ -38,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="functiondiv">
         	<a href="javascript:addWps();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
         	<a href="javascript:insertSearchWps();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        	<a href="javascript:giveWps()" class="easyui-linkbutton" iconCls="icon-select">工艺下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        	<a href="javascript:selectWps()" class="easyui-linkbutton" iconCls="icon-select">工艺下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
         	<a href="javascript:history()" class="easyui-linkbutton" iconCls="icon-select" >下发历史</a>
     	</div>
 	  	<div align="center">
@@ -164,6 +167,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="remove-buttons">
 			<a href="javascript:remove();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
 			<a href="javascript:close2();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+		</div>
+		
+		<!-- 下发工艺选择 -->
+		<div id="sewps" class="easyui-dialog" style="width: 700px; height: 400px; padding:10px 20px" closed="true" buttons="#sewps-buttons">
+			<table id="sewpstable" checkbox="true" style="table-layout:fixed;width:50%"></table>
+		</div>
+		<div id="sewps-buttons">
+			<a href="javascript:selectMachine();" class="easyui-linkbutton" iconCls="icon-next">下一步</a>
+			<a href="javascript:closewps();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+		</div>
+		
+		<!-- 下发焊机选择 -->
+		<div id="semac" class="easyui-dialog" style="width: 700px; height: 400px; padding:10px 20px" closed="true" buttons="#semac-buttons">
+			<table id="semactable" checkbox="true" style="table-layout:fixed;width:50%"></table>
+		</div>
+		<div id="semac-buttons">
+			<a href="javascript:giveWps();" class="easyui-linkbutton" iconCls="icon-ok">下发</a>
+			<a href="javascript:closemac();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
     </div>
 </body>

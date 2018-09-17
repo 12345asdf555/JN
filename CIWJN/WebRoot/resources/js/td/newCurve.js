@@ -329,22 +329,22 @@ function iview(){
 					alert(parseInt(redata.substring(4+i, 8+i)));*/
 					if(machine[f].fid==(parseInt(redata.substring(4+i, 8+i),10))){
 						for(var k=0;k<welderName.length;k++){
-							if(welderName[k].fid==parseInt(redata.substring(8+i, 12+i))){
+							if(welderName[k].fid==parseInt(redata.substring(8+i, 12+i),10)){
 								/*document.getElementById("lab3"+machine[f].fequipment_no).innerHTML="操作人员："+welderName[k].fwelder_no;*/
 								$("#m3"+machine[f].fid).html(welderName[k].fwelder_no);
 							}
 						}
 						for(var t=0;t<taskNum.length;t++){
-							if(taskNum[t].id==parseInt(redata.substring(69+i, 77+i))){
+							if(taskNum[t].id==parseInt(redata.substring(69+i, 77+i),10)){
 								$("#m2"+machine[f].fid).html(taskNum[t].weldedJunctionno);
 							}
 						}
 						var liveele = parseInt(redata.substring(12+i, 16+i),10);
-			            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i))/10).toFixed(2));
-			            var maxele = parseInt(redata.substring(61+i, 64+i));
-			            var minele = parseInt(redata.substring(64+i, 67+i));
-			            var maxvol = parseInt(redata.substring(67+i, 70+i));
-			            var minvol = parseInt(redata.substring(70+i, 73+i));
+			            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i),10)/10).toFixed(2));
+			            var maxele = parseInt(redata.substring(61+i, 64+i),10);
+			            var minele = parseInt(redata.substring(64+i, 67+i),10);
+			            var maxvol = parseInt(redata.substring(67+i, 70+i),10);
+			            var minvol = parseInt(redata.substring(70+i, 73+i),10);
 						var mstatus = redata.substring(0 + i, 2 + i);
 //						document.getElementById("lab4"+machine[f].fequipment_no).innerHTML="焊接电流："+parseInt(redata.substring(12+i, 16+i),10)+"A";
 //						document.getElementById("lab5"+machine[f].fequipment_no).innerHTML="焊接电压："+parseFloat((parseInt(redata.substring(16+i, 20+i),10)/10).toFixed(2))+"V";

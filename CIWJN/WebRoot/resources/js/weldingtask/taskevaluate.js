@@ -325,7 +325,7 @@ function evaluation(){
 			$('#resultid').combobox('select',data[0].value);
 		}
 		//$('#resultid').combobox('select', row.resultName);
-		url = "weldtask/getEvaluate?id="+row.id+"&taskid="+row.taskid+"&welderid="+row.welderid+"&machineid="+row.machineid+"&starttime="+row.starttime+"&endtime="+row.endtime;
+		url = "weldtask/getEvaluate?id="+row.id+"&taskid="+row.taskid+"&welderid="+null+"&machineid="+null+"&starttime="+row.starttime+"&endtime="+row.endtime;
 	}
 }
 }
@@ -346,7 +346,7 @@ function saveconment(){
     var rows = $("#weldTaskTable").datagrid("getSelections");
 	if(flag==1){
 		temp=1;
-		url2=url+"&result="+result+"&resultid="+resultName+"&welderNo="+rows[0].welderNo+"&operateid="+temp+"&taskNo="+rows[0].taskNo+"&machineNo="+rows[0].machineNo;
+		url2=url+"&result="+encodeURI(result)+"&resultid="+resultName+"&welderNo="+""+"&operateid="+temp+"&taskNo="+""+"&machineNo="+"";
 	}
 	else if(flag==2){
 		temp=2;
@@ -536,8 +536,8 @@ function confirm(){
 			$("#body").append(sh);
 			document.getElementById("show").style.display="block";
 			var row = $('#weldTaskTable').datagrid('getSelected');
-			url = "weldtask/getEvaluate?id="+row.id+"&taskid="+row.taskid+"&welderid="+row.welderid+"&machineid="+row.machineid;
-			url2=url+"&result="+""+"&resultid="+""+"&welderNo="+row.welderNo+"&operateid="+temp+"&taskNo="+row.taskNo+"&machineNo="+row.machineNo+"&starttime="+row.starttime+"&endtime="+getNowFormatDate();
+			url = "weldtask/getEvaluate?id="+row.id+"&taskid="+row.taskid+"&welderid="+null+"&machineid="+null;
+			url2=url+"&result="+""+"&resultid="+""+"&welderNo="+""+"&operateid="+temp+"&taskNo="+""+"&machineNo="+""+"&starttime="+row.starttime+"&endtime="+getNowFormatDate();
 			$.ajax({  
 			      type : "post",  
 			      async : false,
@@ -581,7 +581,7 @@ function dgConfirm(){
 			document.getElementById("show").style.display="block";
 			var row = $('#weg').datagrid('getSelected');
 			url = "weldtask/getEvaluate?id="+row.id+"&taskid="+row.taskid+"&welderid="+row.welderid+"&machineid="+row.machineid;
-			url2=url+"&result="+""+"&resultid="+""+"&welderNo="+row.welderNo+"&operateid="+temp+"&taskNo="+row.taskNo+"&machineNo="+row.machineNo+"&starttime="+row.starttime+"&endtime="+getNowFormatDate();
+			url2=url+"&result="+""+"&resultid="+""+"&welderNo="+""+"&operateid="+temp+"&taskNo="+""+"&machineNo="+""+"&starttime="+row.starttime+"&endtime="+getNowFormatDate();
 			$.ajax({  
 			      type : "post",  
 			      async : false,

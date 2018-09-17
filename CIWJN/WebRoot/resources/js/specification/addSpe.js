@@ -1000,13 +1000,19 @@ function xiafa(){
 				if(machga!=null){
 					for(var q=0;q<machga.length;q++){
 						if(machga[q].id==node11.id){
-							mach = parseInt(machga[q].gatherId).toString(16);
-							if(mach.length<4){
-								var length = 4 - mach.length;
-						        for(var i=0;i<length;i++){
-						        	mach = "0" + mach;
-						        };
-						        break;
+							if(machga[q].gatherId){
+								mach = parseInt(machga[q].gatherId).toString(16);
+								if(mach.length<4){
+									var length = 4 - mach.length;
+							        for(var i=0;i<length;i++){
+							        	mach = "0" + mach;
+							        };
+							        break;
+								}
+							}else{
+								alert("该焊机未对应采集编号!!!");
+								socketfc.close();
+								return;
 							}
 						}
 					}
@@ -1358,7 +1364,7 @@ function xiafa(){
 				fan = fan.replace(/7C20/g, '00').toUpperCase();
 				if(fan.substring(4,6)=="52"){
 					symbol1++;
-					if(parseInt(fan.substring(10,12),16)==1){
+					if(parseInt(fan.substring(10,12),10)==1){
 						socketfc.close();
 						if(socketfc.readyState==1){
 							alert("下发失败");

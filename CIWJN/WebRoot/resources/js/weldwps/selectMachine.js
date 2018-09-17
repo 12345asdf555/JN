@@ -147,7 +147,7 @@ var socket;
 	});
  })
  
- function save(){
+/* function save(){
      var rows = $("#dg").datagrid("getSelections");
      if(rows.length==0){
   	   alert("请选择焊机");
@@ -208,4 +208,4 @@ var socket;
 		      }  
 		 });
      }
-}
+}*/

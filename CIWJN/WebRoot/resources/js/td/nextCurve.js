@@ -231,7 +231,7 @@ function webclient() {
 	};
 	//发生了错误事件
 	socket.onerror = function() {
-		aler("发生异常，正在尝试重新连接服务器！！！");
+		alert("发生异常，正在尝试重新连接服务器！！！");
 	}
 }
 
@@ -416,11 +416,11 @@ function iview() {
 	ele.length = 0;
 	for (var i = 0; i < redata.length; i += 77) {
 		//				if(redata.substring(8+i, 12+i)!="0000"){
-		if (parseInt(redata.substring(4 + i, 8 + i)) == $("#machineid").val()) {
+		if (parseInt(redata.substring(4 + i, 8 + i),10) == $("#machineid").val()) {
 		    time1++;
 		    var t1 = secondToDate(time1);
 		    $("#r3").html(t1);
-		    if(redata.substring(0 + i, 2 + i)!=00){
+		    if(redata.substring(0 + i, 2 + i)!="00"){
 			    time2++;
 			    var t2 = secondToDate(time2);
 			    $("#r4").html(t2);
@@ -446,12 +446,12 @@ function iview() {
 			$("#c1").html(parseInt(redata.substring(12 + i, 16 + i), 10));
 			$("#c2").html((parseInt(redata.substring(16 + i, 20 + i), 10) / 10).toFixed(1));
 			for (var k = 0; k < welderName.length; k++) {
-				if (welderName[k].fid == parseInt(redata.substring(8 + i, 12 + i))) {
+				if (welderName[k].fid == parseInt(redata.substring(8 + i, 12 + i),10)) {
 					$("#l4").html(welderName[k].fwelder_no);
 				}
 			}
 			for (var t = 0; t < taskNum.length; t++) {
-				if (taskNum[t].id == parseInt(redata.substring(69 + i, 77 + i))) {
+				if (taskNum[t].id == parseInt(redata.substring(69 + i, 77 + i),10)) {
 					$("#l3").html(taskNum[t].weldedJunctionno);
 				}
 			}

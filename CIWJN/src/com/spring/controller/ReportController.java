@@ -582,6 +582,7 @@ public class ReportController {
 		JSONObject obj = new JSONObject();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar c = Calendar.getInstance();
+		Calendar cb = Calendar.getInstance();
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
 		String parentId = request.getParameter("parent");
@@ -616,26 +617,54 @@ public class ReportController {
 				list = reportService.historyData(page,dto,fid,mach,welderid);
 				if(list.size()!=0){
 					for(int i=0;i<list.size();i++){
-						if(list.get(i).getFstatus()==5){
-			                c.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(list.get(i).getFweldingtime()));
-			                c.add(Calendar.SECOND,1);
-							json.put("ele", 0);
-							json.put("vol", 0);
-							json.put("time", sdf.format(c.getTime()));
+						if(i==list.size()-1){
+							json.put("ele", list.get(i).getFstandardele());
+							json.put("vol", list.get(i).getFstandardvol());
+							json.put("time", list.get(i).getFweldingtime());
 							ary.add(json);
-							
-						}else if(list.get(i).getFstatus()==7){
+						}else{
+			                c.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(list.get(i).getFweldingtime()));
+			                cb.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(list.get(i+1).getFweldingtime()));
+			                if(cb.getTimeInMillis()-c.getTimeInMillis()==1000){
+								json.put("ele", list.get(i).getFstandardele());
+								json.put("vol", list.get(i).getFstandardvol());
+								json.put("time", list.get(i).getFweldingtime());
+								ary.add(json);
+			                }else if(cb.getTimeInMillis()-c.getTimeInMillis()==2000){
+								json.put("ele", list.get(i).getFstandardele());
+								json.put("vol", list.get(i).getFstandardvol());
+								json.put("time", list.get(i).getFweldingtime());
+								ary.add(json);
+								c.add(Calendar.SECOND,1);
+								json.put("ele", 0);
+								json.put("vol", 0);
+								json.put("time", sdf.format(c.getTime()));
+								ary.add(json);
+			                }else{
+								json.put("ele", list.get(i).getFstandardele());
+								json.put("vol", list.get(i).getFstandardvol());
+								json.put("time", list.get(i).getFweldingtime());
+								ary.add(json);
+								c.add(Calendar.SECOND,1);
+								json.put("ele", 0);
+								json.put("vol", 0);
+								json.put("time", sdf.format(c.getTime()));
+								ary.add(json);
+								cb.add(Calendar.SECOND,-1);
+								json.put("ele", 0);
+								json.put("vol", 0);
+								json.put("time", sdf.format(cb.getTime()));
+								ary.add(json);
+			                }	
+						}
+/* else if(list.get(i).getFstatus()==7){
 			                c.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(list.get(i).getFweldingtime()));
 			                c.add(Calendar.SECOND,-1);
 							json.put("ele", 0);
 							json.put("vol", 0);
 							json.put("time", sdf.format(c.getTime()));
 							ary.add(json);
-						}
-						json.put("ele", list.get(i).getFstandardele());
-						json.put("vol", list.get(i).getFstandardvol());
-						json.put("time", list.get(i).getFweldingtime());
-						ary.add(json);
+						}*/
 					}
 				}
 				pageIndex+=pageSize;
