@@ -101,7 +101,7 @@ function editAuthorith(){
 		$('#dlg').window('open');
 		AutorityDatagrid();
 		$('#fm').form('load', row);
-		$('#validName').val(row.authorityName);
+		$('#validName').val(row.authorityName.substring(5));
 		$("#authorityName").textbox("setValue", row.authorityName.substring(5));
 		url = "authority/updateAuthority?id="+ row.id;
 	}
