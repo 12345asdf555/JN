@@ -453,16 +453,16 @@ public class DataStatisticsController {
 				dto.setMachineid(i.getId());
 				json.put("t0", i.getInsname());
 				json.put("t1", i.getName());
-				DataStatistics junctionnum = dss.getWorkJunctionNum(i.getInsid(), dto);
+				DataStatistics junctionnum = dss.getWorkJunctionNum(null, dto);
 				DataStatistics parameter = dss.getParameter();
 				BigInteger worktime = null,standytime=null;
 				DataStatistics weld = null;
 				if(junctionnum.getJunctionnum()!=0){
 					json.put("t2", junctionnum.getJunctionnum());//焊接任务数
-					worktime = dss.getStaringUpTime(i.getInsid(), dto);
+					worktime = dss.getStaringUpTime(null, dto);
 					json.put("t4", getTimeStrBySecond(worktime));//工作时间
-					standytime = dss.getStandytime(i.getInsid(), dto);//获取待机总时长
-					weld = dss.getWorkTimeAndEleVol(i.getInsid(), dto);
+					standytime = dss.getStandytime(null, dto);//获取待机总时长
+					weld = dss.getWorkTimeAndEleVol(null, dto);
 					double standytimes = 0,time=0,electric=0;
 					if(standytime!=null){
 						standytimes = standytime.doubleValue()/60/60;

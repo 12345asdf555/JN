@@ -457,9 +457,6 @@
 				and m.finsframework_id= #{itemid}
 			</if>
 		    GROUP BY m.fid )
-			<if test="itemid!=null and itemid!=''">
-				and m.finsframework_id= #{itemid}
-			</if>
 		)temp ORDER BY fname
 	</select>
 	
