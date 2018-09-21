@@ -31,7 +31,7 @@
 	
 	<select id="getGatherByInsfid" resultMap="gatherMap">
 		SELECT g.*,i.fname itemname FROM tb_gather g inner join tb_insframework i on i.fid=g.fitemId
-		where 1=1
+		where  g.fid not in (select g.fid from tb_gather g INNER JOIN tb_welding_machine m on m.fgather_id = g.fid)
 		<if test="insfid!=null and insfid!=''">
 			and i.fid=#{insfid}
 		</if>

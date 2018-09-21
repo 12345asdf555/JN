@@ -282,8 +282,16 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 		if(status==1){
 			String operatorid = json.getString("OPERATOR");
 			wj.setTaskid(new BigInteger(taskid));
-			wj.setWelderid(new BigInteger(welderid));
-			wj.setMachineid(new BigInteger(machineid));
+/*			if(welderid==null){
+				wj.setWelderid(null);
+			}else{
+				wj.setWelderid(new BigInteger(welderid));
+			}
+			if(machineid==null){
+				wj.setMachineid(null);
+			}else{
+				wj.setMachineid(new BigInteger(machineid));
+			}*/
 			wj.setDyne(Integer.valueOf(status));
 			wj.setOperatorid(new BigInteger(operatorid));
 			wj.setArea(json.getString("RESULT"));
@@ -299,7 +307,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 					try {
 						socketChannel.writeAndFlush("JN"+","+taskid+","+welderid+","+machineid+","+status+","+machineno).sync();
 						socketChannel.close();
-						int count = wjm.getCountBySatus(new BigInteger(taskid),new BigInteger(welderid),new BigInteger(machineid),status);
+						int count = wjm.getCountBySatus(new BigInteger(taskid),null,null,status);
 						if(count<2){
 							wj.setStartTime(json.getString("STARTTIME"));
 							wj.setEndTime(json.getString("ENDTIME"));
