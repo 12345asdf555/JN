@@ -422,15 +422,13 @@ function iview(){
 								}
 							}
 							if(!tempflag){
-								if(liveary[x].fid != machine[f].fid){
-									liveary.push(
-											{"fid":machine[f].fid,
-											"liveele":liveele+"A",
-											"livevol":livevol+"V",
-											"livestatus":livestatus,
-											"livestatusid":livestatusid,
-											"liveimg":liveimg})
-								}
+								liveary.push(
+										{"fid":machine[f].fid,
+										"liveele":liveele+"A",
+										"livevol":livevol+"V",
+										"livestatus":livestatus,
+										"livestatusid":livestatusid,
+										"liveimg":liveimg})
 							}
 						}
 					}
