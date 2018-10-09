@@ -474,7 +474,7 @@
 		select sum(fworktime)/60/60 time,d.fvaluename fname,d.fvalue fid from tb_work l 
 		inner join tb_welding_machine w on w.fid = l.fmachine_id
         inner join tb_dictionary d on d.fvalue = w.fmanufacturer_id
-		where d.ftypeid=14 and w.finsframework_id in (select fid from tb_insframework where fparent=15)
+		where d.ftypeid=14 and w.finsframework_id in (select fid from tb_insframework where fparent=#{parent})
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -491,7 +491,7 @@
 		select d.fvalue from tb_work l 
 		inner join tb_welding_machine w on w.fid = l.fmachine_id
         inner join tb_dictionary d on d.fvalue = w.fmanufacturer_id
-		where d.ftypeid=14 and w.finsframework_id in (select fid from tb_insframework where fparent=15)
+		where d.ftypeid=14 and w.finsframework_id in (select fid from tb_insframework where fparent=#{parent})
 		<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}

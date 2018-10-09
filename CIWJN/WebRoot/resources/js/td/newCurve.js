@@ -1,7 +1,7 @@
 var insfid;
 var charts;
 var websocketURL, dic, starows, redata, symbol=0, welderName, taskNum, socket;
-var worknum=0, standbynum=0, warnnum=0, offnum=0, flag = 0;
+var worknum=0, standbynum=0, warnnum=0, offnum=0, flag = 0, showflag = 0;
 var liveary = new Array(), machine = new Array;
 
 $(function(){
@@ -63,7 +63,6 @@ function loadtree() {
 					alert("未接收到数据!!!");
 		    		document.getElementById("load").style.display ='none';
 		    		document.getElementById("show").style.display ='none';
-					
 				}
 			}, 10000);
 		}
@@ -200,6 +199,13 @@ function webclient() {
 	};
 	socket.onmessage = function(msg) {
 		redata = msg.data;
+		//没有数据时默认显示全部
+		if(redata==null || redata=="" && showflag==0){
+			for(var i=0;i<machine.length;i++){
+				$("#machine"+machine[i].fid).show();
+			}
+			showflag = 1;
+		}
 		iview();
 		symbol++;
 	};
@@ -444,11 +450,7 @@ function showChart(){
 		tooltip:{
 			trigger: 'item',
 			formatter: function(param){
-				if(param.name=="其它"){
-					return "";
-				}else{
-					return '<div>实时统计<div>'+'<div style="float:left;margin-top:5px;border-radius:50px;border:solid rgb(100,100,100) 1px;width:10px;height:10px;background-color:'+param.color+'"></div><div style="float:left;">&nbsp;'+param.name+'：'+param.value+'%<div>';
-				}
+				return '<div>实时统计<div>'+'<div style="float:left;margin-top:5px;border-radius:50px;border:solid rgb(100,100,100) 1px;width:10px;height:10px;background-color:'+param.color+'"></div><div style="float:left;">&nbsp;'+param.name+'：'+param.value+'%<div>';
 			}
 		},
 		toolbox:{
@@ -567,7 +569,6 @@ window.setInterval(function(){
 //状态按钮点击事件
 function statusClick(statusnum){
 	$("#status").combobox('setValue',statusnum);
-	/*worknum=0, standbynum=0, warnnum=0, offnum=machine.length-tempary.length;*/
 	for(var i=0;i<machine.length;i++){
 		if(statusnum == 99){
 			for(var j=0;j<tempary.length;j++){
