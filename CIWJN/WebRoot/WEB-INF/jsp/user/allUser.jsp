@@ -36,11 +36,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body class="easyui-layout">
   	<jsp:include  page="../insframeworktree.jsp"/>
   	<div  id="bodys" region="center"  hide="true"  split="true" >
-  		<div id="body">
-	        <div class="functiondiv">
+	    <div class="functiondiv">
+	        <div>
 	        	<a href="javascript:saveUser();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	        	<a href="javascript:insertSearchUser();" class="easyui-linkbutton" iconCls="icon-select">查找</a>   
 	    	</div>
+	    </div>
+  		<div id="body">
 	        <table id="dg" style="table-layout:fixed;width:100%"></table>
 	    </div>
 	    <div id="div1" class="easyui-dialog" style="width:400px;height:400px" closed="true" buttons="#dlg-ro"algin="center">

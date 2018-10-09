@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/index.js"></script>
-	<script type="text/javascript" src="resources/js/indexFauit.js"></script>
+<!-- 	<script type="text/javascript" src="resources/js/indexFauit.js"></script> -->
 <!-- 	<script type="text/javascript" src="resources/js/indexFauit2.js"></script> -->
 	<script type="text/javascript" src="resources/js/swfobject.js"></script>
 	<script type="text/javascript" src="resources/js/web_socket.js"></script>
@@ -40,10 +40,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div region="north" style="height: 98px;" id="north">
 		<div class="head-wrap">
 			<a href="" class="logo"><img src="resources/images/weldmeslog.png" /></a>
+			<div class="time">
+				<a href="void(0)" id="headtime"></a>
+			</div>	
 			<div class="search-wrap">
-                    <img src="resources/images/1_06.png" />
-					<a href="user/logout" id="username">欢迎您，</a>&nbsp;|
-					<a href="user/logout">注销</a>
+				<a href="void(0)" id="username">欢迎您：</a>&nbsp;|
+                <img src="resources/images/1_06.png" />
+				<a href="user/logout">注销</a>
 			</div>					
 		</div>
 	</div>
@@ -179,8 +182,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div data-options="region:'south',split:true" style="height:40px;">
    		<div class="tenghan-bottom">
-   			<div id="fauitContent"><div id="content"></div></div>
-			<div style="margin-right:30px;float:right;" id="bottomlog"><a href="javascript:void(0)" class="logo"><img src="resources/images/weldmesbottom.png" /></a></div>
+<!--    			<div id="fauitContent"><div id="content"></div></div> -->
+			<div style="float:left;color:#fff;width:33%;" id="bottomlog">
+				&nbsp;
+			</div>
+			<div style="float:left;color:#fff;width:33%;height:55px;text-align: center;position: relative;" id="bottomlog">
+				<div style="float:left;width:300px;margin: auto;left:0;right:0;position: absolute;">
+					<div style="float:left;padding-top:20px;font-size:16px;">改革创新 提质增效</div>
+					<div style="float:left;width:150px;">
+						重准备 强协调 控过程<br/>
+						抓策划 解扣子 接地气<br/>
+						想明白 写下来 照着干
+					</div>
+				</div>
+			</div>
+			<div style="float:left;color:#fff;width:33%;text-align:right;padding-top:20px;" id="bottomlog">
+				<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-msg" style="border: none;">消息</a>
+			</div>
 		</div>
 	</div>
 

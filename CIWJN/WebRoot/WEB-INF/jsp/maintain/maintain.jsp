@@ -33,15 +33,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
     
   <body>
-  	<div id="body">
-	  	<div class="functiondiv">
-			<div>
-				<a href="javascript:addMaintain();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-import">导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="javascript:exporMaintain();" class="easyui-linkbutton" iconCls="icon-export">导出</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="javascript:insertSearchMaintain();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
-			</div>
+  	<div class="functiondiv">
+		<div>
+			<a href="javascript:addMaintain();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-import">导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:exporMaintain();" class="easyui-linkbutton" iconCls="icon-export">导出</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:insertSearchMaintain();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
 		</div>
+	</div>
+  	<div id="body">
 		<div id="importdiv" class="easyui-dialog" style="width:300px; height:200px;" closed="true">
 			<form id="importfm" method="post" class="easyui-form" data-options="novalidate:true" enctype="multipart/form-data"> 
 				<div>

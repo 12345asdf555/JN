@@ -154,3 +154,31 @@
 .icon-assign{
 	background:url('icons/assign.png') no-repeat center center;
 }
+.icon-msg{
+	background:url('icons/msg.png') no-repeat center center;
+}
+.icon-getwps{
+	background:url('icons/wps_01.png') no-repeat center center;
+}
+.icon-setwps{
+	background:url('icons/wps_02.png') no-repeat center center;
+}
+.icon-copy{
+	background:url('icons/wps_03.png') no-repeat center center;
+}
+.icon-copys{
+	background:url('icons/wps_04.png') no-repeat center center;
+}
+.icon-history{
+	background:url('icons/history.png') no-repeat center center;
+}
+.icon-default{
+	background:url('icons/default.png') no-repeat center center;
+}
+.icon-detail{
+	background:url('icons/detail.png') no-repeat center center;
+}
+.icon-savewps{
+	background:url('icons/save.png') no-repeat center center;
+}
+

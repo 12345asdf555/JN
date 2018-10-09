@@ -33,12 +33,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-   <div id="body">
-		<div class="functionleftdiv">产品管理 >> 任务管理</div>
-        <div class="functiondiv">
+    <div class="functiondiv">
+        <div>
+        	产品管理 >> 任务管理
         	<a href="javascript:addWeldf()" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        	<a href="javascript:insertSearchWeldf();" class="easyui-linkbutton" iconCls="icon-select">查找</a>
-    	</div>
+       		<a href="javascript:insertSearchWeldf();" class="easyui-linkbutton" iconCls="icon-select">查找</a>
+   		</div>
+    </div>
+   <div id="body">
         <table id="dg" style="table-layout:fixed;width:100%"></table>
     	<!-- 自定义多条件查询 -->
 	    <div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">

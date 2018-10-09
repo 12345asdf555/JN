@@ -30,12 +30,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+   	<div class="functiondiv">
+   		<div>
+       		<a href="javascript:addDictionary()" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>
+			<input class="easyui-textbox" value="类型" readonly="readonly"/> = 
+			<select class="easyui-combobox" name="content" id="content" data-options="editable:false"" ></select>
+		</div>
+   	</div>
     <div id="body">
-    	<div class="functiondiv">
-        	<a href="javascript:addDictionary()" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>
-				<input class="easyui-textbox" value="类型" readonly="readonly"/> = 
-				<select class="easyui-combobox" name="content" id="content" data-options="editable:false"" ></select>
-    	</div>
     	<table id="dg" style="table-layout:fixed;width:100%"></table>
     	<!-- 添加修改 -->
 		<div id="dlg" class="easyui-dialog" style="width: 400px; height: 500px; padding:10px 20px" closed="true" buttons="#dlg-buttons">

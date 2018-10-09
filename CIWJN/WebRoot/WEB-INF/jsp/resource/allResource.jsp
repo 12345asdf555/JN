@@ -32,11 +32,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
 
   <body>
-   <div id="body">
-        <div class="functiondiv">
+  	<div class="functiondiv">
+        <div>
         	<a href="javascript:addResource();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
         	<a href="javascript:insertSearchResource();" class="easyui-linkbutton" iconCls="icon-select">查找</a>
    		</div>
+    </div>
+   <div id="body">
         <table id="dg" style="table-layout:fixed;width:100%"></table>
        		<div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">
 	    	<div id="div0">

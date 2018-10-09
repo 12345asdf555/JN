@@ -36,14 +36,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body class="easyui-layout">
   	<jsp:include  page="../insframeworktree.jsp"/>
   	<div  id="bodys" region="center"  hide="true"  split="true" >
-	  	<div id="body">
-		  	<div class="functiondiv">
-				<div>
-					<a href="javascript:addInsframework();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="javascript:insertSearchInsf();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
-				</div>
+	  	<div class="functiondiv">
+			<div>
+				<a href="javascript:addInsframework();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="javascript:insertSearchInsf();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
 			</div>
-			
+		</div>
+	  	<div id="body">
 		    <table id="insframeworkTable" style="table-layout: fixed; width:100%;"></table>
 	    </div>
 	    <!-- 自定义多条件查询 -->

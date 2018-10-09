@@ -84,7 +84,7 @@ function insframeworkDatagrid(){
 		}, {
 			field : 'edit',
 			title : '编辑',
-			width : 100,
+			width : 200,
 			halign : "center",
 			align : "left",
 			formatter:function(value,row,index){

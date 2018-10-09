@@ -34,14 +34,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-  	<div id="body">
-	  	<div class="functiondiv">
-			<div>
-				<a href="javascript:addGather()" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="javascript:insertSearchGather();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
-			</div>
+  	<div class="functiondiv">
+		<div>
+			<a href="javascript:addGather()" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:insertSearchGather();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
 		</div>
-		
+	</div>
+  	<div id="body">
 	    <table id="gatherTable" style="table-layout: fixed; width:100%;"></table>
 	    
 	    <!-- 自定义多条件查询 -->

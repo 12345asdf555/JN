@@ -363,3 +363,24 @@ function changeColor(obj){
 	obj.style.background = "#fecf5d";
 }
 
+//显示系统当前时间
+function time(){
+	var week,week_index;
+	week = ["星期天","星期一","星期二","星期三","星期四","星期五","星期六"];
+	var date =  new Date();
+	year = date.getFullYear();
+	month = date.getMonth() + 1;
+	day = date.getDate();
+	hours = date.getHours();
+	oldminutes = date.getMinutes();
+	week_index = date.getDay();
+	minutes = oldminutes;
+	if(oldminutes < 10){
+		minutes = "0" + oldminutes;
+    }
+	$("#headtime").html(year + "-" + month + "-" + day + " / " + week[week_index]  + " / " + hours + ":" + minutes);
+
+};
+
+setInterval("time()",1000);
+

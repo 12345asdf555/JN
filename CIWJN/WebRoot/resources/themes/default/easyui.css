@@ -5,11 +5,11 @@
   border: 0;
   -moz-border-radius: 0 0 0 0;
   -webkit-border-radius: 0 0 0 0;
-  border-radius: 0 0 0 0;
+  border-radius: 0 0 0 0;f
 }
 .panel-header,
 .panel-body {
-  border:north;/*边框线设置*/
+  border:north;/*杈规绾胯缃�*/
 }
 .panel-header {
   padding: 5px;
@@ -18,7 +18,7 @@
   height: 20px;
 }
 .panel-title {
-  background: #dfe0e0;/*导航菜单title色*/
+  background: #dfe0e0;/*瀵艰埅鑿滃崟title鑹�*/
 }
 .panel-header-noborder {
   border-width: 0 0 1px 0;
@@ -35,19 +35,19 @@
   border-width: 0px;
 }
 .panel-with-icon {
-  padding-left: 25px;/*导航标题距左侧图标距离*/
+  padding-left: 25px;/*瀵艰埅鏍囬璺濆乏渚у浘鏍囪窛绂�*/
 }
 .panel-icon,
 .panel-tool {
   position: absolute;
-  top: 35%;/*导航菜单图标*/
+  top: 35%;/*瀵艰埅鑿滃崟鍥炬爣*/
   margin-top: -8px;
-  height: 22px;/*导航菜单图标*/
+  height: 22px;/*瀵艰埅鑿滃崟鍥炬爣*/
   overflow: hidden;
 }
 .panel-icon {
   left: 5px;
-  width: 22px;/*导航菜单图标*/
+  width: 22px;/*瀵艰埅鑿滃崟鍥炬爣*/
 }
 .panel-tool {
   right: 5px;
@@ -107,11 +107,11 @@
 }
 .panel-header,
 .panel-body {
-  border-color: #dfe0e0;/*边框线*/
+  border-color: #dfe0e0;/*杈规绾�*/
 }
 .panel-header {
   background-color: #dfe0e0;
-  background: #dfe0e0;/*导航菜单边框色*/
+  background: #dfe0e0;/*瀵艰埅鑿滃崟杈规鑹�*/
   /*background: -webkit-linear-gradient(top,#EFF5FF 0,#dfe0e0 100%);
   background: -moz-linear-gradient(top,#EFF5FF 0,#dfe0e0 100%);
   background: -o-linear-gradient(top,#EFF5FF 0,#dfe0e0 100%);
@@ -139,11 +139,11 @@
 .accordion .accordion-header {
   border-width: 0 0 1px;
   cursor: pointer;
-  margin-top: 5px;/*菜单导航间隔*/
+  margin-top: 5px;/*鑿滃崟瀵艰埅闂撮殧*/
 }
 .accordion .accordion-body {
   border-width: 0 0 1px;
-  background-color: #ffffff;/*当行菜单展开时背景颜色*/
+  background-color: #ffffff;/*褰撹鑿滃崟灞曞紑鏃惰儗鏅鑹�*/
 }
 .accordion-noborder {
   border-width: 0;
@@ -161,15 +161,15 @@
   background: url('images/accordion_arrows.png') no-repeat -16px 0;
 }
 .accordion {
-  background: #ffffff;/*导航菜单折叠时留白背景色*/
+  background: #ffffff;/*瀵艰埅鑿滃崟鎶樺彔鏃剁暀鐧借儗鏅壊*/
   border-color: #95B8E7;
 }
 .accordion .accordion-header {
-  background: #dfe0e0;/*导航菜单边框*/
+  background: #dfe0e0;/*瀵艰埅鑿滃崟杈规*/
   filter: none;
 }
 .accordion .accordion-header-selected {
-  background: #d7dbde;/*导航菜单选中颜色*/
+  background: #d7dbde;/*瀵艰埅鑿滃崟閫変腑棰滆壊*/
 }
 .accordion .accordion-header-selected .panel-title {
   color: #000000;/**/
@@ -192,6 +192,7 @@
 .window .window-body-noheader {
   border-top-width: 1px;
 }
+
 .window .window-header .panel-icon,
 .window .window-header .panel-tool {
   top: 50%;
@@ -243,11 +244,11 @@
 }
 .window,
 .window .window-body {
-  border-color: #95B8E7;
+  border-color: #8397b0;/*边框线色*/
 }
 .window {
-  background-color: #dfe0e0;
-  background: #dfe0e0 /*dialog边框*/
+  background-color: #8397b0;
+  background: #8397b0 /*dialog边框色*/
 /*  background: -webkit-linear-gradient(top,#EFF5FF 0,#dfe0e0 20%);
   background: -moz-linear-gradient(top,#EFF5FF 0,#dfe0e0 20%);
   background: -o-linear-gradient(top,#EFF5FF 0,#dfe0e0 20%);
@@ -262,6 +263,34 @@
 .window-mask {
   background: #ccc;
 }
+
+.window .l-btn-left{/*自定义*/
+  margin: 0 4px;
+  color:#ffffff;
+  background:#376EA9;
+  border: none;
+}
+.datagrid .l-btn-left{/*自定义*/
+  margin: 0 4px;
+  border: none;
+  border:1px solid #8397b0;
+}
+.window .l-btn {/*自定义*/
+  border: 1px solid #fff;/*按钮边框色*/
+  background: #376EA9;
+}
+.window .l-btn:hover{/*自定义*/
+  background: #2977B5;
+}
+
+.window .panel-title {/*自定义*/
+  background: #8397b0;
+}
+
+.window .panel-header {/*自定义*/
+  background: #8397b0;
+}
+
 .dialog-content {
   overflow: auto;
 }
@@ -284,16 +313,16 @@
 }
 .dialog-toolbar,
 .dialog-button {
-  background: #F4F4F4;
+  background: #8397b0;/*dialog底部颜色*/
 }
 .dialog-toolbar {
   border-bottom: 1px solid #dddddd;
 }
 .dialog-button {
-  border-top: 1px solid #dddddd;
+  border-top: 1px solid #8397b0;/*dialog底部边框线*/
 }
 .textbox {
-  border: 1px solid #95B8E7;
+  border: 1px solid #000;/*文本框颜色*/
   vertical-align: middle;
 }
 .combo {
@@ -343,10 +372,10 @@
 .combo,
 .combo-panel {
   background-color: #ffffff;
-  border: 1px solid #95B8E7;/*下拉框边框色*/
+  border: 1px solid #95B8E7;/*涓嬫媺妗嗚竟妗嗚壊*/
 }
 .combo {
-  border-color: #95B8E7;/*文本边框色*/
+  border-color: #000;/*边框颜色*/
   background-color: #dfe0e0;/**/
 }
 .combo-arrow {
@@ -407,7 +436,7 @@
 }
 .layout-expand .panel-header,
 .layout-expand .panel-body {
-  background: #dfe0e0;/*layout收缩边框颜色*/
+  background: #dfe0e0;/*layout鏀剁缉杈规棰滆壊*/
   filter: none;
   overflow: hidden;
 }
@@ -453,19 +482,19 @@
   background-color: #aac5e7;
 }
 .layout-split-north {
- /*border-bottom: 1px solid #dbefe7;分割线颜色*/
+ /*border-bottom: 1px solid #dbefe7;鍒嗗壊绾块鑹�*/
 }
 .layout-split-south {
-  border-top: 5px solid #dfe0e0;/*分割线颜色*/
+  border-top: 3px solid #dfe0e0;/*分割线颜色�*/
 }
 .layout-split-east {
-  border-left: 5px solid #f3f3f3;/*分割线颜色*/
+  border-left: 3px solid #f3f3f3;/*分割线颜色�*/
 }
 .layout-split-west {
-  border-right: 10px solid #dbefe7;/*分割线颜色*/
-  border-image: -webkit-linear-gradient( #dbefe7, #b1e4e8) 30 30;
-  border-image: -moz-linear-gradient( #dbefe7, #b1e4e8) 30 30;
-  border-image: linear-gradient( #dbefe7, #b1e4e8) 30 30;
+  border-right: 3px solid #474960;/*分割线颜色*/
+  /* border-image: -webkit-linear-gradient( #474960, #b1e4e8) 30 30;
+  border-image: -moz-linear-gradient( #474960, #b1e4e8) 30 30;
+  border-image: linear-gradient( #474960, #b1e4e8) 30 30; */
 }
 .layout-expand {
   background-color: #dfe0e0;
@@ -735,7 +764,7 @@
   background: transparent;
 }
 .tabs-scroller-left {
-  background: #d7dbde url('images/tabs_icons.png') no-repeat 1px center;/*tabs过多时左移背景色*/
+  background: #d7dbde url('images/tabs_icons.png') no-repeat 1px center;/*tabs杩囧鏃跺乏绉昏儗鏅壊*/
 }
 .tabs-scroller-right {
   background: #d7dbde url('images/tabs_icons.png') no-repeat -15px center;/**/
@@ -744,7 +773,7 @@
   background: url('images/tabs_icons.png') no-repeat -34px center;
 }
 .tabs li a.tabs-inner:hover {
-  background: #d7dbde;/*tabs悬停颜色*/
+  background: #d7dbde;/*tabs鎮仠棰滆壊*/
   color: #000000;/**/
   filter: none;
 }
@@ -754,7 +783,7 @@
   background: -webkit-linear-gradient(top,#d7dbde 0,#ffffff 100%);
   background: -moz-linear-gradient(top,#d7dbde 0,#ffffff 100%);
   background: -o-linear-gradient(top,#d7dbde 0,#ffffff 100%);
-  background: #fecf5d;/*tabs选中时背景颜色*/
+  background: #fecf5d;/*tabs选中颜色*/
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#d7dbde,endColorstr=#ffffff,GradientType=0);
 }
@@ -783,18 +812,18 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#f5f5f5,GradientType=1);
 }
 .tabs li a.tabs-inner {
-  color: #000000;/*tab切换时其他tab的字体颜色*/
+  color: #000000;/*tab切换时其他标签页字体颜色*/
   background-color: #dfe0e0;/**/
   background: -webkit-linear-gradient(top,#f5f5f5 0,#dfe0e0 100%);
   background: -moz-linear-gradient(top,#f5f5f5 0,#dfe0e0 100%);
   background: -o-linear-gradient(top,#f5f5f5 0,#dfe0e0 100%);
-  background: #cbc9c9;/*tab切换时其他tab的背景颜色*/
+  background: #cbc9c9;/*tab切换时其他标签页背景颜色*/
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f5f5f5,endColorstr=#dfe0e0,GradientType=0);
 }
 .tabs-header,
 .tabs-tool {
-  background-color: #dfe0e0;/*tabs边框色*/
+  background-color: #dfe0e0;/*tabs杈规鑹�*/
 }
 .tabs-header-plain {
   background: transparent;
@@ -810,7 +839,7 @@
 .tabs-header-bottom .tabs li.tabs-selected a.tabs-inner,
 .tabs-header-left .tabs li.tabs-selected a.tabs-inner,
 .tabs-header-right .tabs li.tabs-selected a.tabs-inner {
-  border-color: #dfe0e0;/*边框线*/
+  border-color: #dfe0e0;/*杈规绾�*/
 }
 .tabs-p-tool a:hover,
 .tabs li a:hover.tabs-close,
@@ -838,6 +867,7 @@
   outline: none;
   text-align: center;
   vertical-align: middle;
+  border:1px solid #8397b0;/*边框色*/
 }
 .l-btn-plain {
   border: 0;
@@ -854,19 +884,22 @@
   position: relative;
   overflow: hidden;
   margin: 0;
+  margin: 0 4px;
   padding: 0;
   vertical-align: top;
+  border-radius: 5px;/*钝角*/
+  background:#fafafa;
 }
 .l-btn-text {
   display: inline-block;
   vertical-align: top;
   width: auto;
   line-height: 24px;
-  font-size: 12px;/*菜单按钮字体大小*/
-  margin-top: 5px;/*菜单按钮外边距*/
+  font-size: 12px;/*鑿滃崟鎸夐挳瀛椾綋澶у皬*/
+  margin-top: 5px;/*鑿滃崟鎸夐挳澶栬竟璺�*/
   padding: 0;
 }
-.l-btn-icon {/*修改了图标的大小*/
+.l-btn-icon {/*淇敼浜嗗浘鏍囩殑澶у皬*/
   display: inline-block;
   width: 19px;
   height: 22px;
@@ -982,7 +1015,7 @@
   border-radius: 5px 5px 5px 5px;
 }
 .l-btn:hover {
-  background: #f5f5f5;/*按钮悬停色*/
+  background: #f5f5f5;/*鎸夐挳鎮仠鑹�*/
   color: #000000;
   /*border: 1px solid #b7d2ff;*/
   filter: none;
@@ -1026,7 +1059,7 @@
 .l-btn-plain-selected:hover {
   background: #ddd;
 }
-.datagrid{/*自增样式*/
+.datagrid{/*鑷鏍峰紡*/
 	border-radius: 13px;
 	border:1px solid #a7aaab;
 }
@@ -1235,7 +1268,7 @@
   background: #ffffff url('images/loading.gif') no-repeat scroll 5px center;
 }
 .datagrid-header,
-.datagrid-td-rownumber {/*表头颜色修改倒数第三排的色彩即可*/
+.datagrid-td-rownumber {/*琛ㄥご棰滆壊淇敼鍊掓暟绗笁鎺掔殑鑹插僵鍗冲彲*/
   background-color: #efefef;
   background: -webkit-linear-gradient(top,#F9F9F9 0,#efefef 100%);
   background: -moz-linear-gradient(top,#F9F9F9 0,#efefef 100%);
@@ -1282,12 +1315,12 @@
 }
 .datagrid-row-over,
 .datagrid-header td.datagrid-header-over {
-  background: #dfe0e0;/*表格悬停颜色*/
+  background: #dfe0e0;/*琛ㄦ牸鎮仠棰滆壊*/
   color: #000000;
   cursor: default;
 }
 .datagrid-row-selected {
-  background: #fecf5d;/*表格选中颜色*/
+  background: #fecf5d;/*琛ㄦ牸閫変腑棰滆壊*/
   color: #000000;
 }
 .datagrid-body .datagrid-editable .datagrid-editable-input {
@@ -1626,7 +1659,7 @@
   color: #444;
 }
 .numberbox {
-  border: 1px solid #95B8E7;
+  border: 1px solid #000;
   margin: 0;
   padding: 0 2px;
   vertical-align: middle;
@@ -2067,9 +2100,6 @@
   position: absolute;
   font-size: 1px;
   display: none;
-}
-.l-btn-left {
-	border: north;/*自定义*/
 }
 .m-btn .l-btn-left .m-btn-line {
   right: 0;
