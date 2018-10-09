@@ -31,15 +31,15 @@ public class WelderServiceImpl implements WelderService {
 			JSONArray ary = new JSONArray();
 			List<Welder> list = wm.getWelderAll(json.getString("STR"));
 			for(int i=0;i<list.size();i++){
-				obj.put("ID", jutil.setValue(list.get(i).getId()));
-				obj.put("NAME",jutil.setValue(list.get(i).getName()));
+				obj.put("WELDERID", jutil.setValue(list.get(i).getId()));
+//				obj.put("NAME",jutil.setValue(list.get(i).getName()));
 				obj.put("WELDERNO",jutil.setValue(list.get(i).getWelderno()));
-				obj.put("ITEMID",jutil.setValue(list.get(i).getIid()));
+/*				obj.put("ITEMID",jutil.setValue(list.get(i).getIid()));
 				obj.put("ITEMNAME",jutil.setValue(list.get(i).getIname()));
 				obj.put("PHONE",jutil.setValue(list.get(i).getPhone()));
 				obj.put("CARDNUM",jutil.setValue(list.get(i).getCardnum()));
 				obj.put("LEVEL",jutil.setValue(list.get(i).getLevel()));
-				obj.put("QUALITY",jutil.setValue(list.get(i).getQuality()));
+				obj.put("QUALITY",jutil.setValue(list.get(i).getQuality()));*/
 				ary.add(obj);
 			}
 			return JSON.toJSONString(ary);

@@ -61,6 +61,17 @@
 		where (d.ftypeid=3 and di.ftypeid=4) and w.fid = #{wid}
 	</select>
 	
+	<select id="getGatherMachine"  resultMap="wmMap">
+		SELECT 
+		g.fid gid,fgather_no,w.fid fid,fequipment_no
+		FROM tb_welding_machine w
+		INNER JOIN tb_gather g ON g.fid = w.fgather_id
+		UNION
+		SELECT 
+		g.fid gid,g.fgather_no,null fid,null fequipment_no FROM tb_gather g 
+		WHERE g.fid NOT IN (SELECT fgather_id FROM tb_welding_machine WHERE fgather_id is not null);
+	</select>
+	
 	<select id="getEquipmentno" resultMap="wmMap">
 		SELECT fid, fequipment_no FROM tb_welding_machine 
 	</select>

@@ -151,4 +151,14 @@ public class WeldingMachineServiceImpl implements WeldingMachineService {
 			return null;
 		}
 	}
+
+	@Override
+	public List<WeldingMachine> getGatherMachine() {
+		try{
+			return wmm.getGatherMachine();
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

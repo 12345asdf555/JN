@@ -309,4 +309,29 @@ public class WeldingMachineWebServiceImpl implements WeldingMachineWebService {
 		}
 	}
 
+	@Override
+	public Object getGatherMachine() {
+		try{
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			List<WeldingMachine> list = wms.getGatherMachine();
+			for(int i=0;i<list.size();i++){
+				if(list.get(i).getGatherId()!=null){
+					obj.put("GATHERID",jutil.setValue(list.get(i).getGatherId().getId()));
+					obj.put("GATHERNO",jutil.setValue(list.get(i).getGatherId().getGatherNo()));
+				}else{
+					obj.put("GATHERID","");
+					obj.put("GATHERNO","");
+				}
+				obj.put("MACHINEID", jutil.setValue(list.get(i).getId()));
+				obj.put("MACHINENO",jutil.setValue(list.get(i).getEquipmentNo()));
+				ary.add(obj);
+			}
+			return JSON.toJSONString(ary);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

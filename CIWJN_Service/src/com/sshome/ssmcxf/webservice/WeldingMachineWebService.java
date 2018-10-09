@@ -63,4 +63,9 @@ public interface WeldingMachineWebService {
 	 * 获取某厂商下的焊机总数
 	 */
 	BigInteger getMachineCountByManu(String object);
+	
+	/**
+	 * 查询所有采集模块和对应焊机
+	 */
+	Object getGatherMachine();
 }
