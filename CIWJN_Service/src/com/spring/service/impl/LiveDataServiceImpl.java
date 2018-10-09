@@ -501,4 +501,14 @@ public class LiveDataServiceImpl implements LiveDataService {
 			return null;
 		}
 	}
+
+	@Override
+	public List<ModelDto> getGatherMachine() {
+		try{
+			return live.getGatherMachine();
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

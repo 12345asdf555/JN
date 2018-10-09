@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.dao.EquipmentManufacturerMapper;
 import com.spring.dao.InsframeworkMapper;
+import com.spring.dao.LiveDataMapper;
 import com.spring.dao.WeldingMachineMapper;
+import com.spring.dto.ModelDto;
 import com.spring.model.EquipmentManufacturer;
 import com.spring.model.WeldingMachine;
 import com.spring.service.WeldingMachineService;
@@ -152,13 +154,4 @@ public class WeldingMachineServiceImpl implements WeldingMachineService {
 		}
 	}
 
-	@Override
-	public List<WeldingMachine> getGatherMachine() {
-		try{
-			return wmm.getGatherMachine();
-		}catch(Exception e){
-			e.printStackTrace();
-			return null;
-		}
-	}
 }
