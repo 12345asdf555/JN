@@ -7,6 +7,7 @@ import com.spring.dto.ModelDto;
 import com.spring.dto.WeldDto;
 import com.spring.model.LiveData;
 import com.spring.model.WeldedJunction;
+import com.spring.model.WeldingMachine;
 
 public interface LiveDataService {
 	/**
@@ -413,4 +414,9 @@ public interface LiveDataService {
 	 * @return
 	 */
 	List<ModelDto> getStandbytimeout(WeldDto dto);
+	
+	/**
+	 * 查询所有采集模块和对应焊机
+	 */
+	List<ModelDto> getGatherMachine();
 }

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.spring.dto.ModelDto;
 import com.spring.dto.WeldDto;
 import com.spring.model.LiveData;
+import com.spring.model.WeldingMachine;
 
 import tk.mybatis.mapper.common.Mapper;
 
@@ -121,4 +122,6 @@ public interface LiveDataMapper extends Mapper<LiveData>{
 	List<ModelDto> getExcessiveBack(@Param("time")String time,@Param("welder")String welder,@Param("junction")String junction);
 	
 	List<ModelDto> getStandbytimeout(@Param("dto")WeldDto dto);
+	
+	List<ModelDto> getGatherMachine();
 }

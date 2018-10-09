@@ -9,11 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.spring.dto.JudgeUtil;
+import com.spring.dto.ModelDto;
 import com.spring.model.EquipmentManufacturer;
 import com.spring.model.Gather;
 import com.spring.model.Insframework;
 import com.spring.model.WeldingMachine;
 import com.spring.model.WeldingMaintenance;
+import com.spring.service.LiveDataService;
 import com.spring.service.MaintainService;
 import com.spring.service.WeldingMachineService;
 import com.sshome.ssmcxf.webservice.WeldingMachineWebService;
@@ -26,6 +28,9 @@ import net.sf.json.JSONObject;
 public class WeldingMachineWebServiceImpl implements WeldingMachineWebService {
 	@Autowired
 	private WeldingMachineService wms;
+	
+	@Autowired
+	private LiveDataService live;
 
 	@Autowired
 	private MaintainService ms;
@@ -303,6 +308,26 @@ public class WeldingMachineWebServiceImpl implements WeldingMachineWebService {
 			BigInteger mid = new BigInteger(json.getString("MANUID"));
 			BigInteger insid = new BigInteger(json.getString("INSFID"));
 			return wms.getMachineCountByManu(mid, insid);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Object getGatherMachine() {
+		try{
+			JSONArray ary = new JSONArray();
+			JSONObject obj = new JSONObject();
+			List<ModelDto> list = live.getGatherMachine();
+			for(int i=0;i<list.size();i++){
+				obj.put("GATHERID",jutil.setValue(list.get(i).getFjunction_id()));
+				obj.put("GATHERNO",jutil.setValue(list.get(i).getIname()));
+				obj.put("MACHINEID",jutil.setValue(list.get(i).getFmachine_id()));
+				obj.put("MACHINENO",jutil.setValue(list.get(i).getWname()));
+				ary.add(obj);
+			}
+			return JSON.toJSONString(ary);
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;

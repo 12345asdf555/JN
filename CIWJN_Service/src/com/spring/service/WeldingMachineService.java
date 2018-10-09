@@ -83,4 +83,5 @@ public interface WeldingMachineService {
 	 * @return
 	 */
 	BigInteger getMachineCountByManu(BigInteger mid, BigInteger id);
+	
 }

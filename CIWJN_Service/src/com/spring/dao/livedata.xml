@@ -2076,4 +2076,14 @@
 		GROUP BY m.fequipment_no
 	</select>
 
+	<select id="getGatherMachine"  resultMap="dtoMap">
+		SELECT 
+		g.fid fjunction_id,fgather_no iname,w.fid fmachine_id,fequipment_no wname
+		FROM tb_welding_machine w
+		INNER JOIN tb_gather g ON g.fid = w.fgather_id
+		UNION
+		SELECT 
+		g.fid fjunction_id,g.fgather_no iname,null fmachine_id,null wname FROM tb_gather g 
+		WHERE g.fid NOT IN (SELECT fgather_id FROM tb_welding_machine WHERE fgather_id is not null);
+	</select>
 </mapper>
