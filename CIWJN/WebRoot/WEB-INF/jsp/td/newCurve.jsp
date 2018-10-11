@@ -47,6 +47,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		#curvediv ul li{
 			padding-top:6px;
 		}
+		.panel-title,.panel-header {
+		    background: #474960;
+		    color:#fff;
+		}
 	</style>
   </head>
   
@@ -54,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<jsp:include  page="../insframeworktree.jsp"/>
 	<div id="bodydiv" region="center"  hide="true"  split="true" title="焊机实时状态监测" style="background: #fff; width:600px;height: 335px;">
 		<div style="float:left; width:100%;height:250px;border:1px solid #C4C4C4;">
-			<p style="text-align: center;color:#777777;font-size: 12pt">设备总数 ：<span id="machinenum" style="color:#fe0002">0</span></p>
+			<p style="text-align: center;color:#777777;font-size: 12pt">设备总数 ：<span id="machinenum" style="color:#8e5c26">0</span></p>
 			<center><hr style="width:95%"/></center>
 			<!-- 饼图 -->
 			<div id="piecharts" style="float:left; height:250px; width:49.5%;"></div>
@@ -80,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<div style="float:left; width:100%;height:auto;border:1px solid #C4C4C4;margin-top:5px;">
-			<div style="float:left; width:100%;height:20px;border-bottom:1px solid #C4C4C4;background-color: #C4C4C4">
+			<div style="float:left; width:100%;height:20px;border-bottom:1px solid #C4C4C4;background-color: #474960;color:#fff">
 				<div style="float:left;text:left;padding-left:20px;">设备监控</div>
 				<div style="float:right;text:right;padding-right:20px;">
 					状态:&nbsp;
@@ -94,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 			<!-- 实时焊机 -->
-			<div id="curve" style="float:left;height:70%; width:99%;padding-left:10px;">
+			<div id="curve" style="float:left;height:70%; width:99%;padding:10px;">
 			</div>
 			<div id="load" style="width:100%;height:100%;"></div>
 		</div>
