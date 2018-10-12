@@ -72,8 +72,8 @@
 	</select>
 	
 	<insert id="addJunction" parameterType="com.spring.model.WeldedJunction" useGeneratedKeys="true" keyProperty="id">
-		insert into tb_welded_junction(fwelded_junction_no,froom_no,fitemId,fstart_time,fend_time) 
-		values(#{weldedJunctionno},#{roomNo},#{iid},#{startTime},#{endTime});
+		insert into tb_welded_junction(fwelded_junction_no,froom_no,fitemId,fstart_time,fend_time,fcreatedate) 
+		values(#{weldedJunctionno},#{roomNo},#{iid},#{startTime},#{endTime},now());
 	</insert>
 	
 	<update id="updateJunction" parameterType="com.spring.model.WeldedJunction">

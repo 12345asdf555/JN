@@ -214,7 +214,7 @@
 	</select>
 	
 	<insert id="addTask" parameterType="com.spring.model.WeldedJunction">
-		insert into tb_welded_junction(fwelded_junction_no,froom_no,fitemId,fstart_time,fend_time) 
-		values(#{weldedJunctionno},#{roomNo},#{iid},#{startTime},#{endTime});
+		insert into tb_welded_junction(fwelded_junction_no,froom_no,fitemId,fstart_time,fend_time,fcreatedate) 
+		values(#{weldedJunctionno},#{roomNo},#{iid},#{startTime},#{endTime},now());
 	</insert>
 </mapper>
