@@ -33,10 +33,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-  	<div id="body">
-  		<div id="load" style="width:100%;height:100%;"></div>
-  		<input id="userid"  name="userid" value="${userid}" type="hidden"/>
-  		<div style="float:left">
+ 		<div class="functiondiv">
+		<div> 
  			所属作业区：
 			<select class="easyui-combobox" name="zitem" id="zitem" data-options="editable:false"></select>
 			所属班组：
@@ -47,14 +45,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<option value="1">已完成</option>
 				<option value="0">进行中</option>
 			</select>
-			<!-- <a href="javascript:serach();" class="easyui-linkbutton" iconCls="icon-select" >搜索</a> -->
-  		</div>
-  		<div class="functiondiv">
-			<div> 
-				<lable><span class="required"></span>班组信息</lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input class="easyui-textbox" id="XXX"  name="XXX" value="${userinsframework}" readonly="readonly"/>
-			</div>
+			<div style="float:right"><span class="required"></span>班组信息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input class="easyui-textbox" id="XXX"  name="XXX" value="${userinsframework}" readonly="readonly"/></div>
 		</div>
+	</div>
+  	<div id="body">
+  		<div id="load" style="width:100%;height:100%;"></div>
+  		<input id="userid"  name="userid" value="${userid}" type="hidden"/>
 		<table id="weldTaskTable" style="table-layout: fixed; width:100%;"></table>
 		<!-- 自定义多条件查询 -->
 	    <div id="searchdiv" class="easyui-dialog" style="width:800px; height:400px;" closed="true" buttons="#searchButton" title="自定义条件查询">

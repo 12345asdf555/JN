@@ -32,11 +32,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
 
   <body>
-        <div id="body">
-		    <div class="functiondiv">
-		        <a href="javascript:saveAuthority();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	    <div class="functiondiv">
+	    	<div>
+		    	<a href="javascript:saveAuthority();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		        <a href="javascript:insertSearchAuthority();" class="easyui-linkbutton" iconCls="icon-select">查找</a> 
-		    </div>
+	    	</div>
+	    </div>
+        <div id="body">
 	        <div data-options="region:'center',title:'信息',iconCls:'icon-ok'">
 	        <table id="dg" style="table-layout:fixed;width:100%"></table>
         </div>

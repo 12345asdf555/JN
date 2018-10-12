@@ -36,10 +36,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-  	<div id="body">
-	  	
-	  	<input id="userinsall"  name="userinsall" value="${userinsall}" type="hidden" />
-	  	<div style="float:left">
+  	<div class="functiondiv">
+		<div>
 			任务状态：
 			<select class="easyui-combobox" name="status" id="status" data-options="editable:false">
 				<option value="999">请选择</option>
@@ -47,16 +45,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<option value="0">进行中</option>
 				<option value="3">未领取</option>
 			</select>
-  		</div>
-	  	<div class="functiondiv">
-			<div>
-				<a href="javascript:addWeldedjunction();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-import">导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="javascript:openDayin();" class="easyui-linkbutton" iconCls="icon-print">打印</a>&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="javascript:insertsearchWT();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
-			</div>
+			<a href="javascript:addWeldedjunction();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-import">导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:openDayin();" class="easyui-linkbutton" iconCls="icon-print">打印</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:insertsearchWT();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
 		</div>
-		
+	</div>
+  	<div id="body">
+	  	<input id="userinsall"  name="userinsall" value="${userinsall}" type="hidden" />
 		<div id="importdiv" class="easyui-dialog" style="width:300px; height:200px;" closed="true">
 			<form id="importfm" method="post" class="easyui-form" data-options="novalidate:true" enctype="multipart/form-data"> 
 				<div>

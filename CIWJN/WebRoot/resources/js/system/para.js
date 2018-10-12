@@ -5,6 +5,7 @@
 	
 	$(function(){
         $("#fm").form("disableValidation");
+        $("#id").next().hide();
 		$.ajax({  
 		    type : "post",  
 		    async : false,

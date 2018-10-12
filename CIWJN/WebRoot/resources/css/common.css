@@ -2,15 +2,16 @@
 /* 头部 */
 body{background: #ffffff; }
 .wrap{width: 1024px;margin: auto;}
-.head-wrap{position: relative;width: 100%;height: 98px;background: #fff;
-background: -webkit-linear-gradient(left, #dbefe7 , #a0cad6); 
-background: -o-linear-gradient(right, #dbefe7 , #a0cad6); 
-background: -moz-linear-gradient(right, #dbefe7 , #a0cad6); /* Firefox 3.6 - 15 */
-background: linear-gradient(to right, #dbefe7 , #a0cad6); 
-FILTER:progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#dbefe7,endColorStr=#a0cad6); /*IE 6 7 8*/
+.head-wrap{position: relative;width: 100%;height: 97px;border-bottom:1px solid #474960;background: #fff;
+background: -webkit-linear-gradient(top, #474960 , #d9dbdb); 
+background: -o-linear-gradient(bottom, #474960 , #d9dbdb); 
+background: -moz-linear-gradient(bottom, #474960 , #d9dbdb); /* Firefox 3.6 - 15 */
+background: linear-gradient(to bottom, #474960 , #d9dbdb); 
+FILTER:progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#474960,endColorStr=#d9dbdb); /*IE 6 7 8*/
 }
 .head-wrap .logo{display: inline-block;position: absolute;float:left;top: 15px;left:50px;width: 430px;height: 80px;background-size:contain;}
-.head-wrap .search-wrap{position: absolute;top: 30px;right: 40px;width: 220px;height: 30px;color: #0254ad;}
+.head-wrap .search-wrap{position: absolute;bottom: 0px;right: 0px;width: 220px;height: 30px;color: #474960;}
+.head-wrap .time{position: absolute;top: 10px;right: 0px;width: 220px;height: 30px;color: #ffffff;font-size:14px}
 
 /* 导航栏 */
 .nav-wrap{width: 240px;height: 430px;margin: 30px 0 15px 0;background:#FAFAFA;color: #45638A;}
@@ -25,16 +26,15 @@ FILTER:progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#
 .nav-wrap ul li a.ls4{padding-left: 45px;}
 
 .tenghan-bottom{
-	height:30px;
-	padding-top: 20px; 
+	height:55px;
 	position:fixed;
     bottom:0;
     width:100%;
-    background: -webkit-linear-gradient(left, #b1e4e8 , #a0cad6);
-	background: -o-linear-gradient(right, #b1e4e8 , #a0cad6); 
-	background: -moz-linear-gradient(right, #b1e4e8 , #a0cad6); /* Firefox 3.6 - 15 */
+    background: #474960;
+	/* background: -o-linear-gradient(right, #b1e4e8 , #a0cad6); 
+	background: -moz-linear-gradient(right, #b1e4e8 , #a0cad6); Firefox 3.6 - 15
 	background: linear-gradient(to right, #b1e4e8 , #a0cad6); 
-	FILTER:progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#b1e4e8,endColorStr=#a0cad6); /*IE 6 7 8*/
+	FILTER:progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#b1e4e8,endColorStr=#a0cad6);  *//*IE 6 7 8*/
 }
 
 .menudiv{

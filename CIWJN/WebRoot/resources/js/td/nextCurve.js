@@ -46,6 +46,15 @@ var chart1;
 var time1 = 0,time2 = 0;
 var led = [ "0,1,2,4,5,6", "2,5", "0,2,3,4,6", "0,2,3,5,6", "1,2,3,5", "0,1,3,5,6", "0,1,3,4,5,6", "0,2,5", "0,1,2,3,4,5,6", "0,1,2,3,5,6" ];
 $(function() {
+	var type = $("#type").val(),imgnum=0;
+	if(type==41){
+		imgnum = 1;
+	}else if(type==42){
+		imgnum = 2;
+	}else if(type==43){
+		imgnum = 3;
+	}
+	$("#mrjpg").attr("src", "resources/images/welder_4"+imgnum+".png");
 	var livewidth = $("#livediv").width() * 0.9;
 	var liveheight = $("#livediv").height() / 2;
 	$("#body31").width(livewidth);
@@ -53,27 +62,6 @@ $(function() {
 	$("#body32").width(livewidth);
 	$("#body32").height(liveheight);
 	var width = $("#treeDiv").width();
-	$(".easyui-layout").layout({
-		onCollapse : function() {
-			$("#dg").datagrid({
-				height : $("#body").height(),
-				width : $("#body").width()
-			})
-		},
-		onExpand : function() {
-			$("#dg").datagrid({
-				height : $("#body").height(),
-				width : $("#body").width()
-			})
-		}
-	});
-	$("#myTree").tree({
-		onClick : function(node) {
-			$("#dg").datagrid('load', {
-				"parent" : node.id
-			})
-		}
-	})
 	$.ajax({
 		type : "post",
 		async : false,
@@ -136,9 +124,9 @@ $(function() {
 					time2 = worktime.time;
 				}
 				var t1 = secondToDate(time1);
-			    $("#r3").html(t1);
+			    $("#r3").val(t1);
 			    var t2 = secondToDate(time2);
-			    $("#r4").html(t2);
+			    $("#r4").val(t2);
 			}
 		},
 		error : function(errorMsg) {
@@ -391,7 +379,6 @@ function volcurve() {
 			data : (function() {
 				// generate an array of random data
 				var data = [],
-					/*			                time = new Date(Date.parse("0000-00-00 00:00:00")),*/
 					i;
 				for (i = -19; i <= 0; i += 1) {
 					data.push({
@@ -419,16 +406,15 @@ function iview() {
 		if (parseInt(redata.substring(4 + i, 8 + i),10) == $("#machineid").val()) {
 		    time1++;
 		    var t1 = secondToDate(time1);
-		    $("#r3").html(t1);
+		    $("#r3").val(t1);
 		    if(redata.substring(0 + i, 2 + i)!="00"){
 			    time2++;
 			    var t2 = secondToDate(time2);
-			    $("#r4").html(t2);
+			    $("#r4").val(t2);
 		    }
 			ele.push(parseInt(redata.substring(12 + i, 16 + i), 10));
 			vol.push(parseFloat((parseInt(redata.substring(16 + i, 20 + i), 10) / 10).toFixed(2)));
 			var ttme = redata.substring(20 + i, 39 + i);
-			//						time.push(Date.parse(redata.substring(20+i, 39+i)));
 			ttme = ttme.replace(/-/g, '/');
 			time.push(Date.parse(new Date(ttme)));
 			machstatus.push(redata.substring(0 + i, 2 + i));
@@ -441,8 +427,8 @@ function iview() {
 				volcurve();
 				symbol++;
 			}
-			$("#r13").html((maxele + minele) / 2);
-			$("#r14").html((maxvol + minvol) / 2);
+			$("#r13").val((maxele + minele) / 2);
+			$("#r14").val((maxvol + minvol) / 2);
 			$("#c1").html(parseInt(redata.substring(12 + i, 16 + i), 10));
 			$("#c2").html((parseInt(redata.substring(16 + i, 20 + i), 10) / 10).toFixed(1));
 			for (var k = 0; k < welderName.length; k++) {
@@ -456,106 +442,114 @@ function iview() {
 				}
 			}
 			$("#l2").html(worktime.machineno);
+			var type = $("#type").val(),imgnum=0;;
+			if(type==41){
+				imgnum = 1;
+			}else if(type==42){
+				imgnum = 2;
+			}else if(type==43){
+				imgnum = 3;
+			}
 			if (time.length != 0 && z < time.length) {
 				var mstatus = redata.substring(0 + i, 2 + i);
 				switch (mstatus) {
 				case "00":
 					$("#l5").val("待机");
 					$("#l5").css("background-color", "#55a7f3");
-					$("#mrjpg").attr("src", "resources/images/welder_02.png");
+					$("#mrjpg").attr("src", "resources/images/welder_2"+imgnum+".png");
 					break;
 				case "01":
 				    var t2 = secondToDate(time2);
-				    $("#r4").html(t2);
+				    $("#r4").val(t2);
 				    time2++;
 					$("#l5").val("E-010 焊枪开关OFF等待");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "02":
 					$("#l5").val("E-000工作停止");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "03":
 					$("#l5").val("焊接");
 					$("#l5").css("background-color", "#7cbc16");
-					$("#mrjpg").attr("src", "resources/images/welder_01.png");
+					$("#mrjpg").attr("src", "resources/images/welder_1"+imgnum+".png");
 					break;
 				case "04":
 					$("#l5").val("电流过低");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "05":
 					$("#l5").val("收弧");
 					$("#l5").css("background-color", "#7cbc16");
-					$("#mrjpg").attr("src", "resources/images/welder_01.png");
+					$("#mrjpg").attr("src", "resources/images/welder_1"+imgnum+".png");
 					break;
 				case "06":
 					$("#l5").val("电流过高");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "07":
 					$("#l5").val("启弧");
 					$("#l5").css("background-color", "#7cbc16");
-					$("#mrjpg").attr("src", "resources/images/welder_01.png");
+					$("#mrjpg").attr("src", "resources/images/welder_1"+imgnum+".png");
 					break;
 				case "08":
 					$("#l5").val("电压过低");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "09":
 					$("#l5").val("电压过高");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "10":
 					$("#l5").val("E-100控制电源异常");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "15":
 					$("#l5").val("E-150一次输入电压过高");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "16":
 					$("#l5").val("E-160一次输入电压过低");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "20":
 					$("#l5").val("E-200一次二次电流检出异常");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "21":
 					$("#l5").val("E-210电压检出异常");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "22":
 					$("#l5").val("E-220逆变电路反馈异常");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "30":
 					$("#l5").val("E-300温度异常");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "70":
 					$("#l5").val("E-700输出过流异常");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				case "71":
 					$("#l5").val("E-710输入缺相异常");
 					$("#l5").css("background-color", "#fe0002");
-					$("#mrjpg").attr("src", "resources/images/welder_03.png");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
 				}
 				var x = time[z],
@@ -603,12 +597,8 @@ window.onresize = function() {
 
 //改变表格高宽
 function domresize() {
-	$("#dg").datagrid('resize', {
-		height : $("#body").height(),
-		width : $("#body").width()
-	});
-	var livewidth = $("body").width() * 0.9;
-	var liveheight = ($("body").height()-250) / 2;
+	var livewidth = $("#livediv").width() * 0.9-10;
+	var liveheight = $("#livediv").height() * 0.5-10;
 	$("#body31").width(livewidth);
 	$("#body31").height(liveheight);
 	$("#body32").width(livewidth);
@@ -709,21 +699,30 @@ function activeLastPointToolip1(chart) {
 }
 
 
-/*setInterval(function(){
-	if($("#l5").val()!="关机"){
-	    var t1 = secondToDate(time1);
-	    $("#r3").html(t1);
-	}
-	if($("#l5").val()!="关机" && $("#l5").val()!="待机"){
-	    var t2 = secondToDate(time2);
-	    $("#r4").html(t2);
-	}
-    time1++;
-    time2++;
-},1000)*/
 function secondToDate(result) {
 	var h = Math.floor(result / 3600) < 10 ? '0' + Math.floor(result / 3600) : Math.floor(result / 3600);
 	var m = Math.floor((result / 60 % 60)) < 10 ? '0' + Math.floor((result / 60 % 60)) : Math.floor((result / 60 % 60));
 	var s = Math.floor((result % 60)) < 10 ? '0' + Math.floor((result % 60)) : Math.floor((result % 60));
 	return result = h + ":" + m + ":" + s;
 }
+
+//显示系统当前时间
+setInterval(function(){
+	var date =  new Date();
+	year = date.getFullYear();
+	month = date.getMonth() + 1;
+	day = date.getDate();
+	hours = date.getHours();
+	oldminutes = date.getMinutes();
+	oldseconds = date.getSeconds();
+	seconds = oldseconds;
+	minutes = oldminutes;
+	if(oldminutes < 10){
+		minutes = "0" + oldminutes;
+	}
+	if(seconds < 10){
+		seconds = "0" + oldseconds;
+	}
+	$("#systemtime").html(year + "-" + month + "-" + day + "  " + hours + ":" + minutes + ":" + seconds);
+
+},1000);

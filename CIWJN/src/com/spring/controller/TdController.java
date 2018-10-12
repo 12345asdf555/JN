@@ -77,8 +77,10 @@ public class TdController {
 		lm.getUserId(request);
 	    String value = request.getParameter("value");
 	    String valuename = request.getParameter("valuename");
+	    String type = request.getParameter("type");
 	    request.setAttribute("value", value);
 	    request.setAttribute("valuename", valuename);
+	    request.setAttribute("type", type);
 		return "td/nextCurve";
 	}
 	
@@ -456,6 +458,7 @@ public class TdController {
 					json.put("fposition", td.getFposition());
 					json.put("finsid", td.getFci());
 					json.put("finsname", td.getFcn());
+					json.put("type", td.getTypeid());
 					ary.add(json);
 				}
 			}catch(Exception e){
@@ -477,6 +480,7 @@ public class TdController {
 						json.put("fposition", td.getFposition());
 						json.put("finsid", td.getFci());
 						json.put("finsname", td.getFcn());
+						json.put("type", td.getTypeid());
 						ary.add(json);
 					}
 				}catch(Exception e){
@@ -494,6 +498,7 @@ public class TdController {
 								json.put("fposition", td.getFposition());
 								json.put("finsid", td.getFci());
 								json.put("finsname", td.getFcn());
+								json.put("type", td.getTypeid());
 								ary.add(json);
 							}
 						}

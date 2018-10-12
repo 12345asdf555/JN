@@ -76,10 +76,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div id="welder" style="height:180px;width:100%;overflow:auto;"></div>
   			</div>
   		</div>
-  		
-  
-<!-- 	<div style="height:20%;width:100%;"></div> -->
-<!-- 	<div id="person" style="float:left;height:70%;width:48%;"></div> -->
-<!-- 	<div id="welder" style="float:right;height:70%;width:48%;"></div> -->
   </body>
 </html>

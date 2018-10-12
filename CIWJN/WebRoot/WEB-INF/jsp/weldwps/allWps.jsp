@@ -37,13 +37,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body >
+  <div>
+  	<div class="functiondiv">
+  		<div>
+	       	<a href="javascript:addWps();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	       	<a href="javascript:insertSearchWps();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	       	<a href="javascript:selectWps()" class="easyui-linkbutton" iconCls="icon-select">工艺下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	       	<a href="javascript:history()" class="easyui-linkbutton" iconCls="icon-select" >下发历史</a>
+       	</div>
+   	</div>
+  </div>
    <div id="body">
-        <div class="functiondiv">
-        	<a href="javascript:addWps();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        	<a href="javascript:insertSearchWps();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        	<a href="javascript:selectWps()" class="easyui-linkbutton" iconCls="icon-select">工艺下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        	<a href="javascript:history()" class="easyui-linkbutton" iconCls="icon-select" >下发历史</a>
-    	</div>
 	  	<div align="center">
         	<table id="dg" style="table-layout:fixed;width:100%"></table>
 		</div>

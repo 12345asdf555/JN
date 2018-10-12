@@ -36,6 +36,33 @@ a{text-decoration:none;outline:none;}
   	display: inline-block;
   	text-align: right;
 }
+
+.fitems {
+  	font-size:14px;
+	padding-bottom: 8px;
+ 	text-align: right;
+ 	padding-right:130px;
+ 	left:0px;
+}
+
+.fitems lable{
+  	line-height: 30px;
+  	display: inline-block;
+  	text-align: right;
+}
+
+.paramdiv {
+	padding-bottom: 10px;
+ 	text-align: right;
+ 	padding-right:50px;
+}
+
+.paramdiv lable{
+  	width: 120px;
+  	line-height: 30px;
+  	display: inline-block;
+  	text-align: right;
+}
 .mainfitem{
 	padding-bottom: 10px;
  	text-align: center;
@@ -49,7 +76,7 @@ a{text-decoration:none;outline:none;}
 }
 
 .content{
-	border: 1px solid #48A1E5;
+	border: 1px solid #000;
 }
 
 .buttonoption{
@@ -75,7 +102,7 @@ select{
 }
 
 select {
-    border: solid 1px #48A1E5;
+    border: solid 1px #000;
     appearance:none;
     -moz-appearance:none;
     -webkit-appearance:none;
@@ -121,13 +148,14 @@ select::-ms-expand {
 	color:red;
 }
 #body{
-	height: 87%;margin: 20px;margin-bottom: 50px;
+	height: 87%;padding: 20px;
 }
 .functiondiv{
-	float:right;margin-bottom: 5px;
+	float:left;margin-bottom: 8px;background: #f2f2f2;width:100%;
 }
-.functionleftdiv{
-	float:left;margin-bottom: 5px;
+.functiondiv div{
+	padding: 8px;
+	padding-left:18px;
 }
 #chartLoading{ 
 	display: none; 

@@ -23,6 +23,7 @@ public class Td {
 	private String fcn;
 	private double time;
 	private double worktime;
+	private int typeid;
 	public Td(){
 		super();
 	}
@@ -158,7 +159,17 @@ public class Td {
 	public void setWorktime(double worktime) {
 		this.worktime = worktime;
 	}
-	public Td(int id,double electricity,double voltage,String fposition,String fwelder_no,String fname,String fequipment_no,String finsframework_id,String fstatus_id,int fpt,int fpp,int fpi, int fdt,int fdp,int fdi,int fct,int fci,String fcn,String fdn,String fpn) {
+	
+	public int getTypeid() {
+		return typeid;
+	}
+	public void setTypeid(int typeid) {
+		this.typeid = typeid;
+	}
+	public Td(int id, double electricity, double voltage, String fposition, String fwelder_no, String fname,
+			String fstatus_id, String fequipment_no, String finsframework_id, int fpt, int fpi, int fpp, String fpn,
+			int fdt, int fdp, int fdi, String fdn, int fci, int fct, String fcn, double time, double worktime,
+			int typeid) {
 		super();
 		this.id = id;
 		this.electricity = electricity;
@@ -166,19 +177,22 @@ public class Td {
 		this.fposition = fposition;
 		this.fwelder_no = fwelder_no;
 		this.fname = fname;
+		this.fstatus_id = fstatus_id;
 		this.fequipment_no = fequipment_no;
 		this.finsframework_id = finsframework_id;
-		this.fstatus_id = fstatus_id;
 		this.fpt = fpt;
-		this.fpp = fpp;
 		this.fpi = fpi;
+		this.fpp = fpp;
+		this.fpn = fpn;
 		this.fdt = fdt;
 		this.fdp = fdp;
 		this.fdi = fdi;
-		this.fct = fct;
-		this.fci = fci;
-		this.fcn = fcn;
 		this.fdn = fdn;
-		this.fpn = fpn;
+		this.fci = fci;
+		this.fct = fct;
+		this.fcn = fcn;
+		this.time = time;
+		this.worktime = worktime;
+		this.typeid = typeid;
 	}
 }
