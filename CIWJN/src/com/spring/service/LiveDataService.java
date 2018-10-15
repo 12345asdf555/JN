@@ -442,11 +442,31 @@ public interface LiveDataService {
 	 */
 	List<ModelDto> getWeldingmachineList(WeldDto dto);
 	
-
 	/**
 	 * 获取焊工排行前10（最高，最低）
 	 * @param dto
 	 * @return
 	 */
 	List<ModelDto> getWelderList(WeldDto dto);
+	
+	/**
+	 * 获取月度焊接时长
+	 * @param year
+	 * @return
+	 */
+	List<ModelDto> getMonthWorkTime(BigInteger parent, int year);
+	
+	/**
+	 * 获取月度任务数
+	 * @param year
+	 * @return
+	 */
+	List<ModelDto> getMonthJunctionNum(BigInteger parent, int year);
+	
+	/**
+	 * 获取月度完成任务数
+	 * @param year
+	 * @return
+	 */
+	List<ModelDto> getMonthJunctionOkNum(BigInteger parent, int year);
 }

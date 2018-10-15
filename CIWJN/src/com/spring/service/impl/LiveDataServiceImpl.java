@@ -351,4 +351,19 @@ public class LiveDataServiceImpl implements LiveDataService {
 		return live.getWelderList(dto);
 	}
 
+	@Override
+	public List<ModelDto> getMonthWorkTime(BigInteger parent,int year) {
+		return live.getMonthWorkTime(parent,"'"+year+"%'");
+	}
+
+	@Override
+	public List<ModelDto> getMonthJunctionNum(BigInteger parent, int year) {
+		return live.getMonthJunctionNum(parent,"'"+year+"%'");
+	}
+
+	@Override
+	public List<ModelDto> getMonthJunctionOkNum(BigInteger parent, int year) {
+		return live.getMonthJunctionOkNum(parent,"'"+year+"%'");
+	}
+
 }

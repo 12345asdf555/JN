@@ -54,6 +54,12 @@ function editWeldingMachine(){
 		$('#validgid').val(row.gatherId);
 		$('#validinsf').val(row.iId);
 		$('#fm').form('load', row);
+		var str = $("#gid").html();
+		str += "<option value=\"" + row.gid + "\" >"  
+		        + row.gatherId + "</option>";
+		$("#gid").html(str);
+		$("#gid").combobox();
+		$("#gid").combobox("select", row.gid);
 		url = "weldingMachine/editWeldingMachine?wid="+row.id;
 	}
 }

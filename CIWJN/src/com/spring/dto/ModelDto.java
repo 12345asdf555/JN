@@ -56,7 +56,21 @@ public class ModelDto {
 	private BigInteger hous;//用来获取工时的总值
 	private String starttime;
 	private String endtime;
+	private int month;
+	private int total;
 	
+	public int getTotal() {
+		return total;
+	}
+	public void setTotal(int total) {
+		this.total = total;
+	}
+	public int getMonth() {
+		return month;
+	}
+	public void setMonth(int month) {
+		this.month = month;
+	}
 	public String getNextwallThickness() {
 		return nextwallThickness;
 	}

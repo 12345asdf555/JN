@@ -107,6 +107,8 @@
        	<result property="jidgather" column="jidgather"></result>
        	<result property="starttime" column="starttime"></result>
        	<result property="endtime" column="endtime"></result>
+       	<result property="month" column="month"></result>
+       	<result property="total" column="total"></result>
     </resultMap>
     
 	<!-- 公司焊接工时 -->
@@ -798,5 +800,46 @@
 		</if>
 		LIMIT 10
 	</select>
-
+	
+	<!-- 获取月度焊接时长 -->
+	<select id="getMonthWorkTime" resultMap="dtoMap">
+		SELECT sum(fworktime)/60/60 time, DATE_FORMAT( fstarttime, '%m' ) month FROM tb_work w
+		INNER JOIN tb_insframework i on i.fid = w.fitemid
+		LEFT join tb_insframework ins on ins.fid = i.fparent
+		LEFT join tb_insframework insf on insf.fid = ins.fparent
+		WHERE fstarttime like ${year}
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		group by month
+	</select>
+	
+	<!-- 获取月度任务数 -->
+	<select id="getMonthJunctionNum" resultMap="dtoMap">
+		SELECT count(j.fid) total,date_format(fcreatedate,'%m') month FROM tb_welded_junction j INNER JOIN tb_insframework i on i.fid = j.fitemId
+		LEFT join tb_insframework ins on ins.fid = i.fparent
+		LEFT join tb_insframework insf on insf.fid = ins.fparent
+		WHERE fcreatedate like ${year}
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		group by month
+	</select>
+	
+	<!-- 获取月度完成任务数 -->
+	<select id="getMonthJunctionOkNum" resultMap="dtoMap">
+		select count(num) total,month from (
+		SELECT DISTINCT(ftaskid) num,date_format(frealendtime,'%m') month FROM tb_taskresult t
+		INNER JOIN tb_welded_junction j on t.ftaskid = j.fid
+		INNER JOIN tb_insframework i on i.fid = j.fitemId
+	    LEFT join tb_insframework ins on ins.fid = i.fparent
+	    LEFT join tb_insframework insf on insf.fid = ins.fparent
+        WHERE frealendtime like ${year}
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		group by ftaskid,fmachineid,fwelderid,month
+		)temp
+		
+	</select>
 </mapper>

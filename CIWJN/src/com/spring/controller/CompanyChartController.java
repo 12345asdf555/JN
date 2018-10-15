@@ -1,6 +1,8 @@
 package com.spring.controller;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -1117,4 +1119,121 @@ public class CompanyChartController {
 		return obj.toString();
 	}
 
+	/**
+	 * 获取月度焊接时长
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("getMonthWorkTime")
+	@ResponseBody
+	public String getMonthWorkTime(HttpServletRequest request){
+		SimpleDateFormat y_sdf = new SimpleDateFormat("yyyy");
+		SimpleDateFormat m_sdf = new SimpleDateFormat("MM");
+        Date date = new Date();
+        int year = Integer.parseInt(y_sdf.format(date));
+        int month = Integer.parseInt(m_sdf.format(date));
+		//数据权限处理
+		BigInteger uid = lm.getUserId(request);
+		String afreshLogin = (String)request.getAttribute("afreshLogin");
+		if(iutil.isNull(afreshLogin)){
+			return "0";
+		}
+		BigInteger parent = insm.getUserInsfId(uid);
+		
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject json = new JSONObject();
+		try{
+			List<ModelDto> list = lm.getMonthWorkTime(parent, year);
+			for(int i=1;i<=month;i++){
+				double time = 0;
+				for(int j=0;j<list.size();j++){
+					if(i == list.get(j).getMonth()){
+						time = (double)Math.round(list.get(j).getTime()*100)/100;
+					}
+				}
+				json.put("time", time);
+				json.put("month", i + "月");
+				ary.add(json);
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	/**
+	 * 获取生产数据概况
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("getMonthTask")
+	@ResponseBody
+	public String getMonthTask(HttpServletRequest request){
+		SimpleDateFormat y_sdf = new SimpleDateFormat("yyyy");
+		SimpleDateFormat m_sdf = new SimpleDateFormat("MM");
+        Date date = new Date();
+        int year = Integer.parseInt(y_sdf.format(date));
+        int month = Integer.parseInt(m_sdf.format(date));
+		//数据权限处理
+		BigInteger uid = lm.getUserId(request);
+		String afreshLogin = (String)request.getAttribute("afreshLogin");
+		if(iutil.isNull(afreshLogin)){
+			return "0";
+		}
+		BigInteger parent = insm.getUserInsfId(uid);
+		
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject json = new JSONObject();
+		JSONArray arys = new JSONArray();
+		JSONObject jsons = new JSONObject();
+		try{
+			List<ModelDto> list1 = lm.getMonthJunctionNum(parent, year);
+			List<ModelDto> list2 = lm.getMonthJunctionOkNum(parent, year);
+			for(int i=1;i<=month;i++){
+				double tasknum = 0, taskoknum = 0, overrate = 0;
+				for(int j=0;j<list1.size();j++){
+					if(i == list1.get(j).getMonth()){
+						tasknum = list1.get(j).getTotal();
+					}
+				}
+				for(int j=0;j<list2.size();j++){
+					if(i == list2.get(j).getMonth()){
+						taskoknum = list2.get(j).getTotal();
+					}
+				}
+				json.put("tasknum", tasknum);
+				json.put("taskoknum", taskoknum);
+				if(tasknum != 0){
+					overrate = (double)Math.round(taskoknum/tasknum*10000)/100;
+				}
+				json.put("overrate", overrate);
+				json.put("month", i + "月");
+				ary.add(json);
+			}
+			String [] str = {"任务数","完成数","完成率"};
+			for(int i=0;i<str.length;i++){
+				for(int j=0;j<ary.size();j++){
+					JSONObject js = (JSONObject)ary.get(j);
+					if(i==0){
+						jsons.put("a"+j, Double.parseDouble(js.getString("tasknum")));
+					}else if(i==1){
+						jsons.put("a"+j, Double.parseDouble(js.getString("taskoknum")));
+					}else{
+						jsons.put("a"+j, Double.parseDouble(js.getString("overrate")));
+					}
+				}
+				jsons.put("title", str[i]);
+				arys.add(jsons);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
+		obj.put("rows", arys);
+		return obj.toString();
+	}
 }
