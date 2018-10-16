@@ -188,6 +188,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:close2();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		
+		<!--评价 -->
+		<div id="mdlg" class="easyui-dialog" style="width: 380px; height: 400px; padding:3px 6px" closed="true" buttons="#mdlg-buttons">
+			<form id="mfm" class="easyui-form" method="post" data-options="novalidate:true"> 
+				<div class="fitem">
+					<lable><span class="required">*</span>评价等级</lable>
+					<select class="easyui-combobox" id="resultid"  name="resultid" data-options="required:true,editable:false"></select>
+				</div>
+				<div class="fitem">
+          			<lable>评价</lable>
+          			<textarea name="result" id="result" style="height:60px;width:150px"></textarea>
+       			</div> 
+			</form>
+		</div>
+		<div id="mdlg-buttons">
+			<a href="javascript:saveconment();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+			<a href="javascript:dlgclose('mdlg');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+		</div>
+		
 		<div id="load" style="width:100%;height:100%;"></div>
 	</div>
 	<style type="text/css">

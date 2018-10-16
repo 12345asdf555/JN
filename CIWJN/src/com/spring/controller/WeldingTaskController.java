@@ -193,6 +193,12 @@ public class WeldingTaskController {
 //				json.put("quali", w.getExternalDiameter());
 				json.put("dtoTime1",w.getStartTime());
 				json.put("dtoTime2", w.getEndTime());
+				json.put("realStartTime", w.getCreatTime());
+				json.put("realEndTime", w.getUpdateTime());
+				json.put("taskResultId", w.getDyne());
+				json.put("resultid", w.getUnit());
+				json.put("result", w.getSystems());
+				json.put("resultName", w.getChildren());
 				ary.add(json);
 			}
 		}catch(Exception e){

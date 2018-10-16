@@ -68,10 +68,11 @@
    LEFT JOIN tb_taskresult r on r.ftaskid=j.fid
    LEFT JOIN tb_welder ww ON r.fwelderid=ww.fid
 	WHERE 1=1 AND (r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid,fwelderid,fmachineid) OR r.foperatetype IS null) -->
-	SELECT j.fid,j.fwelded_junction_no,j.froom_no,dd.fvaluename farea,j.fstart_time,j.fend_time,i.fid iid,i.fname iname,r.foperatetype fmaterial FROM tb_welded_junction j 
+	SELECT j.fid,j.fwelded_junction_no,j.froom_no,dd.fvaluename farea,j.fstart_time,j.fend_time,i.fid iid,i.fname iname,r.foperatetype fmaterial,r.frealstarttime fcreatetime,r.frealendtime fupdatetime,r.fid fdyne,r.fresultid funit,r.fresult fsystems,dic.fvaluename fchildren FROM tb_welded_junction j 
 	LEFT JOIN tb_dictionary dd ON j.froom_no=dd.fvalue AND dd.ftypeid=7 
 	INNER JOIN tb_insframework i ON j.fitemId = i.fid 
     LEFT JOIN tb_taskresult r on r.ftaskid=j.fid
+    LEFT JOIN tb_dictionary dic ON r.fresultid=dic.fvalue AND dic.ftypeid=16
 	WHERE 1=1 AND (r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid) OR r.foperatetype IS null)
 	<if test="str!=null and str!=''">
 			and ${str}
