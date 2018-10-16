@@ -212,8 +212,4 @@ function domresize() {
 	taskcharts.resize();
 	weldercharts.resize();
 	personcharts.resize();
-	/*echarts.init(document.getElementById('monthcharts')).resize();*/
-	/*echarts.init(document.getElementById('taskcharts')).resize();*/
-	/*echarts.init(document.getElementById('person')).resize();
-	echarts.init(document.getElementById('machine')).resize();*/
 }

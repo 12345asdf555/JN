@@ -62,7 +62,7 @@ $(function(){
 		}, {
 			field : 'edit',
 			title : '编辑',
-			width : 130,
+			width : 150,
 			halign : "center",
 			align : "left",
 			formatter:function(value,row,index){
