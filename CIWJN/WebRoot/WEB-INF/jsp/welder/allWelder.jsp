@@ -78,8 +78,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                <input name="name" class="easyui-textbox" data-options="required:true">
 	            </div>
 	            <div class="fitem">
-	            	<lable><span class="required">*</span>手机</lable>
-	                <input name="cellphone" type="easyui-textbox" class="easyui-textbox" data-options="validType:'phoneNum',required:true">
+	            	<lable><span class="required"></span>手机</lable>
+	                <input name="cellphone" type="easyui-textbox" class="easyui-textbox">
 	            </div>
 	            <div class="fitem">
 	            	<lable><span class="required">*</span>卡号</lable>
