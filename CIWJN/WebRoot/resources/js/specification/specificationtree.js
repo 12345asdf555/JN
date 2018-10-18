@@ -30,10 +30,12 @@ function insftrameworkTree(){
   								for(var x=0;x<nextnodes2.children.length;x++){
   									var nextnodes3 = nextnodes2.children[x];
   									$('#' + nextnodes3.domId + ' .tree-icon').css("background", "url(resources/images/menu_3.png) no-repeat center center");
-  									for(var y=0;y<nextnodes3.children.length;y++){
-  	  									var nextnodes4 = nextnodes3.children[y];
-  	  									$('#' + nextnodes4.domId + ' .tree-icon').css("background", "url(resources/images/menu_4.png) no-repeat center center");
-  	  								}
+  									if(nextnodes3.children!=null && nextnodes3.children!=""){
+  	  									for(var y=0;y<nextnodes3.children.length;y++){
+  	  	  									var nextnodes4 = nextnodes3.children[y];
+  	  	  									$('#' + nextnodes4.domId + ' .tree-icon').css("background", "url(resources/images/menu_4.png) no-repeat center center");
+  	  	  								}
+  									}
   								}
   							}
   							
