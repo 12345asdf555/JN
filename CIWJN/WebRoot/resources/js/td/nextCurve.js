@@ -427,8 +427,8 @@ function iview() {
 				volcurve();
 				symbol++;
 			}
-			$("#r13").val((maxele + minele) / 2);
-			$("#r14").val((maxvol + minvol) / 2);
+			$("#r13").html((maxele + minele) / 2);
+			$("#r14").html((maxvol + minvol) / 2);
 			$("#c1").html(parseInt(redata.substring(12 + i, 16 + i), 10));
 			$("#c2").html((parseInt(redata.substring(16 + i, 20 + i), 10) / 10).toFixed(1));
 			for (var k = 0; k < welderName.length; k++) {
