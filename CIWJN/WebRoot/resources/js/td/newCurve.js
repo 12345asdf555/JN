@@ -60,10 +60,10 @@ function loadtree() {
 		//树形菜单点击事件,获取项目部id，默认选择当前组织机构下的第一个
 		onClick : function(node) {
 			showflag = 0;
-			document.getElementById("load").style.display="block";
+			/*document.getElementById("load").style.display="block";
 			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
 			$("#bodydiv").append(sh);
-			document.getElementById("show").style.display="block";
+			document.getElementById("show").style.display="block";*/
 			var nownodes = $('#myTree').tree('find', node.id);
 			insfid = nownodes.id;
 			$("#curve").html("");
@@ -80,8 +80,8 @@ function loadtree() {
 			setTimeout(function() {
 				if (symbol != 1) {
 					alert("未接收到数据!!!");
-		    		document.getElementById("load").style.display ='none';
-		    		document.getElementById("show").style.display ='none';
+		    		/*document.getElementById("load").style.display ='none';
+		    		document.getElementById("show").style.display ='none';*/
 				}
 			}, 10000);
 		}
@@ -274,12 +274,12 @@ function webclient() {
 
 function iview(){
 	if(flag==0){
-		if(machine!=null){
+		/*if(machine!=null){
 			document.getElementById("load").style.display="block";
 			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
 			$("#bodydiv").append(sh);
 			document.getElementById("show").style.display="block";
-		}
+		}*/
 		window.setTimeout(function() {
 			tempary = liveary;
 			worknum=0, standbynum=0, warnnum=0, offnum=machine.length-tempary.length;
@@ -313,8 +313,8 @@ function iview(){
 			$("#warn").html(warnnum);
 			$("#off").html(offnum);
 			showChart();
-    		document.getElementById("load").style.display ='none';
-    		document.getElementById("show").style.display ='none';
+    		/*document.getElementById("load").style.display ='none';
+    		document.getElementById("show").style.display ='none';*/
 		},5000);
 		flag=2;
 	}

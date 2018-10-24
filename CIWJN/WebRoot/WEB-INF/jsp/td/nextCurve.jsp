@@ -36,6 +36,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<style type="text/css">
 		table tr td{
 			font-size: 14px;
+			height:30px;
+			text-align:right;
 		}
 		#attrtable tr td{
 			height:30px;
@@ -47,6 +49,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		.textbox-text{
 			width:100px;
 		}
+		.textbox {
+		  border: 1px solid #888a85;/*文本框颜色*/
+		}
+		.tdinput{
+			text-align:left;
+		}
+		.tdinput input{
+			width:100px;
+		}
 	</style>
   </head>
   
@@ -54,9 +65,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<input  id="machineid" type="hidden" value="${value }"/>
 	<input id="type" type="hidden" value="${type }"/>
 	<input name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
-	<div style="float:left; width:100%;height:30px;background-color: #474960;color:#ffffff;font-size:14px;">设备运行参数监控
+	<div style="float:left; width:100%;height:30px;background-color: #474960;color:#ffffff;font-size:14px;line-height:30px;">
+		<div style="float:left;">设备运行参数监控</div>
 		<div style="float:right;"><a href="td/AllTd"><img src="resources/images/history.png" style="height:30px;width:40px;padding-top:3px;"></a></div>
-		<div style="float:right;padding-top:5px;margin-right:30px;"><span id="systemtime"></span></div>
+		<div style="float:right;margin-right:30px;"><span id="systemtime"></span></div>
 	</div>
 	<div style="width:32%;height:150px;float:left;margin-left:20px;position: relative;">
 		<fieldset>
@@ -73,7 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
 					操作人员：<span id="l4"></span></li>
 					<li style="width:100%;height:22px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">
-					设备状态：<input type="text" readonly="readonly" id="l5" value="关机" style="border-radius: 5px;width:110px;height:20px;text-align:center;color:#ffffff;background: #818181"></li>
+					设备状态：<input type="text" readonly="readonly" id="l5" value="关机" style="border-radius: 5px;width:110px;height:20px;line-height:20px;text-align:center;color:#ffffff;background: #818181"></li>
 				</ul>
 			</div>
 		</fieldset>
@@ -81,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div style="width:38%;height:150px;float:left;margin-left:10px;position: relative;">
 		<fieldset>
 			<legend>焊接参数</legend>
-			<div style="float:left;width:45%;height:150px;margin-left:20px;">
+			<div style="float:left;width:43%;height:150px;margin-left:20px;">
 				<div style="float:left;width:70%;height:90px;border:1px solid #888a85;padding-left:20px;font-size:18px;margin:20px;margin-right:0px;padding-top:20px;">
 					预置电流：<span id="r13">0</span><br/><br/>
 					焊接电流：<span id="c1" style="color:#f05e0e">0</span><br/>
@@ -90,7 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div style="width:35px;height:35px;border-radius: 60px;font-size:22pt;text-align:center;padding:3px;background-color: #37d512;color: #fff;">A</div>
 				</div>
 			</div>
-			<div style="float:left;width:45%;height:150px;margin-left:20px;">
+			<div style="float:left;width:43%;height:150px;margin-left:20px;">
 				<div style="float:left;width:70%;height:90px;border:1px solid #888a85;padding-left:20px;font-size:18px;margin:20px;margin-right:0px;padding-top:20px;">
 					预置电压：<span id="r14">0</span><br/><br/>
 					焊接电压：<span id="c2" style="color:#f05e0e">0</span><br/>
@@ -104,44 +116,80 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div style="width:25%;height:100%;float:right;margin-left:10px;border:1px solid #888a85;margin-right:10px;margin-top:8px;">
 		<div style="float:left; width:100%;height:20px;margin-bottom:20px;background-color: #474960;color:#ffffff;font-size:14px;">设备特征</div>
 		<div style="float:left; width:100%;padding-left:40px;">
-			<lable>开机时长：</lable>
-			<input class="easyui-textbox" id="r1" readonly="readonly"/><br/><br/>
-			<lable>离线时长：</lable>
-			<input class="easyui-textbox" id="r2" readonly="readonly"/><br/><br/>
-			<lable>工作时长：</lable>
-			<input class="easyui-textbox" id="r3" value="00:00:00" readonly="readonly"/><br/><br/>
-			<lable>焊接时长：</lable>
-			<input class="easyui-textbox" id="r4" value="00:00:00" readonly="readonly"/><br/><br/>
-			<lable>通道总数：</lable>
-			<input class="easyui-textbox" id="r5" readonly="readonly"/><br/><br/>
-			<lable>当前通道：</lable>
-			<input class="easyui-textbox" id="r6" readonly="readonly"/><br/><br/>
-			<lable>焊接控制：</lable>
-			<input class="easyui-textbox" id="r7" readonly="readonly"/><br/><br/>
-			<lable>焊接方式：</lable>
-			<input class="easyui-textbox" id="r8" readonly="readonly"/><br/><br/>
-			<lable>气体流量：</lable>
-			<input class="easyui-textbox" id="r9" readonly="readonly"/><br/><br/>
-			<lable>瞬时功率：</lable>
-			<input class="easyui-textbox" id="r10" readonly="readonly"/><br/><br/>
-			<lable>初期电流：</lable>
-			<input class="easyui-textbox" id="r15" readonly="readonly"/><br/><br/>
-			<lable>收弧电流：</lable>
-			<input class="easyui-textbox" id="r16" readonly="readonly"/><br/><br/>
-			<lable>提前送气时间：</lable>
-			<input class="easyui-textbox" id="r11" readonly="readonly"/><br/><br/>
-			<lable>滞后停气时间：</lable>
-			<input class="easyui-textbox" id="r12" readonly="readonly"/>
+			<table>
+				<tr>
+					<td>开机时长：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r1" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td>离线时长：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r2" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td>工作时长：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r3" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td>焊接时长：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r4" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td>通道总数：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r5" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td>当前通道：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r6" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td>焊接控制：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r7" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td>焊接方式：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r8" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td>气体流量：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r9" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td>瞬时功率：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r10" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td>初期电流：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r15" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td>收弧电流：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r16" readonly="readonly"/></td>
+				<tr>
+				<tr>
+					<td>提前送气时间：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r11" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td>滞后停气时间：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r12" readonly="readonly"/></td>
+				</tr>
+			</table>
 		</div>
 	</div>
-	<div style="float:left; width:72%;height:20px;margin-top:25px;background-color: #474960;color:#fff;text-align:center;">焊接曲线</div>
+	<div style="float:left; width:72%;height:20px;margin-top:25px;background-color: #474960;color:#fff;text-align:center;line-height:20px;">焊接曲线</div>
 	<div id="livediv" style="width:72%;height:68%;float:left;top:26%;">
-		<div style="float:left; padding-top:2%;width:40px;height:42%;background-color: #37d512;border-radius: 6px;font-size:16pt;color:#ffffff;margin:10px;text-align: center;">
-		电流曲线<div style="width:25px;height:25px;border-radius: 60px;font-size:14pt;background-color: #ffffff;color: #000;margin-left:7px;">A</div></div>
+		<div style="position: relative;float:left; display:table;width:40px;height:42%;background-color: #37d512;border-radius: 6px;font-size:16pt;color:#ffffff;margin:10px;">
+			<div style="position:absolute;width:20;height:50%;position:absolute;top:50%;left:50%;margin-top:-170%;margin-left:-10">电流曲线
+				<div style="width:20px;height:25px;border-radius: 60px;font-size:14pt;background-color: #ffffff;color: #000;padding-left:5px;">A</div>
+			</div>
+		</div>
 		<div id="body31" style="float:left;width:90%;height:48%;"></div>
 		<div style="float:left; width:100%;height:8px;background-color: #C4C4C4;"></div>
-		<div style="float:left; padding-top:2%;width:40px;height:42%;background-color: #f05e0e;border-radius: 6px;font-size:16pt;color:#ffffff;margin:10px;text-align: center;">
-		电压曲线<div style="width:25px;height:25px;border-radius: 60px;font-size:14pt;background-color: #ffffff;color: #000;margin-left:7px;">V</div></div>
+		<div style="position: relative;float:left; display:table;width:40px;height:42%;background-color: #f05e0e;border-radius: 6px;font-size:16pt;color:#ffffff;margin:10px;">
+			<div style="position:absolute;width:20;height:50%;position:absolute;top:50%;left:50%;margin-top:-170%;margin-left:-10">电压曲线
+				<div style="width:20px;height:25px;border-radius: 60px;font-size:14pt;background-color: #ffffff;color: #000;padding-left:5px;">V</div>
+			</div>
+		</div>
 		<div id="body32" style="float:left;width:90%;height:48%;"></div>
 	</div>
 </body>
