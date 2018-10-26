@@ -22,7 +22,7 @@ function showcompanyEfficiencyChart(){
 	 $.ajax({  
          type : "post",  
          async : false,
-         url : "caustChart/getCaustEfficiencyChart"+chartStr,
+         url : "companyChart/getCaustEfficiencyChart"+chartStr,
          data : {},  
          dataType : "json", //返回数据形式为json  
          success : function(result) {  

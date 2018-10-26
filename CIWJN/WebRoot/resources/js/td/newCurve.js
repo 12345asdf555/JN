@@ -318,7 +318,7 @@ function iview(){
 		},5000);
 		flag=2;
 	}
-		for(var i = 0;i < redata.length;i+=77){
+		for(var i = 0;i < redata.length;i+=93){
 //			if(redata.substring(8+i, 12+i)!="0000"){
 				for(var f=0;f<machine.length;f++){
 					if(machine[f].fid==(parseInt(redata.substring(4+i, 8+i),10))){
@@ -331,22 +331,22 @@ function iview(){
 							imgnum = 3;
 						}
 						for(var k=0;k<welderName.length;k++){
-							if(welderName[k].fid==parseInt(redata.substring(8+i, 12+i),10)){
+							if(welderName[k].fid==parseInt(redata.substring(0+i, 4+i),10)){
 								$("#m3"+machine[f].fid).html(welderName[k].fwelder_no);
 							}
 						}
 						for(var t=0;t<taskNum.length;t++){
-							if(taskNum[t].id==parseInt(redata.substring(69+i, 77+i),10)){
+							if(taskNum[t].id==parseInt(redata.substring(12+i, 16+i),10)){
 								$("#m2"+machine[f].fid).html(taskNum[t].weldedJunctionno);
 							}
 						}
-						var liveele = parseInt(redata.substring(12+i, 16+i),10);
-			            var livevol = parseFloat((parseInt(redata.substring(16+i, 20+i),10)/10).toFixed(2));
-			            var maxele = parseInt(redata.substring(61+i, 64+i),10);
-			            var minele = parseInt(redata.substring(64+i, 67+i),10);
-			            var maxvol = parseInt(redata.substring(67+i, 70+i),10);
-			            var minvol = parseInt(redata.substring(70+i, 73+i),10);
-						var mstatus = redata.substring(0 + i, 2 + i);
+						var liveele = parseInt(redata.substring(38+i, 42+i),10);
+			            var livevol = parseFloat((parseInt(redata.substring(42+i, 46+i))/10).toFixed(2));
+			            var maxele = parseInt(redata.substring(75+i, 79+i));
+			            var minele = parseInt(redata.substring(79+i, 83+i));
+			            var maxvol = parseInt(redata.substring(83+i, 87+i));
+			            var minvol = parseInt(redata.substring(87+i, 91+i));
+						var mstatus = redata.substring(36 + i, 38 + i);
 						var livestatus,livestatusid,liveimg;
 						switch (mstatus){
 						case "00":

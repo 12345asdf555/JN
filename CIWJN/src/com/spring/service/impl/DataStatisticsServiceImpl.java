@@ -21,14 +21,14 @@ public class DataStatisticsServiceImpl implements DataStatisticsService {
 	private DataStatisticsMapper ds;
 	
 	@Override
-	public List<DataStatistics> getItemMachineCount(Page page,BigInteger parent,String str) {
+	public List<DataStatistics> getItemMachineCount(Page page,BigInteger parent) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return ds.getItemMachineCount(parent,str);
+		return ds.getItemMachineCount(parent);
 	}
 	
 	@Override
 	public List<DataStatistics> getItemMachineCount(BigInteger parent) {
-		return ds.getItemMachineCount(parent,null);
+		return ds.getItemMachineCount(parent);
 	}
 
 	@Override
@@ -67,74 +67,74 @@ public class DataStatisticsServiceImpl implements DataStatisticsService {
 	}
 
 	@Override
-	public List<DataStatistics> getAllMachine(Page page,BigInteger itemid,String str) {
+	public List<DataStatistics> getAllMachine(Page page,BigInteger itemid) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return ds.getAllMachine(itemid,str);
+		return ds.getAllMachine(itemid);
 	}
 
 	@Override
-	public List<DataStatistics> getAllWelder(Page page,String str) {
+	public List<DataStatistics> getAllWelder(Page page,BigInteger parent) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return ds.getAllWelder(str);
+		return ds.getAllWelder(parent);
 	}
 
 	@Override
-	public List<DataStatistics> getAllJunction(Page page, String junctionno,String str) {
+	public List<DataStatistics> getAllJunction(Page page,String junctionno) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return ds.getAllJunction(junctionno,str);
+		return ds.getAllJunction(junctionno);
 	}
 
 	@Override
-	public List<DataStatistics> getAllInsframe() {
-		return ds.getAllInsframe();
+	public List<DataStatistics> getAllInsframe(BigInteger parent) {
+		return ds.getAllInsframe(parent);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldItemInCount(Page page, WeldDto dto,String str) {
+	public List<DataStatistics> getWeldItemInCount(Page page, WeldDto dto) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return ds.getWeldItemInCount(dto,str);
+		return ds.getWeldItemInCount(dto);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldItemOutCount(Page page, WeldDto dto,String str) {
+	public List<DataStatistics> getWeldItemOutCount(Page page, WeldDto dto) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return ds.getWeldItemOutCount(dto,str);
+		return ds.getWeldItemOutCount(dto);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldMachineInCount(Page page, WeldDto dto ,BigInteger itemid,String str) {
+	public List<DataStatistics> getWeldMachineInCount(Page page, WeldDto dto ,BigInteger itemid) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return ds.getWeldMachineInCount(dto,itemid,str);
+		return ds.getWeldMachineInCount(dto,itemid);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldMachineOutCount(Page page, WeldDto dto ,BigInteger itemid,String str) {
+	public List<DataStatistics> getWeldMachineOutCount(Page page, WeldDto dto ,BigInteger itemid) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return ds.getWeldMachineOutCount(dto,itemid,str);
+		return ds.getWeldMachineOutCount(dto,itemid);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldPersonInCount(Page page, WeldDto dto,String str) {
+	public List<DataStatistics> getWeldPersonInCount(Page page, WeldDto dto) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return ds.getWeldPersonInCount(dto,str);
+		return ds.getWeldPersonInCount(dto);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldPersonOutCount(Page page, WeldDto dto,String str) {
+	public List<DataStatistics> getWeldPersonOutCount(Page page, WeldDto dto) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return ds.getWeldPersonOutCount(dto,str);
+		return ds.getWeldPersonOutCount(dto);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldPieceInCount(Page page, WeldDto dto,String junctionno,String str) {
+	public List<DataStatistics> getWeldPieceInCount(Page page, WeldDto dto,String junctionno) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return ds.getWeldPieceInCount(dto,junctionno,str);
+		return ds.getWeldPieceInCount(dto,junctionno);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldPieceOutCount(Page page, WeldDto dto,String junctionno,String str) {
+	public List<DataStatistics> getWeldPieceOutCount(Page page, WeldDto dto,String junctionno) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return ds.getWeldPieceOutCount(dto,junctionno,str);
+		return ds.getWeldPieceOutCount(dto,junctionno);
 	}
 
 	@Override
@@ -150,74 +150,62 @@ public class DataStatisticsServiceImpl implements DataStatisticsService {
 	}
 
 	@Override
-	public List<DataStatistics> getAllItemData(String str) {
-		// TODO Auto-generated method stub
-		return ds.getItemMachineCount(null,str);
+	public List<DataStatistics> getAllItemData() {
+		return ds.getItemMachineCount(null);
 	}
 
 	@Override
-	public List<DataStatistics> getAllMachineData(BigInteger itemid,String str) {
-		// TODO Auto-generated method stub
-		return ds.getAllMachine(itemid,str);
+	public List<DataStatistics> getAllMachineData(BigInteger itemid) {
+		return ds.getAllMachine(itemid);
 	}
 
 	@Override
-	public List<DataStatistics> getAllPersonData(String str) {
-		// TODO Auto-generated method stub
-		return ds.getAllWelder(str);
+	public List<DataStatistics> getAllPersonData(BigInteger parent) {
+		return ds.getAllWelder(parent);
 	}
 
-	public List<DataStatistics> getAllJunctionData(String junctionno,String str) {
-		// TODO Auto-generated method stub
-		return ds.getAllJunction(junctionno,str);
-	}
-
-	@Override
-	public List<DataStatistics> getWeldItemInCountData(WeldDto dto,String str) {
-		// TODO Auto-generated method stub
-		return ds.getWeldItemInCount(dto,str);
+	public List<DataStatistics> getAllJunctionData(String junctionno) {
+		return ds.getAllJunction(junctionno);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldItemOutCountData(WeldDto dto,String str) {
-		// TODO Auto-generated method stub
-		return ds.getWeldItemOutCount(dto,str);
+	public List<DataStatistics> getWeldItemInCountData(WeldDto dto) {
+		return ds.getWeldItemInCount(dto);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldMachineInCountData(WeldDto dto, BigInteger itemid,String str) {
-		// TODO Auto-generated method stub
-		return ds.getWeldMachineInCount(dto, itemid,str);
+	public List<DataStatistics> getWeldItemOutCountData(WeldDto dto) {
+		return ds.getWeldItemOutCount(dto);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldMachineOutCountData(WeldDto dto, BigInteger itemid,String str) {
-		// TODO Auto-generated method stub
-		return ds.getWeldMachineOutCount(dto, itemid,str);
+	public List<DataStatistics> getWeldMachineInCountData(WeldDto dto, BigInteger itemid) {
+		return ds.getWeldMachineInCount(dto, itemid);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldPersonInCountData(WeldDto dto,String str) {
-		// TODO Auto-generated method stub
-		return ds.getWeldPersonInCount(dto,str);
+	public List<DataStatistics> getWeldMachineOutCountData(WeldDto dto, BigInteger itemid) {
+		return ds.getWeldMachineOutCount(dto, itemid);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldPersonOutCountData(WeldDto dto,String str) {
-		// TODO Auto-generated method stub
-		return ds.getWeldPersonOutCount(dto,str);
+	public List<DataStatistics> getWeldPersonInCountData(WeldDto dto) {
+		return ds.getWeldPersonInCount(dto);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldWorkpieceInCountData(WeldDto dto, String junctionno,String str) {
-		// TODO Auto-generated method stub
-		return ds.getWeldPieceInCount(dto, junctionno,str);
+	public List<DataStatistics> getWeldPersonOutCountData(WeldDto dto) {
+		return ds.getWeldPersonOutCount(dto);
 	}
 
 	@Override
-	public List<DataStatistics> getWeldWorkpieceOutCountData(WeldDto dto, String junctionno,String str) {
-		// TODO Auto-generated method stub
-		return ds.getWeldPieceOutCount(dto, junctionno,str);
+	public List<DataStatistics> getWeldWorkpieceInCountData(WeldDto dto, String junctionno) {
+		return ds.getWeldPieceInCount(dto, junctionno);
+	}
+
+	@Override
+	public List<DataStatistics> getWeldWorkpieceOutCountData(WeldDto dto, String junctionno) {
+		return ds.getWeldPieceOutCount(dto, junctionno);
 	}
 
 	@Override
@@ -238,5 +226,58 @@ public class DataStatisticsServiceImpl implements DataStatisticsService {
 	@Override
 	public List<DataStatistics> getItemOverProofTime(WeldDto dto) {
 		return ds.getItemOverProofTime(dto);
+	}
+
+	@Override
+	public BigInteger getStaringUpTimeByJunction(BigInteger itemid, WeldDto dto) {
+		return ds.getStaringUpTimeByJunction(itemid, dto); 
+	}
+
+	@Override
+	public BigInteger getStaringUpTimeByWelder(BigInteger itemid, WeldDto dto) {
+		return ds.getStaringUpTimeByWelder(itemid, dto); 
+	}
+
+	@Override
+	public DataStatistics getWorkJunctionNumByWelder(BigInteger itemid, WeldDto dto) {
+		return ds.getWorkJunctionNumByWelder(itemid, dto);
+	}
+
+	@Override
+	public DataStatistics getWorkTimeAndEleVolByWelder(BigInteger itemid, WeldDto dto) {
+		return ds.getWorkTimeAndEleVolByWelder(itemid, dto);
+	}
+
+	@Override
+	public DataStatistics getWorkTimeAndEleVolByJunction(BigInteger itemid, WeldDto dto) {
+		return ds.getWorkTimeAndEleVolByJunction(itemid, dto);
+	}
+
+	@Override
+	public BigInteger getStandytimeByWelder(BigInteger itemid, WeldDto dto) {
+		return ds.getStandytimeByWelder(itemid, dto);
+	}
+
+	@Override
+	public BigInteger getStandytimeByJunction(BigInteger itemid, WeldDto dto) {
+		return ds.getStandytimeByJunction(itemid, dto);
+	}
+
+	@Override
+	public List<DataStatistics> getTaskDetail(BigInteger parent, String welderno, String taskno, String time1,
+			String time2) {
+		return ds.getTaskDetail(parent, welderno, taskno, time1, time2);
+	}
+
+	@Override
+	public List<DataStatistics> getTask(Page page, BigInteger parent, String welderno, String taskno, String time1,
+			String time2) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return ds.getTask(parent, welderno, taskno, time1, time2);
+	}
+
+	@Override
+	public List<DataStatistics> getTask(BigInteger parent, String welderno, String taskno, String time1, String time2) {
+		return ds.getTask(parent, welderno, taskno, time1, time2);
 	}
 }

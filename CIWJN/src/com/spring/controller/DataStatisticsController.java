@@ -3,7 +3,6 @@ package com.spring.controller;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +47,7 @@ public class DataStatisticsController {
 	@Autowired
 	private LiveDataService ls;
 	@Autowired
-	private InsframeworkService insm;
+	private InsframeworkService im;
 
 	IsnullUtil iutil = new IsnullUtil();
 	
@@ -70,6 +69,11 @@ public class DataStatisticsController {
 	@RequestMapping("/goMachineData")
 	public String goMachineProductionData(HttpServletRequest request){
 		return "datastatistics/machinedata";
+	}
+	
+	@RequestMapping("/goTaskDetail")
+	public String goTaskDetail(HttpServletRequest request){
+		return "datastatistics/taskdetail";
 	}
 	
 	/**
@@ -175,27 +179,6 @@ public class DataStatisticsController {
 		}
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
-		String serach="";
-		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
-		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
-		int bz=0;
-		if(instype==20){
-			
-		}else if(instype==23){
-			serach = "and i.fid="+userinsid;
-		}else{
-			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
-			for(Insframework inns : ls ){
-				if(bz==0){
-					serach=serach+"and (i.fid="+inns.getId();
-				}else{
-					serach=serach+" or i.fid="+inns.getId();
-				}
-				bz++;
-			}
-			serach=serach+" or i.fid="+userinsid+")";
-		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -211,7 +194,7 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> list = dss.getItemMachineCount(page,null,serach);
+			List<DataStatistics> list = dss.getItemMachineCount(page,im.getUserInsframework());
 			
 			if(list != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
@@ -230,7 +213,7 @@ public class DataStatisticsController {
 					machinenum = dss.getStartingUpMachineNum(i.getId(),dto);//获取开机焊机总数
 					starttime = dss.getStaringUpTime(i.getId(), dto);//获取开机总时长
 					json.put("t2", machinenum);//开机设备数
-					json.put("t5", junction.getJunctionnum());//焊接任务数
+					json.put("t5", junction.getJunctionnum());//焊接焊缝数
 					json.put("t7", getTimeStrBySecond(starttime));//工作时间
 					standytime = dss.getStandytime(i.getId(), dto);//获取待机总时长
 					weldtime = dss.getWorkTimeAndEleVol(i.getId(),dto);//获取焊接时长，平均电流电压
@@ -281,7 +264,7 @@ public class DataStatisticsController {
 				ary.add(json);
 			}
 			//表头
-			String [] str = {"所属班组","设备总数","开机设备数","实焊设备数","设备利用率(%)","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String [] str = {"所属班组","设备总数","开机设备数","实焊设备数","设备利用率(%)","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -312,27 +295,6 @@ public class DataStatisticsController {
 		}
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
-		String serach="";
-		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
-		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
-		int bz=0;
-		if(instype==20){
-			
-		}else if(instype==23){
-			serach = "and i.fid="+userinsid;
-		}else{
-			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
-			for(Insframework inns : ls ){
-				if(bz==0){
-					serach=serach+"and (i.fid="+inns.getId();
-				}else{
-					serach=serach+" or i.fid="+inns.getId();
-				}
-				bz++;
-			}
-			serach=serach+" or i.fid="+userinsid+")";
-		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -348,8 +310,9 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> ilist = dss.getWeldItemInCount(page,dto,serach);
-			List<DataStatistics> olist = dss.getWeldItemOutCount(page,dto,serach);
+			dto.setParent(im.getUserInsframework());
+			List<DataStatistics> ilist = dss.getWeldItemInCount(page,dto);
+			List<DataStatistics> olist = dss.getWeldItemOutCount(page,dto);
 			
 			if(ilist != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(ilist);
@@ -363,7 +326,7 @@ public class DataStatisticsController {
 						json.put("t2", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
 						json.put("t3", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
 						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t4", new DecimalFormat("0.00").format((float)(Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString())))*100));//规范符合率
+							json.put("t4", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))));//规范符合率
 						}else{
 							json.put("t4",0);
 						}
@@ -404,27 +367,6 @@ public class DataStatisticsController {
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
 		String item = request.getParameter("item");
-		String serach="";
-		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
-		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
-		int bz=0;
-		if(instype==20){
-			
-		}else if(instype==23){
-			serach = "and i.fid="+userinsid;
-		}else{
-			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
-			for(Insframework inns : ls ){
-				if(bz==0){
-					serach=serach+"and (i.fid="+inns.getId();
-				}else{
-					serach=serach+" or i.fid="+inns.getId();
-				}
-				bz++;
-			}
-			serach=serach+" or i.fid="+userinsid+")";
-		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -443,8 +385,10 @@ public class DataStatisticsController {
 			}
 			if(iutil.isNull(item)){
 				itemid = new BigInteger(item);
+			}else{
+				itemid = im.getUserInsframework();
 			}
-			List<DataStatistics> list = dss.getAllMachine(page,itemid,serach);
+			List<DataStatistics> list = dss.getAllMachine(page,itemid);
 			if(list != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
 				total = pageinfo.getTotal();
@@ -458,11 +402,11 @@ public class DataStatisticsController {
 				BigInteger worktime = null,standytime=null;
 				DataStatistics weld = null;
 				if(junctionnum.getJunctionnum()!=0){
-					json.put("t2", junctionnum.getJunctionnum());//焊接任务数
+					json.put("t2", junctionnum.getJunctionnum());//焊接焊缝数
 					worktime = dss.getStaringUpTime(null, dto);
 					json.put("t4", getTimeStrBySecond(worktime));//工作时间
-					standytime = dss.getStandytime(null, dto);//获取待机总时长
-					weld = dss.getWorkTimeAndEleVol(null, dto);
+					standytime = dss.getStandytime(i.getInsid(), dto);//获取待机总时长
+					weld = dss.getWorkTimeAndEleVol(i.getInsid(), dto);
 					double standytimes = 0,time=0,electric=0;
 					if(standytime!=null){
 						standytimes = standytime.doubleValue()/60/60;
@@ -501,7 +445,7 @@ public class DataStatisticsController {
 				ary.add(json);
 			}
 			//表头
-			String [] str = {"所属班组","设备编号","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String [] str = {"所属班组","设备编号","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -532,27 +476,6 @@ public class DataStatisticsController {
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
 		String item = request.getParameter("item");
-		String serach="";
-		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
-		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
-		int bz=0;
-		if(instype==20){
-			
-		}else if(instype==23){
-			serach = "and i.fid="+userinsid;
-		}else{
-			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
-			for(Insframework inns : ls ){
-				if(bz==0){
-					serach=serach+"and (i.fid="+inns.getId();
-				}else{
-					serach=serach+" or i.fid="+inns.getId();
-				}
-				bz++;
-			}
-			serach=serach+" or i.fid="+userinsid+")";
-		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -571,9 +494,11 @@ public class DataStatisticsController {
 			}
 			if(iutil.isNull(item)){
 				itemid = new BigInteger(item);
+			}else{
+				itemid = im.getUserInsframework();
 			}
-			List<DataStatistics> ilist = dss.getWeldMachineInCount(page,dto,itemid,serach);
-			List<DataStatistics> olist = dss.getWeldMachineOutCount(page,dto,itemid,serach);
+			List<DataStatistics> ilist = dss.getWeldMachineInCount(page,dto,itemid);
+			List<DataStatistics> olist = dss.getWeldMachineOutCount(page,dto,itemid);
 			
 			if(ilist != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(ilist);
@@ -588,7 +513,7 @@ public class DataStatisticsController {
 						json.put("t3", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
 						json.put("t4", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
 						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t5", new DecimalFormat("0.00").format((float)(Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString())))*100));//规范符合率
+							json.put("t5", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))));//规范符合率
 						}else{
 							json.put("t5",0);
 						}
@@ -627,27 +552,6 @@ public class DataStatisticsController {
 		}
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
-		String serach="";
-		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
-		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
-		int bz=0;
-		if(instype==20){
-			
-		}else if(instype==23){
-			serach = "and tb_welder.Fowner="+userinsid;
-		}else{
-			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
-			for(Insframework inns : ls ){
-				if(bz==0){
-					serach=serach+"and (tb_welder.Fowner="+inns.getId();
-				}else{
-					serach=serach+" or tb_welder.Fowner="+inns.getId();
-				}
-				bz++;
-			}
-			serach=serach+" or tb_welder.Fowner="+userinsid+")";
-		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -663,7 +567,7 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> list = dss.getAllWelder(page,serach);
+			List<DataStatistics> list = dss.getAllWelder(page,im.getUserInsframework());
 			if(list != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
 				total = pageinfo.getTotal();
@@ -674,14 +578,14 @@ public class DataStatisticsController {
 				json.put("t1", i.getName());
 				DataStatistics weld = null;
 				BigInteger worktime = null,standytime=null;
-				DataStatistics junctionnum = dss.getWorkJunctionNum(null, dto);
+				DataStatistics junctionnum = dss.getWorkJunctionNumByWelder(null, dto);
 				DataStatistics parameter = dss.getParameter();
 				if(junctionnum.getJunctionnum()!=0){
-					json.put("t2", junctionnum.getJunctionnum());//焊接任务数
-					worktime = dss.getStaringUpTime(null, dto);
+					json.put("t2", junctionnum.getJunctionnum());//焊接焊缝数
+					worktime = dss.getStaringUpTimeByWelder(null, dto);
 					json.put("t4", getTimeStrBySecond(worktime));//工作时间
-					standytime = dss.getStandytime(null, dto);
-					weld = dss.getWorkTimeAndEleVol(null, dto);
+					standytime = dss.getStandytimeByWelder(null, dto);
+					weld = dss.getWorkTimeAndEleVolByWelder(null, dto);
 					double standytimes = 0,time=0,electric=0;
 					if(standytime!=null){
 						standytimes = standytime.doubleValue()/60/60;
@@ -720,7 +624,7 @@ public class DataStatisticsController {
 				ary.add(json);
 			}
 			//表头
-			String [] str = {"焊工编号","焊工名称","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String [] str = {"焊工编号","焊工名称","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -750,27 +654,6 @@ public class DataStatisticsController {
 		}
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
-		String serach="";
-		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
-		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
-		int bz=0;
-		if(instype==20){
-			
-		}else if(instype==23){
-			serach = "and w.Fowner="+userinsid;
-		}else{
-			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
-			for(Insframework inns : ls ){
-				if(bz==0){
-					serach=serach+"and (w.Fowner="+inns.getId();
-				}else{
-					serach=serach+" or w.Fowner="+inns.getId();
-				}
-				bz++;
-			}
-			serach=serach+" or w.Fowner="+userinsid+")";
-		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -786,8 +669,9 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> ilist = dss.getWeldPersonInCount(page,dto,serach);
-			List<DataStatistics> olist = dss.getWeldPersonOutCount(page,dto,serach);
+			dto.setParent(im.getUserInsframework());
+			List<DataStatistics> ilist = dss.getWeldPersonInCount(page,dto);
+			List<DataStatistics> olist = dss.getWeldPersonOutCount(page,dto);
 			
 			if(ilist != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(ilist);
@@ -802,7 +686,7 @@ public class DataStatisticsController {
 						json.put("t3", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
 						json.put("t4", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
 						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t5", new DecimalFormat("0.00").format((float)(Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString())))*100));//规范符合率
+							json.put("t5", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))));//规范符合率
 						}else{
 							json.put("t5",0);
 						}
@@ -841,27 +725,6 @@ public class DataStatisticsController {
 		}
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
-		String serach="";
-		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
-		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
-		int bz=0;
-		if(instype==20){
-			
-		}else if(instype==23){
-			serach = "and i.fid="+userinsid;
-		}else{
-			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
-			for(Insframework inns : ls ){
-				if(bz==0){
-					serach=serach+"and (i.fid="+inns.getId();
-				}else{
-					serach=serach+" or i.fid="+inns.getId();
-				}
-				bz++;
-			}
-			serach=serach+" or i.fid="+userinsid+")";
-		}
 		String junctionno = request.getParameter("junctionno");
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
@@ -878,7 +741,7 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> list = dss.getAllJunction(page,"%"+ junctionno+"%",serach);
+			List<DataStatistics> list = dss.getAllJunction(page,"%"+ junctionno+"%");
 			if(list != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
 				total = pageinfo.getTotal();
@@ -886,14 +749,14 @@ public class DataStatisticsController {
 			for(DataStatistics i:list){
 				dto.setJunctionno(i.getSerialnumber());
 				json.put("t0", i.getSerialnumber());
-				BigInteger worktime = dss.getStaringUpTime(null, dto);
+				BigInteger worktime = dss.getStaringUpTimeByJunction(null, dto);
 				DataStatistics parameter = dss.getParameter();
 				BigInteger standytime = null;
 				DataStatistics weld = null;
 				if(worktime!=null){
 					json.put("t2", getTimeStrBySecond(worktime));//工作时间
-					weld = dss.getWorkTimeAndEleVol(null, dto);
-					standytime = dss.getStandytime(null, dto);
+					weld = dss.getWorkTimeAndEleVolByJunction(null, dto);
+					standytime = dss.getStandytimeByJunction(null, dto);
 
 					double standytimes = 0,time=0,electric=0;
 					if(standytime!=null){
@@ -902,6 +765,7 @@ public class DataStatisticsController {
 					if(weld!=null){
 						time = weld.getWorktime().doubleValue()/60/60;
 						electric = (double)Math.round((time*(weld.getElectricity()*weld.getVoltage())/1000+standytimes*parameter.getStandbypower()/1000)*100)/100;//电能消耗量=焊接时间*焊接平均电流*焊接平均电压+待机时间*待机功率
+						
 					}else{
 						electric = (double)Math.round((time+standytimes*parameter.getStandbypower()/1000)*100)/100;
 					}
@@ -932,7 +796,7 @@ public class DataStatisticsController {
 				ary.add(json);
 			}
 			//表头
-			String [] str = {"任务编号","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String [] str = {"焊缝编号","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -963,27 +827,6 @@ public class DataStatisticsController {
 		String junctionno = request.getParameter("junctionno");
 		String time1 = request.getParameter("dtoTime1");
 		String time2 = request.getParameter("dtoTime2");
-		String serach="";
-		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
-		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
-		int bz=0;
-		if(instype==20){
-			
-		}else if(instype==23){
-			serach = "and j.fitemId="+userinsid;
-		}else{
-			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
-			for(Insframework inns : ls ){
-				if(bz==0){
-					serach=serach+"and (j.fitemId="+inns.getId();
-				}else{
-					serach=serach+" or j.fitemId="+inns.getId();
-				}
-				bz++;
-			}
-			serach=serach+" or j.fitemId="+userinsid+")";
-		}
 		page = new Page(pageIndex,pageSize,total);
 		JSONObject obj = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -999,8 +842,9 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> ilist = dss.getWeldPieceInCount(page,dto,"%"+ junctionno+"%",serach);
-			List<DataStatistics> olist = dss.getWeldPieceOutCount(page,dto,"%"+ junctionno+"%",serach);
+			dto.setParent(im.getUserInsframework());
+			List<DataStatistics> ilist = dss.getWeldPieceInCount(page,dto,"%"+ junctionno+"%");
+			List<DataStatistics> olist = dss.getWeldPieceOutCount(page,dto,"%"+ junctionno+"%");
 			
 			if(ilist != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(ilist);
@@ -1014,7 +858,7 @@ public class DataStatisticsController {
 						json.put("t2", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
 						json.put("t3", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
 						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t4", new DecimalFormat("0.00").format((float)(Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString())))*100));//规范符合率
+							json.put("t4", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))));//规范符合率
 						}else{
 							json.put("t4",0);
 						}
@@ -1023,7 +867,7 @@ public class DataStatisticsController {
 				}
 			}
 			//表头
-			String [] str = {"任务编号","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
+			String [] str = {"焊缝编号","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -1073,6 +917,7 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
+			dto.setParent(im.getUserInsframework());
 			List<DataStatistics> list = dss.getFauit(page, dto, fauit);
 			if(list != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
@@ -1140,6 +985,7 @@ public class DataStatisticsController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
+			dto.setParent(im.getUserInsframework());
 			List<DataStatistics> list = dss.getFauitDetail(page, dto, id, fauit);
 			if(list != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
@@ -1178,7 +1024,7 @@ public class DataStatisticsController {
 		JSONArray ary = new JSONArray();
 		JSONObject obj = new JSONObject();
 		try{
-			List<DataStatistics> list = dss.getAllInsframe();
+			List<DataStatistics> list = dss.getAllInsframe(im.getUserInsframework());
 			json.put("id", 0);
 			json.put("name", "全部");
 			ary.add(json);
@@ -1379,6 +1225,113 @@ public class DataStatisticsController {
 		}
 		obj.put("time", timeary);
 		obj.put("ary", ary);
+		return obj.toString();
+	}
+	
+	/**
+	 * 跳转生产任务详情报表
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getTaskDetail")
+	@ResponseBody
+	public String getTaskDetail(HttpServletRequest request){
+		if(iutil.isNull(request.getParameter("page"))){
+			pageIndex = Integer.parseInt(request.getParameter("page"));
+		}
+		if(iutil.isNull(request.getParameter("rows"))){
+			pageSize = Integer.parseInt(request.getParameter("rows"));
+		}
+		page = new Page(pageIndex,pageSize,total);
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject json = new JSONObject();
+		JSONObject title = new JSONObject();
+		JSONArray titleary = new JSONArray();
+		BigInteger itemid = null;
+		String welderno = "",taskno = "",dtoTime1 = "",dtoTime2 = "";
+		long total = 0;
+		try{
+			if(iutil.isNull(request.getParameter("dtoTime1"))){
+				dtoTime1 = request.getParameter("dtoTime1");
+			}
+			if(iutil.isNull(request.getParameter("dtoTime2"))){
+				dtoTime2 = request.getParameter("dtoTime2");
+			}
+			if(iutil.isNull(request.getParameter("welderno"))){
+				welderno = "'%" + request.getParameter("welderno") + "%'";
+			}
+			if(iutil.isNull(request.getParameter("taskno"))){
+				taskno = "'%" + request.getParameter("taskno") + "%'";
+			}
+			if(iutil.isNull(request.getParameter("item"))){
+				itemid = new BigInteger(request.getParameter("item"));
+			}else{
+				itemid = im.getUserInsframework();
+			}
+			List<DataStatistics> list = dss.getTask(page, itemid, welderno, taskno, dtoTime1, dtoTime2);
+			if(list != null){
+				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
+				total = pageinfo.getTotal();
+			}
+			List<DataStatistics> task = dss.getTaskDetail(itemid, welderno, taskno, dtoTime1, dtoTime2);
+			for(int i=0;i<list.size();i++){
+				if(i!=list.size()-1){
+					if(list.get(i).getTaskid().equals(list.get(i+1).getTaskid())){
+						if(list.get(i).getType()!=1){
+							if(list.get(i+1).getType()==1){
+								list.get(i).setEndtime(list.get(i+1).getEndtime());
+							}else{
+								list.get(i).setEndtime(list.get(i+1).getStarttime());
+							}
+						}
+					}
+				}
+				for(int j=0;j<task.size();j++){
+					if(list.get(i).getType()!=1){
+						if(list.get(i).getTaskid().equals(task.get(j).getTaskid()) && list.get(i).getWelderid().equals(task.get(j).getWelderid()) && list.get(i).getMachineid().equals(task.get(j).getMachineid())){
+							json.put("t0", task.get(j).getName());
+							json.put("t1", task.get(j).getWelderno());
+							json.put("t2", task.get(j).getWeldername());
+							json.put("t3", task.get(j).getMachineno());
+							json.put("t4", task.get(j).getTaskno());
+							json.put("t5", task.get(j).getStarttime());
+							json.put("t6", list.get(i).getEndtime());
+							json.put("t7", task.get(j).getChannel());
+							if(task.get(j).getWorktime()!=null && !"".equals(task.get(j).getWorktime())){
+								json.put("t8", getTimeStrBySecond(task.get(j).getWorktime()));
+							}else{
+								json.put("t8", "00:00:00");
+							}
+							if(task.get(j).getWarntime()!=null && !"".equals(task.get(j).getWarntime())){
+								json.put("t9", getTimeStrBySecond(task.get(j).getWarntime()));
+							}else{
+								json.put("t9", "00:00:00");
+							}
+							json.put("t10", (double)Math.round(task.get(j).getElectricity()*100)/100);
+							json.put("t11", (double)Math.round(task.get(j).getVoltage()*100)/100);
+							double ratio = 0;
+							if(task.get(j).getWarntime()!=null && !"".equals(task.get(j).getWarntime())){
+								ratio = (double)Math.round(task.get(j).getWorktime().doubleValue()/(task.get(j).getWorktime().doubleValue()+task.get(j).getWarntime().doubleValue())*10000)/100;
+							}
+							json.put("t12", ratio);//规范符合率
+							ary.add(json);
+						}
+					}
+				}
+			}
+			//表头
+			String [] str = {"焊工班组","焊工编号","焊工姓名","焊机编号","任务编号","开始时间","结束时间","使用通道","良好段","报警段","平均焊接电流","平均焊接电压","规范符合率(%)"};
+			for(int i=0;i<str.length;i++){
+				title.put("title", str[i]);
+				titleary.add(title);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", ary.size());
+		obj.put("ary", titleary);
+		obj.put("rows", ary);
 		return obj.toString();
 	}
 }

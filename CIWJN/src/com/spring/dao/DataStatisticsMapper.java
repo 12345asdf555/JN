@@ -11,7 +11,7 @@ import com.spring.model.DataStatistics;
 import tk.mybatis.mapper.common.Mapper;
 
 public interface DataStatisticsMapper  extends Mapper<DataStatistics>{
-	List<DataStatistics> getItemMachineCount(@Param("parent") BigInteger parent,@Param("str") String str);
+	List<DataStatistics> getItemMachineCount(@Param("parent") BigInteger parent);
 
 	int getStartingUpMachineNum(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
 	
@@ -19,37 +19,51 @@ public interface DataStatisticsMapper  extends Mapper<DataStatistics>{
 	
 	DataStatistics getWorkJunctionNum(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
 	
+	DataStatistics getWorkJunctionNumByWelder(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
+	
 	BigInteger  getStaringUpTime(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
+	
+	BigInteger  getStaringUpTimeByJunction(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
+	
+	BigInteger  getStaringUpTimeByWelder(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
 	
 	DataStatistics getParameter();
 	
 	BigInteger getStandytime(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
+
+	BigInteger getStandytimeByWelder(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
+
+	BigInteger getStandytimeByJunction(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
 	
 	DataStatistics getWorkTimeAndEleVol(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
 	
-	List<DataStatistics> getAllMachine(@Param("item") BigInteger item,@Param("str") String str);
+	DataStatistics getWorkTimeAndEleVolByWelder(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
 	
-	List<DataStatistics> getAllWelder(@Param("str") String str);
+	DataStatistics getWorkTimeAndEleVolByJunction(@Param("itemid") BigInteger itemid,@Param("dto") WeldDto dto);
 	
-	List<DataStatistics> getAllJunction(@Param("junctionno") String junctionno,@Param("str") String str);
+	List<DataStatistics> getAllMachine(@Param("item") BigInteger item);
 	
-	List<DataStatistics> getAllInsframe();
+	List<DataStatistics> getAllWelder(@Param("parent") BigInteger parent);
 	
-	List<DataStatistics> getWeldItemInCount(@Param("dto") WeldDto dto,@Param("str") String str);
+	List<DataStatistics> getAllJunction(@Param("junctionno") String junctionno);
 	
-	List<DataStatistics> getWeldItemOutCount(@Param("dto") WeldDto dto,@Param("str") String str);
+	List<DataStatistics> getAllInsframe(@Param("parent") BigInteger parent);
 	
-	List<DataStatistics> getWeldMachineInCount(@Param("dto") WeldDto dto,@Param("itemid") BigInteger itemid,@Param("str") String str);
+	List<DataStatistics> getWeldItemInCount(@Param("dto") WeldDto dto);
 	
-	List<DataStatistics> getWeldMachineOutCount(@Param("dto") WeldDto dto,@Param("itemid") BigInteger itemid,@Param("str") String str);
+	List<DataStatistics> getWeldItemOutCount(@Param("dto") WeldDto dto);
 	
-	List<DataStatistics> getWeldPersonInCount(@Param("dto") WeldDto dto,@Param("str") String str);
+	List<DataStatistics> getWeldMachineInCount(@Param("dto") WeldDto dto,@Param("itemid") BigInteger itemid);
 	
-	List<DataStatistics> getWeldPersonOutCount(@Param("dto") WeldDto dto,@Param("str") String str);
+	List<DataStatistics> getWeldMachineOutCount(@Param("dto") WeldDto dto,@Param("itemid") BigInteger itemid);
 	
-	List<DataStatistics> getWeldPieceInCount(@Param("dto") WeldDto dto,@Param("junctionno") String junctionno,@Param("str") String str);
+	List<DataStatistics> getWeldPersonInCount(@Param("dto") WeldDto dto);
 	
-	List<DataStatistics> getWeldPieceOutCount(@Param("dto") WeldDto dto,@Param("junctionno") String junctionno,@Param("str") String str);
+	List<DataStatistics> getWeldPersonOutCount(@Param("dto") WeldDto dto);
+	
+	List<DataStatistics> getWeldPieceInCount(@Param("dto") WeldDto dto,@Param("junctionno") String junctionno);
+	
+	List<DataStatistics> getWeldPieceOutCount(@Param("dto") WeldDto dto,@Param("junctionno") String junctionno);
 	
 	List<DataStatistics> getFauit(@Param("dto") WeldDto dto,@Param("value") int value);
 	
@@ -62,4 +76,9 @@ public interface DataStatisticsMapper  extends Mapper<DataStatistics>{
 	List<DataStatistics> getItemWeldTime(@Param("dto")WeldDto dto);
 	
 	List<DataStatistics> getItemOverProofTime(@Param("dto")WeldDto dto);
+	
+
+	List<DataStatistics> getTaskDetail(@Param("parent")BigInteger parent,@Param("welderno")String welderno,@Param("taskno")String taskno,@Param("dtoTime1")String dtoTime1,@Param("dtoTime2")String dtoTime2);
+	
+	List<DataStatistics> getTask(@Param("parent")BigInteger parent,@Param("welderno")String welderno,@Param("taskno")String taskno,@Param("dtoTime1")String dtoTime1,@Param("dtoTime2")String dtoTime2);
 }

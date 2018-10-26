@@ -25,14 +25,14 @@ public class MaintainServiceImpl implements MaintainService {
 	private WeldingMachineMapper wm;
 	
 	@Override
-	public List<WeldingMaintenance> getWeldingMaintenanceAllPage(Page page,BigInteger wid, String str) {
+	public List<WeldingMaintenance> getWeldingMaintenanceAllPage(Page page,BigInteger parent,BigInteger wid, String str) {
 		PageHelper.startPage(page.getPageIndex(),page.getPageSize());
-		return wmm.getWeldingMaintenanceAll(wid,str);
+		return wmm.getWeldingMaintenanceAll(parent,wid,str);
 	}
 
 	@Override
-	public List<WeldingMaintenance> getWeldingMaintenanceAll(String str) {
-		return wmm.getWeldingMaintenanceAll(null,str);
+	public List<WeldingMaintenance> getWeldingMaintenanceAll(BigInteger parent,String str) {
+		return wmm.getWeldingMaintenanceAll(parent,null,str);
 	}
 
 	@Override

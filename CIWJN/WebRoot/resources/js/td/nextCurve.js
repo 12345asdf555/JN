@@ -401,27 +401,27 @@ function iview() {
 	time.length = 0;
 	vol.length = 0;
 	ele.length = 0;
-	for (var i = 0; i < redata.length; i += 77) {
+	for (var i = 0; i < redata.length; i += 93) {
 		//				if(redata.substring(8+i, 12+i)!="0000"){
 		if (parseInt(redata.substring(4 + i, 8 + i),10) == $("#machineid").val()) {
 		    time1++;
 		    var t1 = secondToDate(time1);
 		    $("#r3").val(t1);
-		    if(redata.substring(0 + i, 2 + i)!="00"){
+		    if(redata.substring(36 + i, 38 + i)!="00"){
 			    time2++;
 			    var t2 = secondToDate(time2);
 			    $("#r4").val(t2);
 		    }
-			ele.push(parseInt(redata.substring(12 + i, 16 + i), 10));
-			vol.push(parseFloat((parseInt(redata.substring(16 + i, 20 + i), 10) / 10).toFixed(2)));
-			var ttme = redata.substring(20 + i, 39 + i);
+			ele.push(parseInt(redata.substring(38 + i, 42 + i), 10));
+			vol.push(parseFloat((parseInt(redata.substring(42 + i, 46 + i), 10) / 10).toFixed(2)));
+			var ttme = redata.substring(54 + i, 73 + i);
 			ttme = ttme.replace(/-/g, '/');
 			time.push(Date.parse(new Date(ttme)));
-			machstatus.push(redata.substring(0 + i, 2 + i));
-			maxele = parseInt(redata.substring(41 + i, 44 + i), 10);
-			minele = parseInt(redata.substring(44 + i, 47 + i), 10);
-			maxvol = parseInt(redata.substring(47 + i, 50 + i), 10);
-			minvol = parseInt(redata.substring(50 + i, 53 + i), 10);
+			machstatus.push(redata.substring(36 + i, 38 + i));
+			maxele = parseInt(redata.substring(75 + i, 79 + i), 10);
+			minele = parseInt(redata.substring(79 + i, 83 + i), 10);
+			maxvol = parseFloat(parseInt(redata.substring(83 + i, 87 + i), 10) / 10).toFixed(2);
+			minvol = parseFloat(parseInt(redata.substring(87 + i, 91 + i), 10) / 10).toFixed(2);
 			if (symbol == 0) {
 				elecurve();
 				volcurve();
@@ -429,15 +429,15 @@ function iview() {
 			}
 			$("#r13").html((maxele + minele) / 2);
 			$("#r14").html((maxvol + minvol) / 2);
-			$("#c1").html(parseInt(redata.substring(12 + i, 16 + i), 10));
-			$("#c2").html((parseInt(redata.substring(16 + i, 20 + i), 10) / 10).toFixed(1));
+			$("#c1").html(parseInt(redata.substring(38 + i, 42 + i), 10));
+			$("#c2").html((parseInt(redata.substring(42 + i, 46 + i), 10) / 10).toFixed(1));
 			for (var k = 0; k < welderName.length; k++) {
-				if (welderName[k].fid == parseInt(redata.substring(8 + i, 12 + i),10)) {
+				if (welderName[k].fid == parseInt(redata.substring(0 + i, 4 + i),10)) {
 					$("#l4").html(welderName[k].fwelder_no);
 				}
 			}
 			for (var t = 0; t < taskNum.length; t++) {
-				if (taskNum[t].id == parseInt(redata.substring(69 + i, 77 + i),10)) {
+				if (taskNum[t].id == parseInt(redata.substring(12 + i, 16 + i),10)) {
 					$("#l3").html(taskNum[t].weldedJunctionno);
 				}
 			}
@@ -451,7 +451,7 @@ function iview() {
 				imgnum = 3;
 			}
 			if (time.length != 0 && z < time.length) {
-				var mstatus = redata.substring(0 + i, 2 + i);
+				var mstatus = redata.substring(36 + i, 38 + i);
 				switch (mstatus) {
 				case "00":
 					$("#l5").val("待机");

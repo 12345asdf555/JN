@@ -19,6 +19,7 @@ import com.spring.model.WeldingMachine;
 import com.spring.model.WeldingMaintenance;
 import com.spring.page.Page;
 import com.spring.service.DictionaryService;
+import com.spring.service.InsframeworkService;
 import com.spring.service.MaintainService;
 import com.spring.util.IsnullUtil;
 
@@ -35,6 +36,8 @@ public class MaintainController {
 
 	@Autowired
 	private MaintainService mm;
+	@Autowired
+	private InsframeworkService im;
 	IsnullUtil iutil = new IsnullUtil();
 
 	@Autowired
@@ -97,16 +100,15 @@ public class MaintainController {
 		String weldingmachineId = request.getParameter("wid");
 		String searchStr = request.getParameter("searchStr");
 		request.getSession().setAttribute("searchStr", searchStr);
-		BigInteger wid;
+		BigInteger wid = null;
+		BigInteger parent = im.getUserInsframework();
 		if(iutil.isNull(weldingmachineId)){
 			wid = new BigInteger(weldingmachineId);
-		}else{
-			wid = null;
 		}
 		
 		page = new Page(pageIndex,pageSize,total);
 		
-		List<WeldingMaintenance> list = mm.getWeldingMaintenanceAllPage(page,wid,searchStr);
+		List<WeldingMaintenance> list = mm.getWeldingMaintenanceAllPage(page,parent,wid,searchStr);
 		long total = 0;
 		
 		if(list != null){

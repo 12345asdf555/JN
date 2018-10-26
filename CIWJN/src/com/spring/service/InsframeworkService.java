@@ -172,4 +172,10 @@ public interface InsframeworkService {
 	 * @return
 	 */
 	List<Insframework> getOperateArea(String str,int type);
+
+	/**
+	 * 获取当前用户组织机构id
+	 * @return
+	 */
+	BigInteger getUserInsframework();
 }

@@ -171,7 +171,7 @@ function classifyDatagrid(){
 		height : $("body").height()/2,
 		width : $("body").width()/2,
 		idField : 'fid',
-		url : "itemChart/getItemHousClassify?item="+parent,
+		url : "companyChart/getItemHousClassify?item="+parent,
 		singleSelect : true,
 		pageSize : 5,
 		pageList : [ 5, 10, 15, 20, 25],

@@ -27,9 +27,15 @@
 		FROM tb_welding_maintenance m 
 		inner join tb_maintenance_record r on  fmaintenance_id = r.fid
         INNER JOIN tb_dictionary d on r.ftype_id = d.fvalue
-		inner join tb_welding_machine wm on m.fwelding_id = wm.fid where d.ftypeid=5
+		inner join tb_welding_machine wm on m.fwelding_id = wm.fid
+		LEFT JOIN tb_insframework i ON wm.finsframework_id = i.fid
+		LEFT JOIN tb_insframework ins on ins.fid = i.fparent
+		LEFT JOIN tb_insframework insf on insf.fid = ins.fparent where d.ftypeid=5
 		<if test="wid!=null and wid!=''">
 			and wm.fid = #{wid}
+		</if>
+		<if test="parent!=null and parent!=''">
+			and i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent}
 		</if>
 		<if test="str!=null and str!=''">
 			and ${str}

@@ -31,23 +31,10 @@ public class LiveDataServiceImpl implements LiveDataService {
 	private LiveDataMapper live;
 	@Autowired
 	private WeldedJunctionMapper wm;
-	
-	@Override
-	public List<ModelDto> getCausehour(Page page,WeldDto dto, BigInteger parent) {
-		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return live.getCausehour(dto,parent);
-	}
 
 	@Override
-	public List<ModelDto> getCompanyhour(Page page,WeldDto dto, BigInteger parent) {
-		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return live.getCompanyhour(dto, parent);
-	}
-
-	@Override
-	public List<ModelDto> getItemhour(Page page,WeldDto dto) {
-		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return live.getItemhour(dto);
+	public List<ModelDto> getCompanyhour(WeldDto dto, BigInteger parent,String insftype) {
+		return live.getCompanyhour(dto, parent,insftype);
 	}
 
 	@Override
@@ -55,12 +42,6 @@ public class LiveDataServiceImpl implements LiveDataService {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
 		return live.getJunctionHous(dto);
 	}
-
-	@Override
-	public List<ModelDto> getCauseOverproof(WeldDto dto, BigInteger parent) {
-		return live.getCauseOverproof(dto, parent);
-	}
-
 	@Override
 	public List<LiveData> getAllInsf(BigInteger parent,int type) {
 		return live.getAllInsf(parent,type);
@@ -73,107 +54,33 @@ public class LiveDataServiceImpl implements LiveDataService {
 	}
 
 	@Override
-	public List<ModelDto> getCompanyOverproof(WeldDto dto,BigInteger parent) {
-		return live.getCompanyOverproof(dto,parent);
+	public List<ModelDto> getCompanyOverproof(WeldDto dto,BigInteger parent,String insftype) {
+		return live.getCompanyOverproof(dto,parent,insftype);
 	}
 
 	@Override
-	public List<ModelDto> getDatailOverproof(Page page,WeldDto dto,BigInteger parent) {
-		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return live.getDatailOverproof(dto,parent);
+	public List<ModelDto> getcompanyOvertime(WeldDto dto, String num,BigInteger parent,String typeid) {
+		return live.getcompanyOvertime(dto, num,parent,typeid);
 	}
 
 	@Override
-	public int getCountTime(String welderno, String machineno, String junctionno, String time,BigInteger id) {
-		return live.getCountTime(welderno, machineno, junctionno, time, id);
+	public List<ModelDto> getCompanyLoads(WeldDto dto,BigInteger parent,String insftype) {
+		return live.getCompanyLoads(dto,parent,insftype);
 	}
-
-	@Override
-	public List<ModelDto> getjunctionoverproof(String welderno, String machineno, String junctionno,
-			String time, BigInteger itemid) {
-		return live.getjunctionoverproof(welderno, machineno, junctionno, time, itemid);
-	}
-
-	@Override
-	public List<ModelDto> getcompanyOvertime(WeldDto dto, String num,BigInteger parent) {
-		return live.getcompanyOvertime(dto, num,parent);
-	}
-
-	@Override
-	public List<ModelDto> getCaustOvertime(WeldDto dto, String num, BigInteger parent) {
-		return live.getCaustOvertime(dto, num, parent);
-	}
-
-	@Override
-	public List<ModelDto> getItemOvertime(WeldDto dto, String num) {
-		return live.getItemOvertime(dto, num);
-	}
-
-	@Override
-	public List<LiveData> getJunction(BigInteger parent) {
-		return live.getJunction(parent);
-	}
-
-	@Override
-	public List<ModelDto> getDetailovertime(Page page,WeldDto dto, String num, String junctionno) {
-		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return live.getDetailovertime(dto, num,junctionno);
-	}
-
-	@Override
-	public List<ModelDto> getCompanyLoads(WeldDto dto,BigInteger parent) {
-		return live.getCompanyLoads(dto,parent);
-	}
-
-	@Override
-	public List<ModelDto> getCaustLoads(WeldDto dto, BigInteger parent) {
-		return live.getCaustLoads(dto, parent);
-	}
-
-	@Override
-	public List<ModelDto> getItemLoads(WeldDto dto, BigInteger parent) {
-		return live.getItemLoads(dto, parent);
-	}
-
+	
 	@Override
 	public List<LiveData> getMachine(BigInteger parent) {
 		return live.getMachine(parent);
 	}
-
+	
 	@Override
-	public List<ModelDto> getDetailLoads(Page page,WeldDto dto, String machineno) {
-		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return live.getDetailLoads(dto, machineno);
+	public List<ModelDto> getCompanyNoLoads(WeldDto dto,BigInteger parent,String insftype) {
+		return live.getCompanyNoLoads(dto,parent,insftype);
 	}
-
-	@Override
-	public List<ModelDto> getCompanyNoLoads(WeldDto dto,BigInteger parent) {
-		return live.getCompanyNoLoads(dto,parent);
-	}
-
-	@Override
-	public List<ModelDto> getCaustNOLoads(WeldDto dto, BigInteger parent) {
-		return live.getCaustNoLoads(dto, parent);
-	}
-
-	@Override
-	public List<ModelDto> getItemNOLoads(WeldDto dto, BigInteger parent,String equipmentno) {
-		return live.getItemNOLoads(dto, parent,equipmentno);
-	}
-
+	
 	@Override
 	public List<ModelDto> getCompanyIdle(WeldDto dto,BigInteger parent) {
 		return live.getCompanyIdle(dto,parent);
-	}
-
-	@Override
-	public List<ModelDto> getCaustIdle(WeldDto dto, BigInteger parent) {
-		return live.getCaustIdle(dto, parent);
-	}
-
-	@Override
-	public List<ModelDto> getItemIdle(WeldDto dto, BigInteger itemid) {
-		return live.getItemidle(dto, itemid);
 	}
 
 	@Override
@@ -185,12 +92,6 @@ public class LiveDataServiceImpl implements LiveDataService {
 	public List<ModelDto> getCompanyUse(Page page, WeldDto dto, BigInteger parent) {
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
 		return live.getCompanyUse(dto, parent);
-	}
-
-	@Override
-	public List<ModelDto> getCaustUse(Page page, WeldDto dto, BigInteger insid) {
-		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return live.getCaustUse(dto, insid);
 	}
 	
 	@Override
@@ -218,63 +119,14 @@ public class LiveDataServiceImpl implements LiveDataService {
 	}
 
 	@Override
-	public List<ModelDto> getBlochour(Page page, WeldDto dto) {
-		PageHelper.startPage(page.getPageIndex(),page.getPageSize());
-		return live.getBlochour(dto);
-	}
-
-	@Override
-	public List<ModelDto> getBlocOverproof(WeldDto dto) {
-		return live.getBlocOverproof(dto);
-	}
-
-	@Override
-	public List<ModelDto> getBlocOvertime(WeldDto dto, String num) {
-		return live.getBlocOvertime(dto, num);
-	}
-
-	@Override
-	public List<ModelDto> getBlocLoads(WeldDto dto) {
-		return live.getBlocLoads(dto);
-	}
-
-	@Override
-	public List<ModelDto> getBlocNoLoads(WeldDto dto) {
-		return live.getBlocNoLoads(dto);
-	}
-
-	@Override
-	public List<ModelDto> getBlocIdle(WeldDto dto) {
-		return live.getBlocIdle(dto);
-	}
-
-	@Override
-	public List<ModelDto> getBlocUse(Page page,WeldDto dto, BigInteger parent) {
-		PageHelper.startPage(page.getPageIndex(),page.getPageSize());
-		return live.getBlocUse(dto, parent);
-	}
-
-	@Override
 	public List<LiveData> getBlocChildren() {
 		return live.getBlocChildren();
 	}
 
 	@Override
-	public List<ModelDto> caustEfficiency(Page page, BigInteger parent, WeldDto dto, int min, int max) {
-		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return live.caustEfficiency(dto, parent, min, max);
-	}
-
-	@Override
-	public List<ModelDto> companyEfficiency(Page page, BigInteger parent, WeldDto dto, int min, int max) {
+	public List<ModelDto> companyEfficiency(Page page, BigInteger parent, WeldDto dto,String insftype) {
 		PageHelper.startPage(page.getPageIndex(),page.getPageSize());
-		return live.companyEfficiency(dto, parent, min, max);
-	}
-
-	@Override
-	public List<ModelDto> blocEfficiency(Page page, WeldDto dto,BigInteger parent, int min, int max) {
-		PageHelper.startPage(page.getPageIndex(),page.getPageSize());
-		return live.blocEfficiency(dto, parent, min, max);
+		return live.companyEfficiency(dto, parent,insftype);
 	}
 
 	@Override
@@ -299,36 +151,13 @@ public class LiveDataServiceImpl implements LiveDataService {
 	}
 
 	@Override
-	public List<ModelDto> getDetailNoLoads(Page page, WeldDto dto) {
-		PageHelper.startPage(page.getPageIndex(),page.getPageSize());
-		return live.getDetailNoLoads(dto);
-	}
-
-	@Override
-	public List<ModelDto> getItemOverproof(WeldDto dto, BigInteger id) {
-		return live.getItemOverproof(dto, id);
-	}
-
-	@Override
-	public List<ModelDto> getItemUse(Page page, WeldDto dto, BigInteger insid) {
-		PageHelper.startPage(page.getPageIndex(),page.getPageSize());
-		return live.getItemUse(dto, insid);
-	}
-	
-
-	@Override
 	public BigInteger getDyneByJunctionno(String str) {
 		return live.getDyneByJunctionno(str);
 	}
 
 	@Override
-	public List<ModelDto> getCompanyMachineCount(WeldDto dto, BigInteger parent) {
-		return live.getCompanyMachineCount(dto, parent);
-	}
-
-	@Override
-	public List<ModelDto> getCaustMachineCount(WeldDto dto, BigInteger parent) {
-		return live.getCaustMachineCount(dto, parent);
+	public List<ModelDto> getLiveMachineCount(WeldDto dto, BigInteger parent,String insftype) {
+		return live.getLiveMachineCount(dto, parent,insftype);
 	}
 
 	@Override
@@ -351,6 +180,12 @@ public class LiveDataServiceImpl implements LiveDataService {
 		return live.getWelderList(dto);
 	}
 
+	@Override
+	public List<LiveData> getAllInsf(Page page, BigInteger parent, int type) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return live.getAllInsf(parent, type);
+	}
+	
 	@Override
 	public List<ModelDto> getMonthWorkTime(BigInteger parent,int year) {
 		return live.getMonthWorkTime(parent,"'"+year+"%'");

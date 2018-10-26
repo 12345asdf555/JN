@@ -163,15 +163,15 @@ function webclient() {
 			}
 
 			for (var i = 0; i < redata.length; i += 77) {
-				if (redata.substring(8 + i, 12 + i) != "0000") {
+				if (redata.substring(36 + i, 38 + i) != "0000") {
 					//组织机构与焊工编号都与数据库中一直则录入
 					if (weld.length == 0) {
-						weld.push(redata.substring(8 + i, 12 + i));
+						weld.push(redata.substring(0 + i, 4 + i));
 					} else {
 						for (var j = 0; j < weld.length; j++) {
-							if (weld[j] != redata.substring(8 + i, 12 + i)) {
+							if (weld[j] != redata.substring(0 + i, 4 + i)) {
 								if (j == weld.length - 1) {
-									weld.push(redata.substring(8 + i, 12 + i));
+									weld.push(redata.substring(0 + i, 4 + i));
 								}
 							} else {
 								break;
@@ -179,13 +179,13 @@ function webclient() {
 						}
 					}
 				}
-				if (redata.substring(0 + i, 2 + i) == "03" || redata.substring(0 + i, 2 + i) == "05" || redata.substring(0 + i, 2 + i) == "07" || redata.substring(0 + i, 2 + i) == "00") {
+				if (redata.substring(36 + i, 38 + i) == "03" || redata.substring(36 + i, 38 + i) == "05" || redata.substring(36 + i, 38 + i) == "07" || redata.substring(36 + i, 38 + i) == "00") {
 					for (var x = 0; x < machine.length; x++) {
 						if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i))) {
 							if (mall.length == 0) {
 								var arr = {
 									"fid" : redata.substring(4 + i, 8 + i),
-									"fstatus" : redata.substring(0 + i, 2 + i)
+									"fstatus" : redata.substring(36 + i, 38 + i)
 								}
 								mall.push(arr);
 							} else {
@@ -194,7 +194,7 @@ function webclient() {
 										if (j == mall.length - 1) {
 											var arr = {
 												"fid" : redata.substring(4 + i, 8 + i),
-												"fstatus" : redata.substring(0 + i, 2 + i)
+												"fstatus" : redata.substring(36 + i, 38 + i)
 											}
 											mall.push(arr);
 										}

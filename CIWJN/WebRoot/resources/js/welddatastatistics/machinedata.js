@@ -7,7 +7,15 @@ var chartStr = "";
 function setParam(){
 	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
 	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
-	var item = $("#bitem").combobox('getValue');
+	var zitem = $("#zitem").combobox('getValue');
+	var bitem = $("#bitem").combobox('getValue');
+	var item = "";
+	if(zitem!=0){
+		item = zitem;
+	}
+	if(bitem!=0){
+		item = bitem;
+	}
 	chartStr += "?item="+item+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2;
 }
 

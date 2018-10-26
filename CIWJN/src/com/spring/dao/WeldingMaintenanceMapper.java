@@ -11,7 +11,7 @@ import com.spring.model.WeldingMaintenance;
 import tk.mybatis.mapper.common.Mapper;
 
 public interface WeldingMaintenanceMapper extends Mapper<WeldingMaintenance> {
-	List<WeldingMaintenance> getWeldingMaintenanceAll(@Param("wid")BigInteger wid,@Param("str")String str);
+	List<WeldingMaintenance> getWeldingMaintenanceAll(@Param("parent")BigInteger parent,@Param("wid")BigInteger wid,@Param("str")String str);
 	
 	List<WeldingMaintenance> getMaintainByWeldingMachinId(@Param("wid")BigInteger wid);
 	
