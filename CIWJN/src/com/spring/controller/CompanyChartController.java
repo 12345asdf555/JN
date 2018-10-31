@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.spring.dto.ModelDto;
 import com.spring.dto.WeldDto;
-import com.spring.model.Insframework;
 import com.spring.model.LiveData;
 import com.spring.page.Page;
 import com.spring.service.InsframeworkService;
@@ -249,22 +248,22 @@ public class CompanyChartController {
 			dto.setSearch(search);
 		}
 		page = new Page(pageIndex,pageSize,total);
-		int types = insm.getTypeById(parent);
+		int types = insm.getTypeById(parent),temptype = types;
 		String insftype = "fid";
 		if(types==20){
-			types = 21;
+			temptype = 21;
 			insftype = "companyid";
 		}else if(types==21){
-			types = 22;
+			temptype = 22;
 			insftype = "caustid";
 		}else if(types==22){
-			types = 23;
+			temptype = 23;
 		}
 		List<LiveData> insf = null;
 		if(iutil.isNull(request.getParameter("page"))){
-			insf = lm.getAllInsf(page, parent, types);
+			insf = lm.getAllInsf(page, parent, temptype);
 		}else{
-			insf = lm.getAllInsf(parent, types);
+			insf = lm.getAllInsf(parent, temptype);
 		}
 		long total = 0;
 		if(insf != null){
@@ -371,19 +370,19 @@ public class CompanyChartController {
 		JSONArray arys = new JSONArray();
 		JSONArray arys1 = new JSONArray();
 		try{
-			int types = insm.getTypeById(parent);
+			int types = insm.getTypeById(parent),temptype = types;
 			String insftype = "fid";
 			if(types==20){
-				types = 21;
+				temptype = 21;
 				insftype = "companyid";
 			}else if(types==21){
-				types = 22;
+				temptype = 22;
 				insftype = "caustid";
 			}else if(types==22){
-				types = 23;
+				temptype = 23;
 			}
 			List<ModelDto> list = lm.getCompanyOverproof(dto,parent,insftype);
-			List<LiveData> ins = lm.getAllInsf(parent,types);
+			List<LiveData> ins = lm.getAllInsf(parent,temptype);
 			double[] num = null;
 			for(ModelDto live :time){
 				json.put("weldTime",live.getWeldTime());
@@ -401,7 +400,7 @@ public class CompanyChartController {
 							id = l.getCaustid();
 						}
 						if(ins.get(i).getFid().equals(id) && time.get(j).getWeldTime().equals(l.getWeldTime())){
-							num[j] = l.getOverproof();
+							num[j] = (double)Math.round(l.getOverproof());
 						}
 					}
 				}
@@ -500,19 +499,19 @@ public class CompanyChartController {
 		JSONArray arys = new JSONArray();
 		JSONArray arys1 = new JSONArray();
 		try{
-			int types = insm.getTypeById(parent);
+			int types = insm.getTypeById(parent),temptype = types;
 			String insftype = "fid";
 			if(types==20){
-				types = 21;
+				temptype = 21;
 				insftype = "companyid";
 			}else if(types==21){
-				types = 22;
+				temptype = 22;
 				insftype = "caustid";
 			}else if(types==22){
-				types = 23;
+				temptype = 23;
 			}
 			List<ModelDto> list = lm.getcompanyOvertime(dto, number, parent,insftype);
-			List<LiveData> ins = lm.getAllInsf(parent,types);
+			List<LiveData> ins = lm.getAllInsf(parent,temptype);
 			int[] num = null;
 			for(ModelDto live :time){
 				json.put("weldTime",live.getWeldTime());
@@ -625,20 +624,20 @@ public class CompanyChartController {
 		JSONArray arys = new JSONArray();
 		JSONArray arys1 = new JSONArray();
 		try{
-			int types = insm.getTypeById(parent);
+			int types = insm.getTypeById(parent),temptype = types;
 			String insftype = "fid";
 			if(types==20){
-				types = 21;
+				temptype = 21;
 				insftype = "companyid";
 			}else if(types==21){
-				types = 22;
+				temptype = 22;
 				insftype = "caustid";
 			}else if(types==22){
-				types = 23;
+				temptype = 23;
 			}
 			List<ModelDto> list = lm.getCompanyLoads(dto,parent,insftype);
 			List<ModelDto> machine = lm.getLiveMachineCount(dto, parent,insftype);
-			List<LiveData> ins = lm.getAllInsf(parent,types);
+			List<LiveData> ins = lm.getAllInsf(parent,temptype);
 			double[] num = null;
 			for(ModelDto live :time){
 				json.put("weldTime",live.getWeldTime());
@@ -757,20 +756,20 @@ public class CompanyChartController {
 		JSONArray arys = new JSONArray();
 		JSONArray arys1 = new JSONArray();
 		try{
-			int types = insm.getTypeById(parent);
+			int types = insm.getTypeById(parent),temptype = types;
 			String insftype = "fid";
 			if(types==20){
-				types = 21;
+				temptype = 21;
 				insftype = "companyid";
 			}else if(types==21){
-				types = 22;
+				temptype = 22;
 				insftype = "caustid";
 			}else if(types==22){
-				types = 23;
+				temptype = 23;
 			}
 			List<ModelDto> list = lm.getCompanyNoLoads(dto,parent,insftype);
 			List<ModelDto> machine = lm.getLiveMachineCount(dto, parent,insftype);
-			List<LiveData> ins = lm.getAllInsf(parent,types);
+			List<LiveData> ins = lm.getAllInsf(parent,temptype);
 			double[] num = null;
 			for(ModelDto live :time){
 				json.put("weldTime",live.getWeldTime());
@@ -891,15 +890,15 @@ public class CompanyChartController {
 		JSONArray arys1 = new JSONArray();
 		try{
 			List<ModelDto> list = lm.getCompanyIdle(dto,parent);
-			int types = insm.getTypeById(parent);
+			int types = insm.getTypeById(parent),temptype = types;
 			if(types==20){
-				types = 21;
+				temptype = 21;
 			}else if(types==21){
-				types = 22;
+				temptype = 22;
 			}else if(types==22){
-				types = 23;
+				temptype = 23;
 			}
-			List<LiveData> ins = lm.getAllInsf(parent,types);
+			List<LiveData> ins = lm.getAllInsf(parent,temptype);
 			double[] num = null;
 			for(ModelDto live :time){
 				json.put("weldTime",live.getWeldTime());
@@ -1032,16 +1031,16 @@ public class CompanyChartController {
 			return obj.toString();
 		}
 		parent = insm.getUserInsfId(uid);
-		int types = insm.getTypeById(parent);
+		int types = insm.getTypeById(parent),temptype = types;
 		if(types==20){
-			types = 21;
+			temptype = 21;
 		}else if(types==21){
-			types = 22;
+			temptype = 22;
 		}else if(types==22){
-			types = 23;
+			temptype = 23;
 		}
 		try{
-			List<LiveData> list = lm.getAllInsf(parent, types);
+			List<LiveData> list = lm.getAllInsf(parent, temptype);
 			for(int i=0;i<list.size();i++){
 				json.put("id", list.get(i).getFid());
 				json.put("name", list.get(i).getFname());
