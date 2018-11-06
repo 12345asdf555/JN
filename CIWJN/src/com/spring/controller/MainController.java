@@ -88,4 +88,23 @@ public class MainController {
 		obj.put("ary2", ary2);
 		return obj.toString();
 	}
+	
+	/**
+	 * 获取隐藏菜单
+	 * @return
+	 */
+	@RequestMapping("/getHiddenMenu")
+	@ResponseBody
+	public String getHiddenMenu(){
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject json = new JSONObject();
+		List<User> menu = user.getHiddenMenu();
+		for(int i=0;i<menu.size();i++){
+			json.put("name", menu.get(i).getMenuName());
+			ary.add(json);
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
 }

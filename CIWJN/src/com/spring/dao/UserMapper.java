@@ -27,4 +27,5 @@ public interface UserMapper {
 	List<User> getIns(@Param("parent") BigInteger parent);
 	User getUserInsframework(@Param("id")BigInteger id);
 	List<User> getInsUser(int ins);
+	List<User> getHiddenMenu();
 }

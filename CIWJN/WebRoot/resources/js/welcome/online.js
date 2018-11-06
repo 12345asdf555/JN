@@ -286,7 +286,7 @@ function showPersonChart() {
 		legend : {
 			orient : 'vertical',
 			x : 'right',
-			top : 50,
+			top : 70,
 			data : [ '焊工', '在线' ],
 			formatter : function(name) {
 				var index = 0;
@@ -421,13 +421,13 @@ function showWelderChart() {
 				var index = 0;
 				var clientlabels = [ '工作', '待机','故障', '关机' ];
 				var clientcounts = [ work.length, wait.length,warn.length, machine.length - work.length - wait.length ];
-
+				
 				$.each(clientlabels,function (i,value) {
 					if (value == name) {
 						index = i;
 					}
 			    })
-				return name + "：" + clientcounts[index];
+				return name + "：" + clientcounts[index] ;
 			}
 		},
 		series : [
@@ -470,10 +470,12 @@ function showWelderChart() {
 				}),
 				label : {
 					normal : {
-						formatter : '{d}%',
+						/*formatter : '{d}%',
 						textStyle : {
 							color : '#000'
-						}
+						}*/
+						show : false,
+						position : 'center'
 					}
 				},
 				labelLine : {

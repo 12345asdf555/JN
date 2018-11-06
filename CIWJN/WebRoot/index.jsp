@@ -184,20 +184,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div data-options="region:'south',split:true" style="height:40px;">
    		<div class="tenghan-bottom">
 <!--    			<div id="fauitContent"><div id="content"></div></div> -->
-			<div style="float:left;color:#fff;width:33%;" id="bottomlog">
+			<div style="float:left;color:#fff;width:23%;" id="bottomlog">
 				&nbsp;
 			</div>
-			<div style="float:left;color:#fff;width:33%;height:55px;text-align: center;position: relative;" id="bottomlog">
-				<div style="float:left;width:300px;margin: auto;left:0;right:0;position: absolute;">
-					<div style="float:left;padding-top:20px;font-size:16px;">改革创新 提质增效</div>
-					<div style="float:left;width:150px;">
-						重准备 强协调 控过程<br/>
-						抓策划 解扣子 接地气<br/>
-						想明白 写下来 照着干
-					</div>
+			<div style="float:left;color:#fff;width:53%;height:55px;position: relative;" id="bottomlog">
+				<div style="float:left;width:518px;margin: auto;left:0;right:0;position: absolute;">
+					<span style="float:left;padding-top:20px;font-size:16px;">改革创新  提质增效</span>
+					<span style="float:left;margin-top:22px;">
+						&nbsp;&nbsp;&nbsp;&nbsp;重准备 强协调 控过程&nbsp;&nbsp;|&nbsp;&nbsp;抓策划 解扣子 接地气&nbsp;&nbsp;|&nbsp;&nbsp;想明白 写下来 照着干
+					</span>
 				</div>
 			</div>
-			<div style="float:left;color:#fff;width:33%;text-align:right;padding-top:20px;" id="bottomlog">
+			<div style="float:left;color:#fff;width:23%;text-align:right;padding-top:20px;" id="bottomlog">
 				<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-msg" style="border: none;">消息</a>
 			</div>
 		</div>

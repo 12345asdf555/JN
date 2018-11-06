@@ -15,7 +15,7 @@ body{
 body,h1,h2,h3,h4,h5,h6,p,dd{margin:0;}
 ul,ol,dl{margin:0;padding:0;list-style:none;}
 img{border:none;vertical-align:middle;}
-input{border:none;outline:none;padding:0;margin:0;font-size:12px;width:150px}
+input{border:none;outline:none;padding:0;margin:0;font-size:12px;width:150px;background-color: none;}
 button{border:none;outline:none;padding:0;margin:0;}
 a{text-decoration:none;outline:none;}
 
@@ -198,18 +198,20 @@ select::-ms-expand {
 	border:1px solid #c0c0c0;
 	float:left;
 	width:47.5%;
-	height:45%;
-	margin-left:20px;
-	margin-top:10px;
+	height:40%;
+	margin-left:2%;
+	margin-top:1%;
+	padding-bottom:2%;
 	overflow: hidden;
 }
 .rightdiv1{
 	border:1px solid #c0c0c0;
 	float:right;
-	width:45%;
-	height:92%;
-	margin-left:20px;
-	margin-top:10px;
+	width:46%;
+	height:91%;
+	margin-right:2%;
+	margin-top:1%;
+	padding-left:1%
 	overflow: hidden;
 }
 #machine,#person{

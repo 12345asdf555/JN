@@ -42,8 +42,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		<div>
 	       	<a href="javascript:addWps();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	       	<a href="javascript:insertSearchWps();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>&nbsp;&nbsp;&nbsp;&nbsp;
-	       	<a href="javascript:selectWps()" class="easyui-linkbutton" iconCls="icon-select">工艺下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
-	       	<a href="javascript:history()" class="easyui-linkbutton" iconCls="icon-select" >下发历史</a>
+	       	<a href="javascript:selectWps()" class="easyui-linkbutton" iconCls="icon-setwps">工艺下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	       	<a href="javascript:history()" class="easyui-linkbutton" iconCls="icon-history" >下发历史</a>
        	</div>
    	</div>
   </div>

@@ -324,6 +324,7 @@
 .textbox {
   border: 1px solid #000;/*文本框颜色*/
   vertical-align: middle;
+  display: inline-block;
 }
 .combo {
   display: inline-block;

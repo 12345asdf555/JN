@@ -108,4 +108,8 @@
 		select tb_users.id id,tb_users.users_name userName,tb_users.users_password userPassword,tb_users.users_login_name userLoginName,tb_users.users_phone userPhone,tb_users.users_email userEmail,tb_users.users_insframework userInsframework,tb_users.users_position userPosition,tb_users.status status from tb_users where tb_users.users_insframework=#{id}
 	</select>
 	
+	<!-- 获取隐藏菜单 -->
+	<select id="getHiddenMenu" resultType="User">
+		SELECT fname menuName FROM tb_hidden_menu
+	</select>
 </mapper>

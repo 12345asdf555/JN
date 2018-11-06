@@ -33,7 +33,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/welcome/welcome.js"></script>
 	<style type="text/css">
 		.datagrid{
-			border:none;
+			border:1px solid #c0c0c0;
+			margin-left:4%;
 		}
 	</style>
   </head>
@@ -47,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="rightdiv1">
 			<div class="divheader">&nbsp;&nbsp;生产信息概括</div>
 			<div id="taskcharts" style="height:50%;width:90%;padding-bottom: 10px;"></div>
-			<table id="taskdg" style="table-layout: fixed; width:100%;"></table>
+			<table id="taskdg" style="table-layout: fixed; width:100%;margin-left:20px;margin:auto"></table>
 		</div>
 		<div class="leftdiv2">
 			<div class="divheader">&nbsp;&nbsp;月度焊接时长</div>

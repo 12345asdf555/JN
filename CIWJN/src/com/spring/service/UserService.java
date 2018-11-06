@@ -26,4 +26,9 @@ public interface UserService {
 	List<User> getIns(BigInteger parent);
 	User getUserInsframework(BigInteger id);
 	List<User> getInsUser(int ins);
+	/**
+	 * 获取隐藏菜单
+	 * @return
+	 */
+	List<User> getHiddenMenu();
 }

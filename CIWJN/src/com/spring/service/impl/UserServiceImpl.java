@@ -25,12 +25,10 @@ public class UserServiceImpl implements UserService {
 	private UserMapper mapper;
 
 	public boolean delete(int id) {
-		
 		return mapper.delete(id);
 	}
 	
 	public boolean deleteRole(int id) {
-		
 		return mapper.deleteRole(id);
 	}
 	
@@ -58,24 +56,19 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public List<String> getAuthoritiesByUsername(String userName) {
-		 
 		return mapper.getAuthoritiesByUsername(userName);
 	}
 
 	public User findById(Integer id) {
-
 		User user = mapper.findById(id);
-		
 		return user;
 	}
 	
 	public User LoadUser(String userName) {
-		
 		return mapper.LoadUser(userName);
 	}
 	
 	public String findByRoleId(Integer id) {
-		
 		return mapper.findByRoleId(id);
 	}
 
@@ -84,23 +77,19 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public void save(User user) {
-
 		mapper.save(user);
 	}
 	
 	public void saveRole(User user) {
-
 		mapper.saveRole(user);
 	}
 
 	public boolean update(User user) {
-
 		return mapper.update(user);
 	}
 
 	@Override
 	public String updateUserRole(Integer findByRoleId) {
-		// TODO Auto-generated method stub
 		return mapper.updateUserRole(findByRoleId);
 	}
 
@@ -112,6 +101,11 @@ public class UserServiceImpl implements UserService {
 	public List<User> getInsUser(int ins) {
 		List<User> getInsUser = mapper.getInsUser(ins);
 		return getInsUser;
+	}
+	
+	@Override
+	public List<User> getHiddenMenu() {
+		return mapper.getHiddenMenu();
 	}
 
 }

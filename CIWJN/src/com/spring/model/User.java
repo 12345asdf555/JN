@@ -18,6 +18,7 @@ public class User{
 	private long insid;
 	private int roleId;
 	private String userName;
+	private String menuName;
 	private String userPassword;
 	private String userLoginName;
 	private String userPhone;
@@ -34,6 +35,22 @@ public class User{
 		super();
 	}
 	
+	public String getMenuName() {
+		return menuName;
+	}
+
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
+	}
+
+	public Collection<GrantedAuthority> getAuths() {
+		return auths;
+	}
+
+	public void setAuths(Collection<GrantedAuthority> auths) {
+		this.auths = auths;
+	}
+
 	public String getStatusname() {
 		return statusname;
 	}

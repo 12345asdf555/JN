@@ -88,7 +88,7 @@ function getMonthTask() {
 			var width = $("body").width() / result.rows.length;
 			column.push({
 				field : "title",
-				width : 80,
+				width : 120,
 				halign : "center",
 				align : "left"
 			});
@@ -138,7 +138,7 @@ function showtaskChart(){
 		grid:{
 			left:'50',//组件距离容器左边的距离
 			right:'4%',
-			bottom:'20',
+			bottom:'40',
 			containLaber:true//区域是否包含坐标轴刻度标签
 		},
 		xAxis:{
