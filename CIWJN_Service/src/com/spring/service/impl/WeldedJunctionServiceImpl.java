@@ -385,8 +385,8 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 		}else if(status==3){
 			String operatorid = json.getString("OPERATOR");
 			wj.setTaskid(new BigInteger(taskid));
-			wj.setWelderid(new BigInteger(welderid));
-			wj.setMachineid(new BigInteger(machineid));
+/*			wj.setWelderid(new BigInteger(welderid));
+			wj.setMachineid(new BigInteger(machineid));*/
 			wj.setDyne(Integer.valueOf(status));
 			wj.setOperatorid(new BigInteger(operatorid));
 			wj.setId(new BigInteger(json.getString("ID")));
@@ -397,7 +397,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 					try {
 						socketChannel.writeAndFlush("JN"+","+taskid+","+welderid+","+machineid+","+status+","+machineno).sync();
 						socketChannel.close();
-						wjm.deleteTaskResult(new BigInteger(taskid), new BigInteger(welderid), new BigInteger(machineid));
+						wjm.deleteTaskResult(new BigInteger(taskid));
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
