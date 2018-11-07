@@ -28,7 +28,7 @@ function statusChange(){
 function weldedJunctionDatagrid(){
 	$("#weldTaskTable").datagrid( {
 //		fitColumns : true,
-		view: detailview,
+//		view: detailview,
 		height : $("#body").height(),
 		width : $("#body").width(),
 		idField : 'id',
@@ -243,8 +243,8 @@ function weldedJunctionDatagrid(){
 				$("a[id='confirm2']").linkbutton({text:'未领取',plain:true,iconCls:'icon-assign'});
 			};
 			$("a[id='evaluation']").linkbutton({text:'评价',plain:true,iconCls:'icon-newadd'});
-		},
-		detailFormatter:function(index,row2){//严重注意喔
+		}
+/*		detailFormatter:function(index,row2){//严重注意喔
 			return '<div"><table id="ddv-' + index + '" style=""></table></div>';
 		},
 		onExpandRow: function(index,row){//嵌套第一层，严重注意喔
@@ -291,7 +291,7 @@ function weldedJunctionDatagrid(){
 				}
 			});
 			$('#weldTaskTable').datagrid('fixDetailRowHeight',index);
-		}
+		}*/
 	});
 }
 
@@ -734,6 +734,169 @@ function saveconment(){
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	});
+}
+
+//任务批量完成
+function complete(){
+	
+	$('#sdlg').window({
+		title : "任务状态更改",
+		modal : true
+	});
+	$('#sdlg').window('open');
+	WeldingMachineDatagrid();
+}
+function WeldingMachineDatagrid() {
+	$("#weg").datagrid( {
+//		fitColumns : true,
+		height : $("#sdlg").height(),
+		width : $("#sdlg").width(),
+		idField : 'id',
+		pageSize : 10,
+		pageList : [ 10, 20, 30, 40, 50 ],
+		url : "weldtask/getTaskResultList?searchStr= foperatetype!=1",
+		rownumbers : false,
+		showPageList : false,
+		checkOnSelect:true,
+		selectOnCheck:true,
+		columns : [ [ {
+			field : 'ck',
+			checkbox : true
+		},{ 
+			field : 'id',
+			title : '序号',
+			width : 30,
+			halign : "center",
+			align : "left",
+			hidden:true
+		}, {
+			field : 'taskNo',
+			title : '任务编号',
+			width : 70,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'welderNo',
+			title : '焊工编号',
+			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+				
+		}, {
+			field : 'welderid',
+			title : '焊工编号id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		},{
+			field : 'machineNo',
+			title : '焊机编号',
+			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		}, {
+			field : 'machineid',
+			title : '焊机编号id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+	},{
+		field : 'taskid',
+		title : '任务编号id',
+		width : 90,
+		halign : "center",
+		align : "left",
+		hidden:true
+	},{
+		field : 'operateid',
+		title : '状态id',
+		width : 90,
+		halign : "center",
+		align : "left",
+		hidden:true
+	},{
+		field : 'starttime',
+		title : '开始时间',
+		width : 100,
+		halign : "center",
+		align : "left",
+		hidden:true
+    },{
+		field : 'endtime',
+		title : '结束时间',
+		width : 100,
+		halign : "center",
+		align : "left",
+		hidden:true
+    }/*,{
+			field : 'operatetype',
+			title : '任务状态',
+			width : 100,
+			halign : "center",
+			align : "left",
+			formatter: function(value,row,index){
+				var str = '<a id="confirm" href="javascript:dgConfirm()" class="easyui-linkbutton">';
+				return str;
+			}
+		}*/
+		] ],/*
+		onLoadSuccess: function(data){
+			$("a[id='confirm']").linkbutton({text:'确认完成',plain:true,iconCls:'icon-unfinished'});
+			
+		},*/
+		toolbar : '#dlgSearch',
+		pagination : true,
+		fitColumns : true
+	});
+}
+
+function saveWeldingnumber(){
+	var url2="";
+	var temp=1;
+	$.messager.confirm('提示', '此操作不可撤销，是否确认?', function(flag) {
+		if(flag){
+//			document.getElementById("load").style.display="block";
+//			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
+//			$("#body").append(sh);
+//			document.getElementById("show").style.display="block";
+			var row = $('#weg').datagrid('getSelections');
+			var jsonStr = JSON.stringify(row)
+			$.ajax({  
+			      type : "post",  
+			      async : false,
+			      url : "weldtask/taskImportion", 
+			      data : {taskstr:jsonStr},  
+			      dataType : "json", //返回数据形式为json  
+			      success : function(result) {
+			          if (result) {
+							var result = eval(result);
+							if (!result.success) {
+//								document.getElementById("load").style.display ='none';
+//					    		document.getElementById("show").style.display ='none';
+								$.messager.show( {
+									title : 'Error',
+									msg : result.errorMsg
+								});
+							} else {
+//								document.getElementById("load").style.display ='none';
+//					    		document.getElementById("show").style.display ='none';
+								$('#weldTaskTable').datagrid('reload');
+							}
+						
+			          }  
+			      },  
+			      error : function(errorMsg) {  
+			          alert("数据请求失败，请联系系统管理员!");  
+			      }  
+			 }); 
+
+		}
+	});
+	$('#sdlg').dialog('close');
 }
 
 //监听窗口大小变化

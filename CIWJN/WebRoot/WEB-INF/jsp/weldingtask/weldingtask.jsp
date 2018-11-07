@@ -24,7 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/weldingtask/json2.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.min.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
-	<script type="text/javascript" src="resources/js/datagrid-detailview.js" charset="utf-8"></script>
+<!-- 	<script type="text/javascript" src="resources/js/datagrid-detailview.js" charset="utf-8"></script> -->
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-extend-check.js"></script>
 	<script type="text/javascript" src="resources/js/weldingtask/weldtask.js"></script>
@@ -48,7 +48,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:addWeldedjunction();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-import">导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:openDayin();" class="easyui-linkbutton" iconCls="icon-print">打印</a>&nbsp;&nbsp;&nbsp;&nbsp;
-			<a href="javascript:insertsearchWT();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
+			<a href="javascript:insertsearchWT();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:complete();" class="easyui-linkbutton" iconCls="icon-ok">批量完成</a>
 		</div>
 	</div>
   	<div id="body">
@@ -204,6 +205,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="mdlg-buttons">
 			<a href="javascript:saveconment();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 			<a href="javascript:dlgclose('mdlg');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+		</div>
+		
+		<!-- 批量完成 -->
+		<div id="sdlg" class="easyui-dialog" style="width: 500px; height: 450px;" title="任务状态更改" closed="true" buttons="#sdlg-buttons">
+   			<table id="weg" style="table-layout: fixed; width:100%;"></table>
+		</div>
+		<div id="sdlg-buttons">
+			<a href="javascript:saveWeldingnumber();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+			<a href="javascript:dlgclose('sdlg');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		
 		<div id="load" style="width:100%;height:100%;"></div>
