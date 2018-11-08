@@ -123,10 +123,6 @@ $(function() {
 				if(worktime.time!=null && worktime.time!=''){
 					time2 = worktime.time;
 				}
-				var t1 = secondToDate(time1);
-			    $("#r3").val(t1);
-			    var t2 = secondToDate(time2);
-			    $("#r4").val(t2);
 			}
 		},
 		error : function(errorMsg) {
@@ -423,6 +419,7 @@ function iview() {
 			$("#r14").html(parseFloat((parseInt(redata.substring(50 + i, 54 + i), 10) / 10).toFixed(2)));
 			$("#c1").html(parseInt(redata.substring(38 + i, 42 + i), 10));
 			$("#c2").html((parseInt(redata.substring(42 + i, 46 + i), 10) / 10).toFixed(1));
+			$("#r6").textbox('setValue',parseInt(redata.substring(91 + i, 93 + i)));
 			for (var k = 0; k < welderName.length; k++) {
 				if (welderName[k].fid == parseInt(redata.substring(0 + i, 4 + i),10)) {
 					$("#l4").html(welderName[k].fwelder_no);
@@ -712,11 +709,11 @@ setInterval(function(){
 setInterval(function(){
 	if($("#l5").val()!="关机"){
 	    var t1 = secondToDate(time1);
-	    $("#r3").html(t1);
+	    $("#r3").textbox('setValue',t1);
 	}
 	if($("#l5").val()!="关机" && $("#l5").val()!="待机"){
 	    var t2 = secondToDate(time2);
-	    $("#r4").html(t2);
+	    $("#r4").textbox('setValue',t2);
 	}
     time1++;
     time2++;

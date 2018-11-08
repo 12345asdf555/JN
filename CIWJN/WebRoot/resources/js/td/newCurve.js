@@ -78,7 +78,7 @@ function loadtree() {
 			//清空实时数组
 			liveary.length = 0;
 			setTimeout(function() {
-				if (symbol != 1) {
+				if (symbol == 0) {
 					alert("未接收到数据!!!");
 		    		/*document.getElementById("load").style.display ='none';
 		    		document.getElementById("show").style.display ='none';*/
