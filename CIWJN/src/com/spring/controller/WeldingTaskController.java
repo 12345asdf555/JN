@@ -830,7 +830,7 @@ public class WeldingTaskController {
 				}
 /*				Insframework itemid = new Insframework();
 				itemid.setId(new BigInteger(String.valueOf(obj.get("id"))));*/
-				wj.setIid(new BigInteger(String.valueOf(obj.get("insId"))));
+//				wj.setIid(new BigInteger(String.valueOf(obj.get("insId"))));
 				wj.setStartTime(String.valueOf(obj.get("starttime")));
 				wj.setEndTime(sdf.format(new Date()));
 				System.out.println(sdf.format(new Date()));

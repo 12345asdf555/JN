@@ -131,15 +131,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input type="hidden" id="oldno" />
 					<input class="easyui-textbox" id="taskid"  name="taskNo" data-options="required:true" readonly="readonly" />
 				</div>
-				<div class="fitem">
+<!-- 				<div class="fitem">
 					<lable><span class="required">*</span>焊工编号</lable>
-					<input class="easyui-textbox" id="welderid"  name="welderNo" data-options="required:true,editable:false"></select>
+					<input class="easyui-textbox" id="welderid"  name="welderNo" data-options="editable:false"></select>
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>焊机编号</lable>
 					
-					<input class="easyui-textbox" id="machineNo"  name="machineNo" data-options="required:true,editable:false"></select>
-				</div>
+					<input class="easyui-textbox" id="machineNo"  name="machineNo" data-options="editable:false"></select>
+				</div> -->
 				</div>
 			</form>
 		</div>

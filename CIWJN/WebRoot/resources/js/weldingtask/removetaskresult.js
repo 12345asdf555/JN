@@ -20,7 +20,7 @@ function removeWeldedjunction(){
 		$('#rdlg').window('open');
 		$('#rfm').form('load', row);
 		$("#oldno").val(row.taskNo);
-		url = "weldtask/getEvaluate?id="+row.id+"&result="+""+"&taskid="+row.taskid+"&welderid="+row.welderid+"&machineid="+row.machineid;
+		url = "weldtask/getEvaluate?id="+row.id+"&result="+""+"&taskid="+row.taskid+"&welderid="+null+"&machineid="+null;
 	}
   }
 }
@@ -35,7 +35,7 @@ function remove(){
     var rows = $("#weldTaskTable").datagrid("getSelections");
 	if(flag==3){
 		temp=3;
-		url2=url+"&resultid="+""+"&welderNo="+rows[0].welderNo+"&operateid="+temp+"&taskNo="+rows[0].taskNo+"&machineNo="+rows[0].machineNo;
+		url2=url+"&resultid="+""+"&welderNo="+null+"&operateid="+temp+"&taskNo="+rows[0].taskNo+"&machineNo="+null;
 	}
 	$('#rfm').form('submit', {
 		url : url2,
