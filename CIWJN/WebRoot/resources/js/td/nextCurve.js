@@ -404,14 +404,6 @@ function iview() {
 	for (var i = 0; i < redata.length; i += 93) {
 		//				if(redata.substring(8+i, 12+i)!="0000"){
 		if (parseInt(redata.substring(4 + i, 8 + i),10) == $("#machineid").val()) {
-		    time1++;
-		    var t1 = secondToDate(time1);
-		    $("#r3").val(t1);
-		    if(redata.substring(36 + i, 38 + i)!="00"){
-			    time2++;
-			    var t2 = secondToDate(time2);
-			    $("#r4").val(t2);
-		    }
 			ele.push(parseInt(redata.substring(38 + i, 42 + i), 10));
 			vol.push(parseFloat((parseInt(redata.substring(42 + i, 46 + i), 10) / 10).toFixed(2)));
 			var ttme = redata.substring(54 + i, 73 + i);
@@ -427,8 +419,8 @@ function iview() {
 				volcurve();
 				symbol++;
 			}
-			$("#r13").html((maxele + minele) / 2);
-			$("#r14").html((maxvol + minvol) / 2);
+			$("#r13").html(parseInt(redata.substring(46 + i, 50 + i), 10));
+			$("#r14").html(parseFloat((parseInt(redata.substring(50 + i, 54 + i), 10) / 10).toFixed(2)));
 			$("#c1").html(parseInt(redata.substring(38 + i, 42 + i), 10));
 			$("#c2").html((parseInt(redata.substring(42 + i, 46 + i), 10) / 10).toFixed(1));
 			for (var k = 0; k < welderName.length; k++) {
@@ -459,9 +451,6 @@ function iview() {
 					$("#mrjpg").attr("src", "resources/images/welder_2"+imgnum+".png");
 					break;
 				case "01":
-				    var t2 = secondToDate(time2);
-				    $("#r4").val(t2);
-				    time2++;
 					$("#l5").val("E-010 焊枪开关OFF等待");
 					$("#l5").css("background-color", "#fe0002");
 					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
@@ -699,13 +688,6 @@ function activeLastPointToolip1(chart) {
 }
 
 
-function secondToDate(result) {
-	var h = Math.floor(result / 3600) < 10 ? '0' + Math.floor(result / 3600) : Math.floor(result / 3600);
-	var m = Math.floor((result / 60 % 60)) < 10 ? '0' + Math.floor((result / 60 % 60)) : Math.floor((result / 60 % 60));
-	var s = Math.floor((result % 60)) < 10 ? '0' + Math.floor((result % 60)) : Math.floor((result % 60));
-	return result = h + ":" + m + ":" + s;
-}
-
 //显示系统当前时间
 setInterval(function(){
 	var date =  new Date();
@@ -726,3 +708,22 @@ setInterval(function(){
 	$("#systemtime").html(year + "-" + month + "-" + day + "  " + hours + ":" + minutes + ":" + seconds);
 
 },1000);
+
+setInterval(function(){
+	if($("#l5").val()!="关机"){
+	    var t1 = secondToDate(time1);
+	    $("#r3").html(t1);
+	}
+	if($("#l5").val()!="关机" && $("#l5").val()!="待机"){
+	    var t2 = secondToDate(time2);
+	    $("#r4").html(t2);
+	}
+    time1++;
+    time2++;
+},1000);
+function secondToDate(result) {
+	var h = Math.floor(result / 3600) < 10 ? '0' + Math.floor(result / 3600) : Math.floor(result / 3600);
+	var m = Math.floor((result / 60 % 60)) < 10 ? '0' + Math.floor((result / 60 % 60)) : Math.floor((result / 60 % 60));
+	var s = Math.floor((result % 60)) < 10 ? '0' + Math.floor((result % 60)) : Math.floor((result % 60));
+	return result = h + ":" + m + ":" + s;
+}
