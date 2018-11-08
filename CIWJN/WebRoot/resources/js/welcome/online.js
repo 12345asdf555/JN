@@ -162,8 +162,8 @@ function webclient() {
 				symbol = 1;
 			}
 
-			for (var i = 0; i < redata.length; i += 77) {
-				if (redata.substring(36 + i, 38 + i) != "0000") {
+			for (var i = 0; i < redata.length; i += 94) {
+				if (redata.substring(0 + i, 4 + i) != "0000") {
 					//组织机构与焊工编号都与数据库中一直则录入
 					if (weld.length == 0) {
 						weld.push(redata.substring(0 + i, 4 + i));
@@ -310,7 +310,10 @@ function showPersonChart() {
 				data : [
 					{
 						value : namex.length,
-						name : '焊工'
+						name : '焊工',
+						itemStyle:{
+		                  normal:{color:'#abced2'}
+						}
 					}
 				].sort(function(a, b) {
 					return a.value - b.value;
@@ -335,11 +338,17 @@ function showPersonChart() {
 				data : [
 					{
 						value : weld.length,
-						name : '在线'
+						name : '在线',
+						itemStyle:{
+		                  normal:{color:'#67b73e'}
+						}
 					},
 					{
 						value : namex.length - weld.length,
-						name : '其它'
+						name : '其它',
+						itemStyle:{
+		                  normal:{color:'#fff'}
+						}
 					}
 				],
 				hoverAnimation : false, //鼠标悬停区域不放大
