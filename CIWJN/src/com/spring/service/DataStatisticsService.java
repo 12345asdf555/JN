@@ -186,6 +186,14 @@ public interface DataStatisticsService {
 	 * @return
 	 */
 	List<DataStatistics> getFauit(Page page,WeldDto dto,int value);
+
+	/**
+	 * 获取焊机故障
+	 * @param dto 扩展参数类
+	 * @param value 故障类型id
+	 * @return
+	 */
+	List<DataStatistics> getFauit(WeldDto dto,int value);
 	
 	/**
 	 * 获取焊机故障明细

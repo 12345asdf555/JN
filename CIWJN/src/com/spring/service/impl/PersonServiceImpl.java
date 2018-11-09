@@ -92,4 +92,9 @@ public class PersonServiceImpl implements PersonService{
 		return mapper.findAll(parent,null);
 	}
 
+	@Override
+	public List<Person> findAll(BigInteger parent, String str) {
+		return mapper.findAll(parent, str);
+	}
+
 }

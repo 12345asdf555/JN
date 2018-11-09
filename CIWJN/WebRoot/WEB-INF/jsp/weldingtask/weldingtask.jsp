@@ -47,6 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</select>
 			<a href="javascript:addWeldedjunction();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-import">导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:exportDg();" class="easyui-linkbutton" iconCls="icon-export">导出</a>&nbsp;&nbsp;&nbsp;&nbsp;	
 			<a href="javascript:openDayin();" class="easyui-linkbutton" iconCls="icon-print">打印</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:insertsearchWT();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:complete();" class="easyui-linkbutton" iconCls="icon-ok">批量完成</a>

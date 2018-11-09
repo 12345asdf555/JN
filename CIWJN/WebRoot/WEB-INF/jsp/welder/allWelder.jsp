@@ -36,6 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div>
 			<a href="javascript:saveWelder();" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-import">导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:exportDg();" class="easyui-linkbutton" iconCls="icon-export">导出</a>&nbsp;&nbsp;&nbsp;&nbsp;	
 			<a href="javascript:insertSearchWelder();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
 		</div>
 	</div>

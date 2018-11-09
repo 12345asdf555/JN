@@ -159,6 +159,57 @@ function insframeworkTree(){
 	})
 }
 
+//导出到excel
+function exportDg(){
+	$.messager.confirm("提示", "文件默认保存在浏览器的默认路径，<br/>如需更改路径请设置浏览器的<br/>“下载前询问每个文件的保存位置“属性！",function(result){
+		if(result){
+			var url = "export/exporGather";
+			var img = new Image();
+		    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
+		    url = img.src;  // 此时相对路径已经变成绝对路径
+		    img.src = null; // 取消请求
+			window.location.href = encodeURI(url);
+		}
+	});
+}
+
+//导入
+function importDg(){
+	$("#importdiv").dialog("open").dialog("setTitle","从excel导入数据");
+}
+
+function importclick(){
+	var file = $("#file").val();
+	if(file == null || file == ""){
+		$.messager.alert("提示", "请选择要上传的文件！");
+		return false;
+	}else{
+		$('#importfm').form('submit', {
+			url : "import/importGather",
+			success : function(result) {
+				if(result){
+					var result = eval('(' + result + ')');
+					if (!result.success) {
+						$.messager.show( {
+							title : 'Error',
+							msg : result.msg
+						});
+					} else {
+						$('#importdiv').dialog('close');
+						$('#gatherTable').datagrid('reload');
+						$.messager.alert("提示", result.msg);
+					}
+				}
+				
+			},  
+		    error : function(errorMsg) {  
+		        alert("数据请求失败，请联系系统管理员!");  
+		    } 
+		});
+	}
+}
+
+
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize, 500);

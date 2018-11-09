@@ -106,4 +106,9 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService{
 		return wjm.getRealWelder(taskid);
 	}
 
+	@Override
+	public List<WeldedJunction> getWeldedJunctionAll(String str) {
+		return wjm.getWeldedJunctionAll(str);
+	}
+
 }

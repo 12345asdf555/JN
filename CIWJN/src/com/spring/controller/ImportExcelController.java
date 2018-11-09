@@ -36,6 +36,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -73,7 +74,7 @@ public class ImportExcelController {
 	@Autowired
 	private MaintainService mm;
 	@Autowired
-	private GatherService g;
+	private GatherService gs;
 	@Autowired
 	private PersonService ps;
 	@Autowired
@@ -82,6 +83,39 @@ public class ImportExcelController {
 	private WeldedJunctionService wjs;
 	
 	IsnullUtil iutil = new IsnullUtil();
+	
+	@RequestMapping("importGather")
+	@ResponseBody
+	public String importGather(HttpServletRequest request,HttpServletResponse response){
+		UploadUtil u = new UploadUtil();
+		JSONObject obj = new JSONObject();
+		String path = "";
+		try{
+			path = u.uploadFile(request, response);
+			List<Gather> list = xlsxGather(path);
+			//删除已保存的excel文件
+			File file  = new File(path);
+			file.delete();
+			for(Gather g : list){
+				g.setItemid(wmm.getInsframeworkByName(g.getItemname()));
+				//编码唯一
+				int count1 = gs.getGatherNoCount(g.getGatherNo(),g.getItemid());
+				if(count1>0){
+					obj.put("msg","导入失败，请检查您的设备编码是否已存在！");
+					obj.put("success",false);
+					return obj.toString();
+				}
+				gs.addGather(g);
+			};
+			obj.put("success",true);
+			obj.put("msg","导入成功！");
+		}catch(Exception e){
+			e.printStackTrace();
+			obj.put("msg","导入失败，请检查您的文件格式以及数据是否符合要求！");
+			obj.put("success",false);
+		}
+		return obj.toString();
+	}
 	
 	/**
 	 * 导入焊机设备
@@ -111,13 +145,13 @@ public class ImportExcelController {
 				Gather gather = wm.getGatherId();
 				int count2 = 0;
 				if(gather!=null){
-					int count3 = g.getGatherNoByItemCount(gather.getGatherNo(), wm.getInsframeworkId().getId()+"");
+					int count3 = gs.getGatherNoByItemCount(gather.getGatherNo(), wm.getInsframeworkId().getId()+"");
 					if(count3 == 0){
 						obj.put("msg","导入失败，请检查您的采集序号是否存在或是否属于该部门！");
 						obj.put("success",false);
 						return obj.toString();
 					}
-					gather.setId(g.getGatherByNo(gather.getGatherNo()));
+					gather.setId(gs.getGatherByNo(gather.getGatherNo()));
 					wm.setGatherId(gather);
 					count2 = wmm.getGatheridCount(wm.getInsframeworkId().getId(),gather.getGatherNo());
 				}
@@ -204,6 +238,13 @@ public class ImportExcelController {
 			File file  = new File(path);
 			file.delete();
 			for(Person w:we){
+				if(w.getWelderno().length()>8){
+					w.setWelderno(w.getWelderno().substring(0, 8));
+				}else if(w.getWelderno().length()<8){
+					for(int i=w.getWelderno().length();i<8;i++){
+						w.setWelderno("0"+w.getWelderno());
+					}
+				}
 				w.setLeveid(dm.getvaluebyname(8,w.getLevename()));
 				w.setQuali(dm.getvaluebyname(7, w.getQualiname()));
 				w.setOwner(wmm.getInsframeworkByName(w.getInsname()));
@@ -337,7 +378,7 @@ public class ImportExcelController {
 					json.put("levelname", "");
 				}else{
 					json.put("levelname", w.getSerialNo());
-					String lll = dm.getValueByNameAndType(17, w.getSerialNo());
+					String lll = dm.getValueByNameAndType(8, w.getSerialNo());
 					if(lll==null||lll=="null"){
 						str+="任务等级书写不规范;";
 						biaozhi=1;
@@ -1200,6 +1241,123 @@ public class ImportExcelController {
 		}
 		
 		return junction;
+	}
+	
+	/**
+	 * 导入Wedlingmachine表数据
+	 * @param path
+	 * @return
+	 * @throws IOException
+	 * @throws InvalidFormatException
+	 */
+	public static List<Gather> xlsxGather(String path) throws IOException, InvalidFormatException{
+		List<Gather> gather = new ArrayList<Gather>();
+		InputStream stream = new FileInputStream(path);
+		Workbook workbook = create(stream);
+		Sheet sheet = workbook.getSheetAt(0);
+		
+		int rowstart = sheet.getFirstRowNum()+1;
+		int rowEnd = sheet.getLastRowNum();
+	    
+		for(int i=rowstart;i<=rowEnd;i++){
+			Row row = sheet.getRow(i);
+			if(null == row){
+				continue;
+			}
+			int cellStart = row.getFirstCellNum();
+			int cellEnd = row.getLastCellNum();
+			Gather dit = new Gather();
+			for(int k = cellStart; k<= cellEnd;k++){
+				Cell cell = row.getCell(k);
+				if(null == cell){
+					continue;
+				}
+				
+				String cellValue = "";
+				
+				switch (cell.getCellType()){
+				case HSSFCell.CELL_TYPE_NUMERIC://数字
+					if (HSSFDateUtil.isCellDateFormatted(cell)) {// 处理日期格式、时间格式  
+		                SimpleDateFormat sdf = null;  
+		                if (cell.getCellStyle().getDataFormat() == HSSFDataFormat  
+		                        .getBuiltinFormat("h:mm")) {  
+		                    sdf = new SimpleDateFormat("HH:mm");  
+		                } else {// 日期  
+		                    sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		                }  
+		                Date date = cell.getDateCellValue();  
+		                cellValue = sdf.format(date);  
+		            } else if (cell.getCellStyle().getDataFormat() == 58) {  
+		                // 处理自定义日期格式：m月d日(通过判断单元格的格式id解决，id的值是58)  
+		                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		                double value = cell.getNumericCellValue();  
+		                Date date = org.apache.poi.ss.usermodel.DateUtil  
+		                        .getJavaDate(value);  
+		                cellValue = sdf.format(date);  
+		            } else {
+		            	 //处理数字过长时出现x.xxxE9
+		            	 BigDecimal big=new BigDecimal(cell.getNumericCellValue());  
+		            	 cellValue = big.toString();
+                    }
+					if(k == 0){
+						dit.setGatherNo(cellValue);//采集编号
+						break;
+					}
+					else if(k == 6){
+						dit.setLeavetime(cellValue);//离厂时间
+						break;
+					}
+					break;
+				case HSSFCell.CELL_TYPE_STRING://字符串
+					cellValue = cell.getStringCellValue();
+					if(k == 0){
+						dit.setGatherNo(cellValue);//采集编号
+						break;
+					}
+					else if(k == 1){
+ 						Insframework ins = new Insframework();
+ 						ins.setName(cellValue);
+ 						dit.setItemname(cellValue);//所属项目
+						break;
+					}
+					else if(k == 2){
+ 						dit.setStatus(cellValue);//采集状态
+						break;
+					}
+					else if(k == 3){
+ 						dit.setProtocol(cellValue);//采集通讯协议
+						break;
+	    			}
+					else if(k == 4){
+			        	dit.setIpurl(cellValue);//ip地址
+						break;
+ 					}
+					else if(k == 5){
+ 						dit.setMacurl(cellValue);//mac地址
+						break;
+ 					}
+					break;
+				case HSSFCell.CELL_TYPE_BOOLEAN: // Boolean
+					cellValue = String.valueOf(cell.getBooleanCellValue());
+					break;
+				case HSSFCell.CELL_TYPE_FORMULA: // 公式
+					cellValue = String.valueOf(cell.getCellFormula());
+					break;
+				case HSSFCell.CELL_TYPE_BLANK: // 空值
+					cellValue = "";
+					break;
+				case HSSFCell.CELL_TYPE_ERROR: // 故障
+					cellValue = "";
+					break;
+				default:
+					cellValue = cell.toString().trim();
+					break;
+				}
+			}
+			gather.add(dit);
+		}
+		
+		return gather;
 	}
 	
 	

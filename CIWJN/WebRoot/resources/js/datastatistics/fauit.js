@@ -113,6 +113,22 @@ function serach(){
 	},500);
 }
 
+//导出到Excel
+function exportExcel(){
+	chartStr = "";
+	setParam();
+	$.messager.confirm("提示", "文件默认保存在浏览器的默认路径，<br/>如需更改路径请设置浏览器的<br/>“下载前询问每个文件的保存位置“属性！",function(result){
+		if(result){
+			var url = "export/exportFauit";
+			var img = new Image();
+		    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
+		    url = img.src;  // 此时相对路径已经变成绝对路径
+		    img.src = null; // 取消请求
+			window.location.href = encodeURI(url+chartStr);
+		}
+	});
+}
+
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize, 500);

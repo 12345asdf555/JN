@@ -2,6 +2,7 @@ package com.spring.controller;
 
 import java.io.File;
 import java.math.BigInteger;
+import java.nio.channels.GatheringByteChannel;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,12 +27,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.spring.dto.WeldDto;
 import com.spring.model.DataStatistics;
 import com.spring.model.Gather;
+import com.spring.model.Insframework;
+import com.spring.model.MyUser;
+import com.spring.model.Person;
+import com.spring.model.WeldedJunction;
 import com.spring.model.WeldingMachine;
 import com.spring.model.WeldingMaintenance;
+import com.spring.page.Page;
 import com.spring.service.DataStatisticsService;
 import com.spring.service.InsframeworkService;
 import com.spring.service.MaintainService;
+import com.spring.service.PersonService;
+import com.spring.service.WeldedJunctionService;
+import com.spring.service.WelderService;
 import com.spring.service.WeldingMachineService;
+import com.spring.service.GatherService;
 import com.spring.util.CommonExcelUtil;
 import com.spring.util.IsnullUtil;
 
@@ -48,6 +59,13 @@ public class ExportExcelController {
 	private MaintainService mm;
 	@Autowired
 	private InsframeworkService im;
+	@Autowired
+	private GatherService gs;
+	@Autowired
+	private PersonService ps;
+	@Autowired
+	private WeldedJunctionService wjm;
+	
 	private String filename;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmSS");
 	IsnullUtil iutil = new IsnullUtil();
@@ -1083,5 +1101,289 @@ public class ExportExcelController {
 			file.delete();
 		}
 	}	
+	
+	/**
+	 * 故障报表导出
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/exportFauit")
+	@ResponseBody
+	public ResponseEntity<byte[]> exportFauit(HttpServletRequest request,HttpServletResponse response){
+		File file = null;
+		String time1 = request.getParameter("dtoTime1");
+		String time2 = request.getParameter("dtoTime2");
+		WeldDto dto = new WeldDto();
+		String dtime = "统计日期："+time1+"--"+time2;
+		try{
+			if(iutil.isNull(time1)){
+				dto.setDtoTime1(time1);
+			}
+			if(iutil.isNull(time2)){
+				dto.setDtoTime2(time2);
+			}
+			int fauit = 0 ;
+			if(iutil.isNull(request.getParameter("fauit"))){
+				fauit  = Integer.parseInt(request.getParameter("fauit"));
+			}
+			List<DataStatistics> list = dss.getFauit(dto, fauit);
+			String[] titles = new String[]{"焊机编号","焊机归属","故障类型","故障次数"};
+			Object[][] data = new Object[list.size()][4];
+			int ii=0;
+			for(DataStatistics i:list){
+				if(ii<list.size()){
+					data[ii][0]=i.getName();//焊机编号
+					data[ii][1]=i.getInsname();//焊机归属
+					data[ii][2]=i.getValuename();//故障类型
+					data[ii][3]=i.getNum();//故障次数
+				}
+				ii++;
+			}
+			filename = "故障报表" + sdf.format(new Date())+".xls";
+
+			ServletContext scontext=request.getSession().getServletContext();
+			//获取绝对路径
+			String abpath=scontext.getRealPath("");
+			//String contextpath=scontext. getContextPath() ; 获取虚拟路径
+			
+			String path = abpath+"excelfiles/" + filename;
+			
+			new CommonExcelUtil(dtime, titles, data, path, "故障报表");
+			file = new File(path);
+			HttpHeaders headers = new HttpHeaders();
+			String fileName = "";
+			fileName = new String(filename.getBytes("gb2312"),"iso-8859-1");
+		
+			headers.setContentDispositionFormData("attachment", fileName);
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			
+			//处理ie无法下载的问题
+			response.setContentType("application/octet-stream;charset=utf-8");
+			response.setHeader( "Content-Disposition", 
+					"attachment;filename=\""+ fileName); 
+			ServletOutputStream o = response.getOutputStream();
+			o.flush();
+			
+			return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return null;
+		} finally {
+			file.delete();
+		}
+	}	
+	
+	/**
+	 * 导出采集模块
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/exporGather")
+	@ResponseBody
+	public ResponseEntity<byte[]> exporGather(HttpServletRequest request,HttpServletResponse response){
+		File file = null;
+		try {
+			String str=(String) request.getSession().getAttribute("searchStr");
+			String parentid = request.getParameter("parent");
+			BigInteger parent = null;
+			if(iutil.isNull(parentid)){
+				parent = new BigInteger(parentid);
+			}
+			List<Gather> list = gs.getGatherAll(str, parent);
+			String dtime = null;
+			String[] titles = new String[]{"采集模块编号","所属项目","采集模块状态","采集模块通讯协议","采集模块IP地址","采集模块MAC地址","采集模块出厂时间"};
+			Object[][] data = new Object[list.size()][7];
+			for(int i =0; i<list.size();i++){
+				data[i][0] = list.get(i).getGatherNo();
+				data[i][1] = list.get(i).getItemname();
+				data[i][2] = list.get(i).getStatus();
+				data[i][3] = list.get(i).getProtocol();
+				data[i][4] = list.get(i).getIpurl();
+				data[i][5] = list.get(i).getMacurl();
+				data[i][6] = list.get(i).getLeavetime();
+			}
+			filename = "采集模块" + sdf.format(new Date()) + ".xls";
+
+			ServletContext scontext=request.getSession().getServletContext();
+			//获取绝对路径
+			String abpath=scontext.getRealPath("");
+			//String contextpath=scontext. getContextPath() ; 获取虚拟路径
+			
+			String path = abpath+"excelfiles/" + filename;
+			new CommonExcelUtil(dtime, titles, data, path, "采集模块数据");
+			
+			file = new File(path);
+			HttpHeaders headers = new HttpHeaders();
+			String fileName = "";
+			
+			fileName = new String(filename.getBytes("gb2312"),"iso-8859-1");
+			
+			headers.setContentDispositionFormData("attachment", fileName);
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			
+			//处理ie无法下载的问题
+			response.setContentType("application/octet-stream;charset=utf-8");
+			response.setHeader( "Content-Disposition", 
+					"attachment;filename=\""+ fileName); 
+			ServletOutputStream o = response.getOutputStream();
+			o.flush();
+			
+			return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+		}catch (Exception e) {
+	    	return null;
+		}  finally {
+			file.delete();
+		}
+	}
+	
+	/**
+	 * 导出焊工
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/exporWelder")
+	@ResponseBody
+	public ResponseEntity<byte[]> exporWelder(HttpServletRequest request,HttpServletResponse response){
+		File file = null;
+		try {
+			String str=(String) request.getSession().getAttribute("searchStr");
+			String parentid = request.getParameter("parent");
+			BigInteger parent = null;
+			if(iutil.isNull(parentid)){
+				parent = new BigInteger(parentid);
+			}
+			List<Person> list = ps.findAll(parent,str);
+			String dtime = null;
+			String[] titles = new String[]{"姓名","编号","手机","级别","卡号","资质","部门","备注"};
+			Object[][] data = new Object[list.size()][8];
+			for(int i =0; i<list.size();i++){
+				data[i][0] = list.get(i).getName();
+				data[i][1] = list.get(i).getWelderno();
+				data[i][2] = list.get(i).getCellphone();
+				data[i][3] = list.get(i).getValuename();
+				data[i][4] = list.get(i).getCardnum();
+				data[i][5] = list.get(i).getValuenamex();
+				data[i][6] = list.get(i).getInsname();
+				data[i][7] = list.get(i).getBack();
+			}
+			filename = "焊工管理" + sdf.format(new Date()) + ".xls";
+
+			ServletContext scontext=request.getSession().getServletContext();
+			//获取绝对路径
+			String abpath=scontext.getRealPath("");
+			//String contextpath=scontext. getContextPath() ; 获取虚拟路径
+			
+			String path = abpath+"excelfiles/" + filename;
+			new CommonExcelUtil(dtime, titles, data, path, "焊工管理数据");
+			
+			file = new File(path);
+			HttpHeaders headers = new HttpHeaders();
+			String fileName = "";
+			
+			fileName = new String(filename.getBytes("gb2312"),"iso-8859-1");
+			
+			headers.setContentDispositionFormData("attachment", fileName);
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			
+			//处理ie无法下载的问题
+			response.setContentType("application/octet-stream;charset=utf-8");
+			response.setHeader( "Content-Disposition", 
+					"attachment;filename=\""+ fileName); 
+			ServletOutputStream o = response.getOutputStream();
+			o.flush();
+			
+			return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+		}catch (Exception e) {
+	    	return null;
+		}  finally {
+			file.delete();
+		}
+	}
+	
+	/**
+	 * 导出派工任务
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/exporWeldTask")
+	@ResponseBody
+	public ResponseEntity<byte[]> exporWeldTask(HttpServletRequest request,HttpServletResponse response){
+		File file = null;
+		try {
+			String serach="";
+			MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			int instype = im.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+			BigInteger userinsid = im.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+			int bz=0;
+			if(instype==20){
+			}else if(instype==23){
+				serach = "j.fitemId="+userinsid;
+			}else{
+				List<Insframework> ls = im.getInsIdByParent(userinsid,24);
+				for(Insframework inns : ls ){
+					if(bz==0){
+						serach=serach+"(j.fitemId="+inns.getId();
+					}else{
+						serach=serach+" or j.fitemId="+inns.getId();
+					}
+					bz++;
+				}
+				serach=serach+" or j.fitemId="+userinsid+")";
+			}
+			if(request.getParameter("searchStr")!=null&&serach!=null&&serach!=""){
+				serach=serach+" and "+request.getParameter("searchStr");
+			}
+			if(request.getParameter("searchStr")!=null&&(serach==null||serach=="")){
+				serach=serach+request.getParameter("searchStr");
+			}
+			List<WeldedJunction> list = wjm.getWeldedJunctionAll(serach);
+			String dtime = null;
+			String[] titles = new String[]{"任务编号","任务等级","所属班组","计划开始时间","计划结束时间","任务评价","评价等级"};
+			Object[][] data = new Object[list.size()][7];
+			for(int i =0; i<list.size();i++){
+				data[i][0] = list.get(i).getWeldedJunctionno();
+				data[i][1] = list.get(i).getArea();
+				data[i][2] = list.get(i).getIname();
+				data[i][3] = list.get(i).getStartTime();
+				data[i][4] = list.get(i).getEndTime();
+				data[i][5] = list.get(i).getSystems();
+				data[i][6] = list.get(i).getChildren();
+			}
+			filename = "派工任务管理" + sdf.format(new Date()) + ".xls";
+
+			ServletContext scontext=request.getSession().getServletContext();
+			//获取绝对路径
+			String abpath=scontext.getRealPath("");
+			//String contextpath=scontext. getContextPath() ; 获取虚拟路径
+			
+			String path = abpath+"excelfiles/" + filename;
+			new CommonExcelUtil(dtime, titles, data, path, "派工任务管理数据");
+			
+			file = new File(path);
+			HttpHeaders headers = new HttpHeaders();
+			String fileName = "";
+			
+			fileName = new String(filename.getBytes("gb2312"),"iso-8859-1");
+			
+			headers.setContentDispositionFormData("attachment", fileName);
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			
+			//处理ie无法下载的问题
+			response.setContentType("application/octet-stream;charset=utf-8");
+			response.setHeader( "Content-Disposition", 
+					"attachment;filename=\""+ fileName); 
+			ServletOutputStream o = response.getOutputStream();
+			o.flush();
+			
+			return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+		}catch (Exception e) {
+	    	return null;
+		}  finally {
+			file.delete();
+		}
+	}
 	
 }

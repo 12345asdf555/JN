@@ -37,10 +37,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div class="functiondiv">
 		<div>
 			<a href="javascript:addGather()" class="easyui-linkbutton" iconCls="icon-newadd">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:importDg();" class="easyui-linkbutton" iconCls="icon-import">导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:exportDg();" class="easyui-linkbutton" iconCls="icon-export">导出</a>&nbsp;&nbsp;&nbsp;&nbsp;	
 			<a href="javascript:insertSearchGather();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>
 		</div>
 	</div>
   	<div id="body">
+  		<div id="importdiv" class="easyui-dialog" style="width:300px; height:200px;" closed="true">
+			<form id="importfm" method="post" class="easyui-form" data-options="novalidate:true" enctype="multipart/form-data"> 
+				<div>
+					<span><input type="file" name="file" id="file"></span>
+					<input type="button" value="上传" onclick="importclick()" class="upButton"/>
+				</div>
+			</form>
+		</div>
 	    <table id="gatherTable" style="table-layout: fixed; width:100%;"></table>
 	    
 	    <!-- 自定义多条件查询 -->

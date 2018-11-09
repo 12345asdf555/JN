@@ -280,4 +280,9 @@ public class DataStatisticsServiceImpl implements DataStatisticsService {
 	public List<DataStatistics> getTask(BigInteger parent, String welderno, String taskno, String time1, String time2) {
 		return ds.getTask(parent, welderno, taskno, time1, time2);
 	}
+
+	@Override
+	public List<DataStatistics> getFauit(WeldDto dto, int value) {
+		return ds.getFauit(dto, value);
+	}
 }
