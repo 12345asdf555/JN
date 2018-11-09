@@ -140,6 +140,7 @@
             if ((index % 2)!=0){
             	//处理行代背景色后无法选中
             	var color=new Object();
+                color.class="rowColor";
                 return color;
             }
 		},
@@ -151,14 +152,14 @@
 
 })
 
-/*function giveWps(){
+function giveWps(){
     	   var url = "wps/selectwps";
 			var img = new Image();
 		    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
 		    url = img.src;  // 此时相对路径已经变成绝对路径
 		    img.src = null; // 取消请求
 			window.location.href = encodeURI(url);
-       } */
+       } 
 function addWps(){
     	   var url = "wps/toAddWps";
 			var img = new Image();
@@ -211,6 +212,7 @@ function history(){
         if ((index % 2)!=0){
         	//处理行代背景色后无法选中
         	var color=new Object();
+            color.class="rowColor";
             return color;
         }
 	}

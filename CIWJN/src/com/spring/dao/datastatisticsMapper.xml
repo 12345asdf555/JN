@@ -282,7 +282,7 @@
 		</if>
 		<if test="dto!=null and dto!=''">
 			<if test="dto.welderno!=null and dto.welderno!=''">
-				and fwelder_id = #{dto.welderno}
+				and fwelder_no = #{dto.welderno}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -301,7 +301,7 @@
 		</if>
 		<if test="dto!=null and dto!=''">
 			<if test="dto.welderno!=null and dto.welderno!=''">
-				and fwelder_id = #{dto.welderno}
+				and fwelder_no = #{dto.welderno}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -383,7 +383,7 @@
 		</if>
 		<if test="dto!=null and dto!=''">
 			<if test="dto.junctionno!=null and dto.junctionno!=''">
-				and fjunction_id = #{dto.junctionno}
+				and fjunction_no = #{dto.junctionno}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -401,7 +401,7 @@
 		</if>
 		<if test="dto!=null and dto!=''">
 			<if test="dto.junctionno!=null and dto.junctionno!=''">
-				and fjunction_id = #{dto.junctionno}
+				and fjunction_no = #{dto.junctionno}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -419,7 +419,7 @@
 		</if>
 		<if test="dto!=null and dto!=''">
 			<if test="dto.junctionno!=null and dto.junctionno!=''">
-				and fjunction_id = #{dto.junctionno}
+				and fjunction_no = #{dto.junctionno}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -442,7 +442,7 @@
 		</if>
 		<if test="dto!=null and dto!=''">
 			<if test="dto.welderno!=null and dto.welderno!=''">
-				and fwelder_id = #{dto.welderno}
+				and fwelder_no = #{dto.welderno}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -460,7 +460,7 @@
 		</if>
 		<if test="dto!=null and dto!=''">
 			<if test="dto.welderno!=null and dto.welderno!=''">
-				and fwelder_id = #{dto.welderno}
+				and fwelder_no = #{dto.welderno}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -478,7 +478,7 @@
 		</if>
 		<if test="dto!=null and dto!=''">
 			<if test="dto.welderno!=null and dto.welderno!=''">
-				and fwelder_id = #{dto.welderno}
+				and fwelder_no = #{dto.welderno}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -529,7 +529,7 @@
 		</if>
 		<if test="dto!=null and dto!=''">
 			<if test="dto.welderno!=null and dto.welderno!=''">
-				and fwelder_id = #{dto.welderno}
+				and fwelder_no = #{dto.welderno}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -552,7 +552,7 @@
 		</if>
 		<if test="dto!=null and dto!=''">
 			<if test="dto.junctionno!=null and dto.junctionno!=''">
-				and fjunction_id = #{dto.junctionno}
+				and fjunction_no = #{dto.junctionno}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -599,7 +599,7 @@
 		</if>
 		<if test="dto!=null and dto!=''">
 			<if test="dto.welderno!=null and dto.welderno!=''">
-				and fwelder_id = #{dto.welderno}
+				and fwelder_no = #{dto.welderno}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -623,7 +623,7 @@
 		</if>
 		<if test="dto!=null and dto!=''">
 			<if test="dto.junctionno!=null and dto.junctionno!=''">
-				and fjunction_id = #{dto.junctionno}
+				and fjunction_no = #{dto.junctionno}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and fstarttime &gt;= #{dto.dtoTime1}
@@ -1090,7 +1090,7 @@
 			</if>
 		</if>
 		<if test="junctionno!=null and junctionno!=''">
-			and fjunction_id like #{junctionno}
+			and fjunction_no like #{junctionno}
 		</if>
 		    GROUP BY fjunction_id)
 		<if test="junctionno!=null and junctionno!=''">

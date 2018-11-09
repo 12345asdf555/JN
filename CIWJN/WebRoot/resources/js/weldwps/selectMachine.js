@@ -139,6 +139,7 @@ var socket;
             if ((index % 2)!=0){
             	//处理行代背景色后无法选中
             	var color=new Object();
+                color.class="rowColor";
                 return color;
             }
 		},
@@ -147,7 +148,7 @@ var socket;
 	});
  })
  
-/* function save(){
+ function save(){
      var rows = $("#dg").datagrid("getSelections");
      if(rows.length==0){
   	   alert("请选择焊机");
@@ -208,4 +209,4 @@ var socket;
 		      }  
 		 });
      }
-}*/
+}
