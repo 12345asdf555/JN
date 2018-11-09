@@ -161,16 +161,16 @@
 	</select>
 	
 	<select id="getJMByWelder" resultMap="wmMap">
-		select COUNT(l.fid) counts,m.fequipment_no,m.fid machid,fwelded_junction_no,fdyne,fmax_electricity,fmin_electricity,fmax_valtage,fmin_valtage from tb_live_data l 
-		INNER join tb_welded_junction j on l.fjunction_id = j.fwelded_junction_no
+		select COUNT(l.fid) counts,m.fequipment_no,m.fid machid,fwelded_junction_no,fdyne,l.fmax_electricity,l.fmin_electricity,fmax_valtage,fmin_valtage from tb_live_data l 
+		INNER join tb_welded_junction j on l.fjunction_id = j.fid
 		INNER JOIN tb_welding_machine m on m.fid=l.fmachine_id
 		where 1=1
 		<if test="welderid!=null and welderid!=''">
-				and l.fwelder_id=#{welderid}
+				and l.fwelder_no=#{welderid}
 			</if>
 		<if test="dto!=null and dto!=''">
 			<if test="dto.search!=null and dto.search!=''">
-				and l.fjunction_id = #{dto.search}
+				and l.fjunction_no = #{dto.search}
 			</if>
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and (fweldtime between #{dto.dtoTime1}

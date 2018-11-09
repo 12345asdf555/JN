@@ -308,7 +308,7 @@ function giveWps(){
 			        	vol = "0" + vol;
 			        };
 				}
-			    var senddata = "7E0052"+gather+panel+"001E0001006400BE0000"+ele+vol+"0000006400BE000000010000000C0000000000000000";
+			    var senddata = "7E2D01010152"+gather+panel+"001E0001006400BE0000"+ele+vol+"0000006400BE000000010000000C0000000000000000";
 			    var check = 0;
 				for (var s = 0; s < (senddata.length/2); s++)
 				{
@@ -324,7 +324,7 @@ function giveWps(){
 				
 				var xiafasend2 = (senddata+checksend).substring(2);
 				
-				var xiafasend4 = xiafasend2.replace(/7C/g, '7C5C');
+/*				var xiafasend4 = xiafasend2.replace(/7C/g, '7C5C');
 				var xiafasend3 = xiafasend4.replace(/7E/g, '7C5E');
 				var fuer="";
 				for(var er=0;er<(xiafasend3.length/2);er++){
@@ -337,12 +337,13 @@ function giveWps(){
 				var xiafasend5 = fuer.replace(/7D/g, '7C5D').toUpperCase();
 				
 				var xiafasend = "7E" + xiafasend5 + "7D";
-			    socket.send(xiafasend);
+			    socket.send(xiafasend);*/
+				socket.send("7E"+xiafasend2+"7D");
 				socket.onmessage = function(msg) {
 					var receivedata = msg.data;
-					receivedata = receivedata.replace(/7C20/g, '00').toUpperCase();
-					if(receivedata.substring(4,6)=="52"){
-						if(parseInt(receivedata.substring(10,12),10)==1){
+//					receivedata = receivedata.replace(/7C20/g, '00').toUpperCase();
+					if(receivedata.substring(0,2)=="7E"&&receivedata.substring(10,12)=="52"){
+						if(parseInt(receivedata.substring(18,20),10)==1){
 							alert("下发失败");
 							return;
 						}else{
