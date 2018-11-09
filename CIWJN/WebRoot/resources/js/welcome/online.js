@@ -162,7 +162,7 @@ function webclient() {
 				symbol = 1;
 			}
 
-			for (var i = 0; i < redata.length; i += 94) {
+			for (var i = 0; i < redata.length; i += 93) {
 				if (redata.substring(0 + i, 4 + i) != "0000") {
 					//组织机构与焊工编号都与数据库中一直则录入
 					if (weld.length == 0) {

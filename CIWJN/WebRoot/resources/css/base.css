@@ -198,7 +198,7 @@ select::-ms-expand {
 	border:1px solid #c0c0c0;
 	float:left;
 	width:47.5%;
-	height:40%;
+	height:44%;
 	margin-left:2%;
 	margin-top:1%;
 	padding-bottom:2%;
@@ -208,7 +208,7 @@ select::-ms-expand {
 	border:1px solid #c0c0c0;
 	float:right;
 	width:46%;
-	height:91%;
+	height:90%;
 	margin-right:2%;
 	margin-top:1%;
 	padding-left:1%

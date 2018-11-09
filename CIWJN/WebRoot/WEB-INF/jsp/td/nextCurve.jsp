@@ -127,15 +127,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</tr>
 				<tr>
 					<td>工作时长：</td>
-					<td class="tdinput"><input class="easyui-textbox" id="r3" readonly="readonly"/></td>
+					<td class="tdinput"><input class="easyui-textbox" id="r3" readonly="readonly" value="00:00:00"/></td>
 				</tr>
 				<tr>
 					<td>焊接时长：</td>
-					<td class="tdinput"><input class="easyui-textbox" id="r4" readonly="readonly"/></td>
+					<td class="tdinput"><input class="easyui-textbox" id="r4" readonly="readonly" value="00:00:00"/></td>
 				</tr>
 				<tr>
 					<td>通道总数：</td>
-					<td class="tdinput"><input class="easyui-textbox" id="r5" readonly="readonly"/></td>
+					<td class="tdinput"><input class="easyui-textbox" id="r5" readonly="readonly" value="30"/></td>
 				</tr>
 				<tr>
 					<td>当前通道：</td>
