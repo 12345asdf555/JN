@@ -338,44 +338,47 @@ function giveWps(){
 				
 				var xiafasend = "7E" + xiafasend5 + "7D";
 			    socket.send(xiafasend);*/
-				socket.send("7E"+xiafasend2+"7D");
-				socket.onmessage = function(msg) {
-					var receivedata = msg.data;
-//					receivedata = receivedata.replace(/7C20/g, '00').toUpperCase();
-					if(receivedata.substring(0,2)=="7E"&&receivedata.substring(10,12)=="52"){
-						if(parseInt(receivedata.substring(18,20),10)==1){
-							alert("下发失败");
-							return;
-						}else{
-							count++;
-							if(count==wpsrows.length*macrows.length){
-								socket.close();
-								$.ajax({
-									type : "post",
-									async : false,
-									url : "wps/giveWM?machid="+machid+"&panelnum="+panelnum+"&wpsid="+wpsid,
-									data : {},
-									dataType : "json", //返回数据形式为json  
-									success : function(result) {
-										if (eval(result.success)==true) {
-											$("#sewpstable").datagrid("clearSelections");
-											$("#semactable").datagrid("clearSelections");
-											$('#semac').dialog('close');
-											alert("下发成功");
-											count=0;
-										}
-									},
-									error : function(errorMsg) {
-										alert("下发成功,未成功保存下发记录！！！");
-										count=0;
-									}
-								});
-							}
-						}
-					}
-				};
+				window.setTimeout(function() {
+					socket.send("7E"+xiafasend2+"7D");
+				}, j*200);
 			}
+			
 		}
+		socket.onmessage = function(msg) {
+			var receivedata = msg.data;
+//			receivedata = receivedata.replace(/7C20/g, '00').toUpperCase();
+			if(receivedata.substring(0,2)=="7E"&&receivedata.substring(10,12)=="52"){
+				if(parseInt(receivedata.substring(18,20),10)==1){
+					alert("下发失败");
+					return;
+				}else{
+					count++;
+					if(count==wpsrows.length*macrows.length){
+						socket.close();
+						$.ajax({
+							type : "post",
+							async : false,
+							url : "wps/giveWM?machid="+machid+"&panelnum="+panelnum+"&wpsid="+wpsid,
+							data : {},
+							dataType : "json", //返回数据形式为json  
+							success : function(result) {
+								if (eval(result.success)==true) {
+									$("#sewpstable").datagrid("clearSelections");
+									$("#semactable").datagrid("clearSelections");
+									$('#semac').dialog('close');
+									alert("下发成功");
+									count=0;
+								}
+							},
+							error : function(errorMsg) {
+								alert("下发成功,未成功保存下发记录！！！");
+								count=0;
+							}
+						});
+					}
+				}
+			}
+		};
 	}
 	};
 }
