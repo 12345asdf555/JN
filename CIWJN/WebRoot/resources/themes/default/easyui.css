@@ -779,14 +779,14 @@
   filter: none;
 }
 .tabs li.tabs-selected a.tabs-inner {
-  background-color: #dfe0e0;/**/
+  background-color: #fecf5d;/**/
   color: #000000;
-  background: -webkit-linear-gradient(top,#d7dbde 0,#ffffff 100%);
-  background: -moz-linear-gradient(top,#d7dbde 0,#ffffff 100%);
-  background: -o-linear-gradient(top,#d7dbde 0,#ffffff 100%);
+  background: -webkit-linear-gradient(top,#fecf5d 0,#fecf5d 100%);
+  background: -moz-linear-gradient(top,#fecf5d 0,#fecf5d 100%);
+  background: -o-linear-gradient(top,#fecf5d 0,#fecf5d 100%);
   background: #fecf5d;/*tabs选中颜色*/
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#d7dbde,endColorstr=#ffffff,GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#fecf5d,endColorstr=#fecf5d,GradientType=0);
 }
 .tabs-header-bottom .tabs li.tabs-selected a.tabs-inner {
   background: -webkit-linear-gradient(top,#ffffff 0,#d7dbde 100%);

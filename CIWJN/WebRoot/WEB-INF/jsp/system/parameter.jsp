@@ -40,6 +40,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		legend{
 			color:green;padding-left:20px;padding-right:20px;
 		}
+		table{
+			font-size:12px;
+		}
 	</style>
   </head>
   
@@ -53,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<div id="body">
-			<div style="float:left;width:65%;">
+			<div style="float:left;width:65%;font-size: 12px;">
 				<fieldset>
 					<legend>停机设置</legend>
 					<div>
@@ -87,6 +90,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							    	<label>秒</label>
 								</td>
 							</tr>
+							<tr><td colspan="5"></td></tr>
 						</table>
 		    		</div>
 				</fieldset>
@@ -114,6 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<input name="night" id="night" style="width:60px;" class="easyui-textbox"   data-options="required:true"/>
 								</td>
 							</tr>
+							<tr><td colspan="2"></td></tr>
 						</table>
 		    		</div>
 				</fieldset>
@@ -140,6 +145,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<input name="times" id="times" style="width:60px;" class="easyui-textbox" data-options="required:true"/>次
 								</td>
 							</tr>
+							<tr><td colspan="2"></td></tr>
 						</table>
 		    		</div>
 				</fieldset>
@@ -160,6 +166,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    						Φ1.6：<input name="six" id="six" style="width:60px;" class="easyui-textbox" data-options="required:true"/>Kg/m
 								</td>
 							</tr>
+							<tr><td></td></tr>
 						</table>
 		    		</div>
 				</fieldset>
@@ -193,6 +200,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<input name="weld" id="weld" style="width:60px;" class="easyui-textbox"   data-options="required:true"/>
 								</td>
 							</tr>
+							<tr><td colspan="2"></td></tr>
 						</table>
 		    		</div>
 				</fieldset>

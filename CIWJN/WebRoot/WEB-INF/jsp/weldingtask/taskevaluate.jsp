@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   <body>
  	<div class="functiondiv">
-		<div>
+		<div style="float:left;">
  			所属作业区：
 			<select class="easyui-combobox" name="zitem" id="zitem" data-options="editable:false"></select>
 			所属班组：
@@ -46,9 +46,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<option value="0">进行中</option>
 			</select>
 			<a href="javascript:complete();" class="easyui-linkbutton" iconCls="icon-ok">批量完成</a>
-			 <div style="float:right"><span class="required"></span>班组信息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			 <input class="easyui-textbox" id="XXX"  name="XXX" value="${userinsframework}" readonly="readonly"/></div>
 		</div>
+		 <div style="float:right;"><span class="required"></span>班组信息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		 <input class="easyui-textbox" id="XXX"  name="XXX" value="${userinsframework}" readonly="readonly"/></div>
 	</div>
   	<div id="body">
   		<div id="load" style="width:100%;height:100%;"></div>
