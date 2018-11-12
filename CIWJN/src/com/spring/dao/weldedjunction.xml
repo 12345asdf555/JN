@@ -81,9 +81,9 @@
 	</select>
 	
 	<select id="getFreeJunction" resultMap="wjMap">
-		SELECT j.fid,j.fwelded_junction_no,j.fserial_no,i.fid insfid,i.fname funit,w.fwelder_no fpipeline_no FROM tb_welded_junction j 
-		INNER JOIN tb_welder w on j.fdyne = w.fid INNER JOIN tb_insframework i on j.fitemId = i.fid 
-		where j.fid not in (SELECT DISTINCT(ftaskid) from tb_taskresult) 
+		SELECT j.fid,j.fwelded_junction_no,j.fserial_no,i.fid insfid,i.fname funit FROM tb_welded_junction j 
+	    INNER JOIN tb_insframework i on j.fitemId = i.fid 
+		where 1=1
 		<if test="str!=null and str!=''">
 			and ${str}
 		</if>

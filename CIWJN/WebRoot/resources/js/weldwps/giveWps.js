@@ -338,9 +338,15 @@ function giveWps(){
 				
 				var xiafasend = "7E" + xiafasend5 + "7D";
 			    socket.send(xiafasend);*/
-				window.setTimeout(function() {
+				for(var ff=0;ff<5000000;ff++){
+					var num=0,ss=0;
+					num++;
+					ss=num+ss;
+				}
+				socket.send("7E"+xiafasend2+"7D");
+/*				window.setTimeout(function() {
 					socket.send("7E"+xiafasend2+"7D");
-				}, j*200);
+				}, j*200);*/
 			}
 			
 		}

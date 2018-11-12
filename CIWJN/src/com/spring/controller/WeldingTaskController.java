@@ -912,7 +912,7 @@ public class WeldingTaskController {
 				json.put("desc", list.get(i).getSerialNo());
 				json.put("itemid", list.get(i).getInsfid());
 				json.put("itemname", list.get(i).getUnit());
-				json.put("welderno", list.get(i).getPipelineNo());
+//				json.put("welderno", list.get(i).getPipelineNo());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -934,18 +934,18 @@ public class WeldingTaskController {
 			if(instype==20){
 				
 			}else if(instype==23){
-				serach = "w.Fowner="+id;
+				serach = "j.fitemId="+id;
 			}else{
 				List<Insframework> ls = insm.getInsIdByParent(id,24);
 				for(Insframework inns : ls ){
 					if(bz==0){
-						serach=serach+"(w.Fowner="+inns.getId();
+						serach=serach+"(j.fitemId="+inns.getId();
 					}else{
-						serach=serach+" or w.Fowner="+inns.getId();
+						serach=serach+" or j.fitemId="+inns.getId();
 					}
 					bz++;
 				}
-				serach=serach+" or w.Fowner="+id+")";
+				serach=serach+" or j.fitemId="+id+")";
 			}
 		}catch(Exception e){
 			e.printStackTrace();

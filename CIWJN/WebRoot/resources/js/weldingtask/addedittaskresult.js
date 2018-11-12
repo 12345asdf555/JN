@@ -31,13 +31,13 @@ function editWeldedjunction(value){
               });
               $('#dlg').window('open');
 //              $('#fm').form('load', row);
-              $("#oldno").val(row.taskNo);   //不加会出现不能保存相同名的id这个错误
+              $("#oldno").val(value.taskno);   //不加会出现不能保存相同名的id这个错误
               $("#machineid").val(value.machid);
               $("#taskid").val(value.taskid);
               $("#welderNo").val(value.welderno);
 //              $("#taskNo").val(row.taskNo);
 //              $("#machineNo").val(value5);
-              $("#taskNo").textbox('setValue',row.taskNo);
+              $("#taskNo").textbox('setValue',value.taskno);
               $("#machineNo").textbox('setValue',value.machno);
               url = "weldtask/getEvaluate?id="+value.id+"&result="+""+"&starttime="+row.starttime+"&endtime="+row.endtime+"&welderid="+value.welderid;
 
