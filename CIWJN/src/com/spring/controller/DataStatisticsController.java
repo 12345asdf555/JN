@@ -1308,7 +1308,7 @@ public class DataStatisticsController {
 							json.put("t10", (double)Math.round(task.get(j).getElectricity()*100)/100);
 							json.put("t11", (double)Math.round(task.get(j).getVoltage()*100)/100);
 							double ratio = 0;
-							if(task.get(j).getWarntime()!=null && !"".equals(task.get(j).getWarntime())){
+							if(task.get(j).getWorktime()!=null && !"".equals(task.get(j).getWorktime())){
 								ratio = (double)Math.round(task.get(j).getWorktime().doubleValue()/(task.get(j).getWorktime().doubleValue()+task.get(j).getWarntime().doubleValue())*10000)/100;
 							}
 							json.put("t12", ratio);//规范符合率

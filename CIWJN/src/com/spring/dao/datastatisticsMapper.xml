@@ -37,18 +37,14 @@
 	</resultMap>
 	
 	<select id="getTaskDetail" resultMap="dataMap">
-		select ftaskid,fwelderid,fmachineid,fname,fwelder_no welderno,weldername,fequipment_no,fwelded_junction_no fjunction_no,
-		frealstarttime,frealendtime,fchannel,felectricity electricity,fvoltage voltage,warntime,worktime from 
-		(select t.ftaskid,t.fwelderid,t.fmachineid, i.fname,w.fwelder_no,w.fname weldername,m.fequipment_no,
-		j.fwelded_junction_no,t.frealstarttime,t.frealendtime,fchannel,avg(felectricity) felectricity,
-		AVG(fvoltage) fvoltage,sum(tw.fworktime)/60/60 warntime ,0 worktime from tb_taskresult t 
+		select ftaskid,fwelderid,fmachineid,fname,fwelder_no welderno,weldername,fequipment_no,fwelded_junction_no fjunction_no, frealstarttime,frealendtime,
+		fchannel,felectricity electricity,fvoltage voltage,sum(alarmtime)+sum(warntime) warntime,sum(worktime)-sum(alarmtime) worktime from (
+		select t.ftaskid,t.fwelderid,t.fmachineid, i.fname,w.fwelder_no,w.fname weldername,m.fequipment_no, j.fwelded_junction_no,t.frealstarttime,
+		t.frealendtime,fchannel,avg(felectricity) felectricity, AVG(fvoltage) fvoltage,0 alarmtime,0 warntime ,sum(tw.fworktime) worktime from tb_taskresult t 
 		left JOIN tb_welder w on w.fid = t.fwelderid left join tb_welding_machine m on m.fid = t.fmachineid 
-		left JOIN tb_work tw on tw.fwelder_id = t.fwelderid left JOIN tb_welded_junction j on j.fid= t.ftaskid
-		LEFT JOIN tb_insframework i on i.fid = tw.fjunction_itemid
-		left JOIN tb_insframework ins on ins.fid = i.fparent
-        left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where (tw.felectricity &gt; tw.fmax_electricity or tw.felectricity &lt; tw.fmin_electricity 
-		or tw.fvoltage &gt; tw.fmax_voltage or tw.fvoltage &lt; tw.fmin_voltage)
+		left JOIN tb_work tw on tw.fwelder_id = t.fwelderid left JOIN tb_welded_junction j on j.fid= t.ftaskid 
+		LEFT JOIN tb_insframework i on i.fid = tw.fjunction_itemid left JOIN tb_insframework ins on ins.fid = i.fparent 
+		left JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1
 		<if test="parent!=null and parent!=''">
 			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
 		</if>
@@ -63,18 +59,14 @@
 		</if>
 		<if test="dtoTime2!=null and dtoTime2!=''">
 			and (frealendtime &lt;= #{dtoTime2}  or frealendtime is null)
-		</if>
-		group by t.ftaskid,t.fwelderid,t.fmachineid
-		union ALL
-		select t.ftaskid,t.fwelderid,t.fmachineid, i.fname,w.fwelder_no welderno,w.fname weldername,m.fequipment_no,
-		j.fwelded_junction_no,t.frealstarttime,t.frealendtime,fchannel,avg(felectricity) felectricity,AVG(fvoltage) fvoltage,
-		0 warntime,sum(tw.fworktime)/60/60 worktime from tb_taskresult t left JOIN tb_welder w on w.fid = t.fwelderid 
-		left join tb_welding_machine m on m.fid = t.fmachineid left JOIN tb_work tw on tw.fwelder_id = t.fwelderid
-		 left JOIN tb_welded_junction j on j.fid= t.ftaskid LEFT JOIN tb_insframework i on i.fid = tw.fjunction_itemid 
-		left JOIN tb_insframework ins on ins.fid = i.fparent
-        left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where tw.felectricity &gt;= tw.fmax_electricity and tw.felectricity &lt;= tw.fmin_electricity 
-		and tw.fvoltage &gt;= tw.fmax_voltage and tw.fvoltage &lt;= tw.fmin_voltage
+		</if> group by t.ftaskid,t.fwelderid,t.fmachineid
+		UNION ALL
+		select t.ftaskid,t.fwelderid,t.fmachineid, i.fname,w.fwelder_no,w.fname weldername,m.fequipment_no, j.fwelded_junction_no,t.frealstarttime,
+		t.frealendtime,fchannel,avg(felectricity) felectricity, AVG(fvoltage) fvoltage,sum(tw.falarmtime) alarmtime,0 warntime ,0 worktime from tb_taskresult t 
+		left JOIN tb_welder w on w.fid = t.fwelderid left join tb_welding_machine m on m.fid = t.fmachineid 
+		left JOIN tb_alarm tw on tw.fwelder_id = t.fwelderid left JOIN tb_welded_junction j on j.fid= t.ftaskid 
+		LEFT JOIN tb_insframework i on i.fid = tw.fjunction_itemid left JOIN tb_insframework ins on ins.fid = i.fparent 
+		left JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1
 		<if test="parent!=null and parent!=''">
 			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
 		</if>
@@ -89,9 +81,30 @@
 		</if>
 		<if test="dtoTime2!=null and dtoTime2!=''">
 			and (frealendtime &lt;= #{dtoTime2}  or frealendtime is null)
+		</if> group by t.ftaskid,t.fwelderid,t.fmachineid
+		UNION ALL
+		select t.ftaskid,t.fwelderid,t.fmachineid, i.fname,w.fwelder_no,w.fname weldername,m.fequipment_no, j.fwelded_junction_no,t.frealstarttime,
+		t.frealendtime,fchannel,avg(felectricity) felectricity, AVG(fvoltage) fvoltage,0 alarmtime,sum(tw.fwarntime) warntime ,0 worktime from tb_taskresult t 
+		left JOIN tb_welder w on w.fid = t.fwelderid left join tb_welding_machine m on m.fid = t.fmachineid 
+		left JOIN tb_warn tw on tw.fwelder_id = t.fwelderid left JOIN tb_welded_junction j on j.fid= t.ftaskid 
+		LEFT JOIN tb_insframework i on i.fid = tw.fjunction_itemid left JOIN tb_insframework ins on ins.fid = i.fparent 
+		left JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
 		</if>
-		group by t.ftaskid,t.fwelderid,t.fmachineid
-		)temp
+		<if test="welderno!=null and welderno!=''">
+			and w.fwelder_no like ${welderno}
+		</if>
+		<if test="taskno!=null and taskno!=''">
+			and fwelded_junction_no like ${taskno}
+		</if>
+		<if test="dtoTime1!=null and dtoTime1!=''">
+			and frealstarttime &gt;= #{dtoTime1}
+		</if>
+		<if test="dtoTime2!=null and dtoTime2!=''">
+			and (frealendtime &lt;= #{dtoTime2}  or frealendtime is null)
+		</if> group by t.ftaskid,t.fwelderid,t.fmachineid
+		)temp group by ftaskid,fwelderid,fmachineid
 	</select>
 	
 	<select id="getTask" resultMap="dataMap">
