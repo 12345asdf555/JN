@@ -147,10 +147,16 @@ function webclient() {
 					refreshWelderData(data);
 					data = [ {
 						value : weld.length,
-						name : '在线'
+						name : '在线',
+						itemStyle:{
+			                  normal:{color:'#67b73e'}
+							}
 					}, {
 						value : namex.length - weld.length,
-						name : '其它'
+						name : '其它',
+						itemStyle:{
+			                  normal:{color:'#fff'}
+							}
 					} ];
 					refreshPersonData(data);
 
@@ -164,7 +170,7 @@ function webclient() {
 
 			for (var i = 0; i < redata.length; i += 93) {
 				if (redata.substring(0 + i, 4 + i) != "0000") {
-					//组织机构与焊工编号都与数据库中一直则录入
+					//组织机构与焊工编号都与数据库中一致则录入
 					if (weld.length == 0) {
 						weld.push(redata.substring(0 + i, 4 + i));
 					} else {
@@ -390,10 +396,16 @@ function refreshPersonData(data) {
 window.setInterval(function() {
 	var data = [ {
 		value : weld.length,
-		name : '在线'
+		name : '在线',
+		itemStyle:{
+	          normal:{color:'#67b73e'}
+			}
 	}, {
 		value : namex.length - weld.length,
-		name : '其它'
+		name : '其它',
+		itemStyle:{
+	          normal:{color:'#fff'}
+			}
 	} ];
 	refreshPersonData(data);
 }, 30000);
@@ -436,6 +448,7 @@ function showWelderChart() {
 						index = i;
 					}
 			    })
+			    //alert(clientcounts[0]+","+clientcounts[1]+","+clientcounts[2]+","+clientcounts[3]);
 				return name + "：" + clientcounts[index] ;
 			}
 		},

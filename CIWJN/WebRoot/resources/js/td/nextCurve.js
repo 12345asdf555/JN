@@ -123,6 +123,10 @@ $(function() {
 				if(worktime.time!=null && worktime.time!=''){
 					time2 = worktime.time;
 				}
+				var t1 = secondToDate(time1);
+			    $("#r3").textbox('setValue',t1);
+			    var t2 = secondToDate(time2);
+			    $("#r4").textbox('setValue',t2);
 			}
 		},
 		error : function(errorMsg) {
@@ -400,6 +404,14 @@ function iview() {
 	for (var i = 0; i < redata.length; i += 93) {
 		//				if(redata.substring(8+i, 12+i)!="0000"){
 		if (parseInt(redata.substring(4 + i, 8 + i),10) == $("#machineid").val()) {
+			time1++;
+		    var t1 = secondToDate(time1);
+		    $("#r3").textbox('setValue',t1);
+		    if(redata.substring(36 + i, 38 + i)!="00"){
+			    time2++;
+			    var t2 = secondToDate(time2);
+			    $("#r4").textbox('setValue',t2);
+		    }
 			ele.push(parseInt(redata.substring(38 + i, 42 + i), 10));
 			vol.push(parseFloat((parseInt(redata.substring(42 + i, 46 + i), 10) / 10).toFixed(2)));
 			var ttme = redata.substring(54 + i, 73 + i);
@@ -684,7 +696,6 @@ function activeLastPointToolip1(chart) {
 	})
 }
 
-
 //显示系统当前时间
 setInterval(function(){
 	var date =  new Date();
@@ -706,18 +717,6 @@ setInterval(function(){
 
 },1000);
 
-setInterval(function(){
-	if($("#l5").val()!="关机"){
-	    var t1 = secondToDate(time1);
-	    $("#r3").textbox('setValue',t1);
-	}
-	if($("#l5").val()!="关机" && $("#l5").val()!="待机"){
-	    var t2 = secondToDate(time2);
-	    $("#r4").textbox('setValue',t2);
-	}
-    time1++;
-    time2++;
-},1000);
 function secondToDate(result) {
 	var h = Math.floor(result / 3600) < 10 ? '0' + Math.floor(result / 3600) : Math.floor(result / 3600);
 	var m = Math.floor((result / 60 % 60)) < 10 ? '0' + Math.floor((result / 60 % 60)) : Math.floor((result / 60 % 60));

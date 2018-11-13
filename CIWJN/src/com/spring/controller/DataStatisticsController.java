@@ -9,7 +9,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,9 +18,7 @@ import com.spring.dto.ModelDto;
 import com.spring.dto.WeldDto;
 import com.spring.model.DataStatistics;
 import com.spring.model.Dictionarys;
-import com.spring.model.Insframework;
 import com.spring.model.LiveData;
-import com.spring.model.MyUser;
 import com.spring.page.Page;
 import com.spring.service.DataStatisticsService;
 import com.spring.service.DictionaryService;

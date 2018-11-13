@@ -159,7 +159,7 @@
 		select fmachine_id from tb_work w
 		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
         left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where 1=1
+		where fmachine_id!=0
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
@@ -175,7 +175,7 @@
 		select fmachine_id from tb_standby  w
 		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
         left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where 1=1
+		where fmachine_id!=0
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
@@ -191,7 +191,7 @@
 		select fmachine_id from tb_alarm  w
 		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
         left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where 1=1
+		where fmachine_id!=0
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
@@ -212,7 +212,7 @@
 		from tb_work  w
 		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
         left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where 1=1
+		where fmachine_id!=0
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
@@ -232,7 +232,7 @@
 		select fjunction_id from tb_work  w
 		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
         left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where 1=1
+		where fjunction_id != 0
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
@@ -251,7 +251,7 @@
 		select fjunction_id from tb_standby w
 		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
         left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where 1=1
+		where fjunction_id != 0
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
@@ -276,7 +276,7 @@
 		select fjunction_id from tb_work  w
 		INNER JOIN tb_insframework i on i.fid  = w.fwelder_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
         left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where 1=1
+		where fjunction_id != 0
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
@@ -295,7 +295,7 @@
 		select fjunction_id from tb_standby w
 		INNER JOIN tb_insframework i on i.fid  = w.fwelder_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
         left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where 1=1
+		where fjunction_id != 0
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
@@ -1171,7 +1171,7 @@
 		select count(DISTINCT(fmachine_id)) machinenum
 		from tb_work w INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
         left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where 1=1
+		where fmachine_id!=0
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid}) 
 		</if>

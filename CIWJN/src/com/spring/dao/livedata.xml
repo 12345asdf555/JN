@@ -612,7 +612,7 @@
 			</if>
 		</if> l 
 		INNER JOIN tb_insframework i on i.fid = l.fmachine_itemid  INNER JOIN tb_insframework ins ON ins.fid = i.fparent 
-		WHERE 1=1
+		WHERE fmachine_id!=0
 		<if test="parent!=null and parent!=''">
 			AND ins.fparent = #{parent}
 		</if>
@@ -654,7 +654,7 @@
 		INNER JOIN tb_insframework i on i.fid = l.fmachine_itemid
 		LEFT JOIN tb_insframework ins on ins.fid = i.fparent 
 		LEFT JOIN tb_insframework insf on insf.fid = ins.fparent
-		WHERE  1=1
+		WHERE fmachine_id!=0
 		<if test="parent!=null and parent!=''">
 			AND (i.fid=#{parent} or ins.fid = #{parent} or insf.fid = #{parent} or insf.fparent=#{parent})
 		</if>
