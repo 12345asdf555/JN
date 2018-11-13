@@ -101,11 +101,13 @@ public class ImportExcelController {
 				//编码唯一
 				int count1 = gs.getGatherNoCount(g.getGatherNo(),g.getItemid());
 				if(count1>0){
-					obj.put("msg","导入失败，请检查您的设备编码是否已存在！");
+					/*obj.put("msg","导入失败，请检查您的设备编码是否已存在！");
 					obj.put("success",false);
-					return obj.toString();
+					return obj.toString();*/
+					continue;
+				}else{
+					gs.addGather(g);
 				}
-				gs.addGather(g);
 			};
 			obj.put("success",true);
 			obj.put("msg","导入成功！");
@@ -161,12 +163,15 @@ public class ImportExcelController {
 				wm.setGatherId(gather);
 				//编码唯一
 				int count1 = wmm.getEquipmentnoCount(wm.getEquipmentNo());
-				if(count1>0 || count2>0){
-					obj.put("msg","导入失败，请检查您的设备编码、采集序号是否已存在！");
+				if(count2>0){
+					obj.put("msg","导入失败，请检查您的采集序号是否已经被占用！");
 					obj.put("success",false);
 					return obj.toString();
+				}else if(count1>0){
+					continue;
+				}else{
+					wmm.addWeldingMachine(wm);
 				}
-				wmm.addWeldingMachine(wm);
 			};
 			obj.put("success",true);
 			obj.put("msg","导入成功！");

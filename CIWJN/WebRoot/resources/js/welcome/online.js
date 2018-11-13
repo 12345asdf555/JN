@@ -9,6 +9,8 @@ var redata;
 var symbol = 0;
 var machine;
 var namex;
+var worknum=0, waitnum=0, warnnum=0, offnum=0, weldnum=0, personnum=0, machineflag=0, personfalg=0;
+
 $(function() {
 	welder();
 	machine();
@@ -159,7 +161,9 @@ function webclient() {
 							}
 					} ];
 					refreshPersonData(data);
-
+					machineflag = 1,personfalg = 1;
+					weldnum = weld.length, personnum = namex.length;
+					worknum = work.length, waitnum = wait.length, warnnum = warn.length, offnum = machine.length - work.length - wait.length;
 					work.length = 0;
 					wait.length = 0;
 					mall.length = 0;
@@ -297,7 +301,10 @@ function showPersonChart() {
 			formatter : function(name) {
 				var index = 0;
 				var clientlabels = [ '焊工', '在线' ];
-				var clientcounts = [ namex.length, weld.length ];
+				if(personfalg == 0){
+					weldnum = weld.length, personnum = namex.length;
+				}
+				var clientcounts = [ personnum, weldnum ];
 				$.each(clientlabels,function (i,value) {
 					if (value == name) {
 						index = i;
@@ -441,14 +448,16 @@ function showWelderChart() {
 			formatter : function(name) {
 				var index = 0;
 				var clientlabels = [ '工作', '待机','故障', '关机' ];
-				var clientcounts = [ work.length, wait.length,warn.length, machine.length - work.length - wait.length ];
-				
+				if(machineflag==0){
+					worknum = work.length, waitnum = wait.length, warnnum = warn.length, offnum = machine.length - work.length - wait.length
+				}
+				var clientcounts = [ worknum, waitnum,warnnum, offnum ];
 				$.each(clientlabels,function (i,value) {
 					if (value == name) {
 						index = i;
 					}
 			    })
-			    //alert(clientcounts[0]+","+clientcounts[1]+","+clientcounts[2]+","+clientcounts[3]);
+			    console.log(clientcounts[0]+","+clientcounts[1]+","+clientcounts[2]+","+clientcounts[3]);
 				return name + "：" + clientcounts[index] ;
 			}
 		},
@@ -568,6 +577,8 @@ window.setInterval(function() {
 		}
 	} ]
 	refreshWelderData(data);
+	weldnum = weld.length, personnum = namex.length;
+	worknum = work.length, waitnum = wait.length, warnnum = warn.length, offnum = machine.length - work.length - wait.length
 	work.length = 0;
 	weld.length = 0;
 	wait.length = 0;
