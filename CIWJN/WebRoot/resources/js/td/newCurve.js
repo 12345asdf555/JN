@@ -318,6 +318,7 @@ function iview(){
 		},5000);
 		flag=2;
 	}
+	if(redata.length==279){
 		for(var i = 0;i < redata.length;i+=93){
 //			if(redata.substring(8+i, 12+i)!="0000"){
 				for(var f=0;f<machine.length;f++){
@@ -330,6 +331,8 @@ function iview(){
 						}else if(type==43){
 							imgnum = 3;
 						}
+						$("#m3"+machine[f].fid).html("--");
+						$("#m3"+machine[f].fid).html("--");
 						for(var k=0;k<welderName.length;k++){
 							if(welderName[k].fid==parseInt(redata.substring(0+i, 4+i),10)){
 								$("#m3"+machine[f].fid).html(welderName[k].fwelder_no);
@@ -475,7 +478,7 @@ function iview(){
 //			}
 		};
 	}
-	
+}
 //饼图统计
 function showChart(){
  	//初始化echart实例

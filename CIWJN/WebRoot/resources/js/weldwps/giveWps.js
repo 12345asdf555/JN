@@ -263,10 +263,12 @@ function giveWps(){
 	 	alert("请先选择焊机");
 	}else{
 		var count=0;
+		
 		if (typeof (WebSocket) == "undefined") {
 			WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
 			WEB_SOCKET_DEBUG = true;
 		}
+		var sochet_send_data=new Array()
 		var socket = new WebSocket(websocketURL);
 		socket.onopen = function() {
 		for(var i=0;i<macrows.length;i++){
@@ -338,18 +340,19 @@ function giveWps(){
 				
 				var xiafasend = "7E" + xiafasend5 + "7D";
 			    socket.send(xiafasend);*/
-				for(var ff=0;ff<5000000;ff++){
-					var num=0,ss=0;
-					num++;
-					ss=num+ss;
-				}
-				socket.send("7E"+xiafasend2+"7D");
-/*				window.setTimeout(function() {
-					socket.send("7E"+xiafasend2+"7D");
-				}, j*200);*/
+				sochet_send_data.push("7E"+xiafasend2+"7D")
+//				socket.send("7E"+xiafasend2+"7D");
 			}
 			
 		}
+		var timer = window.setInterval(function() {
+			if(sochet_send_data.length!=0){
+				var popdata = sochet_send_data.pop();
+				socket.send(popdata);
+			}else{
+				window.clearInterval(timer);
+			}
+		}, 200)
 		socket.onmessage = function(msg) {
 			var receivedata = msg.data;
 //			receivedata = receivedata.replace(/7C20/g, '00').toUpperCase();
@@ -387,6 +390,14 @@ function giveWps(){
 		};
 	}
 	};
+}
+
+function sleep(delay) {
+	  var start = (new Date()).getTime();
+	  while((new Date()).getTime() - start < delay) {
+		  console.log((new Date()).getTime() - start)
+//	    continue;
+	  }
 }
 
 //关闭工艺选择的dialog框

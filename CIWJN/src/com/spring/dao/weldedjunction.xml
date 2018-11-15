@@ -75,9 +75,9 @@
     LEFT JOIN tb_dictionary dic ON r.fresultid=dic.fvalue AND dic.ftypeid=16
 	WHERE 1=1 AND (r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid) OR r.foperatetype IS null)
 	<if test="str!=null and str!=''">
-			and ${str}
-		</if>
-	ORDER BY r.foperatedate desc
+		and ${str}
+	</if>
+	ORDER BY j.fid 
 	</select>
 	
 	<select id="getFreeJunction" resultMap="wjMap">

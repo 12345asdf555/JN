@@ -10,7 +10,7 @@ function dgDatagrid(){
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
-		url : "weldedjunction/getWeldedJunctionList",
+		url : "weldedjunction/getWeldedJunctionList?searchStr="+"j.fid in (SELECT DISTINCT ftaskid FROM tb_taskresult)",
 		singleSelect : true,
 		rownumbers : true,
 		showPageList : false,
@@ -36,8 +36,8 @@ function dgDatagrid(){
 			halign : "center",
 			align : "left",
 			hidden:true
-		}, {
-		/*	field : 'externalDiameter',
+		},/* {
+			field : 'externalDiameter',
 			title : '上游外径',
 			width : 90,
 			halign : "center",
@@ -72,7 +72,7 @@ function dgDatagrid(){
 			width : 90,
 			halign : "center",
 			align : "left"
-		}, {*/
+		}, {
 			field : 'maxElectricity',
 			title : '电流上限',
 			width : 90,
@@ -96,7 +96,7 @@ function dgDatagrid(){
 			width : 90,
 			halign : "center",
 			align : "left"
-		}, {
+		},*/ {
 			field : 'itemname',
 			title : '所属项目',
 			width : 150,

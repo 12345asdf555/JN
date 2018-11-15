@@ -701,7 +701,7 @@
 				and w.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and w.fendtime &lt;= #{dto.dtoTime2}
+				and w.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 			<if test="dto.parent!=null and dto.parent!=''">
 				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
@@ -729,7 +729,7 @@
 				and w.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and w.fendtime &lt;= #{dto.dtoTime2}
+				and w.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 			<if test="dto.parent!=null and dto.parent!=''">
 				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
@@ -752,7 +752,7 @@
 				and w.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and w.fendtime &lt;= #{dto.dtoTime2}
+				and w.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 			<if test="dto.parent!=null and dto.parent!=''">
 				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
@@ -780,7 +780,7 @@
 				and w.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and w.fendtime &lt;= #{dto.dtoTime2}
+				and w.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 			<if test="dto.parent!=null and dto.parent!=''">
 				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
@@ -804,7 +804,7 @@
 				and w.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and w.fendtime &lt;= #{dto.dtoTime2}
+				and w.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 		</if>
 		<if test="itemid!=null and itemid!=''">
@@ -829,7 +829,7 @@
 				and w.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and w.fendtime &lt;= #{dto.dtoTime2}
+				and w.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 		</if>
 		<if test="itemid!=null and itemid!=''">
@@ -853,7 +853,7 @@
 				and w.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and w.fendtime &lt;= #{dto.dtoTime2}
+				and w.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 		</if>
 		<if test="itemid!=null and itemid!=''">
@@ -876,7 +876,7 @@
 				and w.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and w.fendtime &lt;= #{dto.dtoTime2}
+				and w.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 		</if>
 		 <if test="itemid!=null and itemid!=''">
@@ -900,7 +900,7 @@
 				and a.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and a.fendtime &lt;= #{dto.dtoTime2}
+				and a.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 			<if test="dto.parent!=null and dto.parent!=''">
 				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
@@ -930,7 +930,7 @@
 				and a.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and a.fendtime &lt;= #{dto.dtoTime2}
+				and a.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 			<if test="dto.parent!=null and dto.parent!=''">
 				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
@@ -954,7 +954,7 @@
 				and a.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and a.fendtime &lt;= #{dto.dtoTime2}
+				and a.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 			<if test="dto.parent!=null and dto.parent!=''">
 				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
@@ -984,7 +984,7 @@
 				and a.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and a.fendtime &lt;= #{dto.dtoTime2}
+				and a.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 			<if test="dto.parent!=null and dto.parent!=''">
 				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
@@ -1007,7 +1007,7 @@
 				and a.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and a.fendtime &lt;= #{dto.dtoTime2}
+				and a.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 			<if test="dto.parent!=null and dto.parent!=''">
 				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
@@ -1037,7 +1037,7 @@
 				and fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and fendtime &lt;= #{dto.dtoTime2}
+				and fstarttime &lt; #{dto.dtoTime2}
 			</if>
 			<if test="dto.parent!=null and dto.parent!=''">
 				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
@@ -1066,7 +1066,7 @@
 				and a.fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and a.fendtime &lt;= #{dto.dtoTime2}
+				and a.fstarttime &lt; #{dto.dtoTime2}
 			</if>
 			<if test="dto.parent!=null and dto.parent!=''">
 				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
@@ -1096,7 +1096,7 @@
 				and fstarttime &gt;= #{dto.dtoTime1}
 			</if>
 			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and fendtime &lt;= #{dto.dtoTime2}
+				and fstarttime &lt; #{dto.dtoTime2}
 			</if>
 			<if test="dto.parent!=null and dto.parent!=''">
 				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})

@@ -401,6 +401,8 @@ function iview() {
 	time.length = 0;
 	vol.length = 0;
 	ele.length = 0;
+
+	if(redata.length==279){
 	for (var i = 0; i < redata.length; i += 93) {
 		//				if(redata.substring(8+i, 12+i)!="0000"){
 		if (parseInt(redata.substring(4 + i, 8 + i),10) == $("#machineid").val()) {
@@ -571,6 +573,7 @@ function iview() {
 		}
 		//				}
 		z++;
+	}
 	}
 	;
 	if ((time.length) % 3 == 1) {

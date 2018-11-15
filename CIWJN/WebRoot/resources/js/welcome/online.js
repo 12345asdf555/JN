@@ -107,6 +107,7 @@ function webclient() {
 	};
 	socket.onmessage = function(msg) {
 		var xxx = msg.data;
+		if(xxx.length==279){
 		if (xxx.substring(0, 2) != "7E") {
 			redata = msg.data;
 			if (symbol == 0) {
@@ -235,6 +236,7 @@ function webclient() {
 					}
 				}
 			}
+		}
 		}
 		;
 		//关闭事件
@@ -457,7 +459,7 @@ function showWelderChart() {
 						index = i;
 					}
 			    })
-			    console.log(clientcounts[0]+","+clientcounts[1]+","+clientcounts[2]+","+clientcounts[3]);
+			    //console.log(clientcounts[0]+","+clientcounts[1]+","+clientcounts[2]+","+clientcounts[3]);
 				return name + "：" + clientcounts[index] ;
 			}
 		},

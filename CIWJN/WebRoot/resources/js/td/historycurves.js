@@ -44,7 +44,7 @@ function Junction(){
 			width : 90,
 			halign : "center",
 			align : "left"
-		}, {
+		}, /*{
 			field : 'maxElectricity',
 			title : '电流上限',
 			width : 90,
@@ -68,7 +68,7 @@ function Junction(){
 			width : 90,
 			halign : "center",
 			align : "left"
-		}, {
+		},*/ {
 			field : 'machine_num',
 			title : '焊机编号',
 			width : 150,
