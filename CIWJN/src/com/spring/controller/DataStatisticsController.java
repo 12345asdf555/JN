@@ -1266,7 +1266,7 @@ public class DataStatisticsController {
 			}else{
 				itemid = im.getUserInsframework();
 			}
-			List<DataStatistics> list = dss.getTask(page, itemid, welderno, taskno, dtoTime1, dtoTime2);
+			List<DataStatistics> list = dss.getTask(itemid, welderno, taskno, dtoTime1, dtoTime2);
 			if(list != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
 				total = pageinfo.getTotal();
@@ -1284,37 +1284,68 @@ public class DataStatisticsController {
 						}
 					}
 				}
-				for(int j=0;j<task.size();j++){
-					if(list.get(i).getType()!=1){
-						if(list.get(i).getTaskid().equals(task.get(j).getTaskid()) && list.get(i).getWelderid().equals(task.get(j).getWelderid()) && list.get(i).getMachineid().equals(task.get(j).getMachineid())){
-							json.put("t0", task.get(j).getName());
-							json.put("t1", task.get(j).getWelderno());
-							json.put("t2", task.get(j).getWeldername());
-							json.put("t3", task.get(j).getMachineno());
-							json.put("t4", task.get(j).getTaskno());
-							json.put("t5", task.get(j).getStarttime());
-							json.put("t6", list.get(i).getEndtime());
-							json.put("t7", task.get(j).getChannel());
-							if(task.get(j).getWorktime()!=null && !"".equals(task.get(j).getWorktime())){
-								json.put("t8", getTimeStrBySecond(task.get(j).getWorktime()));
-							}else{
-								json.put("t8", "00:00:00");
+				if(list.get(i).getType()!=1){
+					json.put("t0", list.get(i).getName());
+					json.put("t1", list.get(i).getWelderno());
+					json.put("t2", list.get(i).getWeldername());
+					json.put("t3", list.get(i).getMachineno());
+					json.put("t4", list.get(i).getTaskno());
+					json.put("t5", list.get(i).getStarttime());
+					json.put("t6", list.get(i).getEndtime());
+					int t7 = 0;
+					String t8 = "00:00:00",t9 = "00:00:00";
+					double t10 = 0,t11 = 0,t12 = 0;
+					for(int j=0;j<task.size();j++){
+						if(list.get(i).getType()!=1){
+							if(list.get(i).getTaskid().equals(task.get(j).getTaskid()) && list.get(i).getWelderid().equals(task.get(j).getWelderid()) && list.get(i).getMachineid().equals(task.get(j).getMachineid())){
+								/*json.put("t0", task.get(j).getName());
+								json.put("t1", task.get(j).getWelderno());
+								json.put("t2", task.get(j).getWeldername());
+								json.put("t3", task.get(j).getMachineno());
+								json.put("t4", task.get(j).getTaskno());
+								json.put("t5", task.get(j).getStarttime());
+								json.put("t6", list.get(i).getEndtime());*/
+								t7 = task.get(j).getChannel();
+								if(task.get(j).getWorktime()!=null && !"".equals(task.get(j).getWorktime())){
+									t8 = getTimeStrBySecond(task.get(j).getWorktime());
+								}
+								if(task.get(j).getWarntime()!=null && !"".equals(task.get(j).getWarntime())){
+									t9 = getTimeStrBySecond(task.get(j).getWarntime());
+								}
+								json.put("t10", (double)Math.round(task.get(j).getElectricity()*100)/100);
+								json.put("t11", (double)Math.round(task.get(j).getVoltage()*100)/100);
+								if(task.get(j).getWorktime()!=null && !"".equals(task.get(j).getWorktime())){
+									t12 = (double)Math.round(task.get(j).getWorktime().doubleValue()/(task.get(j).getWorktime().doubleValue()+task.get(j).getWarntime().doubleValue())*10000)/100;
+								}
+								/*json.put("t7", task.get(j).getChannel());
+								if(task.get(j).getWorktime()!=null && !"".equals(task.get(j).getWorktime())){
+									json.put("t8", getTimeStrBySecond(task.get(j).getWorktime()));
+								}else{
+									json.put("t8", "00:00:00");
+								}
+								if(task.get(j).getWarntime()!=null && !"".equals(task.get(j).getWarntime())){
+									json.put("t9", getTimeStrBySecond(task.get(j).getWarntime()));
+								}else{
+									json.put("t9", "00:00:00");
+								}
+								json.put("t10", (double)Math.round(task.get(j).getElectricity()*100)/100);
+								json.put("t11", (double)Math.round(task.get(j).getVoltage()*100)/100);
+								double ratio = 0;
+								if(task.get(j).getWorktime()!=null && !"".equals(task.get(j).getWorktime())){
+									ratio = (double)Math.round(task.get(j).getWorktime().doubleValue()/(task.get(j).getWorktime().doubleValue()+task.get(j).getWarntime().doubleValue())*10000)/100;
+								}
+								json.put("t12", ratio);//规范符合率
+								ary.add(json);*/
 							}
-							if(task.get(j).getWarntime()!=null && !"".equals(task.get(j).getWarntime())){
-								json.put("t9", getTimeStrBySecond(task.get(j).getWarntime()));
-							}else{
-								json.put("t9", "00:00:00");
-							}
-							json.put("t10", (double)Math.round(task.get(j).getElectricity()*100)/100);
-							json.put("t11", (double)Math.round(task.get(j).getVoltage()*100)/100);
-							double ratio = 0;
-							if(task.get(j).getWorktime()!=null && !"".equals(task.get(j).getWorktime())){
-								ratio = (double)Math.round(task.get(j).getWorktime().doubleValue()/(task.get(j).getWorktime().doubleValue()+task.get(j).getWarntime().doubleValue())*10000)/100;
-							}
-							json.put("t12", ratio);//规范符合率
-							ary.add(json);
 						}
 					}
+					json.put("t7", t7);
+					json.put("t8", t8);
+					json.put("t9", t9);
+					json.put("t10", t10);
+					json.put("t11", t11);
+					json.put("t12", t12);
+					ary.add(json);
 				}
 			}
 			//表头

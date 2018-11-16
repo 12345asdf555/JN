@@ -108,7 +108,9 @@
 	</select>
 	
 	<select id="getTask" resultMap="dataMap">
-		select ftaskid,fwelderid,fmachineid,frealstarttime,frealendtime,foperatetype type,i.fid from tb_taskresult t
+		select ftaskid,fwelderid,fmachineid,frealstarttime,frealendtime,foperatetype type,i.fid,
+		i.fname,w.fwelder_no welderno,w.fname weldername,j.fwelded_junction_no fjunction_no,m.fequipment_no from tb_taskresult t
+        LEFT JOIN tb_welding_machine m on m.fid = t.fmachineid 
 		LEFT JOIN tb_welder w on w.fid = t.fwelderid
 		LEFT JOIN tb_welded_junction j on j.fid = t.ftaskid
 		LEFT JOIN tb_insframework i on i.fid = j.fitemId left JOIN tb_insframework ins on ins.fid = i.fparent
