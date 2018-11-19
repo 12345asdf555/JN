@@ -548,6 +548,28 @@ window.setInterval(function(){
 		var statusnum = $("#status").combobox('getValue');
 		worknum=0, standbynum=0, warnnum=0, offnum=machine.length-tempary.length;
 		for(var i=0;i<machine.length;i++){
+			var isoffflag = true;
+			var type = machine[i].type,imgnum=0;
+			if(type==41){
+				imgnum = 1;
+			}else if(type==42){
+				imgnum = 2;
+			}else if(type==43){
+				imgnum = 3;
+			}
+			for(var j=0;j<tempary.length;j++){
+				if(machine[i].fid==tempary[j].fid){
+					isoffflag = false;
+				}
+			}
+			if(isoffflag){
+				$("#m3"+machine[i].fid).html("--");
+				$("#m4"+machine[i].fid).html("--A");
+				$("#m5"+machine[i].fid).html("--V");
+				$("#m6"+machine[i].fid).html("关机");
+				$("#status"+machine[i].fid).val(3);
+				$("#img"+machine[i].fid).attr("src","resources/images/welder_4"+imgnum+".png");
+			}
 			if(statusnum == 99){
 				for(var j=0;j<tempary.length;j++){
 					if(tempary[j].fid==machine[i].fid){
