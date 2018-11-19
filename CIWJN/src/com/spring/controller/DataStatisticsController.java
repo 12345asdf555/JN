@@ -1312,8 +1312,8 @@ public class DataStatisticsController {
 								if(task.get(j).getWarntime()!=null && !"".equals(task.get(j).getWarntime())){
 									t9 = getTimeStrBySecond(task.get(j).getWarntime());
 								}
-								json.put("t10", (double)Math.round(task.get(j).getElectricity()*100)/100);
-								json.put("t11", (double)Math.round(task.get(j).getVoltage()*100)/100);
+								t10 = (double)Math.round(task.get(j).getElectricity()*100)/100;
+								t11 = (double)Math.round(task.get(j).getVoltage()*100)/100;
 								if(task.get(j).getWorktime()!=null && !"".equals(task.get(j).getWorktime())){
 									t12 = (double)Math.round(task.get(j).getWorktime().doubleValue()/(task.get(j).getWorktime().doubleValue()+task.get(j).getWarntime().doubleValue())*10000)/100;
 								}
