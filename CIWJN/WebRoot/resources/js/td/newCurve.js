@@ -267,7 +267,7 @@ function webclient() {
 		}
 	};
 	//发生了错误事件
-	socket.onerror = function() {
+	socket.onerror = function(e) {
 		alert("发生异常，正在尝试重新连接服务器！！！");
 	}
 }

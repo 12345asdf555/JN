@@ -268,7 +268,7 @@ function giveWps(){
 			WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
 			WEB_SOCKET_DEBUG = true;
 		}
-		var sochet_send_data=new Array()
+		var sochet_send_data=new Array();
 		var socket = new WebSocket(websocketURL);
 		socket.onopen = function() {
 		for(var i=0;i<macrows.length;i++){
