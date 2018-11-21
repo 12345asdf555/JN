@@ -146,15 +146,13 @@ function weldedJunctionDatagrid(){
 			title : '实际开始时间',
 			width : 90,
 			halign : "center",
-			align : "left",
-			hidden:true
+			align : "left"
 		},{
 			field : 'realEndTime',
 			title : '实际结束时间',
 			width : 90,
 			halign : "center",
-			align : "left",
-			hidden:true
+			align : "left"
 		},{
 			field : 'resultid',
 			title : '评价id',
