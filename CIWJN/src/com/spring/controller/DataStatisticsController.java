@@ -3,6 +3,7 @@ package com.spring.controller;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +48,11 @@ public class DataStatisticsController {
 	private InsframeworkService im;
 
 	IsnullUtil iutil = new IsnullUtil();
+	
+	@RequestMapping("openMachineTask")
+	public String openMachineTask(){
+		return "datastatistics/machinetask";
+	}
 	
 	/**
 	 * 跳转班组生产数据页面
@@ -1358,6 +1364,66 @@ public class DataStatisticsController {
 			e.printStackTrace();
 		}
 		obj.put("total", ary.size());
+		obj.put("ary", titleary);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	/**
+	 * 跳转焊机任务报表
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getMachineTask")
+	@ResponseBody
+	public String getMachineTask(HttpServletRequest request){
+		if(iutil.isNull(request.getParameter("page"))){
+			pageIndex = Integer.parseInt(request.getParameter("page"));
+		}
+		if(iutil.isNull(request.getParameter("rows"))){
+			pageSize = Integer.parseInt(request.getParameter("rows"));
+		}
+		String time1 = request.getParameter("dtoTime1");
+		String time2 = request.getParameter("dtoTime2");
+		String item = request.getParameter("item");
+		int status = Integer.parseInt(request.getParameter("status"));
+		page = new Page(pageIndex,pageSize,total);
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject json = new JSONObject();
+		JSONObject title = new JSONObject();
+		JSONArray titleary = new JSONArray();
+		BigInteger itemid = null;
+		long total = 0;
+		try{
+			if(iutil.isNull(item)){
+				itemid = new BigInteger(item);
+			}else{
+				itemid = im.getUserInsframework();
+			}
+			List<DataStatistics> list = dss.getMachineTask(page, itemid, dss.getDay(time1, time2), status);
+			if(list != null){
+				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
+				total = pageinfo.getTotal();
+			}
+			for(int i=0;i<list.size();i++){
+				json.put("t0", list.get(i).getInsname());
+				json.put("t1", list.get(i).getMachineno());
+				json.put("t2", list.get(i).getTime());
+				json.put("t3", list.get(i).getTaskno());
+				json.put("t4", list.get(i).getType()==1?"未分配":"已分配");
+				ary.add(json);
+			}
+			//表头
+			String [] str = {"所属班组","设备编号","日期","任务号","状态"};
+			for(int i=0;i<str.length;i++){
+				title.put("title", str[i]);
+				titleary.add(title);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("total", total);
 		obj.put("ary", titleary);
 		obj.put("rows", ary);
 		return obj.toString();

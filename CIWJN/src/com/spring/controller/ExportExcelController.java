@@ -1386,4 +1386,77 @@ public class ExportExcelController {
 		}
 	}
 	
+	/**
+	 * 设备任务表导出
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/exportMachineTask")
+	@ResponseBody
+	public ResponseEntity<byte[]> exportMachineTask(HttpServletRequest request,HttpServletResponse response){
+		File file = null;
+		String time1 = request.getParameter("dtoTime1");
+		String time2 = request.getParameter("dtoTime2");
+		String item = request.getParameter("item");
+		int status = Integer.parseInt(request.getParameter("status"));
+		WeldDto dto = new WeldDto();
+		BigInteger itemid = null;
+		String dtime = "统计日期："+time1+"--"+time2;
+		try{
+			if(iutil.isNull(time1)){
+				dto.setDtoTime1(time1);
+			}
+			if(iutil.isNull(time2)){
+				dto.setDtoTime2(time2);
+			}
+			if(iutil.isNull(item)){
+				itemid = new BigInteger(item);
+			}
+			List<DataStatistics> list = dss.getMachineTask(itemid, dss.getDay(time1, time2), status);
+			String[] titles = new String []{"所属班组","设备编号","日期","任务号","状态"};
+			Object[][] data = new Object[list.size()][9];
+			int ii=0;
+			for(DataStatistics i:list){
+				if(ii<list.size()){
+					data[ii][0]=i.getInsname();
+					data[ii][1]=i.getMachineno();
+					data[ii][2]=i.getTime();
+					data[ii][3]=i.getTaskno();
+					data[ii][4]=i.getType()==1?"未分配":"已分配";
+				}
+				ii++;
+			}
+			filename = "焊机任务表" + sdf.format(new Date())+".xls";
+
+			ServletContext scontext=request.getSession().getServletContext();
+			//获取绝对路径
+			String abpath=scontext.getRealPath("");
+			//String contextpath=scontext. getContextPath() ; 获取虚拟路径
+			
+			String path = abpath+"excelfiles/" + filename;
+			
+			new CommonExcelUtil(dtime, titles, data, path, "设备任务表");
+			file = new File(path);
+			HttpHeaders headers = new HttpHeaders();
+			String fileName = "";
+			fileName = new String(filename.getBytes("gb2312"),"iso-8859-1");
+		
+			headers.setContentDispositionFormData("attachment", fileName);
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			
+			//处理ie无法下载的问题
+			response.setContentType("application/octet-stream;charset=utf-8");
+			response.setHeader( "Content-Disposition", 
+					"attachment;filename=\""+ fileName); 
+			ServletOutputStream o = response.getOutputStream();
+			o.flush();
+			
+			return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return null;
+		} finally {
+			file.delete();
+		}
+	}	
+	
 }

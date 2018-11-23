@@ -343,4 +343,17 @@ public interface DataStatisticsService {
 	 */
 	List<DataStatistics> getTask(Page page,BigInteger parent,String welderno,String taskno,String time1,String time2);
 	List<DataStatistics> getTask(BigInteger parent,String welderno,String taskno,String time1,String time2);
+	
+	/**
+	 * 获取焊机任务表
+	 * @param page
+	 * @param parent 归属id
+	 * @param sql 时间查询sql
+	 * @param type 分配状态 0：所有，1：未分配，2：已分配
+	 * @return
+	 */
+	List<DataStatistics> getMachineTask(Page page,BigInteger parent,String sql,int type);
+	List<DataStatistics> getMachineTask(BigInteger parent,String sql,int type);
+	
+	String getDay(String time,String time2);
 }

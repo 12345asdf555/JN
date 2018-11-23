@@ -68,6 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <li onclick="changeColor(this)"><a href="javascript:openPersonData()"><div><img src="resources/images/c-6.png" />&nbsp;&nbsp;人员生产数据</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openWorkpieceData()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;工件生产数据</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openTaskDetai()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;生产任务详情</div></a></li>
+			        <li onclick="changeColor(this)"><a href="javascript:openMachineTask()"><div><img src="resources/images/c-9.png" />&nbsp;&nbsp;焊机任务表</div></a></li>
 			        <li class="libottom"  onclick="changeColor(this)"><a href="javascript:openFauit()"><div><img src="resources/images/s-10.png" />&nbsp;&nbsp;故障报表</div></a></li>
 				</ul>
 			</div>

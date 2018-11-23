@@ -1,6 +1,9 @@
 package com.spring.service.impl;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -284,5 +287,45 @@ public class DataStatisticsServiceImpl implements DataStatisticsService {
 	@Override
 	public List<DataStatistics> getFauit(WeldDto dto, int value) {
 		return ds.getFauit(dto, value);
+	}
+
+	@Override
+	public List<DataStatistics> getMachineTask(Page page, BigInteger parent, String sql, int type) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return ds.getMachineTask(parent, sql, type);
+	}
+	
+	@Override
+	public List<DataStatistics> getMachineTask(BigInteger parent, String sql, int type) {
+		return ds.getMachineTask(parent, sql, type);
+	}
+
+	@Override
+	public String getDay(String time1,String time2){
+		String str = "SELECT * FROM (";
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date d = sdf.parse(time1);
+			Calendar cal = Calendar.getInstance(); 
+			cal.setTime(d);
+			int day=cal.get(Calendar.DATE);
+			long t1 = sdf.parse(time1).getTime();
+			long t2 = sdf.parse(time2).getTime();
+			int days = day + (int)((t2-t1)/(1000*60*60*24))+1;
+			for(int i = day; i < days; i++){
+				Calendar calendar = Calendar.getInstance();  
+				Date dates = sdf.parse(time1);
+				calendar.setTime(dates);
+				calendar.set(Calendar.DATE, i);
+				if(i!=days-1){
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime UNION ALL ";
+				}else{
+					str += "SELECT '"+sdf.format(calendar.getTime())+"' AS weldTime)temp";
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return str;
 	}
 }

@@ -109,6 +109,10 @@ function openMachineChart(){
 	}
 }
 
+function openMachineTask(){
+	addTab("焊机任务表","datastatistics/openMachineTask");
+}
+
 function openTaskDetai(){
 	addTab("生产任务详情","datastatistics/goTaskDetail");
 }
