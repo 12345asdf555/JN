@@ -249,7 +249,7 @@ function weldedJunctionDatagrid(){
 					halign : "center",
 					align : "left",
 					width : 200
-				},{
+				}/*,{
 					field : 'edit',
 					title : '编辑',
 					width : 150,
@@ -260,7 +260,7 @@ function weldedJunctionDatagrid(){
 						//str += '<a id="evaluation" class="easyui-linkbutton" href="javascript:evaluation()"/>';//+row.id+','+row.taskid+','+row.welderid+','+row.machid+','+row.welderno+','+row.machno+
 						return str;
 					}
-				}
+				}*/
 				] ],
 				pagination : true,
 				onResize:function(){
@@ -271,7 +271,7 @@ function weldedJunctionDatagrid(){
 					setTimeout(function(){
 						$('#weldTaskTable').datagrid('fixDetailRowHeight',index);
 					},0);
-					$("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
+					/*$("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});*/
 				}
 			});
 			$('#weldTaskTable').datagrid('fixDetailRowHeight',index);

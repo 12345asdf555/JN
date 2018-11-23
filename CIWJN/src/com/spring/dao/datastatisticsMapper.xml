@@ -89,7 +89,7 @@
 		t.frealendtime,fchannel,avg(felectricity) felectricity, AVG(fvoltage) fvoltage,0 alarmtime,sum(tw.fwarntime) warntime ,0 worktime from tb_taskresult t 
 		left JOIN tb_welder w on w.fid = t.fwelderid left join tb_welding_machine m on m.fid = t.fmachineid 
 		left JOIN tb_warn tw on tw.fwelder_id = t.fwelderid and tw.fmachine_id = t.fmachineid and tw.fjunction_id = t.ftaskid
-		left JOIN tb_welded_junction j on j.fid= t.ftaskid 
+		 left JOIN tb_welded_junction j on j.fid= t.ftaskid 
 		LEFT JOIN tb_insframework i on i.fid = tw.fjunction_itemid left JOIN tb_insframework ins on ins.fid = i.fparent 
 		left JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1
 		<if test="parent!=null and parent!=''">
