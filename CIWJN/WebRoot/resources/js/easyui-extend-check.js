@@ -355,6 +355,34 @@ $(function(){
                     	return /^1[3-8]+\d{9}$/.test(value);
                     },     
                     message: '请输入正确的手机号码'    
-                }
+                },
+                
+				wpslibValidate : {
+					validator : function(value, param) {
+						if (flag) {
+							var validwl = $("#validwl").val();
+							if((validwl!=null || validwl!="") && validwl == value){
+								return true;
+							}
+							var result = "";
+							$.ajax( {
+								type : 'post',
+								async : false,
+								url : 'wps/wlvalidate',
+								data : {
+									"wpsName" : value
+								},
+								success : function(data) {
+									result = data;
+								}
+							});
+							return result;
+						} else {
+							return true;
+						}
+
+					},
+					message : '焊机编码已经被占用'
+				},
 			})
 })

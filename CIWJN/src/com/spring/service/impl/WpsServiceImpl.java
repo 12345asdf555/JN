@@ -121,4 +121,61 @@ public class WpsServiceImpl implements WpsService{
 		// TODO Auto-generated method stub
 		return mapper.AllSpe(machine,ch);
 	}
+
+	@Override
+	public List<Wps> getWpslibList(Page page, String search) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return mapper.getWpslibList(search);
+	}
+
+	@Override
+	public List<Wps> getMainwpsList(Page page,BigInteger parent) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		// TODO Auto-generated method stub
+		return mapper.getMainwpsList(parent);
+	}
+
+	@Override
+	public int getWpslibNameCount(String wpsName) {
+		// TODO Auto-generated method stub
+		return mapper.getWpslibNameCount(wpsName);
+	}
+
+	@Override
+	public void saveWpslib(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.saveWpslib(wps);
+	}
+
+	@Override
+	public void updateWpslib(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.updateWpslib(wps);
+	}
+
+	@Override
+	public List<Wps> getWpslibStatus() {
+		// TODO Auto-generated method stub
+		return mapper.getWpslibStatus();
+	}
+
+	@Override
+	public void deleteWpslib(BigInteger fid) {
+		// TODO Auto-generated method stub
+		mapper.deleteWpslib(fid);
+	}
+
+	@Override
+	public void deleteMainWps(BigInteger fid) {
+		// TODO Auto-generated method stub
+		mapper.deleteMainWps(fid);
+	}
+
+	@Override
+	public int getCountByWpslibidChanel(BigInteger wpslibid, int chanel) {
+		// TODO Auto-generated method stub
+		return mapper.getCountByWpslibidChanel(wpslibid, chanel);
+	}
+	
+	
 }

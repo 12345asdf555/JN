@@ -48,6 +48,12 @@ public class Wps {
 	private String finitial;
 	private String fcontroller;
 	private String fmode;
+	private int fstatus;
+	private String arcname;
+	private String selectname;
+	private String gasname;
+	private String dianame;
+	private String materialname;
 	public Wps(){
 		super();
 	}
@@ -201,7 +207,11 @@ public class Wps {
 	public void setFdiameter(double fdiameter){
 		this.fdiameter = fdiameter;
 	}
-	public Wps(long fid,BigInteger insid,BigInteger macid,String insname,BigInteger welderid,String weldername,String updatename,String fwpsnum,int fweld_i,int fweld_v,int fweld_i_max,int fweld_i_min,int fweld_v_max,int fweld_v_min,int fweld_alter_i,int fweld_alter_v,int fweld_prechannel,Date fcreatedate,Date fupdatedate,long fcreater,long fupdater,long fowner,String fback,String fname,double fdiameter,double ftime,double fadvance,double fhysteresis,double fini_ele,double fini_vol,double fini_vol1,double fweld_ele,double fweld_vol,double fweld_vol1,double farc_ele,double farc_vol,double farc_vol1,double fweld_tuny_ele,double fweld_tuny_vol,double farc_tuny_ele,String finitial,String fcontroller,String fmode) {
+	public Wps(long fid,BigInteger insid,BigInteger macid,String insname,BigInteger welderid,String weldername,String updatename,String fwpsnum,
+			int fweld_i,int fweld_v,int fweld_i_max,int fweld_i_min,int fweld_v_max,int fweld_v_min,int fweld_alter_i,int fweld_alter_v,int fweld_prechannel,Date fcreatedate,Date fupdatedate,long fcreater,long fupdater,long fowner,
+			String fback,String fname,double fdiameter,double ftime,double fadvance,double fhysteresis,double fini_ele,double fini_vol,double fini_vol1,double fweld_ele,
+			double fweld_vol,double fweld_vol1,double farc_ele,double farc_vol,double farc_vol1,double fweld_tuny_ele,double fweld_tuny_vol,double farc_tuny_ele,String finitial,
+			String fcontroller,String fmode,int fstatus,String arcname,String selectname,String gasname,String dianame,String materialname) {
 		super();
 		this.macid = macid;
 		this.insname = insname;
@@ -245,6 +255,12 @@ public class Wps {
 		this.finitial = finitial;
 		this.fcontroller = fcontroller;
 		this.fmode = fmode;
+		this.fstatus = fstatus;
+		this.arcname = arcname;
+		this.gasname = gasname;
+		this.selectname = selectname;
+		this.materialname = materialname;
+		this.dianame = dianame;
 	}
 	public double getFtime() {
 		return ftime;
@@ -353,5 +369,41 @@ public class Wps {
 	}
 	public void setFarc_vol1(double farc_vol1) {
 		this.farc_vol1 = farc_vol1;
+	}
+	public int getFstatus() {
+		return fstatus;
+	}
+	public void setFstatus(int fstatus) {
+		this.fstatus = fstatus;
+	}
+	public String getArcname() {
+		return arcname;
+	}
+	public void setArcname(String arcname) {
+		this.arcname = arcname;
+	}
+	public String getSelectname() {
+		return selectname;
+	}
+	public void setSelectname(String selectname) {
+		this.selectname = selectname;
+	}
+	public String getGasname() {
+		return gasname;
+	}
+	public void setGasname(String gasname) {
+		this.gasname = gasname;
+	}
+	public String getDianame() {
+		return dianame;
+	}
+	public void setDianame(String dianame) {
+		this.dianame = dianame;
+	}
+	public String getMaterialname() {
+		return materialname;
+	}
+	public void setMaterialname(String materialname) {
+		this.materialname = materialname;
 	}
 }

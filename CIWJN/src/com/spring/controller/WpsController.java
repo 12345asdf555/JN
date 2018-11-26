@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.spring.model.Dictionarys;
 import com.spring.model.MyUser;
 import com.spring.model.Td;
 import com.spring.model.User;
@@ -69,6 +70,11 @@ public class WpsController {
 	@RequestMapping("/AllWps")
 	public String AllUser(HttpServletRequest request){
 		return "weldwps/allWps";
+	}
+	
+	@RequestMapping("/goWpslib")
+	public String goWpslib(HttpServletRequest request){
+		return "wpslib/allWpslib";
 	}
 	
 	@RequestMapping("/AllSpe")
@@ -308,15 +314,15 @@ public class WpsController {
 		return "specification/destroySpe";
 	}
 	
-	@RequestMapping("/apSpe")
+	@RequestMapping("/addMainWps")
 	@ResponseBody
-	public String apSpe(HttpServletRequest request){
+	public String addMainWps(HttpServletRequest request){
 		Wps wps = new Wps();
 		MyUser myuser = (MyUser) SecurityContextHolder.getContext()  
 			    .getAuthentication()  
 			    .getPrincipal();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		JSONObject obj = new JSONObject();
+		long fid = new Long(request.getParameter("fid"));
 		Integer finitial = Integer.valueOf(request.getParameter("finitial"));
 		Integer fcontroller = Integer.valueOf(request.getParameter("fcontroller"));
 		Integer fmode = Integer.valueOf(request.getParameter("fmode"));
@@ -343,7 +349,6 @@ public class WpsController {
 		double farc_vol1 = Double.valueOf(request.getParameter("farc_vol1"));
 		double fweld_tuny_vol = Double.valueOf(request.getParameter("fweld_tuny_vol"));
 		double farc_tuny_vol = Double.valueOf(request.getParameter("farc_tuny_vol"));
-		BigInteger machine=new BigInteger(request.getParameter("machine"));
 		try{
 			wps.setFweld_i_max(chanel);
 			wps.setFweld_i_min(finitial);
@@ -371,21 +376,116 @@ public class WpsController {
 			wps.setFweld_tuny_vol(fweld_tuny_vol);
 			wps.setFarc_tuny_ele(farc_tuny_ele);
 			wps.setFdiameter(farc_tuny_vol);
-			wps.setMacid(machine);
 			wps.setFcreater(myuser.getId());
 			wps.setFupdater(myuser.getId());
-			if(wpsService.findCount(machine,chanel.toString())<=0){
+			wps.setFid(fid);
+/*			if(wpsService.findCount(machine,chanel.toString())<=0){
 				wpsService.saveSpe(wps);
 			}else{
 				wpsService.updateSpe(wps);
-			}
+			}*/
+			wpsService.saveSpe(wps);
+			obj.put("success", true);
+		}catch(Exception e){
+			e.printStackTrace();
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
+	}
+	
+	@RequestMapping("/updateMainWps")
+	@ResponseBody
+	public String updateMainWps(HttpServletRequest request){
+		Wps wps = new Wps();
+		MyUser myuser = (MyUser) SecurityContextHolder.getContext()  
+			    .getAuthentication()  
+			    .getPrincipal();
+		JSONObject obj = new JSONObject();
+		long fid = new Long(request.getParameter("fid"));
+		Integer finitial = Integer.valueOf(request.getParameter("finitial"));
+		Integer fcontroller = Integer.valueOf(request.getParameter("fcontroller"));
+		Integer fmode = Integer.valueOf(request.getParameter("fmode"));
+		Integer fselect = Integer.valueOf(request.getParameter("fselect"));
+		Integer farc = Integer.valueOf(request.getParameter("farc"));
+		Integer fmaterial = Integer.valueOf(request.getParameter("fmaterial"));
+		Integer fgas = Integer.valueOf(request.getParameter("fgas"));
+		BigInteger fdiameter = new BigInteger(request.getParameter("fdiameter"));
+		Integer chanel = Integer.valueOf(request.getParameter("chanel"));
+		double ftime = Double.valueOf(request.getParameter("ftime"));
+		double fadvance = Double.valueOf(request.getParameter("fadvance"));
+		double fini_ele = Double.valueOf(request.getParameter("fini_ele"));
+		double fweld_ele = Double.valueOf(request.getParameter("fweld_ele"));
+		double farc_ele = Double.valueOf(request.getParameter("farc_ele"));
+		double fhysteresis = Double.valueOf(request.getParameter("fhysteresis"));
+		int fcharacter = Integer.valueOf(request.getParameter("fcharacter"));
+		double fweld_tuny_ele = Double.valueOf(request.getParameter("fweld_tuny_ele"));
+		double farc_tuny_ele = Double.valueOf(request.getParameter("farc_tuny_ele"));
+		double fini_vol = Double.valueOf(request.getParameter("fini_vol"));
+		double fweld_vol = Double.valueOf(request.getParameter("fweld_vol"));
+		double farc_vol = Double.valueOf(request.getParameter("farc_vol"));
+		double fini_vol1 = Double.valueOf(request.getParameter("fini_vol1"));
+		double fweld_vol1 = Double.valueOf(request.getParameter("fweld_vol1"));
+		double farc_vol1 = Double.valueOf(request.getParameter("farc_vol1"));
+		double fweld_tuny_vol = Double.valueOf(request.getParameter("fweld_tuny_vol"));
+		double farc_tuny_vol = Double.valueOf(request.getParameter("farc_tuny_vol"));
+		try{
+			wps.setFweld_i_max(chanel);
+			wps.setFweld_i_min(finitial);
+			wps.setFweld_alter_i(fcontroller);
+			wps.setFweld_v_min(fmode);
+			wps.setFweld_i(fselect);
+			wps.setFweld_v(farc);
+			wps.setFweld_v_max(fcharacter);
+			wps.setFweld_prechannel(fmaterial);
+			wps.setFweld_alter_v(fgas);
+			wps.setInsid(fdiameter);
+			wps.setFtime(ftime);
+			wps.setFadvance(fadvance);
+			wps.setFhysteresis(fhysteresis);
+			wps.setFini_ele(fini_ele);
+			wps.setFini_vol(fini_vol);
+			wps.setFini_vol1(fini_vol1);
+			wps.setFweld_ele(fweld_ele);
+			wps.setFweld_vol(fweld_vol);
+			wps.setFweld_vol1(fweld_vol1);
+			wps.setFarc_ele(farc_ele);
+			wps.setFarc_vol(farc_vol);
+			wps.setFarc_vol1(farc_vol1);
+			wps.setFweld_tuny_ele(fweld_tuny_ele);
+			wps.setFweld_tuny_vol(fweld_tuny_vol);
+			wps.setFarc_tuny_ele(farc_tuny_ele);
+			wps.setFdiameter(farc_tuny_vol);
+			wps.setFcreater(myuser.getId());
+			wps.setFupdater(myuser.getId());
+			wps.setFid(fid);
+/*			if(wpsService.findCount(machine,chanel.toString())<=0){
+				wpsService.saveSpe(wps);
+			}else{
+				wpsService.updateSpe(wps);
+			}*/
+			wpsService.updateSpe(wps);
 			obj.put("success", true);
 		}catch(Exception e){
 			obj.put("success", false);
 			obj.put("errorMsg", e.getMessage());
 		}
 		return obj.toString();
-/*		return "redirect:/user/AllUser";*/
+	}
+	
+	@RequestMapping("/removeMainWps")
+	@ResponseBody
+	public String removeMainWps(HttpServletRequest request){
+			BigInteger fid = new BigInteger(request.getParameter("fid"));
+			JSONObject obj = new JSONObject();
+			try{
+				wpsService.deleteMainWps(fid);
+				 obj.put("success", true);
+			}catch(Exception e){
+				obj.put("success", false);
+				obj.put("errorMsg", e.getMessage());
+			}
+			return obj.toString();
 	}
 	
 	@RequestMapping("/saveCopy")
@@ -659,5 +759,228 @@ public class WpsController {
 		obj.put("rows", ary);
 		return obj.toString();
 /*		return "redirect:/user/AllUser";*/
+	}
+	
+	@RequestMapping("/getWpslibList")
+	@ResponseBody
+	public String getWpslibList(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		String search = request.getParameter("searchStr");
+		page = new Page(pageIndex,pageSize,total);
+		List<Wps> getWpslibList = wpsService.getWpslibList(page,search);
+		long total = 0;
+		if(getWpslibList != null){
+			PageInfo<Wps> pageinfo = new PageInfo<Wps>(getWpslibList);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(Wps wps:getWpslibList){
+				json.put("fid", wps.getFid());
+				json.put("wpslibName", wps.getFwpsnum());
+				json.put("createdate",new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(wps.getFcreatedate()));
+				json.put("status", wps.getInsname());
+				json.put("statusId", wps.getFstatus());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/addWpslib")
+	@ResponseBody
+	public String addWpslib(HttpServletRequest request){
+		Wps wps = new Wps();
+		MyUser myuser = (MyUser) SecurityContextHolder.getContext()  
+			    .getAuthentication()  
+			    .getPrincipal();
+		JSONObject obj = new JSONObject();
+		String wpslibName = request.getParameter("wpslibName");
+		int status = Integer.valueOf(request.getParameter("fstatus"));
+		try{
+			wps.setFwpsnum(wpslibName);
+			wps.setFcreater(myuser.getId());
+			wps.setFstatus(status);
+			wpsService.saveWpslib(wps);
+			obj.put("success", true);
+		}catch(Exception e){
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
+	}
+	
+	@RequestMapping("/updateWpslib")
+	@ResponseBody
+	public String updateWpslib(HttpServletRequest request){
+		Wps wps = new Wps();
+		JSONObject obj = new JSONObject();
+		String wpslibName = request.getParameter("wpslibName");
+		int status = Integer.valueOf(request.getParameter("fstatus"));
+		long fid = new Long(request.getParameter("fid"));
+		try{
+			wps.setFid(fid);
+			wps.setFwpsnum(wpslibName);
+			wps.setFstatus(status);
+			wpsService.updateWpslib(wps);
+			obj.put("success", true);
+		}catch(Exception e){
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
+	}
+	
+	@RequestMapping("/removeWpslib")
+	@ResponseBody
+	public String removeWpslib(HttpServletRequest request){
+			BigInteger fid = new BigInteger(request.getParameter("fid"));
+			JSONObject obj = new JSONObject();
+			try{
+				wpsService.deleteWpslib(fid);
+				 obj.put("success", true);
+			}catch(Exception e){
+				obj.put("success", false);
+				obj.put("errorMsg", e.getMessage());
+			}
+			return obj.toString();
+	}
+	
+	@RequestMapping("/getMainwpsList")
+	@ResponseBody
+	public String getMainwpsList(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		page = new Page(pageIndex,pageSize,total);
+		String parentId = request.getParameter("parent");
+		BigInteger parent = null;
+		if(iutil.isNull(parentId)){
+			parent = new BigInteger(parentId);
+		}
+		List<Wps> getMainwpsList = wpsService.getMainwpsList(page,parent);
+		long total = 0;
+		if(getMainwpsList != null){
+			PageInfo<Wps> pageinfo = new PageInfo<Wps>(getMainwpsList);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(Wps wps:getMainwpsList){
+				json.put("fid", wps.getFid());
+				json.put("fchanel", wps.getWelderid());
+				json.put("finitial", "否");
+				if(Integer.valueOf(wps.getFinitial())==1){
+					json.put("finitial", "是");
+				}
+				json.put("fcontroller", "否");
+				if(Integer.valueOf(wps.getFcontroller())==1){
+					json.put("fcontroller", "是");
+				}
+				json.put("fselect",wps.getInsname());
+				json.put("fselectname",wps.getSelectname());
+				json.put("farc", wps.getWeldername());
+				json.put("farcname", wps.getArcname());
+				json.put("fcharacter", wps.getFweld_v_max());
+				json.put("fmode", "否");
+				if(Integer.valueOf(wps.getFmode())==1){
+					json.put("fmode", "是");
+				}
+				json.put("fmaterial", wps.getUpdatename());
+				json.put("fmaterialname", wps.getMaterialname());
+				json.put("fgas", wps.getFback());
+				json.put("fgasname", wps.getGasname());
+				json.put("fdiameter", wps.getFname());
+				json.put("fdiametername", wps.getDianame());
+				json.put("ftime", wps.getFtime());
+				json.put("fadvance", wps.getFadvance());
+				json.put("fhysteresis", wps.getFhysteresis());
+				json.put("fini_ele", wps.getFini_ele());
+				json.put("fini_vol", wps.getFini_vol());
+				json.put("fini_vol1", wps.getFini_vol1());
+				json.put("fweld_ele", wps.getFweld_ele());
+				json.put("fweld_vol", wps.getFweld_vol());
+				json.put("fweld_vol1", wps.getFweld_vol1());
+				json.put("farc_ele", wps.getFarc_ele());
+				json.put("farc_vol", wps.getFarc_vol());
+				json.put("farc_vol1", wps.getFarc_vol1());
+				json.put("fweld_tuny_ele", wps.getFweld_tuny_ele());
+				json.put("fweld_tuny_vol", wps.getFweld_tuny_vol());
+				json.put("farc_tuny_ele", wps.getFarc_tuny_ele());
+				json.put("farc_tuny_vol", wps.getFdiameter());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/wlvalidate")
+	@ResponseBody
+	private String gidvalidate(HttpServletRequest request){
+		String wpsName = request.getParameter("wpsName");
+		boolean data = true;
+		int count = wpsService.getWpslibNameCount(wpsName);
+		if(count>0){
+			data = false;
+		}
+		return data + "";
+	}
+	
+	/**
+	 * 获取工艺库状态
+	 * @return
+	 */
+	@RequestMapping("/getStatusAll")
+	@ResponseBody
+	public String getStatusAll(){
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			List<Wps> getWpslibStatus = wpsService.getWpslibStatus();
+			for(Wps wps:getWpslibStatus){
+				json.put("id", wps.getInsid());
+				json.put("name", wps.getInsname());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
+	
+	/**
+	 * 获取工艺库状态
+	 * @return
+	 */
+	@RequestMapping("/getCountByWpslibidChanel")
+	@ResponseBody
+	public String getCountByWpslibidChanel(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		BigInteger wpslibid = new BigInteger(request.getParameter("wpslibid"));
+		int chanel = Integer.valueOf(request.getParameter("chanel"));
+		int count = 0;
+		try{
+			count = wpsService.getCountByWpslibidChanel(wpslibid,chanel);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("count", count);
+		return obj.toString();
 	}
 }

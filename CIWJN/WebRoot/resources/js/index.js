@@ -219,7 +219,7 @@ function openProduct(){
 }
 
 function openWps(){
-	addTab("工艺管理","wps/AllWps");
+	addTab("工艺管理","wps/goWpslib");
 }
 
 function openWeldTask(){

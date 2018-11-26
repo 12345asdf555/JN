@@ -149,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        <li onclick="changeColor(this)"><a href="javascript:openWeldTask()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;派工任务管理</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openTaskResult()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;执行任务修改</div></a></li>
 			        <!-- <li onclick="changeColor(this)"><a href="javascript:openTaskEvaluate()"><div><img src="resources/images/s-11.png" />&nbsp;&nbsp;任务确认评价</div></a></li> -->
-			        <li class="libottom" onclick="changeColor(this)"><a href="javascript:openSpe()"><div><img src="resources/images/c-14.png" />&nbsp;&nbsp;焊机参数管理</div></a></li>
+			        <!-- <li class="libottom" onclick="changeColor(this)"><a href="javascript:openSpe()"><div><img src="resources/images/c-14.png" />&nbsp;&nbsp;焊机参数管理</div></a></li> -->
 				</ul>
 			</div>
 			<div title="系统配置管理" data-options="iconCls:'icon-sys'">

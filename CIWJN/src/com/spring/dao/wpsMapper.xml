@@ -70,11 +70,11 @@
 	</update>
 	
 	<insert id="saveSpe" parameterType="Wps">
-		INSERT INTO `tb_specification`(`fspe_num`, `finitial`, `fcontroller`, `fselect`, `farc`, `fcharacter`, `fmode`, `ftime`, `fmaterial`, `fadvance`, `fhysteresis`, `fgas`, `fdiameter`, `fini_ele`, `fini_vol`, `fini_vol1`, `fweld_ele`, `fweld_vol`, `fweld_vol1`, `farc_ele`, `farc_vol`, `farc_vol1`, `fweld_tuny_ele`, `fweld_tuny_vol`, `farc_tuny_ele`, `farc_tuny_vol`, `fmachine_id`, `Fcreater`, `Fupdater`) VALUES (#{fweld_i_max},#{fweld_i_min},#{fweld_alter_i},#{fweld_i},#{fweld_v},#{fweld_v_max},#{fweld_v_min},#{ftime},#{fweld_prechannel},#{fadvance},#{fhysteresis},#{fweld_alter_v},#{insid},#{fini_ele},#{fini_vol},#{fini_vol1},#{fweld_ele},#{fweld_vol},#{fweld_vol1},#{farc_ele},#{farc_vol},#{farc_vol1},#{fweld_tuny_ele},#{fweld_tuny_vol},#{farc_tuny_ele},#{fdiameter},#{macid},#{fcreater},#{fupdater})
+		INSERT INTO `tb_specification`(`fspe_num`, `finitial`, `fcontroller`, `fselect`, `farc`, `fcharacter`, `fmode`, `ftime`, `fmaterial`, `fadvance`, `fhysteresis`, `fgas`, `fdiameter`, `fini_ele`, `fini_vol`, `fini_vol1`, `fweld_ele`, `fweld_vol`, `fweld_vol1`, `farc_ele`, `farc_vol`, `farc_vol1`, `fweld_tuny_ele`, `fweld_tuny_vol`, `farc_tuny_ele`, `farc_tuny_vol`, `Fcreater`, `fwpslib_id`) VALUES (#{fweld_i_max},#{fweld_i_min},#{fweld_alter_i},#{fweld_i},#{fweld_v},#{fweld_v_max},#{fweld_v_min},#{ftime},#{fweld_prechannel},#{fadvance},#{fhysteresis},#{fweld_alter_v},#{insid},#{fini_ele},#{fini_vol},#{fini_vol1},#{fweld_ele},#{fweld_vol},#{fweld_vol1},#{farc_ele},#{farc_vol},#{farc_vol1},#{fweld_tuny_ele},#{fweld_tuny_vol},#{farc_tuny_ele},#{fdiameter},#{fcreater},#{fid})
 	</insert>
 	
 	<update id="updateSpe" parameterType="Wps">
-		UPDATE `tb_specification` SET `finitial`=#{fweld_i_min},`fcontroller`=#{fweld_alter_i},`fselect`=#{fweld_i},`farc`=#{fweld_v},`fcharacter`=#{fweld_v_max},`fmode`=#{fweld_v_min},`ftime`=#{ftime},`fmaterial`=#{fweld_prechannel},`fadvance`=#{fadvance},`fhysteresis`=#{fhysteresis},`fgas`=#{fweld_alter_v},`fdiameter`=#{insid},`fini_ele`=#{fini_ele},`fini_vol`=#{fini_vol},`fini_vol1`=#{fini_vol1},`fweld_ele`=#{fweld_ele},`fweld_vol`=#{fweld_vol},`fweld_vol1`=#{fweld_vol1},`farc_ele`=#{farc_ele},`farc_vol`=#{farc_vol},`farc_vol1`=#{farc_vol1},`fweld_tuny_ele`=#{fweld_tuny_ele},`fweld_tuny_vol`=#{fweld_tuny_vol},`farc_tuny_ele`=#{farc_tuny_ele},`farc_tuny_vol`=#{fdiameter},`Fupdater`=#{fupdater} WHERE `fmachine_id`=#{macid} AND `fspe_num`=#{fweld_i_max}
+		UPDATE `tb_specification` SET `fspe_num`=#{fweld_i_max},`finitial`=#{fweld_i_min},`fcontroller`=#{fweld_alter_i},`fselect`=#{fweld_i},`farc`=#{fweld_v},`fcharacter`=#{fweld_v_max},`fmode`=#{fweld_v_min},`ftime`=#{ftime},`fmaterial`=#{fweld_prechannel},`fadvance`=#{fadvance},`fhysteresis`=#{fhysteresis},`fgas`=#{fweld_alter_v},`fdiameter`=#{insid},`fini_ele`=#{fini_ele},`fini_vol`=#{fini_vol},`fini_vol1`=#{fini_vol1},`fweld_ele`=#{fweld_ele},`fweld_vol`=#{fweld_vol},`fweld_vol1`=#{fweld_vol1},`farc_ele`=#{farc_ele},`farc_vol`=#{farc_vol},`farc_vol1`=#{farc_vol1},`fweld_tuny_ele`=#{fweld_tuny_ele},`fweld_tuny_vol`=#{fweld_tuny_vol},`farc_tuny_ele`=#{farc_tuny_ele},`farc_tuny_vol`=#{fdiameter},`Fupdater`=#{fupdater} WHERE `fid`=#{fid}
 	</update>
 	
 	<select id="getUsernameCount" parameterType="String" resultType="java.lang.Integer">
@@ -115,4 +115,58 @@
 	<delete id="deleteHistory" parameterType="BigInteger">
 		delete from tb_wps_welddevices where FWeldWPSID=#{fid};
 	</delete>
+	
+	<select id="getWpslibList" resultType="Wps">
+		SELECT tb_wps_library.fid,`fwps_lib_name` fwpsnum,`fcreatedate` fcreatedate,`fstatus` fstatus,fvaluename insname FROM tb_wps_library
+		LEFT JOIN tb_dictionary ON tb_wps_library.fstatus=tb_dictionary.fvalue
+		where 1=1
+		<if test="search!=null and search!=''">
+			AND s.`fwps_lib_name`=#{search}
+		</if>
+		ORDER by fid
+	</select>
+	
+	<insert id="saveWpslib">
+		INSERT INTO `tb_wps_library`(`fwps_lib_name`, `fcreater`, `fcreatedate`, `fstatus`) VALUES (#{fwpsnum},#{fcreater},now(),#{fstatus})
+	</insert>
+	
+	<update id="updateWpslib">
+		UPDATE `tb_wps_library` SET `fwps_lib_name`=#{fwpsnum},`fstatus`=#{fstatus} WHERE 1=1 and fid=#{fid}
+	</update>
+	
+	<select id="getMainwpsList" resultType="Wps">
+		select s.`fid` fid,s.`fspe_num` welderid,s.finitial finitial,s.fcontroller fcontroller,s.fselect insname,s.farc weldername,s.fcharacter fweld_v_max,s.fmode fmode,s.fmaterial updatename,s.fgas fback,s.fdiameter fname,s.ftime,s.fhysteresis,s.fadvance,s.fini_ele ,s.fini_vol,s.fini_vol1,s.fweld_ele,s.fweld_vol,s.fweld_vol1,s.farc_ele,s.farc_vol,s.farc_vol1,s.fweld_tuny_ele,s.fweld_tuny_vol,s.farc_tuny_ele,s.farc_tuny_ele fdiameter,dm.fvaluename materialname,ds.fvaluename selectname,dg.fvaluename gasname,da.fvaluename arcname,dd.fvaluename dianame FROM tb_specification s 
+		LEFT JOIN tb_dictionary dm ON s.fmaterial=dm.fvalue
+        LEFT JOIN tb_dictionary ds ON s.fselect=ds.fvalue
+        LEFT JOIN tb_dictionary da ON s.farc=da.fvalue
+        LEFT JOIN tb_dictionary dg ON s.fgas=dg.fvalue
+        LEFT JOIN tb_dictionary dd ON s.fdiameter=dd.fvalue
+		where 1=1
+		<if test="parent!=null and parent!=''">
+			AND s.`fwpslib_id`=#{parent}
+		</if>
+		ORDER by s.fspe_num
+	</select>
+	
+	<select id="getWpslibNameCount" resultType="java.lang.Integer">
+		SELECT COUNT(fid) FROM tb_wps_library WHERE `fwps_lib_name`=#{wpsName}
+	</select>
+	
+	<select id="getWpslibStatus" resultType="Wps">
+		SELECT fvalue insid, fvaluename insname FROM tb_dictionary WHERE fvalue=61 or fvalue=62
+	</select>
+	
+	<delete id="deleteWpslib">
+		DELETE tb_wps_library,tb_specification FROM tb_wps_library,tb_specification 
+		WHERE tb_wps_library.fid = tb_specification.fwpslib_id
+		AND tb_wps_library.fid=#{fid}
+	</delete>
+	
+	<delete id="deleteMainWps">
+		DELETE FROM tb_specification WHERE fid=#{fid}
+	</delete>
+	
+	<select id="getCountByWpslibidChanel" resultType="java.lang.Integer">
+		SELECT COUNT(fid) FROM `tb_specification` WHERE `fspe_num`=#{chanel} AND `fwpslib_id`=#{wpslibid}
+	</select>
 </mapper>

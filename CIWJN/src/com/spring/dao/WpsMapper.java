@@ -27,4 +27,13 @@ public interface WpsMapper {
 	int findCount(@Param("machine")BigInteger machine, @Param("chanel")String chanel);
 	void saveSpe(Wps wps);
 	void updateSpe(Wps wps);
+	List<Wps> getWpslibList(@Param("search")String search);
+	List<Wps> getMainwpsList(@Param("parent")BigInteger parent);
+	int getWpslibNameCount(@Param("wpsName")String wpsName);
+	void saveWpslib(Wps wps);
+	void updateWpslib(Wps wps);
+	List<Wps> getWpslibStatus();
+	void deleteWpslib(@Param("fid")BigInteger fid);
+	void deleteMainWps(@Param("fid")BigInteger fid);
+	int getCountByWpslibidChanel(@Param("wpslibid")BigInteger wpslibid,@Param("chanel")int chanel);
 }

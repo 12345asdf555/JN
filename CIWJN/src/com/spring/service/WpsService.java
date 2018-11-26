@@ -26,5 +26,14 @@ public interface WpsService {
 	int findCount(BigInteger machine, String string);
 	void saveSpe(Wps wps);
 	void updateSpe(Wps wps);
+	List<Wps> getWpslibList(Page page, String search);
+	List<Wps> getMainwpsList(Page page, BigInteger parent);
+	int getWpslibNameCount(String wpsName);
+	void saveWpslib(Wps wps);
+	void updateWpslib(Wps wps);
+	List<Wps> getWpslibStatus();
+	void deleteWpslib(BigInteger fid);
+	void deleteMainWps(BigInteger fid);
+	int getCountByWpslibidChanel(BigInteger wpslibid,int chanel);
 	
 }
