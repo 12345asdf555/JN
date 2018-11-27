@@ -411,6 +411,66 @@ function selectModel(){
 	}
 }
 
+function  showResult(){
+	$('#resultfm').form('clear');
+	$('#resultdlg').window( {
+		title : "下发中，请稍等。。。",
+		modal : true
+	});
+	$("#giveResultTable").datagrid( {
+		height : $("#resultdlg").height(),
+		width : $("#resultdlg").width(),
+		idField : 'id',
+/*		pageSize : 10,
+		pageList : [ 10, 20, 30, 40, 50 ],*/
+		url : "/",
+		singleSelect : true,
+		rownumbers : false,
+//		showPageList : false, 
+        columns : [ [ {
+			field : 'machineNo',
+			title : '焊机编号',
+			width : 80,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'gatherNo',
+			title : '采集序号',
+			width : 80,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'successNum',
+			title : '成功通道',
+			width : 300,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'failNum',
+			title : '失败通道',
+			width : 300,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'noNum',
+			title : '未响应通道',
+			width : 300,
+			halign : "center",
+			align : "left"
+		}
+		] ],
+//		pagination : true,
+		rowStyler: function(index,row){
+            if ((index % 2)!=0){
+            	//处理行代背景色后无法选中
+            	var color=new Object();
+                return color;
+            }
+        }
+	});
+	$('#resultdlg').window('open');
+}
+
 //索取规范
 function requestWps(){
 	var selectMachine = $('#weldingmachineTable').datagrid('getSelected');
@@ -465,7 +525,7 @@ function requestWps(){
 				websocket.close();
 				alert("焊机长时间未响应，索取失败!!!");
 			}
-		}, 10000)
+		}, 60000)
 	}
 	websocket.onmessage = function(msg) {
 		var da=msg.data;
@@ -644,7 +704,7 @@ function giveMainWps(){
 			return;
 		}
 	}
-	var symbol=0,count=0;
+	var symbol=0;
 	var websocket=null;
 	if(typeof(WebSocket) == "undefined") {
     	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
@@ -652,18 +712,27 @@ function giveMainWps(){
 	}
 	symbol=0;
 	websocket = new WebSocket(websocketUrl);
-	if(symbol==0){
+/*	if(symbol==0){
 	var xftimer = window.setTimeout(function() {
 		if(symbol==0){
 			alert("下发失败");
 			websocket.close();
 		}
-	}, 10000)
-	}
+	}, 60000)
+	}*/
 	var sochet_send_data=new Array();
+	var successGiveChanel = new Array();
+	var failGiveChanel = new Array();
+	var noReceiveGiveChanel = new Array();
+	var giveArray = new Array();
+	var resultData = new Array();
 	websocket.onopen = function() {
-		for(var mwindex=0;mwindex<selectMainWpsRows.length;mwindex++){
-			for(var smindex=0;smindex<selectMachine.length;smindex++){
+		var checkLength = selectMachine.length * selectMainWpsRows.length;
+		for(var smindex=0;smindex<selectMachine.length;smindex++){
+			failGiveChanel.length=0;
+			successGiveChanel.length=0;
+			noReceiveGiveChanel.length=0;
+			for(var mwindex=0;mwindex<selectMainWpsRows.length;mwindex++){
 				var chanel = parseInt(selectMainWpsRows[mwindex].fchanel).toString(16);
 				if(chanel.length<2){
 			        var length = 2 - chanel.length;
@@ -913,8 +982,50 @@ function giveMainWps(){
 			
 			var xiafasend2 = (xxx+checksend).substring(2);
 			sochet_send_data.push("7E"+xiafasend2+"7D")
+			noReceiveGiveChanel.push(parseInt(selectMainWpsRows[mwindex].fchanel));
+			}
+			var jsonstr = {
+					"machineNo":selectMachine[smindex].equipmentNo,
+					"gatherNo":selectMachine[smindex].gatherId,
+					"successNum":0,
+					"failNum":0,
+					"noNum":noReceiveGiveChanel.join(",")
+			};
+			resultData.push(jsonstr);
+			if(giveArray.length==0){
+				giveArray.push(selectMachine[smindex].equipmentNo);
+				giveArray.push(parseInt(selectMachine[smindex].gatherId));
+				giveArray.push(successGiveChanel);
+				giveArray.push(failGiveChanel);
+				giveArray.push(noReceiveGiveChanel);
+			}else{
+				if(giveArray.indexOf(selectMachine[smindex].equipmentNo)==(-1)){
+					giveArray.push(selectMachine[smindex].equipmentNo);
+					giveArray.push(parseInt(selectMachine[smindex].gatherId));
+					giveArray.push(successGiveChanel);
+					giveArray.push(failGiveChanel);
+					giveArray.push(noReceiveGiveChanel);
+				}
 			}
 		}
+		var oneMinuteTimer = window.setTimeout(function() {
+			alert("下发完成");
+			$('#smdlg').window('close');
+			$('#smwdlg').window('close');
+			$('#weldingmachineTable').datagrid('clearSelections'); 
+			$('#mainWpsTable').datagrid('clearSelections');
+			selectMainWpsRows.length=0;
+			selectMachine.length=0;
+			sochet_send_data.length=0;
+			successGiveChanel.length=0;
+			failGiveChanel.length=0;
+			noReceiveGiveChanel.length=0;
+			giveArray.length=0;
+			resultData.length=0;
+		}, 30000);
+		showResult();
+		$("#giveResultTable").datagrid('loadData',resultData);
+		var rows = $('#giveResultTable').datagrid("getRows");
 		var timer = window.setInterval(function() {
 			if(sochet_send_data.length!=0){
 				var popdata = sochet_send_data.pop();
@@ -928,24 +1039,89 @@ function giveMainWps(){
 		var fan = msg.data;
 		if(fan.substring(0,2)=="7E"&&fan.substring(10,12)=="52"){
 			if(parseInt(fan.substring(18,20),16)==1){
-				websocket.close();
-				if(websocket.readyState!=1){
-					alert("下发失败");
+				var realLength=0;
+				for(var rfc=0;rfc<giveArray.length;rfc+=5){
+					var frchanel = parseInt(fan.substring(16,18),16)
+					if(giveArray[rfc+1]==parseInt(fan.substring(12,16),16)){
+						giveArray[rfc+3].push(frchanel);
+						giveArray[rfc+4].splice(giveArray[rfc+4].indexOf(frchanel), 1);
+/*						if(giveArray[rfc+3].length==checkLength){
+							rows[rfc/5].failNum = "已完成";
+						}else{
+							rows[rfc/5].failNum = giveArray[rfc+3].join(",");
+						}*/
+						rows[rfc/5].failNum = giveArray[rfc+3].join(",");
+						if(giveArray[rfc+4].length!=0){
+							rows[rfc/5].noNum = giveArray[rfc+4].join(",");
+						}else{
+							rows[rfc/5].noNum = 0;
+						}
+						$('#giveResultTable').datagrid('refreshRow', rfc/5);
+						realLength = realLength + giveArray[rfc+2].length + giveArray[rfc+3].length;
 					}
-			}else{
-				count++;
-				if(count==selectMachine.length*selectMainWpsRows.length){
+				}
+				if(realLength==checkLength){
 					websocket.close();
 					if(websocket.readyState!=1){
-						alert("下发成功");
-						window.clearTimeout(xftimer);
+						window.clearTimeout(oneMinuteTimer);
+						alert("下发完成");
 						$('#smdlg').window('close');
 						$('#smwdlg').window('close');
 						$('#weldingmachineTable').datagrid('clearSelections'); 
-						$('#mainWpsTable').datagrid('clearSelections'); 
-						count=0;
+						$('#mainWpsTable').datagrid('clearSelections');
 						selectMainWpsRows.length=0;
 						selectMachine.length=0;
+						sochet_send_data.length=0;
+						successGiveChanel.length=0;
+						failGiveChanel.length=0;
+						noReceiveGiveChanel.length=0;
+						giveArray.length=0;
+						resultData.length=0;
+					}
+				}
+/*				websocket.close();
+				if(websocket.readyState!=1){
+					alert("下发失败");
+					}*/
+			}else{
+				var realLength=0;
+				for(var rfc=0;rfc<giveArray.length;rfc+=5){
+					var frchanel = parseInt(fan.substring(16,18),16)
+					if(giveArray[rfc+1]==parseInt(fan.substring(12,16),16)){
+						giveArray[rfc+2].push(frchanel);
+						giveArray[rfc+4].splice(giveArray[rfc+4].indexOf(frchanel), 1);
+/*						if(giveArray[rfc+2].length==checkLength){
+							rows[rfc/5].successNum = "已完成";
+						}else{
+							rows[rfc/5].successNum = giveArray[rfc+2].join(",");
+						}*/
+						rows[rfc/5].successNum = giveArray[rfc+2].join(",");
+						if(giveArray[rfc+4].length!=0){
+							rows[rfc/5].noNum = giveArray[rfc+4].join(",");
+						}else{
+							rows[rfc/5].noNum = 0;
+						}
+						$('#giveResultTable').datagrid('refreshRow', rfc/5);
+						realLength = realLength + giveArray[rfc+2].length + giveArray[rfc+3].length;
+					}
+				}
+				if(realLength==checkLength){
+					websocket.close();
+					if(websocket.readyState!=1){
+						alert("下发完成");
+						window.clearTimeout(oneMinuteTimer);
+						$('#smdlg').window('close');
+						$('#smwdlg').window('close');
+						$('#weldingmachineTable').datagrid('clearSelections'); 
+						$('#mainWpsTable').datagrid('clearSelections');
+						selectMainWpsRows.length=0;
+						selectMachine.length=0;
+						sochet_send_data.length=0;
+						successGiveChanel.length=0;
+						failGiveChanel.length=0;
+						noReceiveGiveChanel.length=0;
+						giveArray.length=0;
+						resultData.length=0;
 					}
 				}
 			}

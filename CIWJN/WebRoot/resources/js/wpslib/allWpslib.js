@@ -299,6 +299,7 @@ function closedlg(){
 	$('#rmmwdlg').window('close');
 	$('#wltdlg').window('close');
 	$('#rmwltdlg').window('close');
+	$('#resultdlg').window('close');
 }
 
 /*//监听窗口大小变化
