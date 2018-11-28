@@ -2,7 +2,7 @@ var insfid;
 var charts;
 var websocketURL, dic, starows, redata, symbol=0, welderName, taskNum, socket;
 var worknum=0, standbynum=0, warnnum=0, offnum=0, flag = 0, showflag = 0;
-var liveary = new Array(), machine = new Array;
+var liveary = new Array(), machine = new Array();
 
 $(function(){
 	loadtree();
@@ -461,6 +461,7 @@ function iview(){
 							for(var x=0;x<liveary.length;x++){
 								if(liveary[x].fid == machine[f].fid){
 									tempflag = true;
+									break;
 								}
 							}
 							if(!tempflag){
