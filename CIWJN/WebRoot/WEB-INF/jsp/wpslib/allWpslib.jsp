@@ -459,6 +459,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:selectModel();" class="easyui-linkbutton" iconCls="icon-ok">确认</a>
 			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
+		
+		<!-- 下发结果表格 -->
+		<div id="resultdlg" class="easyui-dialog" style="width: 1120px; height: 600px; padding:10px 20px" closed="true" buttons="#resultdlg-buttons">
+			<form id="resultfm" class="easyui-form" method="post" data-options="novalidate:true">
+				<table id="giveResultTable" style="table-layout: fixed; width:100%;"></table>
+			</form>
+		</div>
+		<div id="resultdlg-buttons">
+			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-ok">确认</a>
+			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+		</div>
 	</div>
   </body>
 </html>
