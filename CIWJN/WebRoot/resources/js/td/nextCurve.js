@@ -429,6 +429,8 @@ function iview() {
 				volcurve();
 				symbol++;
 			}
+			$("#l3").html("--");
+			$("#l4").html("--");
 			$("#r13").html(parseInt(redata.substring(46 + i, 50 + i), 10));
 			$("#r14").html(parseFloat((parseInt(redata.substring(50 + i, 54 + i), 10) / 10).toFixed(2)));
 			$("#c1").html(parseInt(redata.substring(38 + i, 42 + i), 10));
