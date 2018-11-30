@@ -721,16 +721,13 @@ function giveMainWps(){
 	}, 60000)
 	}*/
 	var sochet_send_data=new Array();
-	var successGiveChanel = new Array();
-	var failGiveChanel = new Array();
-	var noReceiveGiveChanel = new Array();
 	var giveArray = new Array();
 	var resultData = new Array();
+	var noReceiveGiveChanel = new Array();
+	var realLength=0;
 	websocket.onopen = function() {
 		var checkLength = selectMachine.length * selectMainWpsRows.length;
 		for(var smindex=0;smindex<selectMachine.length;smindex++){
-			failGiveChanel.length=0;
-			successGiveChanel.length=0;
 			noReceiveGiveChanel.length=0;
 			for(var mwindex=0;mwindex<selectMainWpsRows.length;mwindex++){
 				var chanel = parseInt(selectMainWpsRows[mwindex].fchanel).toString(16);
@@ -995,16 +992,16 @@ function giveMainWps(){
 			if(giveArray.length==0){
 				giveArray.push(selectMachine[smindex].equipmentNo);
 				giveArray.push(parseInt(selectMachine[smindex].gatherId));
-				giveArray.push(successGiveChanel);
-				giveArray.push(failGiveChanel);
-				giveArray.push(noReceiveGiveChanel);
+				giveArray.push(0);
+				giveArray.push(0);
+				giveArray.push(0);
 			}else{
 				if(giveArray.indexOf(selectMachine[smindex].equipmentNo)==(-1)){
 					giveArray.push(selectMachine[smindex].equipmentNo);
 					giveArray.push(parseInt(selectMachine[smindex].gatherId));
-					giveArray.push(successGiveChanel);
-					giveArray.push(failGiveChanel);
-					giveArray.push(noReceiveGiveChanel);
+					giveArray.push(0);
+					giveArray.push(0);
+					giveArray.push(0);
 				}
 			}
 		}
@@ -1017,15 +1014,13 @@ function giveMainWps(){
 			selectMainWpsRows.length=0;
 			selectMachine.length=0;
 			sochet_send_data.length=0;
-			successGiveChanel.length=0;
-			failGiveChanel.length=0;
-			noReceiveGiveChanel.length=0;
 			giveArray.length=0;
+			noReceiveGiveChanel.length=0;
 			resultData.length=0;
+			realLength=0;
 		}, 30000);
 		showResult();
 		$("#giveResultTable").datagrid('loadData',resultData);
-		var rows = $('#giveResultTable').datagrid("getRows");
 		var timer = window.setInterval(function() {
 			if(sochet_send_data.length!=0){
 				var popdata = sochet_send_data.pop();
@@ -1038,18 +1033,19 @@ function giveMainWps(){
 	websocket.onmessage = function(msg) {
 		var fan = msg.data;
 		if(fan.substring(0,2)=="7E"&&fan.substring(10,12)=="52"){
+			var rows = $('#giveResultTable').datagrid("getRows");
 			if(parseInt(fan.substring(18,20),16)==1){
-				var realLength=0;
-				for(var rfc=0;rfc<giveArray.length;rfc+=5){
+				realLength++;
+/*				for(var rfc=0;rfc<giveArray.length;rfc+=5){
 					var frchanel = parseInt(fan.substring(16,18),16)
 					if(giveArray[rfc+1]==parseInt(fan.substring(12,16),16)){
 						giveArray[rfc+3].push(frchanel);
 						giveArray[rfc+4].splice(giveArray[rfc+4].indexOf(frchanel), 1);
-/*						if(giveArray[rfc+3].length==checkLength){
+						if(giveArray[rfc+3].length==checkLength){
 							rows[rfc/5].failNum = "已完成";
 						}else{
 							rows[rfc/5].failNum = giveArray[rfc+3].join(",");
-						}*/
+						}
 						rows[rfc/5].failNum = giveArray[rfc+3].join(",");
 						if(giveArray[rfc+4].length!=0){
 							rows[rfc/5].noNum = giveArray[rfc+4].join(",");
@@ -1059,6 +1055,32 @@ function giveMainWps(){
 						$('#giveResultTable').datagrid('refreshRow', rfc/5);
 						realLength = realLength + giveArray[rfc+2].length + giveArray[rfc+3].length;
 					}
+				}*/
+				var frchanel = parseInt(fan.substring(16,18),16);
+				var indexNum = giveArray.indexOf(parseInt(fan.substring(12,16),16));
+				if(indexNum!=-1){
+					giveArray[indexNum+2]=frchanel;
+/*					giveArray[indexNum+3].splice(giveArray[indexNum+3].indexOf(frchanel), 1);*/
+					if(rows[(indexNum-1)/5].noNum!="0"){
+						var onNumArr = rows[(indexNum-1)/5].noNum.split(",");
+//						if(onNumArr.indexOf(frchanel)!=-1){
+						onNumArr.splice(onNumArr.indexOf(frchanel), 1);
+						var nowNoArr = onNumArr;
+						if(nowNoArr.length!=0){
+							rows[(indexNum-1)/5].noNum = nowNoArr.join(",");
+						}else{
+							rows[(indexNum-1)/5].noNum = 0;
+						}
+//						}
+					}else{
+						rows[(indexNum-1)/5].noNum = 0;
+					}
+					if(parseInt(rows[(indexNum-1)/5].failNum)!=0){
+						rows[(indexNum-1)/5].failNum = rows[(indexNum-1)/5].failNum+","+giveArray[indexNum+2];
+					}else{
+						rows[(indexNum-1)/5].failNum = giveArray[indexNum+2];
+					}
+					$('#giveResultTable').datagrid('refreshRow', (indexNum-1)/5);
 				}
 				if(realLength==checkLength){
 					websocket.close();
@@ -1072,11 +1094,10 @@ function giveMainWps(){
 						selectMainWpsRows.length=0;
 						selectMachine.length=0;
 						sochet_send_data.length=0;
-						successGiveChanel.length=0;
-						failGiveChanel.length=0;
-						noReceiveGiveChanel.length=0;
 						giveArray.length=0;
 						resultData.length=0;
+						noReceiveGiveChanel.length=0;
+						realLength=0;
 					}
 				}
 /*				websocket.close();
@@ -1084,17 +1105,12 @@ function giveMainWps(){
 					alert("下发失败");
 					}*/
 			}else{
-				var realLength=0;
-				for(var rfc=0;rfc<giveArray.length;rfc+=5){
-					var frchanel = parseInt(fan.substring(16,18),16)
+				realLength++;
+/*				for(var rfc=0;rfc<giveArray.length;rfc+=5){
+					var frchanel = parseInt(fan.substring(16,18),16);
 					if(giveArray[rfc+1]==parseInt(fan.substring(12,16),16)){
 						giveArray[rfc+2].push(frchanel);
 						giveArray[rfc+4].splice(giveArray[rfc+4].indexOf(frchanel), 1);
-/*						if(giveArray[rfc+2].length==checkLength){
-							rows[rfc/5].successNum = "已完成";
-						}else{
-							rows[rfc/5].successNum = giveArray[rfc+2].join(",");
-						}*/
 						rows[rfc/5].successNum = giveArray[rfc+2].join(",");
 						if(giveArray[rfc+4].length!=0){
 							rows[rfc/5].noNum = giveArray[rfc+4].join(",");
@@ -1104,7 +1120,35 @@ function giveMainWps(){
 						$('#giveResultTable').datagrid('refreshRow', rfc/5);
 						realLength = realLength + giveArray[rfc+2].length + giveArray[rfc+3].length;
 					}
+				}*/
+				var frchanel = parseInt(fan.substring(16,18),16);
+				var indexNum = giveArray.indexOf(parseInt(fan.substring(12,16),16));
+				if(indexNum!=-1){
+					giveArray[indexNum+1]=frchanel;
+/*					giveArray[indexNum+3].splice(giveArray[indexNum+3].indexOf(frchanel), 1);*/
+					if(rows[(indexNum-1)/5].noNum!="0"){
+						var onNumArr = rows[(indexNum-1)/5].noNum.split(",");
+//						if(onNumArr.indexOf(frchanel)!=-1){
+						onNumArr.splice(onNumArr.indexOf(frchanel), 1);
+						var nowNoArr = onNumArr;
+						if(nowNoArr.length!=0){
+							rows[(indexNum-1)/5].noNum = nowNoArr.join(",");
+						}else{
+							rows[(indexNum-1)/5].noNum = 0;
+						}
+//						}
+					}else{
+						rows[(indexNum-1)/5].noNum = 0;
+					}
+					if(parseInt(rows[(indexNum-1)/5].successNum)!=0){
+						rows[(indexNum-1)/5].successNum = rows[(indexNum-1)/5].successNum+","+giveArray[indexNum+1];
+					}else{
+						rows[(indexNum-1)/5].successNum = giveArray[indexNum+1];
+					}
+					$('#giveResultTable').datagrid('refreshRow', (indexNum-1)/5);
 				}
+				console.log(realLength);
+				console.log(checkLength);
 				if(realLength==checkLength){
 					websocket.close();
 					if(websocket.readyState!=1){
@@ -1117,11 +1161,10 @@ function giveMainWps(){
 						selectMainWpsRows.length=0;
 						selectMachine.length=0;
 						sochet_send_data.length=0;
-						successGiveChanel.length=0;
-						failGiveChanel.length=0;
 						noReceiveGiveChanel.length=0;
 						giveArray.length=0;
 						resultData.length=0;
+						realLength=0;
 					}
 				}
 			}
