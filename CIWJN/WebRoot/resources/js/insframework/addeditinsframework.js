@@ -6,6 +6,12 @@ $(function(){
 			$("#fm").form("disableValidation");
 		}
 	})
+	$("#parentid").combobox({
+        onChange:function(){
+        	var parent = $("#parentid").combobox('getValue');
+        	typecombobox(0,parent);
+        } 
+     });
 	$("#fm").form("disableValidation");
 })
 
@@ -37,6 +43,7 @@ function editInsframework(){
 		$('#dlg').window('open');
 		$('#fm').form('load', row);
 		$('#validname').val(row.name);
+		$("#typeid").combobox('select',row.typeid);
 		url = "insframework/editInsframework?id="+row.id;
 	}
 }
@@ -95,11 +102,6 @@ function insfcombobox(type,id){
                             + result.ary[i].name + "</option>";  
                 }  
                 $("#parentid").html(optionStr1);
-                for (var i = 0; i < result.arys.length; i++) {  
-                    optionStr2 += "<option value=\"" + result.arys[i].id + "\" >"  
-                            + result.arys[i].name + "</option>";  
-                }  
-                $("#typeid").html(optionStr2);
             }  
         },  
         error : function(errorMsg) {  
@@ -107,6 +109,31 @@ function insfcombobox(type,id){
         }  
    }); 
 	$("#parentid").combobox();
+	typecombobox(type,"");
+	$("#fm").form("disableValidation");
+}
+
+function typecombobox(type,parentid){
+	$.ajax({  
+        type : "post",  
+        async : false,
+        url : "insframework/getType?type="+type+"&parentid="+parentid,  
+        data : {},  
+        dataType : "json", //返回数据形式为json  
+        success : function(result) {
+            if (result) {
+                var optionStr1 = '';  
+                for (var i = 0; i < result.ary.length; i++) {  
+                    optionStr1 += "<option value=\"" + result.ary[i].id + "\" >"  
+                            + result.ary[i].name + "</option>";  
+                }  
+                $("#typeid").html(optionStr1);
+            }  
+        },  
+        error : function(errorMsg) {  
+            alert("数据请求失败，请联系系统管理员!");  
+        }  
+   }); 
 	$("#typeid").combobox();
 	$("#fm").form("disableValidation");
 }

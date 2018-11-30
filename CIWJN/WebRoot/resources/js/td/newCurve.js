@@ -461,6 +461,7 @@ function iview(){
 							for(var x=0;x<liveary.length;x++){
 								if(liveary[x].fid == machine[f].fid){
 									tempflag = true;
+									break;
 								}
 							}
 							if(!tempflag){

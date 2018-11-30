@@ -226,6 +226,7 @@ public class InsframeworkController {
 		}
 		return obj.toString();
 	}
+
 	
 	/**
 	 * 获取父节点
@@ -237,8 +238,6 @@ public class InsframeworkController {
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
 		JSONObject obj = new JSONObject();
-		JSONArray arys = new JSONArray();
-		JSONObject jsons = new JSONObject();
 		try{
 			String id = request.getParameter("id");
 			int type = Integer.parseInt(request.getParameter("type"));
@@ -246,7 +245,6 @@ public class InsframeworkController {
 			Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			MyUser myuser = (MyUser)object;
 			List<Insframework> insparent = im.getInsByUserid(new BigInteger(myuser.getId()+""));
-			List<Insframework> instype = im.getInsByUserid(new BigInteger(myuser.getId()+""));
 			List<Insframework> ins = null;
 			for(Insframework i:insparent){
 				if(i.getType()==20){
@@ -263,7 +261,7 @@ public class InsframeworkController {
 					ins = im.getInsIdByParent(i.getId(),23);
 					if(type==22){
 						Insframework insf = new Insframework();
-						BigInteger parent = im.getParentById(instype.get(0).getId());
+						BigInteger parent = im.getParentById(i.getId());
 						insf.setId(parent);
 						insf.setName(im.getInsframeworkById(parent));
 						ins.add(ins.size(),insf);
@@ -272,7 +270,7 @@ public class InsframeworkController {
 					ins = im.getInsIdByParent(i.getId(),23);
 					if(type==23){
 						Insframework insf = new Insframework();
-						BigInteger parent = im.getParentById(instype.get(0).getId());
+						BigInteger parent = im.getParentById(i.getId());
 						insf.setId(parent);
 						insf.setName(im.getInsframeworkById(parent));
 						ins.add(ins.size(),insf);
@@ -293,42 +291,75 @@ public class InsframeworkController {
 					}
 				}
 			}
-			List<Dictionarys> dictionary = null;
-			//获取枚举值
-			for(Insframework i:instype){
-				if(i.getType()==20){
-					dictionary = dm.getDicValueByValue(2, 20);
-				}else if(i.getType()==21){
-					if(i.getType()==type){
-						dictionary = dm.getDicValueByValue(2, 20);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
+	
+
+	/**
+	 * 获取类型
+	 * @return
+	 */
+	@RequestMapping("/getType")
+	@ResponseBody
+	public String getType(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			int type = Integer.parseInt(request.getParameter("type"));
+			String parent = request.getParameter("parentid");
+			if(iutil.isNull(parent)){
+				List<Dictionarys> dictionary = dm.getDicValueByValue(2, im.getTypeById(new BigInteger(parent)));
+				for(Dictionarys d:dictionary){
+					json.put("id", d.getValue());
+					json.put("name", d.getValueName());
+					ary.add(json);
+				}
+			}else{
+				//获取用户id
+				Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				MyUser myuser = (MyUser)object;
+				List<Insframework> insparent = im.getInsByUserid(new BigInteger(myuser.getId()+""));
+				List<Dictionarys> dictionary = null;
+				//获取枚举值
+				for(Insframework i:insparent){
+					if(i.getType()==20){
+						dictionary = dm.getDicValueByValue(2, 19);
+					}else if(i.getType()==21){
+						if(i.getType()==type){
+							dictionary = dm.getDicValueByValue(2, 20);
+						}else{
+							dictionary = dm.getDicValueByValue(2, 21);
+						}
 					}else{
-						dictionary = dm.getDicValueByValue(2, 21);
-					}
-				}else{
-					if(type==22){
-						dictionary = dm.getDicValueByValue(2, 21);
-					}else{
-						dictionary = dm.getDicValueByValue(2, 22);
+						if(type==22){
+							dictionary = dm.getDicValueByValue(2, 21);
+						}else{
+							dictionary = dm.getDicValueByValue(2, 22);
+						}
 					}
 				}
-			}
-			if(type==20){
-				String valuename = dm.getDicValueByType(type);
-				jsons.put("id", type);
-				jsons.put("name", valuename);
-				arys.add(jsons);
-			}else{
-				for(Dictionarys d:dictionary){
-					jsons.put("id", d.getValue());
-					jsons.put("name", d.getValueName());
-					arys.add(jsons);
+				if(type==20){
+					String valuename = dm.getDicValueByType(2,type);
+					json.put("id", type);
+					json.put("name", valuename);
+					ary.add(json);
+				}else{
+					for(Dictionarys d:dictionary){
+						json.put("id", d.getValue());
+						json.put("name", d.getValueName());
+						ary.add(json);
+					}
 				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		obj.put("ary", ary);
-		obj.put("arys", arys);
 		return obj.toString();
 	}
 	

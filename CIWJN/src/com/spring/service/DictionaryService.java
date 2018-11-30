@@ -57,7 +57,7 @@ public interface DictionaryService {
 	 * @param value
 	 * @return
 	 */
-	String getDicValueByType(int value);
+	String getDicValueByType(int typeid,int value);
 	
 	/**
 	 * 获取字典表的所有字典
