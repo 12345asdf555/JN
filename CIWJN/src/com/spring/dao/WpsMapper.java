@@ -34,6 +34,7 @@ public interface WpsMapper {
 	void updateWpslib(Wps wps);
 	List<Wps> getWpslibStatus();
 	void deleteWpslib(@Param("fid")BigInteger fid);
+	void deleteWpsBelongLib(@Param("fid")BigInteger fid);
 	void deleteMainWps(@Param("fid")BigInteger fid);
 	int getCountByWpslibidChanel(@Param("wpslibid")BigInteger wpslibid,@Param("chanel")int chanel);
 }

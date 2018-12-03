@@ -33,6 +33,7 @@ public interface WpsService {
 	void updateWpslib(Wps wps);
 	List<Wps> getWpslibStatus();
 	void deleteWpslib(BigInteger fid);
+	void deleteWpsBelongLib(BigInteger fid);
 	void deleteMainWps(BigInteger fid);
 	int getCountByWpslibidChanel(BigInteger wpslibid,int chanel);
 	

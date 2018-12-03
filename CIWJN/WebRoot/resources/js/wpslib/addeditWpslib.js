@@ -52,10 +52,10 @@ function saveWpslib(){
 	var url2 = "";
 	if(flag==1){
 		messager = "新增成功！";
-		url2 = url+"?fstatus="+fstatus+"&wpslibName="+wpslibName;
+		url2 = url+"?fstatus="+fstatus+"&wpslibName="+encodeURI(wpslibName);
 	}else{
 		messager = "修改成功！";
-		url2 = url+"&fstatus="+fstatus+"&wpslibName="+wpslibName;
+		url2 = url+"&fstatus="+fstatus+"&wpslibName="+encodeURI(wpslibName);
 	}
 	$('#wltfm').form('submit', {
 		url : url2,

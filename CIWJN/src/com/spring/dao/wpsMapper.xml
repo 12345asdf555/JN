@@ -157,9 +157,11 @@
 	</select>
 	
 	<delete id="deleteWpslib">
-		DELETE tb_wps_library,tb_specification FROM tb_wps_library,tb_specification 
-		WHERE tb_wps_library.fid = tb_specification.fwpslib_id
-		AND tb_wps_library.fid=#{fid}
+		DELETE FROM tb_wps_library WHERE fid=#{fid}
+	</delete>
+	
+	<delete id="deleteWpsBelongLib">
+		DELETE FROM tb_specification WHERE fwpslib_id=#{fid}
 	</delete>
 	
 	<delete id="deleteMainWps">

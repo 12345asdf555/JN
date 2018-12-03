@@ -176,6 +176,12 @@ public class WpsServiceImpl implements WpsService{
 		// TODO Auto-generated method stub
 		return mapper.getCountByWpslibidChanel(wpslibid, chanel);
 	}
+
+	@Override
+	public void deleteWpsBelongLib(BigInteger fid) {
+		// TODO Auto-generated method stub
+		mapper.deleteWpsBelongLib(fid);
+	}
 	
 	
 }

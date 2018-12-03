@@ -845,6 +845,7 @@ public class WpsController {
 			JSONObject obj = new JSONObject();
 			try{
 				wpsService.deleteWpslib(fid);
+				wpsService.deleteWpsBelongLib(fid);
 				 obj.put("success", true);
 			}catch(Exception e){
 				obj.put("success", false);
