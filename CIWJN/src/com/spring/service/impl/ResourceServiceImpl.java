@@ -64,4 +64,9 @@ public class ResourceServiceImpl implements ResourceService {
 		return mapper.getAuthByRes(url);
 	}
 
+	@Override
+	public List<Resources> getAuthByUserid(int id) {
+		return mapper.getAuthByUserid(id);
+	}
+
 }

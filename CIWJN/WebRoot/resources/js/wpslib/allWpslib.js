@@ -85,7 +85,7 @@ function wpslibDatagrid(){
 		onExpandRow: function(index,row){
 			var ddv = $(this).datagrid('getRowDetail',index).find('#ddv-'+index);
 			ddv.datagrid({
-//				fitColumns : true,
+				fitColumns : true,
 				idField : 'id',
 				pageSize : 30,
 				pageList : [ 10, 20, 30, 40, 50 ],
@@ -282,6 +282,7 @@ function wpslibDatagrid(){
 					$('#wpslibTable').datagrid("selectRow", index)
 					setTimeout(function(){
 						$('#wpslibTable').datagrid('fixDetailRowHeight',index);
+						$('#wpslibTable').datagrid('fixRowHeight',index);
 					},0);
 			        $("a[id='mainwpsedit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 			        $("a[id='mainwpsremove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});

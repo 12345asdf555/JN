@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.spring.model.Dictionarys;
+import com.spring.model.MyUser;
 import com.spring.model.Resources;
 import com.spring.page.Page;
 import com.spring.service.DictionaryService;
@@ -161,17 +163,16 @@ public class ResourceController {
 	@RequestMapping("/delResource")
 	@ResponseBody
 	public String delResource(@RequestParam int id){
-
-			JSONObject obj = new JSONObject();
-			try{
-				Resources resource = resourceService.findById(new Integer(id));
-				resourceService.delete(new Integer(resource.getId()));
-				 obj.put("success", true);
-			}catch(Exception e){
-				obj.put("success", false);
-				obj.put("errorMsg", e.getMessage());
-			}
-			return obj.toString();
+		JSONObject obj = new JSONObject();
+		try{
+			Resources resource = resourceService.findById(new Integer(id));
+			resourceService.delete(new Integer(resource.getId()));
+			 obj.put("success", true);
+		}catch(Exception e){
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
 	}
 	
 	@RequestMapping("/resourcenamevalidate")

@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	
   	<div region="west" hide="true" split="true" title="导航菜单" style="width: 200px;" id="west" data-options="iconCls:'icon-navigation'">
 	  	<div class="easyui-accordion" border="false" id="accordiondiv">
-			<div title="生产设备管理" data-options="iconCls:'icon-manager'">
+			<!-- <div title="生产设备管理" data-options="iconCls:'icon-manager'">
 				<ul>
 			        <li onclick="changeColor(this)"><a href="javascript:openGather()" ><div><img src="resources/images/c-13.png" />&nbsp;&nbsp;采集模块管理</div></a></li>
 					<li onclick="changeColor(this)"><a href="javascript:openWeldingMachine()"><div><img src="resources/images/c-12.png" />&nbsp;&nbsp;焊机设备管理</div></a></li>
@@ -131,7 +131,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<li onclick="changeColor(this)"><a href="javascript:openCompanyLoads()"><div><img src="resources/images/s-4.png" />&nbsp;&nbsp;焊机负荷率</div></a></li>
 								<li onclick="changeColor(this)"><a href="javascript:openCompanyNoLoads()"><div><img src="resources/images/s-5.png" />&nbsp;&nbsp;焊机空载率</div></a></li>
 			    				<li onclick="changeColor(this)"><a href="javascript:openCompanyIdle()"><div><img src="resources/images/s-6.png" />&nbsp;&nbsp;设备闲置率</div></a></li>
-<!-- 						        <li onclick="changeColor(this)"><a href="javascript:openWeldParameter()"><div><img src="resources/images/s-15.png" />&nbsp;&nbsp;焊接参数维度表</div></a></li> -->
+						        <li onclick="changeColor(this)"><a href="javascript:openWeldParameter()"><div><img src="resources/images/s-15.png" />&nbsp;&nbsp;焊接参数维度表</div></a></li>
 						        <li onclick="changeColor(this)"><a href="javascript:openWireUse()"><div><img src="resources/images/s-16.png" />&nbsp;&nbsp;焊丝用量维度表</div></a></li>
 			    				<li onclick="changeColor(this)"><a href="javascript:openCompanyUse()"><div><img src="resources/images/s-17.png" />&nbsp;&nbsp;单台设备数据统计</div></a></li>
 							</ul>
@@ -143,13 +143,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div title="生产过程管理" data-options="iconCls:'icon-statement'">
 				<ul>
 			        <li onclick="changeColor(this)"><a href="javascript:openPerson()" ><div><img src="resources/images/c-6.png" />&nbsp;&nbsp;焊工管理</div></a></li>
-<!-- 			        <li onclick="changeColor(this)"><a href="javascript:openWedJunction()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;任务管理</div></a></li> -->
+			        <li onclick="changeColor(this)"><a href="javascript:openWedJunction()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;任务管理</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openProduct()"><div><img src="resources/images/c-8.png" />&nbsp;&nbsp;产品管理</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openWps()"><div><img src="resources/images/c-9.png" />&nbsp;&nbsp;工艺管理</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openWeldTask()"><div><img src="resources/images/c-7.png" />&nbsp;&nbsp;派工任务管理</div></a></li>
 			        <li onclick="changeColor(this)"><a href="javascript:openTaskResult()"><div><img src="resources/images/c-10.png" />&nbsp;&nbsp;执行任务修改</div></a></li>
-			        <!-- <li onclick="changeColor(this)"><a href="javascript:openTaskEvaluate()"><div><img src="resources/images/s-11.png" />&nbsp;&nbsp;任务确认评价</div></a></li> -->
-			        <!-- <li class="libottom" onclick="changeColor(this)"><a href="javascript:openSpe()"><div><img src="resources/images/c-14.png" />&nbsp;&nbsp;焊机参数管理</div></a></li> -->
+			        <li onclick="changeColor(this)"><a href="javascript:openTaskEvaluate()"><div><img src="resources/images/s-11.png" />&nbsp;&nbsp;任务确认评价</div></a></li>
+			        <li class="libottom" onclick="changeColor(this)"><a href="javascript:openSpe()"><div><img src="resources/images/c-14.png" />&nbsp;&nbsp;焊机参数管理</div></a></li>
 				</ul>
 			</div>
 			<div title="系统配置管理" data-options="iconCls:'icon-sys'">
@@ -166,7 +166,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<ul>
 					<li class="libottom" onclick="changeColor(this)"><a href="javascript:openCompanyTd()"><div><img src="resources/images/s-1.png" />&nbsp;&nbsp;实时监控</div></a></li>
 				</ul>
-			</div>
+			</div> -->
 	    </div>
 	</div>
     
