@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.model.Insframework;
 import com.spring.model.MyUser;
+import com.spring.model.Resources;
 import com.spring.model.User;
 import com.spring.service.InsframeworkService;
+import com.spring.service.ResourceService;
 import com.spring.service.UserService;
 import com.spring.util.IsnullUtil;
 
@@ -29,6 +31,9 @@ public class MainController {
 	
 	@Autowired
 	private InsframeworkService is;
+
+	@Autowired
+	private ResourceService rs;
 	
 	IsnullUtil iutil = new IsnullUtil();
 	
@@ -50,6 +55,8 @@ public class MainController {
 	@ResponseBody
 	public String getUserInsframework(HttpServletRequest request){
 		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject json = new JSONObject();
 		Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(object==null){
 			obj.put("uname", "请登录");
@@ -58,8 +65,17 @@ public class MainController {
 		}
 		MyUser u = (MyUser)object;
 		User list = user.getUserInsframework(new BigInteger(u.getId()+""));
+		List<Resources> menu = rs.getAuthByUserid((int)u.getId());
+		for(int i=0;i<menu.size();i++){
+			json.put("resource", menu.get(i).getResourceAddress().substring(1));
+			ary.add(json);
+		}
+		//获取服务器ip地址
+		String ipurl = request.getSession().getServletContext().getInitParameter("ipurl");
+		obj.put("ipurl", ipurl);
 		obj.put("uname", list.getUserName());
 		obj.put("insframework", list.getInsname());
+		obj.put("ary", ary);
 		return obj.toString();
 	}
 	
@@ -107,4 +123,5 @@ public class MainController {
 		obj.put("ary", ary);
 		return obj.toString();
 	}
+	
 }

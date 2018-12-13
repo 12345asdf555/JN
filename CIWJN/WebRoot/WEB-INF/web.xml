@@ -60,6 +60,10 @@
 <!--     <param-value>&quot;ws://192.168.3.36:5556/SerialPortDemo/ws/张三&quot;</param-value> -->
     <param-value>&quot;ws://10.30.8.23:5550/SerialPortDemo/ws/张三&quot;</param-value>
   </context-param>
+  <context-param>
+    <param-name>ipurl</param-name>
+    <param-value>http://localhost:8080/</param-value>
+  </context-param>
   <welcome-file-list>
     <welcome-file>/index.jsp</welcome-file>
   </welcome-file-list>
