@@ -107,7 +107,7 @@ function webclient() {
 	};
 	socket.onmessage = function(msg) {
 		var xxx = msg.data;
-		if(xxx.length==279){
+		if(xxx.length==285){
 		if (xxx.substring(0, 2) != "7E") {
 			redata = msg.data;
 			if (symbol == 0) {
@@ -173,7 +173,7 @@ function webclient() {
 				symbol = 1;
 			}
 
-			for (var i = 0; i < redata.length; i += 93) {
+			for (var i = 0; i < redata.length; i += 95) {
 				if (redata.substring(0 + i, 4 + i) != "0000") {
 					//组织机构与焊工编号都与数据库中一致则录入
 					if (weld.length == 0) {

@@ -18,6 +18,7 @@ function wpslibDatagrid(){
 		singleSelect : true,
 		rownumbers : true,
 		showPageList : false,
+		autoRowHeight:true,
 		columns : [ [ {
 			field : 'fid',
 			title : '序号',
@@ -80,12 +81,14 @@ function wpslibDatagrid(){
 	        $("a[id='wpslibremove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
 		},
 		detailFormatter:function(index,row2){
-			return '<div"><table id="ddv-' + index + '" style=""></table></div>';
+			return '<div id="div'+index+'"><table id="ddv-' + index + '" style="min-height:80px;"></table></div>';
 		},
 		onExpandRow: function(index,row){
 			var ddv = $(this).datagrid('getRowDetail',index).find('#ddv-'+index);
 			ddv.datagrid({
-//				fitColumns : true,
+				fitColumns : true,
+				width: $("#div"+index).width,
+				height: $("#div"+index).height,
 				idField : 'id',
 				pageSize : 30,
 				pageList : [ 10, 20, 30, 40, 50 ],
@@ -97,7 +100,7 @@ function wpslibDatagrid(){
 					field : 'fid',
 					title : 'id',
 					halign : "center",
-					width : 30,
+//					width : 30,
 					align : "left",
 					hidden:true
 				},{ 
@@ -282,9 +285,15 @@ function wpslibDatagrid(){
 					$('#wpslibTable').datagrid("selectRow", index)
 					setTimeout(function(){
 						$('#wpslibTable').datagrid('fixDetailRowHeight',index);
+						$('#wpslibTable').datagrid('fixRowHeight',index);
 					},0);
 			        $("a[id='mainwpsedit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 			        $("a[id='mainwpsremove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
+					$("#div"+index).height($("#div"+index).height()+20);
+					$("#ddv-"+index).datagrid('resize', {
+						height : $("#div"+index).height(),
+						width : $("#div"+index).width()
+					});
 				}
 			});
 			$('#wpslibTable').datagrid('fixDetailRowHeight',index);

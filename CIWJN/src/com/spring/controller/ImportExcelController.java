@@ -369,7 +369,7 @@ public class ImportExcelController {
 				String wjno = w.getWeldedJunctionno();
 				w.setWeldedJunctionno(wjno);
 				json.put("taskNo", w.getWeldedJunctionno());
-				if(w.getWeldedJunctionno()==null||w.getWeldedJunctionno()==""){
+				if(w.getWeldedJunctionno()==null||"".equals(w.getWeldedJunctionno())){
 					str+="任务编号不能为空;";
 					biaozhi=1;
 				}else{
@@ -379,7 +379,7 @@ public class ImportExcelController {
 						biaozhi=1;
 					}
 				}
-				if((w.getSerialNo()=="")||(w.getSerialNo()==null)){
+				if("".equals(w.getSerialNo())||w.getSerialNo()==null){
 					json.put("levelname", "");
 				}else{
 					json.put("levelname", w.getSerialNo());
@@ -400,7 +400,7 @@ public class ImportExcelController {
 				}else{
 					json.put("insName", w.getIname());
 					iii = wmm.getInsframeworkByName(w.getIname());
-					if(String.valueOf(iii)==null||String.valueOf(iii)=="null"){
+					if(String.valueOf(iii)==null||String.valueOf(iii).equals("null")){
 						str+="该班组不存在;";
 						biaozhi=1;
 					}else{

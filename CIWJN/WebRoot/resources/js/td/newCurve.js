@@ -318,8 +318,8 @@ function iview(){
 		},5000);
 		flag=2;
 	}
-	if(redata.length==279){
-		for(var i = 0;i < redata.length;i+=93){
+	if(redata.length==285){
+		for(var i = 0;i < redata.length;i+=95){
 //			if(redata.substring(8+i, 12+i)!="0000"){
 				for(var f=0;f<machine.length;f++){
 					if(machine[f].fid==(parseInt(redata.substring(4+i, 8+i),10))){

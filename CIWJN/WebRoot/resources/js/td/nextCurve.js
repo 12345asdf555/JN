@@ -402,8 +402,8 @@ function iview() {
 	vol.length = 0;
 	ele.length = 0;
 
-	if(redata.length==279){
-	for (var i = 0; i < redata.length; i += 93) {
+	if(redata.length==285){
+	for (var i = 0; i < redata.length; i += 95) {
 		//				if(redata.substring(8+i, 12+i)!="0000"){
 		if (parseInt(redata.substring(4 + i, 8 + i),10) == $("#machineid").val()) {
 			time1++;
@@ -435,7 +435,11 @@ function iview() {
 			$("#r14").html(parseFloat((parseInt(redata.substring(50 + i, 54 + i), 10) / 10).toFixed(2)));
 			$("#c1").html(parseInt(redata.substring(38 + i, 42 + i), 10));
 			$("#c2").html((parseInt(redata.substring(42 + i, 46 + i), 10) / 10).toFixed(1));
-			$("#r6").textbox('setValue',parseInt(redata.substring(91 + i, 93 + i)));
+			if(parseInt(redata.substring(91 + i, 95 + i))==255){
+				$("#r6").textbox('setValue',"自由调节状态");
+			}else{
+				$("#r6").textbox('setValue',parseInt(redata.substring(91 + i, 95 + i)));
+			}
 			for (var k = 0; k < welderName.length; k++) {
 				if (welderName[k].fid == parseInt(redata.substring(0 + i, 4 + i),10)) {
 					$("#l4").html(welderName[k].fwelder_no);
