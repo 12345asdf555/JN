@@ -65,7 +65,18 @@ public class MainController {
 		}
 		MyUser u = (MyUser)object;
 		User list = user.getUserInsframework(new BigInteger(u.getId()+""));
-		List<Resources> menu = rs.getAuthByUserid((int)u.getId());
+		List<String> name = rs.getAuthName((int)u.getId());
+		List<Resources> menu = null;
+		boolean flag = true;
+		for(int i=0;i<name.size();i++){
+			if(name.get(i).equals("ROLE_admin")){
+				flag = false;
+				menu = rs.getResourceByUserid(0);
+			}
+		}
+		if(flag){
+			menu = rs.getResourceByUserid((int)u.getId());
+		}
 		for(int i=0;i<menu.size();i++){
 			json.put("resource", menu.get(i).getResourceAddress().substring(1));
 			ary.add(json);
