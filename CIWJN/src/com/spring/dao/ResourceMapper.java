@@ -18,4 +18,5 @@ public interface ResourceMapper {
 	List<String> getAuthByRes(String url);
 	List<Resources> getResourceByUserid(@Param("id")int id);
 	List<String> getAuthName(@Param("id")int id);
+	List<Resources> getResourceByAdmin();
 }

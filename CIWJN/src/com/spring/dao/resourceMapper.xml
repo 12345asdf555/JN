@@ -51,10 +51,11 @@
 	
 	<select id="getResourceByUserid" resultType="Resources">
 		SELECT resources_name resourceName,r.resources_address resourceAddress FROM tb_resources r INNER JOIN tb_authorities_resources ar on r.id = ar.resources_id INNER JOIN tb_roles_authorities ra on ra.authority_id = ar.authorities_id INNER JOIN tb_users_roles ur on ur.roles_id = ra.roles_id 
-		where 1=1
-		<if test="id!=0">
-		 and ur.id=#{id}
-		</if>
+		where ur.id=#{id}
+	</select>
+	
+	<select id="getResourceByAdmin" resultType="Resources">
+		SELECT resources_name resourceName,resources_address resourceAddress FROM tb_resources 
 	</select>
 	
 	<select id="getAuthName" resultType="String">

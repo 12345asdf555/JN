@@ -71,7 +71,7 @@ public class MainController {
 		for(int i=0;i<name.size();i++){
 			if(name.get(i).equals("ROLE_admin")){
 				flag = false;
-				menu = rs.getResourceByUserid(0);
+				menu = rs.getResourceByAdmin();
 			}
 		}
 		if(flag){

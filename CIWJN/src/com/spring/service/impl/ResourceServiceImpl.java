@@ -74,4 +74,9 @@ public class ResourceServiceImpl implements ResourceService {
 		return mapper.getAuthName(id);
 	}
 
+	@Override
+	public List<Resources> getResourceByAdmin() {
+		return mapper.getResourceByAdmin();
+	}
+
 }
