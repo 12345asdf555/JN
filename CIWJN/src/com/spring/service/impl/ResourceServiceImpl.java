@@ -9,12 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.spring.dao.ResourceMapper;
-import com.spring.model.Authority;
 import com.spring.model.Resources;
 import com.spring.page.Page;
 import com.spring.service.ResourceService;
-
-
 
 @Service
 @Transactional  //此处不再进行创建SqlSession和提交事务，都已交由spring去管理了。

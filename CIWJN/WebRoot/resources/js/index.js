@@ -8,48 +8,6 @@ $(function(){
 	$("#machinediv").hide();
 })
 
-/**
- * 隐藏特定菜单
- */
-function getHiddenMenu(){
-	$.ajax({
-		type : "post",
-		async : true,
-		url : "hierarchy/getHiddenMenu",
-		data : {},
-		dataType : "json",
-		success : function(result){
-			var li=document.getElementsByTagName("li");
-			for(var r=0;r<result.ary.length;r++){
-				for(var i=0;i<li.length;i++){
-					if(li[i].innerText.replace(/\s+/g,"") == result.ary[r].name){
-						li[i].style.display="none";
-					}
-				}
-				for(var i=0;i<$("#persondiv ul li").length;i++){
-					if($("#persondiv ul li")[i].innerText.replace(/\s+/g,"") == result.ary[r].name){
-						$("#persondiv ul li")[i].style.display="none";
-					}
-				}
-				for(var i=0;i<$("#junctiondiv ul li").length;i++){
-					if($("#junctiondiv ul li")[i].innerText.replace(/\s+/g,"") == result.ary[r].name){
-						$("#junctiondiv ul li")[i].style.display="none";
-					}
-				}
-				for(var i=0;i<$("#machinediv ul li").length;i++){
-					if($("#machinediv ul li")[i].innerText.replace(/\s+/g,"") == result.ary[r].name){
-						$("#machinediv ul li")[i].style.display="none";
-					}
-				}
-			}
-			
-		},
-		error : function(errorMsg){
-			alert("数据请求失败，请联系系统管理员!");
-		}
-	})
-}
-
 function getUserInsframework(){
 	$.ajax({
 		type : "post",
