@@ -108,7 +108,7 @@ public class ExportExcelController {
 				}
 				data[i][8] = list.get(i).getPosition();
 				data[i][9] = list.get(i).getIp();
-				data[i][10] = list.get(i).getModel();
+				data[i][10] = list.get(i).getModelname();
 			}
 			filename = "焊机设备" + sdf.format(new Date()) + ".xls";
 

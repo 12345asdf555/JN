@@ -154,7 +154,7 @@ function searchWeldingMachineCombobox(){
 		"<option value='fisnetworking'>是否在网</option>" +
 		"<option value='fposition'>位置</option>" +
 		"<option value='w.fIP'>ip地址</option>" +
-		"<option value='w.fmodel'>设备型号</option>";
+		"<option value='dict.fvaluename'>设备型号</option>";
 	$(".fields").html(optionFields);
 	createSearchCombobox();
 }

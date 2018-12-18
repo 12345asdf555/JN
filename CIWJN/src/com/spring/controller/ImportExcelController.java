@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.model.Dictionarys;
 import com.spring.model.Gather;
 import com.spring.model.Insframework;
 import com.spring.model.MaintenanceRecord;
@@ -142,6 +143,7 @@ public class ImportExcelController {
 				wm.setTypeId(dm.getvaluebyname(4,wm.getTypename()));
 				wm.setStatusId(dm.getvaluebyname(3,wm.getStatusname()));
 				wm.setMvalueid(dm.getvaluebyname(14, wm.getMvaluename()));
+				wm.setModel(String.valueOf(dm.getvaluebyname(17, wm.getModel())));
 				String name = wm.getInsframeworkId().getName();
 				wm.getInsframeworkId().setId(wmm.getInsframeworkByName(name));
 				Gather gather = wm.getGatherId();
@@ -171,6 +173,18 @@ public class ImportExcelController {
 					continue;
 				}else{
 					wmm.addWeldingMachine(wm);
+				}
+				List<Dictionarys> model = dm.getModelOfManu(wm.getMvalueid());
+				boolean modelflag = true;
+				for(int i=0;i<model.size();i++){
+					if(wm.getModel().equals(model.get(i).getId().toString())){
+						modelflag = false;
+					}
+				}
+				if(modelflag){
+					obj.put("msg","导入失败，请检查您的焊机型号与生产厂商是否匹配！");
+					obj.put("success",false);
+					return obj.toString();
 				}
 			};
 			obj.put("success",true);
