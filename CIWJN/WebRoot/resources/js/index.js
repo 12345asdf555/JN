@@ -62,6 +62,25 @@ function loadxmlDoc(file) {
 
 var resourceary = [];
 function anaylsis(ipurl){
+	//处理ie不支持indexOf
+	if (!Array.prototype.indexOf){
+  		Array.prototype.indexOf = function(elt /*, from*/){
+	    var len = this.length >>> 0;
+	    var from = Number(arguments[1]) || 0;
+	    from = (from < 0)
+	         ? Math.ceil(from)
+	         : Math.floor(from);
+	    if (from < 0)
+	      from += len;
+	    for (; from < len; from++)
+	    {
+	      if (from in this &&
+	          this[from] === elt)
+	        return from;
+	    }
+	    return -1;
+	  };
+	}
 	var object = loadxmlDoc(ipurl+"ConfigFile/menu.xml");
 	var menuinfo = object.getElementsByTagName("Menuinfo");
 	for(var m = 1; m <= menuinfo.length; m++){
@@ -97,7 +116,7 @@ function anaylsis(ipurl){
 						firstName = firstName[0].textContent,firstResource = firstResource[0].textContent,firstimgName = firstimgName[0].textContent,
 						subnenustext = firstsubmenus[0].textContent,firstshowIndex = firstshowIndex[0].textContent;
 					}
-					if(subnenustext.trim()){
+					if(subnenustext.replace(/\s+/g,"")){
 						flag = false;
 						array.push(firstshowIndex);
 						firstcontext +='<li onclick="changeColor(this)" id="'+firstshowIndex+'"><a href="javascript:openSubmenus('+showIndex+','+firstshowIndex+')">'+
@@ -114,7 +133,7 @@ function anaylsis(ipurl){
 								LastName = LastName[0].textContent,LastResource = LastResource[0].textContent,LastimgName = LastimgName[0].textContent,lastshowIndex = lastshowIndex[0].textContent;
 							}
 							if(resourceary.indexOf(LastResource)!=-1){
-								lastcontext += '<li onclick="changeColor(this)" id="last'+lastshowIndex+'"><a href="javascript:openTab(\''+encodeURI(LastName)+'\',\''+LastResource+'\')" ><div><img src="resources/images/'+LastimgName+'" />&nbsp;&nbsp;'+LastName+'</div></a></li>';
+								lastcontext += '<li onclick="changeColor(this)" id="last'+lastshowIndex+'"><a href="javascript:openTab(\''+LastName+'\',\''+LastResource+'\')" ><div><img src="resources/images/'+LastimgName+'" />&nbsp;&nbsp;'+LastName+'</div></a></li>';
 							}
 						}
 						firstcontext += lastcontext+'</ul></div></li>';
@@ -124,7 +143,7 @@ function anaylsis(ipurl){
 					}
 					if(flag){
 						if(resourceary.indexOf(firstResource)!=-1){
-							firstcontext +='<li onclick="changeColor(this)" id="'+firstshowIndex+'"><a href="javascript:openTab(\''+encodeURI(firstName)+'\',\''+firstResource+'\')" ><div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'</div></a></li>';
+							firstcontext +='<li onclick="changeColor(this)" id="'+firstshowIndex+'"><a href="javascript:openTab(\''+firstName+'\',\''+firstResource+'\')" ><div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'</div></a></li>';
 						}
 					}
 				}
