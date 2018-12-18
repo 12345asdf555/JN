@@ -108,7 +108,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="fitem">
 					<lable>设备型号</lable>
-					<input class="easyui-textbox" name="model" id="model"/>
+					<!-- <input class="easyui-textbox" name="model" id="model"/> -->
+					<select class="easyui-combobox" name="model" id="model" data-options="required:true,editable:false""></select>
 				</div>
 				<div class="fitem" >
 					<lable>是否联网</lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

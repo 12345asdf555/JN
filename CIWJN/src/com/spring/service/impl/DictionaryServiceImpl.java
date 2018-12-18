@@ -74,4 +74,9 @@ public class DictionaryServiceImpl implements DictionaryService {
 	public String getValueByNameAndType(int typeid, String valuename) {
 		return dictionaryMapper.getValueByNameAndType(typeid, valuename);
 	}
+	@Override
+	public List<Dictionarys> getModelOfManu(int num) {
+		// TODO Auto-generated method stub
+		return dictionaryMapper.getModelOfManu(num);
+	}
 }

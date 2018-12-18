@@ -323,7 +323,7 @@ public class ImportExcelController {
 				MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				w.setCreater(new BigInteger(user.getId()+""));
 				w.setUpdater(new BigInteger(user.getId()+""));
-				w.setWeldedJunctionno("00"+w.getWeldedJunctionno());
+				w.setWeldedJunctionno(w.getWeldedJunctionno());
 				//编码唯一
 				if(count>0){
 //					obj.put("msg","导入失败，请检查您的焊口编号是否已存在！");

@@ -7,6 +7,7 @@
 		<id column="fid" property="id" />
 		<result property="ip" column="fIP" />
 		<result property="model" column="model" />
+		<result property="modelname" column="modelname" />
 		<result property="equipmentNo" column="fequipment_no" />		
 		<result property="position" column="fposition" />
 		<result property="isnetworking" column="fisnetworking" />
@@ -40,7 +41,7 @@
 
 	<select id="getWeldingMachineAll" resultMap="wmMap"  parameterType="java.lang.String">
 		SELECT 
-		w.fid fid,w.fIP fIP,w.fmodel model,fstatus_id, i.fid iid,ftype_id,g.fid gid,dic.fvalue mid, fequipment_no,fgather_no ,fjoin_time,i.fname iname
+		w.fid fid,w.fIP fIP,w.fmodel model,fstatus_id,dict.fvaluename modelname, i.fid iid,ftype_id,g.fid gid,dic.fvalue mid, fequipment_no,fgather_no ,fjoin_time,i.fname iname
 		,dic.fvaluename mname,fisnetworking,fposition,d.fvaluename statusname,di.fvaluename typename
 		FROM tb_welding_machine w
 		LEFT JOIN tb_insframework i ON w.finsframework_id = i.fid
@@ -48,6 +49,7 @@
         INNER JOIN tb_dictionary di ON di.fvalue = w.ftype_id
         INNER JOIN tb_dictionary dic ON dic.fvalue = w.fmanufacturer_id
 		left JOIN tb_gather g ON g.fid = w.fgather_id
+        left JOIN tb_dictionary dict ON dict.fvalue = w.fmodel
 		where (d.ftypeid=3 and di.ftypeid=4 and dic.ftypeid=14)
 		<if test="parent!=null and parent!=''">
 			and i.fid=#{parent}

@@ -4,6 +4,7 @@ $(function(){
 	manuCombobox();
 	statusRadio();
 	gatherCombobox();
+	machineModel();
 	$("#iId").combobox({
         onChange:function(){  
         	itemid = $("#iId").combobox("getValue");
@@ -244,4 +245,37 @@ function statusRadio(){
 	        alert("数据请求失败，请联系系统管理员!");  
 	    }  
 	});
+}
+
+//设备型号
+function machineModel(){
+	$("#manuno").combobox({
+		onChange : function(newValue,oldValue){
+			$('#model').combobox('clear');
+			$.ajax({  
+			    type : "post",  
+			    async : false,
+			    url : "weldingMachine/getModelAll?str="+newValue,  
+			    data : {},  
+			    dataType : "json", //返回数据形式为json  
+			    success : function(result) {  
+			        if (result) {
+			        	if(result.ary.length!=0){
+			        		var boptionStr = '';
+			                for (var i = 0; i < result.ary.length; i++) {  
+			                    boptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+			                            + result.ary[i].name + "</option>";
+			                }
+			                $("#model").html(boptionStr);
+				        	$("#model").combobox();
+				        	$("#model").combobox('select',result.ary[0].id);
+			        	}
+			        }  
+			    },  
+			    error : function(errorMsg) {  
+			        alert("数据请求失败，请联系系统管理员!");  
+			    }  
+				}); 
+		}
+	})
 }
