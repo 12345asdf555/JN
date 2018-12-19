@@ -784,6 +784,8 @@ public class WpsController {
 				json.put("createdate",new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(wps.getFcreatedate()));
 				json.put("status", wps.getInsname());
 				json.put("statusId", wps.getFstatus());
+				json.put("model", wps.getMacid());
+				json.put("modelname", wps.getFname());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -803,9 +805,11 @@ public class WpsController {
 			    .getPrincipal();
 		JSONObject obj = new JSONObject();
 		String wpslibName = request.getParameter("wpslibName");
+		String machineModel = request.getParameter("machineModel");
 		int status = Integer.valueOf(request.getParameter("fstatus"));
 		try{
 			wps.setFwpsnum(wpslibName);
+			wps.setFback(machineModel);
 			wps.setFcreater(myuser.getId());
 			wps.setFstatus(status);
 			wpsService.saveWpslib(wps);

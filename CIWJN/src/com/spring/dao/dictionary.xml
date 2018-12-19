@@ -60,7 +60,10 @@
 	<select id="getModelOfManu"  resultMap="dMap" parameterType="java.lang.Integer">
 		SELECT em.ftype_value id,d.fvaluename 
 		FROM tb_equipment_manufacturer em 
-		LEFT JOIN tb_dictionary d ON em.ftype_value=d.fvalue 
-		WHERE 1=1 and em.ftype=#{num}
+		LEFT JOIN tb_dictionary d ON em.ftype_value=d.fvalue and d.ftypeid=17
+		WHERE 1=1
+		<if test="num!=null and num!=''">
+		 and em.ftype=#{num}
+		</if>
 	</select>
 </mapper>

@@ -31,6 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/wpslib/addeditWpslib.js"></script>
 	<script type="text/javascript" src="resources/js/wpslib/removeWpslib.js"></script>
 	<script type="text/javascript" src="resources/js/wpslib/giveWpslib.js"></script>
+	<script type="text/javascript" src="resources/js/wpslib/differentMachine.js"></script>
 	<style type="text/css">
 		table tr td{
 			font-size:12px;
@@ -56,12 +57,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <table id="wpslibTable" style="table-layout: fixed; width:100%;"></table>
 
 	    <!-- 添加修改工艺库 -->
-		<div id="wltdlg" class="easyui-dialog" style="width: 400px; height: 170px; padding:10px 20px" closed="true" buttons="#wltdlg-buttons">
+		<div id="wltdlg" class="easyui-dialog" style="width: 400px; height: 225px; padding:10px 20px" closed="true" buttons="#wltdlg-buttons">
 			<form id="wltfm" class="easyui-form" method="post" data-options="novalidate:true">
 				<div class="fitem">
 					<lable><span class="required">*</span>工艺库名称</lable>
 					<input type="hidden" id="validwl">
 					<input class="easyui-textbox" name="wpslibName" id="wpslibName"  data-options="validType:['wpslibValidate'],required:true"/>
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>焊机型号</lable>
+					<select class="easyui-combobox" name="model" id="model" data-options="required:true,editable:false""></select>
 				</div>
 				<div class="fitem">
 					<lable>状态</lable>

@@ -6,6 +6,7 @@ $(function(){
 	rule();
 	statusRadio();
 	addWpslib();
+	machineModel();
 	$('#wltdlg').dialog( {
 		onClose : function() {
 			$("#wltfm").form("disableValidation");
@@ -41,6 +42,7 @@ function editWpslib(){
 		$('#wltdlg').window('open');
 		$('#wltfm').form('load', row);
 		$('#validwl').val(row.wpslibName);
+		$('#model').combobox('disable',true);
 		url = "wps/updateWpslib?fid="+row.fid;
 	}
 }
@@ -51,8 +53,9 @@ function saveWpslib(){
 	var messager = "";
 	var url2 = "";
 	if(flag==1){
+		var machineModel = $('#model').combobox('getValue');
 		messager = "新增成功！";
-		url2 = url+"?fstatus="+fstatus+"&wpslibName="+encodeURI(wpslibName);
+		url2 = url+"?fstatus="+fstatus+"&wpslibName="+encodeURI(wpslibName)+"&machineModel="+encodeURI(machineModel);
 	}else{
 		messager = "修改成功！";
 		url2 = url+"&fstatus="+fstatus+"&wpslibName="+encodeURI(wpslibName);
@@ -420,4 +423,31 @@ function rule(){
 			$('#fdiameter').combobox('select',fdiameter[0].value);
 		}
 	});
+}
+
+function machineModel(){
+	$.ajax({  
+	    type : "post",  
+	    async : false,
+	    url : "Dictionary/getValueByTypeid?type="+17,  
+	    data : {},  
+	    dataType : "json", //返回数据形式为json  
+	    success : function(result) {  
+	        if (result) {
+	        	if(result.ary.length!=0){
+	        		var boptionStr = '';
+	                for (var i = 0; i < result.ary.length; i++) {  
+	                    boptionStr += "<option value=\"" + result.ary[i].value + "\" >"  
+	                            + result.ary[i].name + "</option>";
+	                }
+	                $("#model").html(boptionStr);
+		        	$("#model").combobox();
+		        	$("#model").combobox('select',result.ary[0].value);
+	        	}
+	        }  
+	    },  
+	    error : function(errorMsg) {  
+	        alert("数据请求失败，请联系系统管理员!");  
+	    }  
+		}); 
 }

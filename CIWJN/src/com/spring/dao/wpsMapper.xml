@@ -117,8 +117,9 @@
 	</delete>
 	
 	<select id="getWpslibList" resultType="Wps">
-		SELECT tb_wps_library.fid,`fwps_lib_name` fwpsnum,`fcreatedate` fcreatedate,`fstatus` fstatus,fvaluename insname FROM tb_wps_library
-		LEFT JOIN tb_dictionary ON tb_wps_library.fstatus=tb_dictionary.fvalue
+		SELECT tb_wps_library.fid,`fwps_lib_name` fwpsnum,`fmachinemodel` macid,di.fvaluename fname,`fcreatedate` fcreatedate,`fstatus` fstatus,d.fvaluename insname FROM tb_wps_library
+		LEFT JOIN tb_dictionary d ON tb_wps_library.fstatus=d.fvalue
+        LEFT JOIN tb_dictionary di ON tb_wps_library.fmachinemodel=di.fvalue AND di.ftypeid=17
 		where 1=1
 		<if test="search!=null and search!=''">
 			AND s.`fwps_lib_name`=#{search}
@@ -127,7 +128,7 @@
 	</select>
 	
 	<insert id="saveWpslib">
-		INSERT INTO `tb_wps_library`(`fwps_lib_name`, `fcreater`, `fcreatedate`, `fstatus`) VALUES (#{fwpsnum},#{fcreater},now(),#{fstatus})
+		INSERT INTO `tb_wps_library`(`fwps_lib_name`,`fmachinemodel`, `fcreater`, `fcreatedate`, `fstatus`) VALUES (#{fwpsnum},#{fback},#{fcreater},now(),#{fstatus})
 	</insert>
 	
 	<update id="updateWpslib">

@@ -32,7 +32,20 @@ function wpslibDatagrid(){
 			width : 270,
 			halign : "center",
 			align : "left"
-		},{
+		}, {
+			field : 'model',
+			title : '焊机型号id',
+			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'modelname',
+			title : '焊机型号',
+			width : 270,
+			halign : "center",
+			align : "left"
+		}, {
 			field : 'createdate',
 			title : '创建日期',
 			width : 270,
