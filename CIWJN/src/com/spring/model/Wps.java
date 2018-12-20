@@ -45,6 +45,7 @@ public class Wps {
 	private double fweld_tuny_ele;
 	private double fweld_tuny_vol;
 	private double farc_tuny_ele;
+	private double farc_tuny_vol;
 	private String finitial;
 	private String fcontroller;
 	private String fmode;
@@ -54,6 +55,96 @@ public class Wps {
 	private String gasname;
 	private String dianame;
 	private String materialname;
+	private String conname;
+
+	private double fpreset_ele_top;
+	private double fpreset_vol_top;
+	private double fpreset_ele_bottom;
+	private double fpreset_vol_bottom;
+	private double farc_vol_top;
+	private double fpreset_ele_warn_top;
+	private double fpreset_vol_warn_top;
+	private double fpreset_ele_warn_bottom;
+	private double fpreset_vol_warn_bottom;
+	private double fini_ele_warn_top;
+	private double fini_vol_warn_top;
+	private double fini_ele_warn_bottom;
+	private double fini_vol_warn_bottom;
+	private double farc_ele_warn_top;
+	private double farc_vol_warn_top;
+	private double farc_ele_warn_bottom;
+	private double farc_vol_warn_bottom;
+	private double farc_delay_time;
+	private double fwarn_delay_time;
+	private double fwarn_stop_time;
+	private double fflow_top;
+	private double fflow_bottom;
+	private double fdelay_time;
+	private double fover_time;
+	private double ffixed_cycle;
+	private int fselect;
+	private int farc;
+	private int fcharacter;
+	private int fmaterial;
+	private int fgas;
+	private int fini;
+	
+	public int getFini() {
+		return fini;
+	}
+	public void setFini(int fini) {
+		this.fini = fini;
+	}
+	private BigInteger fwpslib_id;
+	
+	public String getConname() {
+		return conname;
+	}
+	public void setConname(String conname) {
+		this.conname = conname;
+	}
+	public BigInteger getFwpslib_id() {
+		return fwpslib_id;
+	}
+	public void setFwpslib_id(BigInteger fwpslib_id) {
+		this.fwpslib_id = fwpslib_id;
+	}
+	public double getFarc_tuny_vol() {
+		return farc_tuny_vol;
+	}
+	public void setFarc_tuny_vol(double farc_tuny_vol) {
+		this.farc_tuny_vol = farc_tuny_vol;
+	}
+	public int getFarc() {
+		return farc;
+	}
+	public void setFarc(int farc) {
+		this.farc = farc;
+	}
+	public int getFcharacter() {
+		return fcharacter;
+	}
+	public void setFcharacter(int fcharacter) {
+		this.fcharacter = fcharacter;
+	}
+	public int getFmaterial() {
+		return fmaterial;
+	}
+	public void setFmaterial(int fmaterial) {
+		this.fmaterial = fmaterial;
+	}
+	public int getFgas() {
+		return fgas;
+	}
+	public void setFgas(int fgas) {
+		this.fgas = fgas;
+	}
+	public int getFselect() {
+		return fselect;
+	}
+	public void setFselect(int fselect) {
+		this.fselect = fselect;
+	}
 	public Wps(){
 		super();
 	}
@@ -406,4 +497,155 @@ public class Wps {
 	public void setMaterialname(String materialname) {
 		this.materialname = materialname;
 	}
+	public double getFpreset_ele_top() {
+		return fpreset_ele_top;
+	}
+	public void setFpreset_ele_top(double fpreset_ele_top) {
+		this.fpreset_ele_top = fpreset_ele_top;
+	}
+	public double getFpreset_vol_top() {
+		return fpreset_vol_top;
+	}
+	public void setFpreset_vol_top(double fpreset_vol_top) {
+		this.fpreset_vol_top = fpreset_vol_top;
+	}
+	public double getFpreset_ele_bottom() {
+		return fpreset_ele_bottom;
+	}
+	public void setFpreset_ele_bottom(double fpreset_ele_bottom) {
+		this.fpreset_ele_bottom = fpreset_ele_bottom;
+	}
+	public double getFpreset_vol_bottom() {
+		return fpreset_vol_bottom;
+	}
+	public void setFpreset_vol_bottom(double fpreset_vol_bottom) {
+		this.fpreset_vol_bottom = fpreset_vol_bottom;
+	}
+	public double getFarc_vol_top() {
+		return farc_vol_top;
+	}
+	public void setFarc_vol_top(double farc_vol_top) {
+		this.farc_vol_top = farc_vol_top;
+	}
+	public double getFpreset_ele_warn_top() {
+		return fpreset_ele_warn_top;
+	}
+	public void setFpreset_ele_warn_top(double fpreset_ele_warn_top) {
+		this.fpreset_ele_warn_top = fpreset_ele_warn_top;
+	}
+	public double getFpreset_vol_warn_top() {
+		return fpreset_vol_warn_top;
+	}
+	public void setFpreset_vol_warn_top(double fpreset_vol_warn_top) {
+		this.fpreset_vol_warn_top = fpreset_vol_warn_top;
+	}
+	public double getFpreset_ele_warn_bottom() {
+		return fpreset_ele_warn_bottom;
+	}
+	public void setFpreset_ele_warn_bottom(double fpreset_ele_warn_bottom) {
+		this.fpreset_ele_warn_bottom = fpreset_ele_warn_bottom;
+	}
+	public double getFpreset_vol_warn_bottom() {
+		return fpreset_vol_warn_bottom;
+	}
+	public void setFpreset_vol_warn_bottom(double fpreset_vol_warn_bottom) {
+		this.fpreset_vol_warn_bottom = fpreset_vol_warn_bottom;
+	}
+	public double getFini_ele_warn_top() {
+		return fini_ele_warn_top;
+	}
+	public void setFini_ele_warn_top(double fini_ele_warn_top) {
+		this.fini_ele_warn_top = fini_ele_warn_top;
+	}
+	public double getFini_vol_warn_top() {
+		return fini_vol_warn_top;
+	}
+	public void setFini_vol_warn_top(double fini_vol_warn_top) {
+		this.fini_vol_warn_top = fini_vol_warn_top;
+	}
+	public double getFini_ele_warn_bottom() {
+		return fini_ele_warn_bottom;
+	}
+	public void setFini_ele_warn_bottom(double fini_ele_warn_bottom) {
+		this.fini_ele_warn_bottom = fini_ele_warn_bottom;
+	}
+	public double getFini_vol_warn_bottom() {
+		return fini_vol_warn_bottom;
+	}
+	public void setFini_vol_warn_bottom(double fini_vol_warn_bottom) {
+		this.fini_vol_warn_bottom = fini_vol_warn_bottom;
+	}
+	public double getFarc_ele_warn_top() {
+		return farc_ele_warn_top;
+	}
+	public void setFarc_ele_warn_top(double farc_ele_warn_top) {
+		this.farc_ele_warn_top = farc_ele_warn_top;
+	}
+	public double getFarc_vol_warn_top() {
+		return farc_vol_warn_top;
+	}
+	public void setFarc_vol_warn_top(double farc_vol_warn_top) {
+		this.farc_vol_warn_top = farc_vol_warn_top;
+	}
+	public double getFarc_ele_warn_bottom() {
+		return farc_ele_warn_bottom;
+	}
+	public void setFarc_ele_warn_bottom(double farc_ele_warn_bottom) {
+		this.farc_ele_warn_bottom = farc_ele_warn_bottom;
+	}
+	public double getFarc_vol_warn_bottom() {
+		return farc_vol_warn_bottom;
+	}
+	public void setFarc_vol_warn_bottom(double farc_vol_warn_bottom) {
+		this.farc_vol_warn_bottom = farc_vol_warn_bottom;
+	}
+	public double getFarc_delay_time() {
+		return farc_delay_time;
+	}
+	public void setFarc_delay_time(double farc_delay_time) {
+		this.farc_delay_time = farc_delay_time;
+	}
+	public double getFwarn_delay_time() {
+		return fwarn_delay_time;
+	}
+	public void setFwarn_delay_time(double fwarn_delay_time) {
+		this.fwarn_delay_time = fwarn_delay_time;
+	}
+	public double getFwarn_stop_time() {
+		return fwarn_stop_time;
+	}
+	public void setFwarn_stop_time(double fwarn_stop_time) {
+		this.fwarn_stop_time = fwarn_stop_time;
+	}
+	public double getFflow_top() {
+		return fflow_top;
+	}
+	public void setFflow_top(double fflow_top) {
+		this.fflow_top = fflow_top;
+	}
+	public double getFflow_bottom() {
+		return fflow_bottom;
+	}
+	public void setFflow_bottom(double fflow_bottom) {
+		this.fflow_bottom = fflow_bottom;
+	}
+	public double getFdelay_time() {
+		return fdelay_time;
+	}
+	public void setFdelay_time(double fdelay_time) {
+		this.fdelay_time = fdelay_time;
+	}
+	public double getFover_time() {
+		return fover_time;
+	}
+	public void setFover_time(double fover_time) {
+		this.fover_time = fover_time;
+	}
+	public double getFfixed_cycle() {
+		return ffixed_cycle;
+	}
+	public void setFfixed_cycle(double ffixed_cycle) {
+		this.ffixed_cycle = ffixed_cycle;
+	}
+	
 }

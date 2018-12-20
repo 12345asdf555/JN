@@ -32,6 +32,7 @@ import com.spring.model.Td;
 import com.spring.model.User;
 import com.spring.model.Wps;
 import com.spring.page.Page;
+import com.spring.service.DictionaryService;
 import com.spring.service.TdService;
 import com.spring.service.WpsService;
 import com.spring.util.IsnullUtil;
@@ -53,6 +54,8 @@ public class WpsController {
 	private WpsService wpsService;
 	@Autowired
 	private TdService tdService;
+	@Autowired
+	private DictionaryService dm;
 	
     public static final String IP_ADDR = "121.196.222.216";//服务器地址   
     public static final int PORT = 5555;//服务器端口号  
@@ -974,8 +977,6 @@ public class WpsController {
 	@RequestMapping("/getCountByWpslibidChanel")
 	@ResponseBody
 	public String getCountByWpslibidChanel(HttpServletRequest request){
-		JSONObject json = new JSONObject();
-		JSONArray ary = new JSONArray();
 		JSONObject obj = new JSONObject();
 		BigInteger wpslibid = new BigInteger(request.getParameter("wpslibid"));
 		int chanel = Integer.valueOf(request.getParameter("chanel"));
@@ -986,6 +987,157 @@ public class WpsController {
 			e.printStackTrace();
 		}
 		obj.put("count", count);
+		return obj.toString();
+	}
+	
+
+	@RequestMapping("/getSxWpsList")
+	@ResponseBody
+	public String getSxWpsList(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		page = new Page(pageIndex,pageSize,total);
+		String parentId = request.getParameter("fwpslib_id");
+		BigInteger parent = null;
+		if(iutil.isNull(parentId)){
+			parent = new BigInteger(parentId);
+		}
+		List<Wps> list = wpsService.getSxWpsList(page, parent);
+		long total = 0;
+		if(list != null){
+			PageInfo<Wps> pageinfo = new PageInfo<Wps>(list);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(int i=0;i<list.size();i++){
+				json.put("fid", list.get(i).getFid());
+				json.put("fwpsnum", list.get(i).getFwpsnum());
+				json.put("fcharacter", list.get(i).getFcharacter());
+				json.put("ftime", list.get(i).getFtime());
+				json.put("fhysteresis",list.get(i).getFhysteresis());
+				json.put("fadvance",list.get(i).getFadvance());
+				json.put("fini_ele", list.get(i).getFini_ele());
+				json.put("fini_vol", list.get(i).getFini_vol());
+				json.put("fini_vol1", list.get(i).getFini_vol1());
+				json.put("fweld_ele", list.get(i).getFweld_ele());
+				json.put("fweld_vol", list.get(i).getFweld_vol());
+				json.put("fweld_vol1", list.get(i).getFweld_vol1());
+				json.put("farc_ele", list.get(i).getFarc_ele());
+				json.put("farc_vol", list.get(i).getFarc_vol());
+				json.put("farc_vol1", list.get(i).getFarc_vol1());
+				json.put("fweld_tuny_ele", list.get(i).getFweld_tuny_ele());
+				json.put("fweld_tuny_vol", list.get(i).getFweld_tuny_vol());
+				json.put("farc_tuny_vol", list.get(i).getFarc_tuny_vol());
+				json.put("farc_tuny_ele", list.get(i).getFarc_tuny_ele());
+				json.put("fpreset_ele_top", list.get(i).getFpreset_ele_top());
+				json.put("fpreset_vol_top", list.get(i).getFpreset_vol_top());
+				json.put("fpreset_ele_bottom", list.get(i).getFpreset_ele_bottom());
+				json.put("fpreset_vol_bottom", list.get(i).getFpreset_vol_bottom());
+				json.put("farc_vol_top", list.get(i).getFarc_vol_top());
+				json.put("fpreset_ele_warn_top", list.get(i).getFpreset_ele_warn_top());
+				json.put("fpreset_vol_warn_top", list.get(i).getFpreset_vol_warn_top());
+				json.put("fpreset_ele_warn_bottom", list.get(i).getFpreset_ele_warn_bottom());
+				json.put("fpreset_vol_warn_bottom", list.get(i).getFpreset_vol_warn_bottom());
+				json.put("fini_ele_warn_top", list.get(i).getFini_ele_warn_top());
+				json.put("fini_vol_warn_top", list.get(i).getFini_vol_warn_top());
+				json.put("fini_ele_warn_bottom", list.get(i).getFini_ele_warn_bottom());
+				json.put("fini_vol_warn_bottom", list.get(i).getFini_vol_warn_bottom());
+				json.put("farc_ele_warn_top", list.get(i).getFarc_ele_warn_top());
+				json.put("farc_vol_warn_top", list.get(i).getFarc_vol_warn_top());
+				json.put("farc_ele_warn_bottom", list.get(i).getFarc_ele_warn_bottom());
+				json.put("farc_vol_warn_bottom", list.get(i).getFarc_vol_warn_bottom());
+				json.put("farc_delay_time", list.get(i).getFarc_delay_time());
+				json.put("fwarn_delay_time", list.get(i).getFwarn_delay_time());
+				json.put("fwarn_stop_time", list.get(i).getFwarn_stop_time());
+				json.put("fflow_top", list.get(i).getFflow_top());
+				json.put("fflow_bottom", list.get(i).getFflow_bottom());
+				json.put("fdelay_time", list.get(i).getFdelay_time());
+				json.put("fover_time", list.get(i).getFover_time());
+				json.put("ffixed_cycle", list.get(i).getFfixed_cycle());
+				json.put("selectname", list.get(i).getSelectname());
+				json.put("gasname", list.get(i).getGasname());
+				json.put("dianame", list.get(i).getDianame());
+				json.put("materialname", list.get(i).getMaterialname());
+				json.put("fcontrollername", list.get(i).getConname());
+				json.put("farcname", list.get(i).getArcname());
+				json.put("ininame", list.get(i).getFinitial());
+				json.put("fselect", list.get(i).getFselect());
+				json.put("farc", list.get(i).getFarc());
+				json.put("fmaterial", list.get(i).getFmaterial());
+				json.put("fdiameter", list.get(i).getFdiameter());
+				json.put("fcontroller", list.get(i).getFcontroller());
+				json.put("finitial", list.get(i).getFini());
+				json.put("fgas", list.get(i).getFgas());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/addSxWps")
+	@ResponseBody
+	public String addSxWps(HttpServletRequest request,Wps wps){
+		MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		JSONObject obj = new JSONObject();
+		try{
+			wps.setFcreater(myuser.getId());
+			wps.setFupdater(myuser.getId());
+			wpsService.saveSxWps(wps);
+			obj.put("success", true);
+		}catch(Exception e){
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+			e.printStackTrace();
+		}
+		return obj.toString();
+	}
+
+	
+	@RequestMapping("/editSxWps")
+	@ResponseBody
+	public String editSxWps(HttpServletRequest request,Wps wps){
+		MyUser myuser = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		JSONObject obj = new JSONObject();
+		try{
+			wps.setFupdater(myuser.getId());
+			wpsService.editSxWps(wps);
+			obj.put("success", true);
+		}catch(Exception e){
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+			e.printStackTrace();
+		}
+		return obj.toString();
+	}
+	
+	/**
+	 * 获取字典值
+	 * @return
+	 */
+	@RequestMapping("/getDictionary")
+	@ResponseBody
+	public String getMaterial(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			List<Dictionarys> dictionary = dm.getDictionaryValue(Integer.parseInt(request.getParameter("typeid")));
+			for(Dictionarys d:dictionary){
+				json.put("id", d.getValue());
+				json.put("name", d.getValueName());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("ary", ary);
 		return obj.toString();
 	}
 }

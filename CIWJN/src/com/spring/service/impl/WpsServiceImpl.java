@@ -182,6 +182,22 @@ public class WpsServiceImpl implements WpsService{
 		// TODO Auto-generated method stub
 		mapper.deleteWpsBelongLib(fid);
 	}
+
+	@Override
+	public List<Wps> getSxWpsList(Page page, BigInteger parent) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return mapper.getSxWpsList(parent);
+	}
+
+	@Override
+	public boolean saveSxWps(Wps wps) {
+		return mapper.saveSxWps(wps);
+	}
+
+	@Override
+	public boolean editSxWps(Wps wps) {
+		return mapper.editSxWps(wps);
+	}
 	
 	
 }

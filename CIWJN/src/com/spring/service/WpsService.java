@@ -3,6 +3,8 @@ package com.spring.service;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.spring.model.User;
 import com.spring.model.Wps;
 import com.spring.page.Page;
@@ -37,4 +39,24 @@ public interface WpsService {
 	void deleteMainWps(BigInteger fid);
 	int getCountByWpslibidChanel(BigInteger wpslibid,int chanel);
 	
+	/**
+	 * 获取松下wps
+	 * @param parent
+	 * @return
+	 */
+	List<Wps> getSxWpsList(Page page, BigInteger parent);
+	
+	/**
+	 * 松下焊机wps新增
+	 * @param wps
+	 * @return
+	 */
+	boolean saveSxWps(Wps wps);
+	
+	/**
+	 * 松下焊机wps修改
+	 * @param wps
+	 * @return
+	 */
+	boolean editSxWps(Wps wps);
 }
