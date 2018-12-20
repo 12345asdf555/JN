@@ -352,6 +352,8 @@ public class WpsController {
 		double farc_vol1 = Double.valueOf(request.getParameter("farc_vol1"));
 		double fweld_tuny_vol = Double.valueOf(request.getParameter("fweld_tuny_vol"));
 		double farc_tuny_vol = Double.valueOf(request.getParameter("farc_tuny_vol"));
+		int fprocess = Integer.valueOf(request.getParameter("fprocess"));
+		int ftorch = Integer.valueOf(request.getParameter("ftorch"));
 		try{
 			wps.setFweld_i_max(chanel);
 			wps.setFweld_i_min(finitial);
@@ -382,6 +384,8 @@ public class WpsController {
 			wps.setFcreater(myuser.getId());
 			wps.setFupdater(myuser.getId());
 			wps.setFid(fid);
+			wps.setFprocessid(fprocess);
+			wps.setFtorch(ftorch);
 /*			if(wpsService.findCount(machine,chanel.toString())<=0){
 				wpsService.saveSpe(wps);
 			}else{
@@ -432,6 +436,8 @@ public class WpsController {
 		double farc_vol1 = Double.valueOf(request.getParameter("farc_vol1"));
 		double fweld_tuny_vol = Double.valueOf(request.getParameter("fweld_tuny_vol"));
 		double farc_tuny_vol = Double.valueOf(request.getParameter("farc_tuny_vol"));
+		int fprocess = Integer.valueOf(request.getParameter("fprocess"));
+		int ftorch = Integer.valueOf(request.getParameter("ftorch"));
 		try{
 			wps.setFweld_i_max(chanel);
 			wps.setFweld_i_min(finitial);
@@ -462,6 +468,8 @@ public class WpsController {
 			wps.setFcreater(myuser.getId());
 			wps.setFupdater(myuser.getId());
 			wps.setFid(fid);
+			wps.setFprocessid(fprocess);
+			wps.setFtorch(ftorch);
 /*			if(wpsService.findCount(machine,chanel.toString())<=0){
 				wpsService.saveSpe(wps);
 			}else{
@@ -902,6 +910,10 @@ public class WpsController {
 				if(Integer.valueOf(wps.getFmode())==1){
 					json.put("fmode", "是");
 				}
+				json.put("ftorch", "否");
+				if(wps.getFtorch()==1){
+					json.put("ftorch", "是");
+				}
 				json.put("fmaterial", wps.getUpdatename());
 				json.put("fmaterialname", wps.getMaterialname());
 				json.put("fgas", wps.getFback());
@@ -924,6 +936,8 @@ public class WpsController {
 				json.put("fweld_tuny_vol", wps.getFweld_tuny_vol());
 				json.put("farc_tuny_ele", wps.getFarc_tuny_ele());
 				json.put("farc_tuny_vol", wps.getFdiameter());
+				json.put("fweldprocess", wps.getFprocessid());
+				json.put("fprocessname", wps.getFprocessname());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -1071,6 +1085,7 @@ public class WpsController {
 				json.put("fcontroller", list.get(i).getFcontroller());
 				json.put("finitial", list.get(i).getFini());
 				json.put("fgas", list.get(i).getFgas());
+				json.put("charactername", list.get(i).getFcharacter()==0?"停机":"不停机");
 				ary.add(json);
 			}
 		}catch(Exception e){

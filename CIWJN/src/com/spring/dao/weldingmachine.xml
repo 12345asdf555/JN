@@ -50,7 +50,7 @@
         INNER JOIN tb_dictionary dic ON dic.fvalue = w.fmanufacturer_id
 		left JOIN tb_gather g ON g.fid = w.fgather_id
         left JOIN tb_dictionary dict ON dict.fvalue = w.fmodel
-		where (d.ftypeid=3 and di.ftypeid=4 and dic.ftypeid=14)
+		where (d.ftypeid=3 and di.ftypeid=4 and dic.ftypeid=14 and dict.ftypeid=17)
 		<if test="parent!=null and parent!=''">
 			and i.fid=#{parent}
 		</if>

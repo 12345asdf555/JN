@@ -56,6 +56,7 @@ public class Wps {
 	private String dianame;
 	private String materialname;
 	private String conname;
+	
 
 	private double fpreset_ele_top;
 	private double fpreset_vol_top;
@@ -88,6 +89,9 @@ public class Wps {
 	private int fmaterial;
 	private int fgas;
 	private int fini;
+	private int ftorch;
+	private int fprocessid;
+	private String fprocessname;
 	
 	public int getFini() {
 		return fini;
@@ -302,7 +306,7 @@ public class Wps {
 			int fweld_i,int fweld_v,int fweld_i_max,int fweld_i_min,int fweld_v_max,int fweld_v_min,int fweld_alter_i,int fweld_alter_v,int fweld_prechannel,Date fcreatedate,Date fupdatedate,long fcreater,long fupdater,long fowner,
 			String fback,String fname,double fdiameter,double ftime,double fadvance,double fhysteresis,double fini_ele,double fini_vol,double fini_vol1,double fweld_ele,
 			double fweld_vol,double fweld_vol1,double farc_ele,double farc_vol,double farc_vol1,double fweld_tuny_ele,double fweld_tuny_vol,double farc_tuny_ele,String finitial,
-			String fcontroller,String fmode,int fstatus,String arcname,String selectname,String gasname,String dianame,String materialname) {
+			String fcontroller,String fmode,int fstatus,String arcname,String selectname,String gasname,String dianame,String materialname,int ftorch,int fprocessid,String fprocessname) {
 		super();
 		this.macid = macid;
 		this.insname = insname;
@@ -352,6 +356,9 @@ public class Wps {
 		this.selectname = selectname;
 		this.materialname = materialname;
 		this.dianame = dianame;
+		this.fprocessid = fprocessid;
+		this.fprocessname = fprocessname;
+		this.ftorch = ftorch;
 	}
 	public double getFtime() {
 		return ftime;
@@ -646,6 +653,24 @@ public class Wps {
 	}
 	public void setFfixed_cycle(double ffixed_cycle) {
 		this.ffixed_cycle = ffixed_cycle;
+	}
+	public int getFprocessid() {
+		return fprocessid;
+	}
+	public void setFprocessid(int fprocessid) {
+		this.fprocessid = fprocessid;
+	}
+	public String getFprocessname() {
+		return fprocessname;
+	}
+	public void setFprocessname(String fprocessname) {
+		this.fprocessname = fprocessname;
+	}
+	public int getFtorch() {
+		return ftorch;
+	}
+	public void setFtorch(int ftorch) {
+		this.ftorch = ftorch;
 	}
 	
 }

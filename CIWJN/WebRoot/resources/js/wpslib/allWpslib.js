@@ -131,6 +131,11 @@ function wpslibDatagrid(){
 					title : '熔深控制',
 					halign : "center",
 					align : "left"
+				},{ 
+					field : 'ftorch',
+					title : '水冷焊枪',
+					halign : "center",
+					align : "left"
 				}, {
 					field : 'fselectname',
 					title : '一元/个别',
@@ -193,6 +198,17 @@ function wpslibDatagrid(){
 				},{
 					field : 'fdiameter',
 					title : '焊丝直径id',
+					halign : "center",
+					align : "left",
+					hidden : true
+				},{
+					field : 'fprocessname',
+					title : '焊接过程',
+					halign : "center",
+					align : "left"
+				},{
+					field : 'fweldprocess',
+					title : '焊接过程id',
 					halign : "center",
 					align : "left",
 					hidden : true
@@ -295,6 +311,10 @@ function wpslibDatagrid(){
 					$('#wpslibTable').datagrid('fixDetailRowHeight',index);
 				},
 				onLoadSuccess:function(){
+					var wpslibrow = $('#wpslibTable').datagrid("getSelected")
+					if(wpslibrow.model==171||wpslibrow.model==172||wpslibrow.model==173){
+						$("#ddv-"+index).datagrid('hideColumn', 'ftorch')
+					}
 					$('#wpslibTable').datagrid("selectRow", index)
 					setTimeout(function(){
 						$('#wpslibTable').datagrid('fixDetailRowHeight',index);

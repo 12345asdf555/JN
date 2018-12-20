@@ -3,7 +3,7 @@
  */
 var oldchanel = 0;
 $(function(){
-	rule();
+//	rule();
 	statusRadio();
 	addWpslib();
 	machineModel();
@@ -27,6 +27,7 @@ function addWpslib(){
 	$('#wltdlg').window('open');
 	var statusId = document.getElementsByName("statusId");
 	statusId[0].checked =  'checked';
+	$('#model').combobox('disable',false);
 	url = "wps/addWpslib";
 }
 
@@ -121,6 +122,44 @@ function addMainWps(){
 		title : "新增工艺",
 		modal : true
 	});
+	var wlrow = $('#wpslibTable').datagrid('getSelected');
+	url = "wps/addMainWps?fid="+wlrow.fid;
+	if(wlrow.model==174){
+		EPWINIT();
+		$('#mwdlg').window('open');
+		return;
+	}else if(wlrow.model==175){
+		EPSINIT();
+		$('#mwdlg').window('open');
+		return;
+	}else if(wlrow.model==176){
+		WBMLINIT();
+		$('#mwdlg').window('open');
+		return;
+	}else if(wlrow.model==177){
+		WBPINIT();
+		$('#mwdlg').window('open');
+		return;
+	}else if(wlrow.model==178){
+		WBLINIT();
+		$('#mwdlg').window('open');
+		return;
+	}
+	$('#fchanel').combobox('clear');
+	var str="";
+	for(var i=1;i<31;i++){
+		str+='<option value="'+i+'">通道号'+i+'</option>';
+	}
+	$('#fchanel').append(str);
+	$('#fchanel').combobox();
+	$('#fgas').combobox('clear');
+	$('#fgas').combobox('loadData', [{"text": "CO2", "value": "121"},{"text": "MAG", "value": "122"},{"text": "MIG", "value": "123"}]);
+	$('#fdiameter').combobox('clear');
+	$('#fdiameter').combobox('loadData', [{"text": "Φ1.0", "value": "131"},{"text": "Φ1.2", "value": "132"},{"text": "Φ1.4", "value": "133"},{"text": "Φ1.6", "value": "134"}]);
+	$('#fmaterial').combobox('clear');
+	$('#fmaterial').combobox('loadData', [{"text": "低碳钢实芯", "value": "91"},{"text": "不锈钢实芯", "value": "92"},{"text": "低碳钢药芯", "value": "93"},{"text": "不锈钢药芯", "value": "94"}]);
+	$('#fweldprocess').combobox('clear');
+	$('#fweldprocess').combobox('loadData', [{"text": "直流脉冲", "value": "0"}]);
 	$('#fchanel').combobox('select',1);
 	$('#fselect').combobox('select',102);
 	$("#ftime").numberbox('setValue',30.0);
@@ -144,27 +183,72 @@ function addMainWps(){
 	$("#farc_tuny_ele").numberbox('setValue',0);
 	$("#farc_tuny_vol").numberbox('setValue',0);
 	$('#farc').combobox('select',111);
+	$('#fweldprocess').combobox('select',0);
 	$('#mwdlg').window('open');
-	var wlrow = $('#wpslibTable').datagrid('getSelected');
-	url = "wps/addMainWps?fid="+wlrow.fid;
 }
 
 function editMainWps(row){
 	mflag = 2;
 	$('#mwfm').form('clear');
 	if (row) {
+		var wlrow = $('#wpslibTable').datagrid('getSelected');
+		if(wlrow.model==174){
+			EPWINIT();
+		}else if(wlrow.model==175){
+			EPSINIT();
+		}else if(wlrow.model==176){
+			WBMLINIT();
+		}else if(wlrow.model==177){
+			WBPINIT();
+		}else if(wlrow.model==178){
+			WBLINIT();
+		}
 		$('#mwdlg').window( {
 			title : "修改工艺",
 			modal : true
 		});
 		$('#mwdlg').window('open');
 		$('#mwfm').form('load', row);
+		if(row.finitial=="是"){
+			$("#finitial").prop("checked",true);
+		}
+		if(row.fmode=="是"){
+			$("#fmode").prop("checked",true);
+		}
+		if(row.fcontroller=="是"){
+			$("#fcontroller").prop("checked",true);
+		}
+		if(row.ftorch=="是"){
+			$("#ftorch").prop("checked",true);
+		}
 		url = "wps/updateMainWps?fid="+row.fid;
 		oldchanel = row.fchanel;
 	}
 }
 
 function saveMainWps(){
+	var wlrow = $('#wpslibTable').datagrid('getSelected');
+	if(wlrow.model==174){
+		if(EPWCHECK()==false){
+			return;
+		}
+	}else if(wlrow.model==175){
+		if(EPSCHECK()==false){
+			return;
+		}
+	}else if(wlrow.model==176){
+		if(WBMCHECK()==false){
+			return;
+		}
+	}else if(wlrow.model==177){
+		if(WBPCHECK()==false){
+			return;
+		}
+	}else if(wlrow.model==178){
+		if(WBLCHECK()==false){
+			return;
+		}
+	}
 	if($('#fadvance').numberbox('getValue')<0||$('#fadvance').numberbox('getValue')>100){
 		alert("提前送气范围：0~100");
 		return;
@@ -246,6 +330,7 @@ function saveMainWps(){
 	var finitial;
 	var fcontroller;
 	var fmode;
+	var ftorch;
 	if($("#finitial").is(":checked")==true){
 	    finitial = 1;
 	}else{
@@ -260,6 +345,11 @@ function saveMainWps(){
 	  	fmode = 1;
 	}else{
 	  	fmode = 0;
+	}
+	if($("#ftorch").is(":checked")==true){
+		ftorch = 1;
+	}else{
+		ftorch = 0;
 	}
 	var fselect = $('#fselect').combobox('getValue');
 	var farc = $('#farc').combobox('getValue');
@@ -284,7 +374,8 @@ function saveMainWps(){
 	var farc_vol1 = $('#farc_vol1').numberbox('getValue');
 	var fweld_tuny_vol = $('#fweld_tuny_vol').numberbox('getValue');
 	var farc_tuny_vol = $('#farc_tuny_vol').numberbox('getValue');
-  	url2 = url+"&finitial="+finitial+"&fcontroller="+fcontroller+"&fmode="+fmode+"&fselect="+fselect+"&farc="+farc+"&fmaterial="+fmaterial+"&fgas="+fgas+"&fdiameter="+fdiameter+"&chanel="+chanel+"&ftime="+ftime+"&fadvance="+fadvance+"&fini_ele="+fini_ele+"&fweld_ele="+fweld_ele+"&farc_ele="+farc_ele+"&fhysteresis="+fhysteresis+"&fcharacter="+fcharacter+"&fweld_tuny_ele="+fweld_tuny_ele+"&farc_tuny_ele="+farc_tuny_ele+"&fini_vol="+fini_vol+"&fini_vol1="+fini_vol1+"&fweld_vol="+fweld_vol+"&fweld_vol1="+fweld_vol1+"&farc_vol="+farc_vol+"&farc_vol1="+farc_vol1+"&fweld_tuny_vol="+fweld_tuny_vol+"&farc_tuny_vol="+farc_tuny_vol;
+	var fprocess = $('#fweldprocess').combobox('getValue');
+  	url2 = url+"&finitial="+finitial+"&fcontroller="+fcontroller+"&fmode="+fmode+"&fselect="+fselect+"&farc="+farc+"&fmaterial="+fmaterial+"&fgas="+fgas+"&fdiameter="+fdiameter+"&chanel="+chanel+"&ftime="+ftime+"&fadvance="+fadvance+"&fini_ele="+fini_ele+"&fweld_ele="+fweld_ele+"&farc_ele="+farc_ele+"&fhysteresis="+fhysteresis+"&fcharacter="+fcharacter+"&fweld_tuny_ele="+fweld_tuny_ele+"&farc_tuny_ele="+farc_tuny_ele+"&fini_vol="+fini_vol+"&fini_vol1="+fini_vol1+"&fweld_vol="+fweld_vol+"&fweld_vol1="+fweld_vol1+"&farc_vol="+farc_vol+"&farc_vol1="+farc_vol1+"&fweld_tuny_vol="+fweld_tuny_vol+"&farc_tuny_vol="+farc_tuny_vol+"&fprocess="+fprocess+"&ftorch="+ftorch;
   	$.ajax({  
   	      type : "post",  
   	      async : false,

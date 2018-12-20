@@ -241,6 +241,7 @@ function selectMachineList(value){
 			return;
 		}
 	}
+	var wpslibrow = $('#wpslibTable').datagrid('getSelected');
 	$('#smfm').form('clear');
 	$('#smdlg').window( {
 		title : "选择焊机",
@@ -252,7 +253,7 @@ function selectMachineList(value){
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
-		url : "weldingMachine/getWedlingMachineList",
+		url : "weldingMachine/getWedlingMachineList?searchStr="+"w.fmodel="+wpslibrow.model,
 		singleSelect : true,
 		rownumbers : true,
 		showPageList : false, 

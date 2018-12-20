@@ -167,8 +167,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  				<td class="rightTd" width="20"><input name="finitial" id="finitial" type="checkbox" value="1" style="width:30px;"/></td>
 			  				<td class="leftTd" width="70"><lable>熔深控制：</lable></td>
 			  				<td class="rightTd" width="20"><input style="width:30px;" name="fcontroller" id="fcontroller" type="checkbox" value="1"/></td>
-			  				<td class="leftTd" width="100"><lable>柔软电弧模式：</lable></td>
-			  				<td class="rightTd" width="30"><input style="width:30px;" name="fmode" id="fmode" type="checkbox" value="1"></td>
+			  				<td id="dmodel" class="leftTd" width="100"><lable>柔软电弧模式：</lable></td>
+			  				<td id="imodel" class="rightTd" width="30"><input style="width:30px;" name="fmode" id="fmode" type="checkbox" value="1"></td>
+			  				<td id="dtorch" class="leftTd" width="100"><lable>水冷焊枪：</lable></td>
+			  				<td id="itorch" class="rightTd" width="30"><input style="width:30px;" name="ftorch" id="ftorch" type="checkbox" value="0"></td>
 			  			</tr>
 	            	</table>
 	            </div>
@@ -211,8 +213,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  				</td>
 			  				<td class="leftTd" width="70"><lable><span class="required">*</span>滞后送气：</lable></td>
 			  				<td class="rightTd" width="130"><input style="width:85px;" name="fhysteresis" id="fhysteresis" class="easyui-numberbox" data-options="precision:1">(0.1s)</td>
-			  				<td></td>
-			  				<td></td>
+			  				<td class="leftTd" width="70"><lable><span class="required">*</span>焊接过程：</lable></td>
+			  				<td class="rightTd" width="70"><select class="easyui-combobox" style="width:85px;" name="fweldprocess" id="fweldprocess" data-options="editable:false"></select>
+			  				</td>
 		  				</tr>
 	            	</table>
 	            </div>
