@@ -955,7 +955,7 @@ function giveMainWps(){
 				
 			var xiafasend1 = mach+chanel+ftime+fadvance+fini_ele+fini_vol+fini_vol1+fweld_ele+fweld_vol+fweld_vol1+farc_ele+farc_vol+farc_vol1+fhysteresis+fcharacter+fgas
 			+fdiameter+fmaterial+"0000"+con+fweld_tuny_ele+fweld_tuny_vol+farc_tuny_ele+farc_tuny_vol;
-
+			
 			var xxx = xiafasend1.toUpperCase();
 			var data_length = ((parseInt(xxx.length)+12)/2).toString(16);
 			if(data_length.length<2){
