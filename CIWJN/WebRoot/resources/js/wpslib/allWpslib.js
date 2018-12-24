@@ -311,7 +311,7 @@ function wpslibDatagrid(){
 					$('#wpslibTable').datagrid('fixDetailRowHeight',index);
 				},
 				onLoadSuccess:function(){
-					var wpslibrow = $('#wpslibTable').datagrid("getSelected")
+					var wpslibrow = $('#wpslibTable').datagrid("getSelected");
 					if(wpslibrow.model==171||wpslibrow.model==172||wpslibrow.model==173){
 						$("#ddv-"+index).datagrid('hideColumn', 'ftorch')
 					}

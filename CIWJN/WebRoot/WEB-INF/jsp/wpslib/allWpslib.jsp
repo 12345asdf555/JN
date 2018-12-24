@@ -32,6 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/wpslib/removeWpslib.js"></script>
 	<script type="text/javascript" src="resources/js/wpslib/giveWpslib.js"></script>
 	<script type="text/javascript" src="resources/js/wpslib/differentMachine.js"></script>
+	<script type="text/javascript" src="resources/js/wpslib/control.js"></script>
 	<style type="text/css">
 		table tr td{
 			font-size:12px;
@@ -51,6 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div class="functiondiv">
 		<div>
 			<a href="javascript:addWpslib();" class="easyui-linkbutton" iconCls="icon-newadd">新增工艺库</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:openCondlg();" class="easyui-linkbutton" iconCls="icon-newadd">控制命令下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 	</div>
   	<div id="body" >
@@ -257,9 +259,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电压微调：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_tuny_vol" id="fweld_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
+				  				<td class="rightTd" width="130"><input style="width:85px;" name="fweld_tuny_vol" id="fweld_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压微调：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_tuny_vol" id="farc_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
+				  				<td class="rightTd" width="130"><input style="width:85px;" name="farc_tuny_vol" id="farc_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td>
 				  				<td></td>
 				  				<td></td>
 				  			</tr>
@@ -476,6 +478,47 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="resultdlg-buttons">
 			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-ok">确认</a>
+			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+		</div>
+		
+		<!-- 控制命令下发 -->
+		<div id="condlg" class="easyui-dialog" style="width: 600px; height: 300px; padding:10px 20px" closed="true" buttons="#condlg-buttons">
+			<form id="confm" class="easyui-form" method="post" data-options="novalidate:true">
+				<table width="100%" height="94%" border="1" style="text-align: center;">
+					  <tr height="30px">
+					    <td colspan="2" align="center">
+					    	<font face="黑体" size="5">控制命令</font>
+					    </td>
+					  </tr>
+					  <tr height="30px">
+					    <td align="center" bgcolor="#FFFAF0">工作：</td>
+					    <td>
+					    	<input id ="free" name="free" type="radio" value="1" checked="checked"/>工作不可自由调节
+			  				<input id ="free" name="free" type="radio" value="0"/>工作自由调节
+			  			</td>
+					  </tr>
+					  <tr height="30px">
+					    <td colspan="2" align="center">					
+							<a href="javascript:selectMachineList(3);" class="easyui-linkbutton" iconCls="icon-ok">下发控制命令</a>
+							<a href="javascript:openPassDlg();" class="easyui-linkbutton" iconCls="icon-ok">密码下发</a>			
+						</td>
+					  </tr>
+				</table>
+			</form>
+		</div>
+		<div id="condlg-buttons">
+			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-ok">确认</a>
+			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+		</div>
+		
+		<!-- 密码框 -->
+		<div id="pwd" class="easyui-dialog" style="text-align:center;width:400px;height:200px" closed="true" buttons="#dlg-pwd"algin="center">
+	        <br><br><lable><span class="required">*</span>密码：</lable>
+	        <input name="passwd" id="passwd" type="password" class="easyui-numberbox"><br/>
+	        <lable style="color:red;">（注：密码范围是1~999）</lable>
+        </div>
+        <div id="dlg-pwd">
+			<a href="javascript:selectMachineList(2);" class="easyui-linkbutton" iconCls="icon-ok">下一步</a>
 			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 	</div>

@@ -12,8 +12,8 @@
 		s.fweld_vol,s.fweld_vol1,s.farc_ele,s.farc_vol,s.farc_vol1,s.fweld_tuny_ele,s.fweld_tuny_vol,s.farc_tuny_ele,farc_tuny_vol,fpreset_ele_top,fpreset_vol_top,fpreset_ele_bottom,fpreset_vol_bottom,farc_vol_top,fpreset_ele_warn_top,fpreset_vol_warn_top,fpreset_ele_warn_bottom,fpreset_vol_warn_bottom,fini_ele_warn_top,fini_vol_warn_top,fini_ele_warn_bottom,fini_vol_warn_bottom,farc_ele_warn_top,farc_vol_warn_top,farc_ele_warn_bottom,farc_vol_warn_bottom,farc_delay_time,fwarn_delay_time,fwarn_stop_time,fflow_top,fflow_bottom,fdelay_time,fover_time,ffixed_cycle,
 		d1.fvaluename selectname,d2.fvaluename gasname,d3.fvaluename dianame,d4.fvaluename materialname,d5.fvaluename conname,d6.fvaluename finitial,d7.fvaluename arcname FROM tb_specification s 
 		LEFT JOIN tb_dictionary d1 ON s.fselect=d1.fvalue and d1.ftypeid = 10
-        LEFT JOIN tb_dictionary d2 ON s.fgas=d2.fvalue and d2.ftypeid=12
-        LEFT JOIN tb_dictionary d3 ON s.fdiameter=d3.fvalue and d3.ftypeid = 13
+        LEFT JOIN tb_dictionary d2 ON s.fgas=d2.fvalue and d2.ftypeid=24
+        LEFT JOIN tb_dictionary d3 ON s.fdiameter=d3.fvalue and d3.ftypeid = 23
         LEFT JOIN tb_dictionary d4 ON s.fmaterial=d4.fvalue and d4.ftypeid=18
         LEFT JOIN tb_dictionary d5 ON s.fcontroller=d5.fvalue and d5.ftypeid = 19
         LEFT JOIN tb_dictionary d6 ON s.finitial=d6.fvalue and d6.ftypeid=20

@@ -144,46 +144,11 @@ function addMainWps(){
 		WBLINIT();
 		$('#mwdlg').window('open');
 		return;
+	}else if(wlrow.model==171){
+		CPVEWINIT();
+		$('#mwdlg').window('open');
+		return;
 	}
-	$('#fchanel').combobox('clear');
-	var str="";
-	for(var i=1;i<31;i++){
-		str+='<option value="'+i+'">通道号'+i+'</option>';
-	}
-	$('#fchanel').append(str);
-	$('#fchanel').combobox();
-	$('#fgas').combobox('clear');
-	$('#fgas').combobox('loadData', [{"text": "CO2", "value": "121"},{"text": "MAG", "value": "122"},{"text": "MIG", "value": "123"}]);
-	$('#fdiameter').combobox('clear');
-	$('#fdiameter').combobox('loadData', [{"text": "Φ1.0", "value": "131"},{"text": "Φ1.2", "value": "132"},{"text": "Φ1.4", "value": "133"},{"text": "Φ1.6", "value": "134"}]);
-	$('#fmaterial').combobox('clear');
-	$('#fmaterial').combobox('loadData', [{"text": "低碳钢实芯", "value": "91"},{"text": "不锈钢实芯", "value": "92"},{"text": "低碳钢药芯", "value": "93"},{"text": "不锈钢药芯", "value": "94"}]);
-	$('#fweldprocess').combobox('clear');
-	$('#fweldprocess').combobox('loadData', [{"text": "直流脉冲", "value": "0"}]);
-	$('#fchanel').combobox('select',1);
-	$('#fselect').combobox('select',102);
-	$("#ftime").numberbox('setValue',30.0);
-	$("#fadvance").numberbox('setValue',1);
-	$("#fini_ele").numberbox('setValue',100);
-	$("#fini_vol").numberbox('setValue',19.0);
-	$("#fini_vol1").numberbox('setValue',0.0);
-	$("#fweld_vol").numberbox('setValue',19.0);
-	$("#fweld_vol1").numberbox('setValue',0.0);
-	$("#farc_vol").numberbox('setValue',19.0);
-	$("#farc_vol1").numberbox('setValue',0.0);
-	$("#fweld_ele").numberbox('setValue',100);
-	$("#farc_ele").numberbox('setValue',100);
-	$("#fhysteresis").numberbox('setValue',1);
-	$("#fcharacter").numberbox('setValue',0);
-	$('#fgas').combobox('select',121);
-	$('#fdiameter').combobox('select',132);
-	$('#fmaterial').combobox('select',91);
-	$("#fweld_tuny_ele").numberbox('setValue',0);
-	$("#fweld_tuny_vol").numberbox('setValue',0);
-	$("#farc_tuny_ele").numberbox('setValue',0);
-	$("#farc_tuny_vol").numberbox('setValue',0);
-	$('#farc').combobox('select',111);
-	$('#fweldprocess').combobox('select',0);
 	$('#mwdlg').window('open');
 }
 
@@ -248,55 +213,12 @@ function saveMainWps(){
 		if(WBLCHECK()==false){
 			return;
 		}
+	}else if(wlrow.model==171){
+		if(CPVEWCHECK()==false){
+			return;
+		}
 	}
-	if($('#fadvance').numberbox('getValue')<0||$('#fadvance').numberbox('getValue')>100){
-		alert("提前送气范围：0~100");
-		return;
-	}
-	if($('#fini_ele').numberbox('getValue')<30||$('#fini_ele').numberbox('getValue')>550){
-		alert("初期电流范围：30~550");
-		return;
-	}
-	if($('#fini_vol').numberbox('getValue')<12||$('#fini_vol').numberbox('getValue')>50){
-		alert("初期电压范围：12~50");
-		return;
-	}
-	if($('#fini_vol1').numberbox('getValue')<(-30)||$('#fini_vol1').numberbox('getValue')>(30)){
-		alert("初期电压一元范围：-30~30");
-		return;
-	}
-	if($('#fweld_ele').numberbox('getValue')<30||$('#fweld_ele').numberbox('getValue')>550){
-		alert("焊接电流范围：30~550");
-		return;
-	}
-	if($('#fweld_vol').numberbox('getValue')<12||$('#fweld_vol').numberbox('getValue')>50){
-		alert("焊接电压范围：12~50");
-		return;
-	}
-	if($('#fweld_vol1').numberbox('getValue')<(-30)||$('#fweld_vol1').numberbox('getValue')>(30)){
-		alert("焊接电压一元范围：-30~30");
-		return;
-	}
-	if($('#farc_ele').numberbox('getValue')<30||$('#farc_ele').numberbox('getValue')>550){
-		alert("收弧电流范围：30~550");
-		return;
-	}
-	if($('#farc_vol').numberbox('getValue')<12||$('#farc_vol').numberbox('getValue')>50){
-		alert("收弧电压范围：12~50");
-		return;
-	}
-	if($('#farc_vol1').numberbox('getValue')<(-30)||$('#farc_vol1').numberbox('getValue')>(30)){
-		alert("收弧电压一元范围：-30~30");
-		return;
-	}
-	if($('#fhysteresis').numberbox('getValue')<0||$('#fhysteresis').numberbox('getValue')>100){
-		alert("滞后送气范围：0~100");
-		return;
-	}
-	if($('#fcharacter').numberbox('getValue')<(-99)||$('#fcharacter').numberbox('getValue')>(99)){
-		alert("电弧特性范围：-99~99");
-		return;
-	}
+
 	var wpsLibRow = $('#wpslibTable').datagrid('getSelected');
 	if(parseInt(oldchanel)!=$('#fchanel').combobox('getValue')){
 		var num;
