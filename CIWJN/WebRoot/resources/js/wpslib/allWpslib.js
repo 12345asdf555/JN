@@ -314,6 +314,8 @@ function wpslibDatagrid(){
 					var wpslibrow = $('#wpslibTable').datagrid("getSelected");
 					if(wpslibrow.model==171||wpslibrow.model==172||wpslibrow.model==173){
 						$("#ddv-"+index).datagrid('hideColumn', 'ftorch')
+					}else{
+						$("#ddv-"+index).datagrid('hideColumn', 'fmode')
 					}
 					$('#wpslibTable').datagrid("selectRow", index)
 					setTimeout(function(){

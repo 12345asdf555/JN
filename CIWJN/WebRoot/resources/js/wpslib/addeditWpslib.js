@@ -27,7 +27,7 @@ function addWpslib(){
 	$('#wltdlg').window('open');
 	var statusId = document.getElementsByName("statusId");
 	statusId[0].checked =  'checked';
-	$('#model').combobox('disable',false);
+	$('#model').combobox('enable');
 	url = "wps/addWpslib";
 }
 
@@ -148,6 +148,14 @@ function addMainWps(){
 		CPVEWINIT();
 		$('#mwdlg').window('open');
 		return;
+	}else if(wlrow.model==172){
+		CPVESINIT();
+		$('#mwdlg').window('open');
+		return;
+	}else if(wlrow.model==173){
+		CPVETINIT();
+		$('#mwdlg').window('open');
+		return;
 	}
 	$('#mwdlg').window('open');
 }
@@ -167,6 +175,10 @@ function editMainWps(row){
 			WBPINIT();
 		}else if(wlrow.model==178){
 			WBLINIT();
+		}else if(wlrow.model==172){
+			CPVESINIT();
+		}else if(wlrow.model==173){
+			CPVETINIT();
 		}
 		$('#mwdlg').window( {
 			title : "修改工艺",
@@ -202,7 +214,7 @@ function saveMainWps(){
 			return;
 		}
 	}else if(wlrow.model==176){
-		if(WBMCHECK()==false){
+		if(WBMLCHECK()==false){
 			return;
 		}
 	}else if(wlrow.model==177){
@@ -215,6 +227,14 @@ function saveMainWps(){
 		}
 	}else if(wlrow.model==171){
 		if(CPVEWCHECK()==false){
+			return;
+		}
+	}else if(wlrow.model==172){
+		if(CPVESCHECK()==false){
+			return;
+		}
+	}else if(wlrow.model==173){
+		if(CPVETCHECK()==false){
 			return;
 		}
 	}
