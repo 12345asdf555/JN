@@ -402,7 +402,7 @@ function iview() {
 	vol.length = 0;
 	ele.length = 0;
 
-	if(redata.length==285){
+	if(redata.length==285||redata.length==95){
 	for (var i = 0; i < redata.length; i += 95) {
 		//				if(redata.substring(8+i, 12+i)!="0000"){
 		if (parseInt(redata.substring(4 + i, 8 + i),10) == $("#machineid").val()) {

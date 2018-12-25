@@ -318,7 +318,7 @@ function iview(){
 		},5000);
 		flag=2;
 	}
-	if(redata.length==285){
+	if(redata.length==285||redata.length==95){
 		for(var i = 0;i < redata.length;i+=95){
 //			if(redata.substring(8+i, 12+i)!="0000"){
 				for(var f=0;f<machine.length;f++){
