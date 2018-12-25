@@ -4,22 +4,29 @@
 var websocketUrl;
 var selectflag;
 var wpslibindex;
-$(function(){
-	$.ajax({  
-	      type : "post",  
-	      async : false,
-	      url : "td/AllTdbf",  
-	      data : {},  
-	      dataType : "json", //返回数据形式为json  
-	      success : function(result) {
-	          if (result) {
-	        	  websocketUrl = eval(result.web_socket);
-	          }  
-	      },
-	      error : function(errorMsg) {  
-	          alert("数据请求失败，请联系系统管理员!");  
-	      }  
-	 });
+$(function() {
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "td/AllTdbf",
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				websocketUrl = eval(result.web_socket);
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+
+	$('#smwdlg').dialog({
+		onClose : function() {
+			$('#mainWpsTable').datagrid('clearSelections');
+			$('#weldingmachineTable').datagrid('clearSelections');
+		}
+	})
 })
 
 //选择工艺
@@ -499,97 +506,98 @@ function  showResult(){
 }
 
 //索取规范
-function requestWps(){
+function requestWps() {
 	var selectMachine = $('#weldingmachineTable').datagrid('getSelected');
-	if(selectMachine){
-		if(!selectMachine.gatherId){
+	if (selectMachine) {
+		if (!selectMachine.gatherId) {
 			alert("该焊机未绑定采集模块");
 			return;
 		}
-	}else{
+	} else {
 		alert("请选择焊机");
 		return;
 	}
-	var flag=0;
-	var websocket=null;
-	if(typeof(WebSocket) == "undefined") {
-    	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
-    	WEB_SOCKET_DEBUG = true;
+	var flag = 0;
+	var websocket = null;
+	if (typeof (WebSocket) == "undefined") {
+		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+		WEB_SOCKET_DEBUG = true;
 	}
 	websocket = new WebSocket(websocketUrl);
 	websocket.onopen = function() {
-	var chanel = $('#fchanel').combobox('getValue').toString(16);
-	if(chanel.length<2){
-        var length = 2 - chanel.length;
-        for(var i=0;i<length;i++){
-        	chanel = "0" + chanel;
-        }
-    }
-	var mach = selectMachine.gatherId;
-	if(mach.length<4){
-		var length = 4 - mach.length;
-        for(var i=0;i<length;i++){
-        	mach = "0" + mach;
-        };
-	}
-	var xxx = "7E0901010156"+mach+chanel;
-	var check = 0;
-	for (var i = 0; i < (xxx.length/2); i++)
-	{
-		var tstr1=xxx.substring(i*2, i*2+2);
-		var k=parseInt(tstr1,16);
-		check += k;
-	}
+		var chanel = $('#fchanel').combobox('getValue').toString(16);
+		if (chanel.length < 2) {
+			var length = 2 - chanel.length;
+			for (var i = 0; i < length; i++) {
+				chanel = "0" + chanel;
+			}
+		}
+		var mach = selectMachine.gatherId;
+		if (mach.length < 4) {
+			var length = 4 - mach.length;
+			for (var i = 0; i < length; i++) {
+				mach = "0" + mach;
+			}
+			;
+		}
+		var xxx = "7E0901010156" + mach + chanel;
+		var check = 0;
+		for (var i = 0; i < (xxx.length / 2); i++) {
+			var tstr1 = xxx.substring(i * 2, i * 2 + 2);
+			var k = parseInt(tstr1, 16);
+			check += k;
+		}
 
-	var checksend = parseInt(check).toString(16);
-	var a2 = checksend.length;
-	checksend = checksend.substring(a2-2,a2);
-	checksend = checksend.toUpperCase();
-	websocket.send(xxx+checksend+"7D");
-	if(flag==0){
-		var jctimer = window.setTimeout(function() {
-			if(flag==0){
-				websocket.close();
-				alert("焊机长时间未响应，索取失败!!!");
+		var checksend = parseInt(check).toString(16);
+		var a2 = checksend.length;
+		checksend = checksend.substring(a2 - 2, a2);
+		checksend = checksend.toUpperCase();
+		websocket.send(xxx + checksend + "7D");
+		if (flag == 0) {
+			var jctimer = window.setTimeout(function() {
+				if (flag == 0) {
+					websocket.close();
+					alert("焊机长时间未响应，索取失败!!!");
+				}
+			}, 60000)
+		}
+		websocket.onmessage = function(msg) {
+			var da = msg.data;
+			if (da.substring(0, 2) == "7E" && da.substring(10, 12) == "56") {
+				if (da.substring(18, 20) == "FF") {
+					flag++;
+					websocket.close();
+					if (websocket.readyState != 1) {
+						alert("此通道没有规范!!!");
+						flag = 0;
+					}
+				} else {
+					var wpslibrow = $('#wpslibTable').datagrid("getSelected");
+					if (wpslibrow.model == 174) {
+						EPWGET(da);
+					} else if (wpslibrow.model == 175) {
+						EPSGET(da);
+					} else if (wpslibrow.model == 176) {
+						WBMLGET(da);
+					} else if (wpslibrow.model == 177) {
+						WBPGET(da);
+					} else if (wpslibrow.model == 178) {
+						WBLGET(da);
+					} else if (wpslibrow.model == 171) {
+						CPVEWGET(da);
+					}
+					flag++;
+					websocket.close();
+					if (websocket.readyState != 1) {
+						window.clearTimeout(jctimer);
+						alert("索取成功");
+						flag = 0;
+						$('#smdlg').window('close');
+						$('#weldingmachineTable').datagrid('clearSelections');
+						$('#smdlg').form('clear');
+					}
+				}
 			}
-		}, 60000)
-	}
-	websocket.onmessage = function(msg) {
-		var da=msg.data;
-		if(da.substring(0,2)=="7E"&&da.substring(10,12)=="56"){
-        if(da.substring(18,20)=="FF"){
-    		flag++;
-    		websocket.close();
-    		if(websocket.readyState!=1){
-        		alert("此通道没有规范!!!");
-        		flag=0;
-    			}
-        }else{
-        	var wpslibrow = $('#wpslibTable').datagrid("getSelected");
-        	if(wpslibrow.model==174){
-        		EPWGET(da);
-        	}else if(wpslibrow.model==175){
-        		EPSGET(da);
-        	}else if(wpslibrow.model==176){
-        		WBMLGET(da);
-        	}else if(wpslibrow.model==177){
-        		WBPGET(da);
-        	}else if(wpslibrow.model==178){
-        		WBLGET(da);
-        	}else if(wpslibrow.model==171){
-        		CPVEWGET(da);
-        	}
-		flag++;
-		websocket.close();
-		if(websocket.readyState!=1){
-			window.clearTimeout(jctimer);
-			alert("索取成功");
-			flag=0;
-			$('#smdlg').window('close');
-			$('#weldingmachineTable').datagrid('clearSelections'); 
-			$('#smdlg').form('clear');
-			}
-		}}
 		}
 	}
 }
