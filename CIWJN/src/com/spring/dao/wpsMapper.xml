@@ -28,10 +28,10 @@
 	<insert id="saveSxWps" parameterType="Wps">
 		INSERT INTO tb_specification (fspe_num, finitial, fcontroller, fselect, farc, fcharacter, fmode, ftime, fmaterial, fadvance, fhysteresis, fgas, fdiameter, fini_ele, fini_vol, fini_vol1, fweld_ele, fweld_vol, fweld_vol1, farc_ele, farc_vol, farc_vol1, fweld_tuny_ele, fweld_tuny_vol, farc_tuny_ele, farc_tuny_vol,
 		fmachine_id, FCReateDate, FUpdateDate, Fcreater, Fupdater, fwpslib_id, fpreset_vol_top, fpreset_ele_top, fpreset_ele_bottom, fpreset_vol_bottom, farc_vol_top, fpreset_ele_warn_top, fpreset_vol_warn_top, fpreset_ele_warn_bottom, fpreset_vol_warn_bottom, fini_ele_warn_top, fini_vol_warn_top, fini_ele_warn_bottom, fini_vol_warn_bottom, farc_ele_warn_top, farc_vol_warn_top, 
-		farc_ele_warn_bottom, farc_vol_warn_bottom, farc_delay_time, fwarn_delay_time, fwarn_stop_time, fflow_bottom, fdelay_time, fover_time, ffixed_cycle) VALUES 
+		farc_ele_warn_bottom, farc_vol_warn_bottom, farc_delay_time, fwarn_delay_time, fwarn_stop_time,fflow_top, fflow_bottom, fdelay_time, fover_time, ffixed_cycle) VALUES 
 		(#{fwpsnum}, #{finitial}, #{fcontroller}, #{fselect}, #{farc}, #{fcharacter}, 0, #{ftime}, #{fmaterial}, #{fadvance}, #{fhysteresis}, #{fgas}, #{fdiameter}, #{fini_ele},#{fini_vol}, #{fini_vol1}, #{fweld_ele}, #{fweld_vol}, #{fweld_vol1}, #{farc_ele}, #{farc_vol}, #{farc_vol1}, #{fweld_tuny_ele}, #{fweld_tuny_vol}, #{farc_tuny_ele}, #{farc_tuny_vol},
 		#{macid}, now(), now(), #{fcreater}, #{fupdater}, #{fwpslib_id}, #{fpreset_vol_top}, #{fpreset_ele_top}, #{fpreset_ele_bottom}, #{fpreset_vol_bottom}, #{farc_vol_top}, #{fpreset_ele_warn_top}, #{fpreset_vol_warn_top}, #{fpreset_ele_warn_bottom}, #{fpreset_vol_warn_bottom}, #{fini_ele_warn_top}, #{fini_vol_warn_top}, #{fini_ele_warn_bottom}, #{fini_vol_warn_bottom}, #{farc_ele_warn_top}, #{farc_vol_warn_top}, 
-		#{farc_ele_warn_bottom}, #{farc_vol_warn_bottom}, #{farc_delay_time}, #{fwarn_delay_time}, #{fwarn_stop_time}, #{fflow_bottom}, #{fdelay_time}, #{fover_time}, #{ffixed_cycle})
+		#{farc_ele_warn_bottom}, #{farc_vol_warn_bottom}, #{farc_delay_time}, #{fwarn_delay_time}, #{fwarn_stop_time}, #{fflow_top}, #{fflow_bottom}, #{fdelay_time}, #{fover_time}, #{ffixed_cycle})
 	</insert>
 	
 	<update id="editSxWps" parameterType="Wps">

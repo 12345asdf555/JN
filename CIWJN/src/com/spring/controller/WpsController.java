@@ -1018,7 +1018,7 @@ public class WpsController {
 			for(int i=0;i<list.size();i++){
 				json.put("fid", list.get(i).getFid());
 				json.put("fwpsnum", list.get(i).getFwpsnum());
-				json.put("fcharacter", list.get(i).getFcharacter());
+				json.put("sxfcharacter", list.get(i).getFcharacter());
 				json.put("ftime", list.get(i).getFtime());
 				json.put("fhysteresis",list.get(i).getFhysteresis());
 				json.put("fadvance",list.get(i).getFadvance());
@@ -1093,6 +1093,7 @@ public class WpsController {
 		try{
 			wps.setFcreater(myuser.getId());
 			wps.setFupdater(myuser.getId());
+			wps.setFcharacter(Integer.parseInt(request.getParameter("sxfcharacter")));
 			wpsService.saveSxWps(wps);
 			obj.put("success", true);
 		}catch(Exception e){
@@ -1111,6 +1112,7 @@ public class WpsController {
 		JSONObject obj = new JSONObject();
 		try{
 			wps.setFupdater(myuser.getId());
+			wps.setFcharacter(Integer.parseInt(request.getParameter("sxfcharacter")));
 			wpsService.editSxWps(wps);
 			obj.put("success", true);
 		}catch(Exception e){
