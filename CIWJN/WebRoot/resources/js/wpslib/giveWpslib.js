@@ -984,6 +984,28 @@ function setSxMainWps() {
 			//处理工艺，转换成16进制
 			for (var mwindex = 0; mwindex < selectMainWpsRows.length; mwindex++) {
 				var crc7_str = [];
+				crc7_str.push("FE");
+				crc7_str.push("5A");
+				crc7_str.push("A5");
+				var data_length = parseInt("110").toString(16);
+				crc7_str.push(data_length);
+				if (data_length.length < 4) {
+					var length = 4 - data_length.length;
+					for (var i = 0; i < length; i++) {
+						data_length = "0" + data_length;
+					}
+				}
+				var equipmentNo = (parseInt(selectMachine[smindex].equipmentNo)).toString(16);
+				crc7_str.push(equipmentNo);
+				if (equipmentNo.length < 4) {
+					var length = 4 - equipmentNo.length;
+					for (var i = 0; i < length; i++) {
+						equipmentNo = "0" + equipmentNo;
+					}
+				}
+				crc7_str.push("0");
+				crc7_str.push("211");
+				crc7_str.push("2");
 				var chanel = parseInt(selectMainWpsRows[mwindex].fwpsnum).toString(16);
 				crc7_str.push(chanel);
 				if (chanel.length < 2) {
@@ -1157,6 +1179,7 @@ function setSxMainWps() {
 						finitial = "0" + finitial;
 					}
 				}
+				crc7_str.push("0");
 				var fweld_vol = (parseInt(selectMainWpsRows[mwindex].fweld_vol)).toString(16);
 				crc7_str.push(fweld_vol);
 				if (fweld_vol.length < 4) {
@@ -1384,28 +1407,14 @@ function setSxMainWps() {
 						ffixed_cycle = "0" + ffixed_cycle;
 					}
 				}
-				
+				crc7_str.push("0");
 				var xiafasend1 = chanel + "0000" + fpreset_ele_top + fpreset_vol_top +  fpreset_ele_bottom + fpreset_vol_bottom + fini_vol1 + farc_vol1 + fweld_tuny_ele + fweld_tuny_vol + fweld_vol1 + farc_vol_top + farc_tuny_ele + farc_tuny_vol + fmaterial + fdiameter
 					+ fgas + fcontroller + farc + ftime + fselect + finitial + "000000" + fweld_vol + fweld_ele + fini_ele + fini_vol + farc_ele + farc_vol + fadvance + fhysteresis + fpreset_ele_warn_top + fpreset_vol_warn_top + fpreset_ele_warn_bottom
 					+ fpreset_vol_warn_bottom + fini_ele_warn_top + fini_vol_warn_top + fini_ele_warn_bottom + fini_vol_warn_bottom + farc_ele_warn_top + farc_vol_warn_top + farc_ele_warn_bottom + farc_vol_warn_bottom + farc_delay_time + fwarn_delay_time + fwarn_stop_time
 					+ fcharacter + fflow_top + fflow_bottom + fdelay_time + fover_time + ffixed_cycle + "00";
 				
 				var xxx = xiafasend1.toUpperCase();
-				var data_length = parseInt("110").toString(16);
-				if (data_length.length < 4) {
-					var length = 4 - data_length.length;
-					for (var i = 0; i < length; i++) {
-						data_length = "0" + data_length;
-					}
-				}
-				var equipmentNo = (parseInt(selectMachine[smindex].equipmentNo)).toString(16);
-				if (equipmentNo.length < 4) {
-					var length = 4 - equipmentNo.length;
-					for (var i = 0; i < length; i++) {
-						equipmentNo = "0" + equipmentNo;
-					}
-				}
-
+				
 				//CRC7校验
 				$.ajax({
 				      type : "post",  
