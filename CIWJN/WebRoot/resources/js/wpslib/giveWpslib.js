@@ -1442,8 +1442,8 @@ function setSxMainWps() {
 				 });
 			}
 			var jsonstr = {
-				"machineNo" : selectMachine[smindex].equipmentNo,
 				"gatherNo" : selectMachine[smindex].gatherId,
+				"machineNo" : selectMachine[smindex].equipmentNo,
 				"successNum" : 0,
 				"failNum" : 0,
 				"noNum" : noReceiveGiveChanel.join(",")
@@ -1478,7 +1478,7 @@ function setSxMainWps() {
 			noReceiveGiveChanel.length = 0;
 			resultData.length = 0;
 			realLength = 0;
-		}, 30000);
+		}, 60000);
 		showResult();
 		$("#giveResultTable").datagrid('loadData', resultData);//下发结果展示
 		var timer = window.setInterval(function() {
@@ -1494,7 +1494,7 @@ function setSxMainWps() {
 			var fan = msg.data;
 			if (fan.substring(0, 6) == "FE5AA5") {
 				var rows = $('#giveResultTable').datagrid("getRows");
-				if (parseInt(fan.substring(44, 46), 16) == 2) {//控制，2表示OK
+				if (parseInt(fan.substring(44, 46), 16) != 2) {//控制，2表示OK
 					realLength++;
 					var frchanel = parseInt(fan.substring(46, 48), 16);
 					var indexNum = giveArray.indexOf(parseInt(fan.substring(10, 14), 16));
@@ -1611,15 +1611,15 @@ function getSxMainWps() {
 		crc7_str.push("FE");
 		crc7_str.push("5A");
 		crc7_str.push("A5");
-		var data_length = ("26").toString(16);
+		var data_length = parseInt("26").toString(16);
 		crc7_str.push(data_length);
-		if (data_length.length < 2) {
-			var length = 2 - data_length.length;
+		if (data_length.length < 4) {
+			var length = 4 - data_length.length;
 			for (var i = 0; i < length; i++) {
 				data_length = "0" + data_length;
 			}
 		}
-		var mach = selectMachine.equipmentNo;
+		var mach = parseInt(selectMachine.equipmentNo).toString(16);
 		crc7_str.push(mach);
 		if (mach.length < 4) {
 			var length = 4 - mach.length;
@@ -1689,7 +1689,7 @@ function getSxMainWps() {
 					$("#sxfpreset_ele_bottom").numberbox('setValue', (parseInt(da.substring(60, 64), 16) / 10).toFixed(1));
 					$("#sxfpreset_vol_bottom").numberbox('setValue', (parseInt(da.substring(64, 68), 16) / 10).toFixed(1));
 					$("#sxfini_vol1").numberbox('setValue', (parseInt(da.substring(68, 72), 16) / 10).toFixed(1));
-					$("#sxfarc_vol").numberbox('setValue', (parseInt(da.substring(72, 76), 16) / 10).toFixed(1));
+					$("#sxfarc_vol1").numberbox('setValue', (parseInt(da.substring(72, 76), 16) / 10).toFixed(1));
 					$("#sxfweld_tuny_ele").numberbox('setValue', (parseInt(da.substring(76, 80), 16) / 10).toFixed(1));
 					$("#sxfweld_tuny_vol").numberbox('setValue', (parseInt(da.substring(80, 84), 16) / 10).toFixed(1));
 					$("#sxfweld_vol1").numberbox('setValue', (parseInt(da.substring(84, 88), 16) / 10).toFixed(1));
@@ -1721,10 +1721,10 @@ function getSxMainWps() {
 					$("#sxfadvance").numberbox('setValue', parseInt(da.substring(148, 150), 16));
 					$("#sxfhysteresis").numberbox('setValue', parseInt(da.substring(150, 152), 16));
 					
-					$("#sxfpreset_ele_warn_top").numberbox('setValue', parseInt(da.substring(152, 156), 16));
-					$("#sxfpreset_vol_warn_top").numberbox('setValue', parseInt(da.substring(156, 160), 16));
-					$("#sxfpreset_ele_warn_bottom").numberbox('setValue', parseInt(da.substring(160, 164), 16));
-					$("#sxfpreset_vol_warn_bottom").numberbox('setValue', parseInt(da.substring(164, 168), 16));
+					$("#sxfpreset_ele_warn_top").numberbox('setValue', (parseInt(da.substring(152, 156), 16) / 10).toFixed(1));
+					$("#sxfpreset_vol_warn_top").numberbox('setValue', (parseInt(da.substring(156, 160), 16) / 10).toFixed(1));
+					$("#sxfpreset_ele_warn_bottom").numberbox('setValue', (parseInt(da.substring(160, 164), 16) / 10).toFixed(1));
+					$("#sxfpreset_vol_warn_bottom").numberbox('setValue', (parseInt(da.substring(164, 168), 16) / 10).toFixed(1));
 					
 					$("#sxfini_ele_warn_top").numberbox('setValue', (parseInt(da.substring(168, 172), 16) / 10).toFixed(1));
 					$("#sxfini_vol_warn_top").numberbox('setValue', (parseInt(da.substring(172, 176), 16) / 10).toFixed(1));
