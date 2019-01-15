@@ -133,7 +133,11 @@ function anaylsis(ipurl){
 								LastName = LastName[0].textContent,LastResource = LastResource[0].textContent,LastimgName = LastimgName[0].textContent,lastshowIndex = lastshowIndex[0].textContent;
 							}
 							if(resourceary.indexOf(LastResource)!=-1){
-								lastcontext += '<li onclick="changeColor(this)" id="last'+lastshowIndex+'"><a href="javascript:openTab(\''+LastName+'\',\''+LastResource+'\')" ><div><img src="resources/images/'+LastimgName+'" />&nbsp;&nbsp;'+LastName+'</div></a></li>';
+								if(LastResource == "td/AllTd"){
+									lastcontext += '<li onclick="changeColor(this)" id="last'+lastshowIndex+'"><a href="javascript:openLive()" ><div><img src="resources/images/'+LastimgName+'" />&nbsp;&nbsp;'+LastName+'</div></a></li>';
+								}else{
+									lastcontext += '<li onclick="changeColor(this)" id="last'+lastshowIndex+'"><a href="javascript:openTab(\''+LastName+'\',\''+LastResource+'\')" ><div><img src="resources/images/'+LastimgName+'" />&nbsp;&nbsp;'+LastName+'</div></a></li>';
+								}
 							}
 						}
 						firstcontext += lastcontext+'</ul></div></li>';
@@ -143,7 +147,11 @@ function anaylsis(ipurl){
 					}
 					if(flag){
 						if(resourceary.indexOf(firstResource)!=-1){
-							firstcontext +='<li onclick="changeColor(this)" id="'+firstshowIndex+'"><a href="javascript:openTab(\''+firstName+'\',\''+firstResource+'\')" ><div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'</div></a></li>';
+							if(firstResource == "td/AllTd"){
+								firstcontext +='<li onclick="changeColor(this)" id="'+firstshowIndex+'"><a href="javascript:openLive()" ><div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'</div></a></li>';
+							}else{
+								firstcontext +='<li onclick="changeColor(this)" id="'+firstshowIndex+'"><a href="javascript:openTab(\''+firstName+'\',\''+firstResource+'\')" ><div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'</div></a></li>';
+							}
 						}
 					}
 				}
@@ -207,6 +215,10 @@ function menusort(name,flag){
 //打开标签页
 function openTab(name,resource){
 	addTab(name,resource);
+}
+
+function openLive(){
+	window.open("td/AllTd");
 }
 
 function addWelcom(title,url){
