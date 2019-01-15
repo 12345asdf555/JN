@@ -69,9 +69,10 @@ public class MainController {
 		List<Resources> menu = null;
 		boolean flag = true;
 		for(int i=0;i<name.size();i++){
-			if(name.get(i).equals("ROLE_admin")){
+			if(name.get(i).equalsIgnoreCase("ROLE_admin")){
 				flag = false;
 				menu = rs.getResourceByAdmin();
+				break;
 			}
 		}
 		if(flag){
