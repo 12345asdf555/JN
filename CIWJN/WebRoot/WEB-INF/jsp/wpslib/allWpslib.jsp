@@ -33,6 +33,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/wpslib/giveWpslib.js"></script>
 	<script type="text/javascript" src="resources/js/wpslib/differentMachine.js"></script>
 	<script type="text/javascript" src="resources/js/wpslib/control.js"></script>
+	<script type="text/javascript" src="resources/js/swfobject.js"></script>
+	<script type="text/javascript" src="resources/js/web_socket.js"></script>
 	<style type="text/css">
 		table tr td{
 			font-size:12px;

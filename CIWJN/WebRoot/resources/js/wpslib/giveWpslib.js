@@ -1014,7 +1014,7 @@ function setSxMainWps() {
 						chanel = "0" + chanel;
 					}
 				}
-				var fpreset_ele_top = parseInt(selectMainWpsRows[mwindex].fpreset_ele_top * 10).toString(16);
+				var fpreset_ele_top = parseInt(selectMainWpsRows[mwindex].fpreset_ele_top).toString(16);
 				crc7_str.push(fpreset_ele_top);
 				if (fpreset_ele_top.length < 4) {
 					var length = 4 - fpreset_ele_top.length;
@@ -1030,7 +1030,7 @@ function setSxMainWps() {
 						fpreset_vol_top = "0" + fpreset_vol_top;
 					}
 				}
-				var fpreset_ele_bottom = parseInt(selectMainWpsRows[mwindex].fpreset_ele_bottom * 10).toString(16);
+				var fpreset_ele_bottom = parseInt(selectMainWpsRows[mwindex].fpreset_ele_bottom).toString(16);
 				crc7_str.push(fpreset_ele_bottom);
 				if (fpreset_ele_bottom.length < 4) {
 					var length = 4 - fpreset_ele_bottom.length;
@@ -1046,7 +1046,7 @@ function setSxMainWps() {
 						fpreset_vol_bottom = "0" + fpreset_vol_bottom;
 					}
 				}
-				var fini_vol1 = parseInt(selectMainWpsRows[mwindex].fini_vol1 * 10).toString(16);
+				var fini_vol1 = parseInt(selectMainWpsRows[mwindex].fini_vol1).toString(16);
 				crc7_str.push(fini_vol1);
 				if (fini_vol1.length < 4) {
 					var length = 4 - fini_vol1.length;
@@ -1062,7 +1062,7 @@ function setSxMainWps() {
 						farc_vol1 = "0" + farc_vol1;
 					}
 				}
-				var fweld_tuny_ele = parseInt(selectMainWpsRows[mwindex].fweld_tuny_ele * 10).toString(16);
+				var fweld_tuny_ele = parseInt(selectMainWpsRows[mwindex].fweld_tuny_ele).toString(16);
 				crc7_str.push(fweld_tuny_ele);
 				if (fweld_tuny_ele.length < 4) {
 					var length = 4 - fweld_tuny_ele.length;
@@ -1078,7 +1078,7 @@ function setSxMainWps() {
 						fweld_tuny_vol = "0" + fweld_tuny_vol;
 					}
 				}
-				var fweld_vol1 = parseInt(selectMainWpsRows[mwindex].fweld_vol1 * 10).toString(16);
+				var fweld_vol1 = parseInt(selectMainWpsRows[mwindex].fweld_vol1).toString(16);
 				crc7_str.push(fweld_vol1);
 				if (fweld_vol1.length < 4) {
 					var length = 4 - fweld_vol1.length;
@@ -1094,7 +1094,7 @@ function setSxMainWps() {
 						farc_vol_top = "0" + farc_vol_top;
 					}
 				}
-				var farc_tuny_ele = parseInt(selectMainWpsRows[mwindex].farc_tuny_ele * 10).toString(16);
+				var farc_tuny_ele = parseInt(selectMainWpsRows[mwindex].farc_tuny_ele).toString(16);
 				crc7_str.push(farc_tuny_ele);
 				if (farc_tuny_ele.length < 4) {
 					var length = 4 - farc_tuny_ele.length;
@@ -1244,7 +1244,7 @@ function setSxMainWps() {
 						fhysteresis = "0" + fhysteresis;
 					}
 				}
-				var fpreset_ele_warn_top = parseInt(selectMainWpsRows[mwindex].fpreset_ele_warn_top * 10).toString(16);
+				var fpreset_ele_warn_top = parseInt(selectMainWpsRows[mwindex].fpreset_ele_warn_top).toString(16);
 				crc7_str.push(fpreset_ele_warn_top);
 				if (fpreset_ele_warn_top.length < 4) {
 					var length = 4 - fpreset_ele_warn_top.length;
@@ -1260,7 +1260,7 @@ function setSxMainWps() {
 						fpreset_vol_warn_top = "0" + fpreset_vol_warn_top;
 					}
 				}
-				var fpreset_ele_warn_bottom = parseInt(selectMainWpsRows[mwindex].fpreset_ele_warn_bottom * 10).toString(16);
+				var fpreset_ele_warn_bottom = parseInt(selectMainWpsRows[mwindex].fpreset_ele_warn_bottom).toString(16);
 				crc7_str.push(fpreset_ele_warn_bottom);
 				if (fpreset_ele_warn_bottom.length < 4) {
 					var length = 4 - fpreset_ele_warn_bottom.length;
@@ -1276,7 +1276,7 @@ function setSxMainWps() {
 						fpreset_vol_warn_bottom = "0" + fpreset_vol_warn_bottom;
 					}
 				}
-				var fini_ele_warn_top = parseInt(selectMainWpsRows[mwindex].fini_ele_warn_top * 10).toString(16);
+				var fini_ele_warn_top = parseInt(selectMainWpsRows[mwindex].fini_ele_warn_top).toString(16);
 				crc7_str.push(fini_ele_warn_top);
 				if (fini_ele_warn_top.length < 4) {
 					var length = 4 - fini_ele_warn_top.length;
@@ -1292,7 +1292,7 @@ function setSxMainWps() {
 						fini_vol_warn_top = "0" + fini_vol_warn_top;
 					}
 				}
-				var fini_ele_warn_bottom = parseInt(selectMainWpsRows[mwindex].fini_ele_warn_bottom * 10).toString(16);
+				var fini_ele_warn_bottom = parseInt(selectMainWpsRows[mwindex].fini_ele_warn_bottom).toString(16);
 				crc7_str.push(fini_ele_warn_bottom);
 				if (fini_ele_warn_bottom.length < 4) {
 					var length = 4 - fini_ele_warn_bottom.length;
@@ -1308,7 +1308,7 @@ function setSxMainWps() {
 						fini_vol_warn_bottom = "0" + fini_vol_warn_bottom;
 					}
 				}
-				var farc_ele_warn_top = parseInt(selectMainWpsRows[mwindex].farc_ele_warn_top * 10).toString(16);
+				var farc_ele_warn_top = parseInt(selectMainWpsRows[mwindex].farc_ele_warn_top).toString(16);
 				crc7_str.push(farc_ele_warn_top);
 				if (farc_ele_warn_top.length < 4) {
 					var length = 4 - farc_ele_warn_top.length;
@@ -1324,7 +1324,7 @@ function setSxMainWps() {
 						farc_vol_warn_top = "0" + farc_vol_warn_top;
 					}
 				}
-				var farc_ele_warn_bottom = parseInt(selectMainWpsRows[mwindex].farc_ele_warn_bottom * 10).toString(16);
+				var farc_ele_warn_bottom = parseInt(selectMainWpsRows[mwindex].farc_ele_warn_bottom).toString(16);
 				crc7_str.push(farc_ele_warn_bottom);
 				if (farc_ele_warn_bottom.length < 4) {
 					var length = 4 - farc_ele_warn_bottom.length;
@@ -1684,17 +1684,17 @@ function getSxMainWps() {
 					}
 				} else {
 					$('#sxfwpsnum').combobox('select', parseInt(da.substring(46, 48), 16));
-					$("#sxfpreset_ele_top").numberbox('setValue', (parseInt(da.substring(52, 56), 16) / 10).toFixed(1));
+					$("#sxfpreset_ele_top").numberbox('setValue', (parseInt(da.substring(52, 56), 16)).toFixed(1));
 					$("#sxfpreset_vol_top").numberbox('setValue', (parseInt(da.substring(56, 60), 16) / 10).toFixed(1));
-					$("#sxfpreset_ele_bottom").numberbox('setValue', (parseInt(da.substring(60, 64), 16) / 10).toFixed(1));
+					$("#sxfpreset_ele_bottom").numberbox('setValue', (parseInt(da.substring(60, 64), 16)).toFixed(1));
 					$("#sxfpreset_vol_bottom").numberbox('setValue', (parseInt(da.substring(64, 68), 16) / 10).toFixed(1));
-					$("#sxfini_vol1").numberbox('setValue', (parseInt(da.substring(68, 72), 16) / 10).toFixed(1));
+					$("#sxfini_vol1").numberbox('setValue', (parseInt(da.substring(68, 72), 16)).toFixed(1));
 					$("#sxfarc_vol1").numberbox('setValue', (parseInt(da.substring(72, 76), 16) / 10).toFixed(1));
-					$("#sxfweld_tuny_ele").numberbox('setValue', (parseInt(da.substring(76, 80), 16) / 10).toFixed(1));
+					$("#sxfweld_tuny_ele").numberbox('setValue', (parseInt(da.substring(76, 80), 16)).toFixed(1));
 					$("#sxfweld_tuny_vol").numberbox('setValue', (parseInt(da.substring(80, 84), 16) / 10).toFixed(1));
-					$("#sxfweld_vol1").numberbox('setValue', (parseInt(da.substring(84, 88), 16) / 10).toFixed(1));
+					$("#sxfweld_vol1").numberbox('setValue', (parseInt(da.substring(84, 88), 16)).toFixed(1));
 					$("#sxfarc_vol_top").numberbox('setValue', (parseInt(da.substring(88, 92), 16) / 10).toFixed(1));
-					$("#sxfarc_tuny_ele").numberbox('setValue', (parseInt(da.substring(92, 96), 16) / 10).toFixed(1));
+					$("#sxfarc_tuny_ele").numberbox('setValue', (parseInt(da.substring(92, 96), 16)).toFixed(1));
 					$("#sxfarc_tuny_vol").numberbox('setValue', (parseInt(da.substring(96, 100), 16) / 10).toFixed(1));
 					
 					$("#sxfmaterial").combobox('setValue', parseInt(da.substring(100, 102), 16));
@@ -1721,18 +1721,18 @@ function getSxMainWps() {
 					$("#sxfadvance").numberbox('setValue', parseInt(da.substring(148, 150), 16));
 					$("#sxfhysteresis").numberbox('setValue', parseInt(da.substring(150, 152), 16));
 					
-					$("#sxfpreset_ele_warn_top").numberbox('setValue', (parseInt(da.substring(152, 156), 16) / 10).toFixed(1));
+					$("#sxfpreset_ele_warn_top").numberbox('setValue', (parseInt(da.substring(152, 156), 16)).toFixed(1));
 					$("#sxfpreset_vol_warn_top").numberbox('setValue', (parseInt(da.substring(156, 160), 16) / 10).toFixed(1));
-					$("#sxfpreset_ele_warn_bottom").numberbox('setValue', (parseInt(da.substring(160, 164), 16) / 10).toFixed(1));
+					$("#sxfpreset_ele_warn_bottom").numberbox('setValue', (parseInt(da.substring(160, 164), 16)).toFixed(1));
 					$("#sxfpreset_vol_warn_bottom").numberbox('setValue', (parseInt(da.substring(164, 168), 16) / 10).toFixed(1));
 					
-					$("#sxfini_ele_warn_top").numberbox('setValue', (parseInt(da.substring(168, 172), 16) / 10).toFixed(1));
+					$("#sxfini_ele_warn_top").numberbox('setValue', (parseInt(da.substring(168, 172), 16)).toFixed(1));
 					$("#sxfini_vol_warn_top").numberbox('setValue', (parseInt(da.substring(172, 176), 16) / 10).toFixed(1));
-					$("#sxfini_ele_warn_bottom").numberbox('setValue', (parseInt(da.substring(176, 180), 16) / 10).toFixed(1));
+					$("#sxfini_ele_warn_bottom").numberbox('setValue', (parseInt(da.substring(176, 180), 16)).toFixed(1));
 					$("#sxfini_vol_warn_bottom").numberbox('setValue', (parseInt(da.substring(180, 184), 16) / 10).toFixed(1));
-					$("#sxfarc_ele_warn_top").numberbox('setValue', (parseInt(da.substring(184, 188), 16) / 10).toFixed(1));
+					$("#sxfarc_ele_warn_top").numberbox('setValue', (parseInt(da.substring(184, 188), 16)).toFixed(1));
 					$("#sxfarc_vol_warn_top").numberbox('setValue', (parseInt(da.substring(188, 192), 16) / 10).toFixed(1));
-					$("#sxfarc_ele_warn_bottom").numberbox('setValue', (parseInt(da.substring(192, 196), 16) / 10).toFixed(1));
+					$("#sxfarc_ele_warn_bottom").numberbox('setValue', (parseInt(da.substring(192, 196), 16)).toFixed(1));
 					$("#sxfarc_vol_warn_bottom").numberbox('setValue', (parseInt(da.substring(196, 200), 16) / 10).toFixed(1));
 
 					$("#sxfarc_delay_time").numberbox('setValue', (parseInt(da.substring(200, 202), 16) / 10).toFixed(1));
