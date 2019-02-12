@@ -105,11 +105,14 @@ public class RoleController {
 	 */
 	@RequestMapping("/addRole")
 	@ResponseBody
-	public String addRole(Role role,HttpServletRequest request){
+	public String addRole(HttpServletRequest request){
+		Role role = new Role();
 		JSONObject obj = new JSONObject();
 		try{
 		role.setRoleStatus(Integer.parseInt(request.getParameter("status")));
         String str = request.getParameter("aid");
+        role.setRoleName(request.getParameter("roleName"));
+        role.setRoleDesc(request.getParameter("roleDesc"));
         roleService.save(role);
         role.setId(roleService.findbyid(role.getRoleName()));
         if(null!=str&&""!=str)

@@ -72,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
             <div class="fitem">
             	<lable>描述</lable>
-                <input name="roleDesc" class="easyui-textbox" data-options="required:false">
+                <input id="roleDesc" name="roleDesc" class="easyui-textbox" data-options="required:false">
             </div>
 			<div class="fitem">
 				<lable>状态</lable>&nbsp;&nbsp;

@@ -98,10 +98,19 @@ function editRole(){
 		url = "role/updateRole?rid="+ row.id;
 	}
 }
+
+function validationFrom(){
+	return $("#fm").form('enableValidation').form('validate');
+}
 //提交
 function save(){
     var rows = $('#tt').datagrid('getSelections');
     var sid = $("input[name='statusid']:checked").val();
+    var roleName = $('#roleName').val();
+    var roleDesc = $('#roleDesc').val();
+    if(!validationFrom()){
+    	return;
+    }
     var str="";
 	for(var i=0; i<rows.length; i++){
 		str += rows[i].id+",";
@@ -109,12 +118,12 @@ function save(){
 	var url2 = "";
 	if(flag==1){
 		messager = "新增成功！";
-		url2 = url+"?status="+sid+"&aid="+str;
+		url2 = url+"?status="+sid+"&aid="+str+"&roleName="+roleName+"&roleDesc="+roleDesc;
 	}else{
 		messager = "修改成功！";
-		url2 = url+"&status="+sid+"&aid="+str;
+		url2 = url+"&status="+sid+"&aid="+str+"&roleName="+roleName+"&roleDesc="+roleDesc;
 	}
-	$('#fm').form('submit', {
+/*	$('#fm').form('submit', {
 		url : url2,
 		onSubmit : function() {
 			return $(this).form('enableValidation').form('validate');
@@ -133,12 +142,37 @@ function save(){
 					$('#dg').datagrid('reload');
 				}
 			}
+			alert(123);
 			
 		},  
 	    error : function(errorMsg) {  
 	        alert("数据请求失败，请联系系统管理员!");  
 	    } 
-	});
+	});*/
+	$.ajax({  
+	    type : "post",  
+	    async : false,
+	    url : url2,  
+	    data : {},  
+	    dataType : "json", //返回数据形式为json  
+	    success : function(result) {
+	    	if (result) {
+				if (!result.success) {
+					$.messager.show( {
+						title : 'Error',
+						msg : result.errorMsg
+					});
+				} else {
+					$.messager.alert("提示", messager);
+					$('#dlg').dialog('close');
+					$('#dg').datagrid('reload');
+				}
+	    	}  
+	    },  
+	    error : function(errorMsg) {  
+	        alert("数据请求失败，请联系系统管理员!");  
+	    }  
+	})
 }
 function statusRadio(){
 	$.ajax({  
