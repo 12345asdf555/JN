@@ -760,4 +760,60 @@ function CPVETINIT() {}
 function CPVETCHECK() {}
 
 //YD-500GR3 验证
-function checkSxWps() {}
+function checkSxWps() {
+	var wpsLibRow = $('#wpslibTable').datagrid('getSelected');
+	if ($('#sxchanel').val() != $('#sxfwpsnum').combobox('getValue')) {
+		var num;
+		$.ajax({
+			type : "post",
+			async : false,
+			url : "wps/getCountByWpslibidChanel?wpslibid=" + wpsLibRow.fid + "&chanel=" + $('#sxfwpsnum').combobox('getValue'),
+			data : {},
+			dataType : "json", //返回数据形式为json  
+			success : function(result) {
+				if (result) {
+					num = eval(result.count);
+				}
+			},
+			error : function(errorMsg) {
+				alert("数据请求失败，请联系系统管理员!");
+			}
+		});
+		if (num > 0) {
+			alert("该通道规范已经存在!!!");
+			return false;
+		}
+	}
+	if ($("#sxfflow_top").numberbox('getValue') < 0.1 || $("#sxfflow_top").numberbox('getValue') > 25) {
+		alert("流量上限范围：0.1~25.0");
+		return false;
+	}
+	if ($("#sxfflow_bottom").numberbox('getValue') < 0.1 || $("#sxfflow_bottom").numberbox('getValue') > 25) {
+		alert("流量下限范围：0.1~25.0");
+		return false;
+	}
+	if ($("#sxfdelay_time").numberbox('getValue') < 0.1 || $("#sxfdelay_time").numberbox('getValue') > 25) {
+		alert("延时时间范围：0.1~25.0");
+		return false;
+	}
+	if ($("#sxfover_time").numberbox('getValue') < 0.1 || $("#sxfover_time").numberbox('getValue') > 25) {
+		alert("超限时间范围：0.1~25.0");
+		return false;
+	}
+	if ($("#sxffixed_cycle").numberbox('getValue') < 0.1 || $("#sxffixed_cycle").numberbox('getValue') > 10) {
+		alert("修正周期范围：0.1~10.0");
+		return false;
+	}
+	if ($("#sxfarc_delay_time").numberbox('getValue') < 0.1 || $("#sxfarc_delay_time").numberbox('getValue') > 3) {
+		alert("起弧延时时间范围：0.1~3.0");
+		return false;
+	}
+	if ($("#sxfwarn_delay_time").numberbox('getValue') < 0.1 || $("#sxfwarn_delay_time").numberbox('getValue') > 25) {
+		alert("报警延时时间范围：0.1~25.0");
+		return false;
+	}
+	if ($("#sxfwarn_stop_time").numberbox('getValue') < 0.1 || $("#sxfwarn_stop_time").numberbox('getValue') > 25) {
+		alert("报警停机时间范围：0.1~25.0");
+		return false;
+	}
+}
