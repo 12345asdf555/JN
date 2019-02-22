@@ -628,6 +628,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fadvance" id="sxfadvance" class="easyui-numberbox" data-options="required:true,max:255"></td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>修正周期：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fhysteresis" id="sxfhysteresis" class="easyui-numberbox" data-options="required:true,max:255"></td>
+				  				<td class="leftTd" width="120"><lable><span class="required">*</span>点焊时间：</lable></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="ftime" id="sxftime" class="easyui-numberbox" data-options="required:true,min:0,max:6553.5,precision:1"></td>
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>干伸长度：</lable></td>
@@ -658,14 +660,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>延时时间：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fdelay_time" id="sxfdelay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1"></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fdelay_time" id="sxfdelay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,,precision:1"></td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>超限时间：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fover_time" id="sxfover_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>修正周期：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="ffixed_cycle" id="sxffixed_cycle" class="easyui-numberbox" data-options="required:true,min:0.1,max:10,precision:1"></td>
 				  			</tr>
 		            		<tr>
+				  				<td class="leftTd" width="120"><lable><span class="required">*</span>起弧延时时间：</lable></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_delay_time" id="sxfarc_delay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:3,precision:1">(A)</td>
+				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警延时时间：</lable></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_delay_time" id="sxfwarn_delay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警停机时间：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_stop_time" id="sxfwarn_stop_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
+				  			</tr>
+		            		<tr>
+				  				<td class="leftTd" width="120" ><lable><span class="required">*</span>超规范报警停机：</lable></td>
+				  				<td class="rightTd" colspan="2">
+				  					停机<input type="radio" value="0" style="width:50px;" name="sxfcharacter"/>
+				  					不停机<input type="radio" value="1" style="width:50px;" name="sxfcharacter"/>
+				  				</td>
+				  				<td class="rightTd" width="120"></td>
+				  				<td class="leftTd" width="120"></td>
+				  				<td class="rightTd" width="120"></td>
 				  			</tr>
 		            	</table>
 		            </div>
@@ -771,7 +788,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<form id="sxmachinefm" class="easyui-form" method="post" data-options="novalidate:true">
 				<table id="sxMachineTable" style="table-layout: fixed; width:100%;"></table>
 			</form>
-		</div>
+		</div> 
 		<div id="sxmachinedlg-buttons">
 			<a href="javascript:selectSxModel();" class="easyui-linkbutton" iconCls="icon-ok">确认</a>
 			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
