@@ -1775,7 +1775,7 @@ function getSxMainWps() {
 					}else{
 					    $("input[name='sxfcharacter']").eq(1).prop("checked",true);
 					}
-					
+				
 					$("#sxfflow_top").numberbox('setValue', (parseInt(da.substring(208, 210), 16) / 10).toFixed(1));
 					$("#sxfflow_bottom").numberbox('setValue', (parseInt(da.substring(210, 212), 16) / 10).toFixed(1));
 					$("#sxfdelay_time").numberbox('setValue', (parseInt(da.substring(212, 214), 16) / 10).toFixed(1));

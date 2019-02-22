@@ -601,7 +601,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  				<td class="rightTd" width="120"></td>
 			  				<td class="leftTd" width="120"></td>
 			  				<td class="rightTd" width="120"></td>
-			  			</tr>
+			  			</tr> 
 	            	</table>
 	            </div>
 	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;display:none">
