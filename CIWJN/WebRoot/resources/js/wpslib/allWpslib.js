@@ -3,6 +3,7 @@
  */
 $(function(){
 	wpslibDatagrid();
+	sxDefault();
 })
 
 function wpslibDatagrid(){
@@ -246,18 +247,18 @@ function wpslibDatagrid(){
 						title : '分别/一元',
 						halign : "center",
 						align : "left"
-					}, {
+					},/* {
 						field : 'ininame',
 						title : '干伸长度',
 						halign : "center",
 						align : "left"
-					}, {
+					},*/ {
 						field : 'fselect',
 						title : '分别/一元',
 						halign : "center",
 						align : "left",
 						hidden : true
-					}, {
+					},/* {
 						field : 'finitial',
 						title : '干伸长度',
 						halign : "center",
@@ -363,7 +364,7 @@ function wpslibDatagrid(){
 						title : '收弧电压报警下限',
 						halign : "center",
 						align : "left"
-					}, {
+					}, */{
 						field : 'farc_delay_time',
 						title : '起弧延时时间',
 						halign : "center",
@@ -373,7 +374,7 @@ function wpslibDatagrid(){
 						title : '报警延时时间',
 						halign : "center",
 						align : "left"
-					}, {
+					},/* {
 						field : 'fwarn_stop_time',
 						title : '报警停机时间',
 						halign : "center",
@@ -414,7 +415,7 @@ function wpslibDatagrid(){
 						title : '修正周期',
 						halign : "center",
 						align : "left"
-					}, {
+					},*/ {
 						field : 'edit',
 						title : '编辑',
 						width : 200,
@@ -728,6 +729,36 @@ function closedlg(){
 	}
 }
 
+function sxDefault(){
+	$("#sxfweld_vol").numberbox('setValue', 1234);
+	$("#sxfweld_ele").numberbox('setValue', 1234);
+	$("#sxfini_ele").numberbox('setValue', 1234);
+	$("#sxfini_vol").numberbox('setValue', 1234);
+	$("#sxfarc_ele").numberbox('setValue', 1234);
+	$("#sxfarc_vol").numberbox('setValue', 1234);
+	$("#sxfadvance").numberbox('setValue', 10);
+	$("#sxfhysteresis").numberbox('setValue', 10);
+	$("#sxfinitial").combobox('setValue', 0);
+	$("#sxfflow_top").numberbox('setValue', 12.3);
+	$("#sxfflow_bottom").numberbox('setValue', 12.3);
+	$("#sxfdelay_time").numberbox('setValue', 12.3);
+	$("#sxfover_time").numberbox('setValue', 12.3);
+	$("#sxffixed_cycle").numberbox('setValue', 12.3);
+	$("#sxfwarn_stop_time").numberbox('setValue', 12.3);
+	$("#sxfpreset_ele_warn_top").numberbox('setValue', 1234);
+	$("#sxfpreset_vol_warn_top").numberbox('setValue', 543.2);
+	$("#sxfpreset_ele_warn_bottom").numberbox('setValue', 1234);
+	$("#sxfpreset_vol_warn_bottom").numberbox('setValue', 543.2);
+	
+	$("#sxfini_ele_warn_top").numberbox('setValue', 1234);
+	$("#sxfini_vol_warn_top").numberbox('setValue', 543.2);
+	$("#sxfini_ele_warn_bottom").numberbox('setValue', 1234);
+	$("#sxfini_vol_warn_bottom").numberbox('setValue', 543.2);
+	$("#sxfarc_ele_warn_top").numberbox('setValue', 1234);
+	$("#sxfarc_vol_warn_top").numberbox('setValue', 543.2);
+	$("#sxfarc_ele_warn_bottom").numberbox('setValue', 1234);
+	$("#sxfarc_vol_warn_bottom").numberbox('setValue', 543.2);
+}
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize(), 500);

@@ -523,7 +523,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		
 		<!-- 添加修改松下工艺 -->
-		<div id="editSxDlg" class="easyui-dialog" style="width: 900px; height: 600px; padding:10px 20px" closed="true" buttons="#sxdlg-buttons">
+		<div id="editSxDlg" class="easyui-dialog" style="width: 900px; height: 430px; padding:10px 20px" closed="true" buttons="#sxdlg-buttons">
 			<form id="sxfm" class="easyui-form" method="post" data-options="novalidate:true">
 	        	<div region="left" style="padding-left:20px;">
 	            	<table>
@@ -584,34 +584,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				                </select>
 			  				</td>
 			  			</tr>
+			  			<tr>
+			  				<td class="leftTd" width="120"><lable><span class="required">*</span>点焊时间：</lable></td>
+			  				<td class="rightTd" width="120"><input style="width:85px;" name="ftime" id="sxftime" class="easyui-numberbox" data-options="required:true,min:0,max:6553.5,precision:1"></td>
+            				<td class="leftTd" width="120"><lable><span class="required">*</span>起弧延时时间：</lable></td>
+			  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_delay_time" id="sxfarc_delay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:3,precision:1">(A)</td>
+			  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警延时时间：</lable></td>
+			  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_delay_time" id="sxfwarn_delay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
+	            		</tr>
+	            		<tr>
+			  				<td class="leftTd" width="120" ><lable><span class="required">*</span>超规范报警停机：</lable></td>
+			  				<td class="rightTd" colspan="2">
+			  					停机<input type="radio" value="0" style="width:50px;" name="sxfcharacter"/>
+			  					不停机<input type="radio" value="1" style="width:50px;" name="sxfcharacter"/>
+			  				</td>
+			  				<td class="rightTd" width="120"></td>
+			  				<td class="leftTd" width="120"></td>
+			  				<td class="rightTd" width="120"></td>
+			  			</tr>
 	            	</table>
 	            </div>
-	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;">
+	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;display:none">
 	            	<div>
 	            		<table>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_vol" id="sxfweld_vol" class="easyui-numberbox" data-options="required:true,max:99">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_vol" id="sxfweld_vol" class="easyui-numberbox" data-options="required:true,max:65535">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_ele" id="sxfini_ele" class="easyui-numberbox" data-options="required:true,max:99">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_ele" id="sxfini_ele" class="easyui-numberbox" data-options="required:true,max:65535">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_ele" id="sxfarc_ele" class="easyui-numberbox" data-options="required:true,max:99">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_ele" id="sxfarc_ele" class="easyui-numberbox" data-options="required:true,max:65535">(A)</td>
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_ele" id="sxfweld_ele" class="easyui-numberbox" data-options="required:true,max:99">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_ele" id="sxfweld_ele" class="easyui-numberbox" data-options="required:true,max:65535">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol" id="sxfini_vol" class="easyui-numberbox" data-options="required:true,max:99">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol" id="sxfini_vol" class="easyui-numberbox" data-options="required:true,max:65535">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol" id="sxfarc_vol" class="easyui-numberbox" data-options="required:true,max:99">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol" id="sxfarc_vol" class="easyui-numberbox" data-options="required:true,max:65535">(A)</td>
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>延时时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fadvance" id="sxfadvance" class="easyui-numberbox" data-options="required:true,max:999"></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fadvance" id="sxfadvance" class="easyui-numberbox" data-options="required:true,max:255"></td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>修正周期：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fhysteresis" id="sxfhysteresis" class="easyui-numberbox" data-options="required:true,max:999"></td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>点焊时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="ftime" id="sxftime" class="easyui-numberbox" data-options="required:true,min:0,max:99,precision:1"></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fhysteresis" id="sxfhysteresis" class="easyui-numberbox" data-options="required:true,max:255"></td>
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>干伸长度：</lable></td>
@@ -628,42 +644,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            </div>
 	            </div>
 	            
-	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;">
+	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;display:none">
 	            	<div>
 	            		<table>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>流量上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fflow_top" id="sxfflow_top" class="easyui-numberbox" data-options="required:true,min:0,max:999,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fflow_top" id="sxfflow_top" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>流量下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fflow_bottom" id="sxfflow_bottom" fflow_bottom class="easyui-numberbox" data-options="required:true,min:0,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fflow_bottom" id="sxfflow_bottom" fflow_bottom class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"></td>
 				  				<td class="rightTd" width="120"></td>
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>延时时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fdelay_time" id="sxfdelay_time" class="easyui-numberbox" data-options="required:true,min:0,max:999,precision:1"></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fdelay_time" id="sxfdelay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1"></td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>超限时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fover_time" id="sxfover_time" class="easyui-numberbox" data-options="required:true,min:0,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fover_time" id="sxfover_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>修正周期：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="ffixed_cycle" id="sxffixed_cycle" class="easyui-numberbox" data-options="required:true,min:0,max:999,precision:1"></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="ffixed_cycle" id="sxffixed_cycle" class="easyui-numberbox" data-options="required:true,min:0.1,max:10,precision:1"></td>
 				  			</tr>
 		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>起弧延时时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_delay_time" id="sxfarc_delay_time" class="easyui-numberbox" data-options="required:true,min:0,precision:1">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警延时时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_delay_time" id="sxfwarn_delay_time" class="easyui-numberbox" data-options="required:true,min:0,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警停机时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_stop_time" id="sxfwarn_stop_time" class="easyui-numberbox" data-options="required:true,min:0,precision:1">(A)</td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120" ><lable><span class="required">*</span>超规范报警停机：</lable></td>
-				  				<td class="rightTd" colspan="2">
-				  					停机<input type="radio" value="0" style="width:50px;" name="sxfcharacter"/>
-				  					不停机<input type="radio" value="1" style="width:50px;" name="sxfcharacter"/>
-				  				</td>
-				  				<td class="rightTd" width="120"></td>
-				  				<td class="leftTd" width="120"></td>
-				  				<td class="rightTd" width="120"></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_stop_time" id="sxfwarn_stop_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
 				  			</tr>
 		            	</table>
 		            </div>
@@ -673,73 +675,73 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            		<table>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电流上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_ele_top" id="sxfpreset_ele_top" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_ele_top" id="sxfpreset_ele_top" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电压上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_vol_top" id="sxfpreset_vol_top" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(V)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_vol_top" id="sxfpreset_vol_top" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电流上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol1" id="sxfini_vol1" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol1" id="sxfini_vol1" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电流下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_ele_bottom" id="sxfpreset_ele_bottom" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_ele_bottom" id="sxfpreset_ele_bottom" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电压下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_vol_bottom" id="sxfpreset_vol_bottom" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(V)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_vol_bottom" id="sxfpreset_vol_bottom" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电流下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_tuny_ele" id="sxfweld_tuny_ele" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_tuny_ele" id="sxfweld_tuny_ele" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电流上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_vol1" id="sxfweld_vol1" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_vol1" id="sxfweld_vol1" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol_top" id="sxfarc_vol_top" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(V)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol_top" id="sxfarc_vol_top" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol1" id="sxfarc_vol1" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(V)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol1" id="sxfarc_vol1" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电流下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_tuny_ele" id="sxfarc_tuny_ele" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_tuny_ele" id="sxfarc_tuny_ele" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_tuny_vol" id="sxfarc_tuny_vol" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(V)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_tuny_vol" id="sxfarc_tuny_vol" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_tuny_vol" id="sxfweld_tuny_vol" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(V)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_tuny_vol" id="sxfweld_tuny_vol" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
 				  			</tr>
 		            	</table>
 		            </div>
 	            </div>
-	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;">
+	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;display:none">
 	            	<div>
 	            		<table>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电流报警上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_ele_warn_top" id="sxfpreset_ele_warn_top" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_ele_warn_top" id="sxfpreset_ele_warn_top" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电压报警上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_vol_warn_top" id="sxfpreset_vol_warn_top" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(V)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_vol_warn_top" id="sxfpreset_vol_warn_top" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电流报警上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_ele_warn_top" id="sxfini_ele_warn_top" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_ele_warn_top" id="sxfini_ele_warn_top" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电流报警下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_ele_warn_bottom" id="sxfpreset_ele_warn_bottom" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_ele_warn_bottom" id="sxfpreset_ele_warn_bottom" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电压报警下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_vol_warn_bottom" id="sxfpreset_vol_warn_bottom" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(V)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_vol_warn_bottom" id="sxfpreset_vol_warn_bottom" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电流报警下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_ele_warn_bottom" id="sxfini_ele_warn_bottom" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_ele_warn_bottom" id="sxfini_ele_warn_bottom" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电流报警上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_ele_warn_top" id="sxfarc_ele_warn_top" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_ele_warn_top" id="sxfarc_ele_warn_top" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压报警上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol_warn_top" id="sxfarc_vol_warn_top" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(V)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol_warn_top" id="sxfarc_vol_warn_top" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压报警上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol_warn_top" id="sxfini_vol_warn_top" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(V)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol_warn_top" id="sxfini_vol_warn_top" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电流下报警限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_ele_warn_bottom" id="sxfarc_ele_warn_bottom" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(A)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_ele_warn_bottom" id="sxfarc_ele_warn_bottom" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压下报警限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol_warn_bottom" id="sxfarc_vol_warn_bottom" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(V)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol_warn_bottom" id="sxfarc_vol_warn_bottom" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压报警下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol_warn_bottom" id="sxfini_vol_warn_bottom" class="easyui-numberbox" data-options="required:true,max:999,precision:1">(V)</td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol_warn_bottom" id="sxfini_vol_warn_bottom" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
 				  			</tr>
 		            	</table>
 		            </div>

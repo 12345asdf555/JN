@@ -206,6 +206,7 @@ function addMainWps() {
 		$("#sxgetWpsBut").show();
 		$("#sxSaveWpsBut").show();
 		$('#sxfm').form('clear');
+		sxDefault();
 		$('#editSxDlg').window('open');
 		$("input[name='sxfcharacter']").eq(0).prop("checked", true);
 		url = "wps/addSxWps?fwpslib_id=" + wlrow.fid+"&fcharacter="+$('input[name="sxfcharacter"]:checked').val();

@@ -107,7 +107,7 @@ function webclient() {
 	};
 	socket.onmessage = function(msg) {
 		var xxx = msg.data;
-		if(xxx.length==285){
+		if(xxx.length==285||xxx.length==95){
 		if (xxx.substring(0, 2) != "7E") {
 			redata = msg.data;
 			if (symbol == 0) {

@@ -324,70 +324,100 @@ function showSelectSxWps(id) {
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'ftime',
-			title : '点焊时间',
-			halign : "center",
-			align : "left"
-		}, {
 			field : 'selectname',
 			title : '分别/一元',
 			halign : "center",
 			align : "left"
-		}, {
+		}, /*{
 			field : 'ininame',
 			title : '干伸长度',
 			halign : "center",
 			align : "left"
-		}, {
+		}, */{
 			field : 'fselect',
 			title : '分别/一元',
 			halign : "center",
 			align : "left",
 			hidden : true
+		},  {
+			field : 'ftime',
+			title : '点焊时间',
+			halign : "center",
+			align : "left"
 		}, {
+			field : 'farc_delay_time',
+			title : '启弧延时时间',
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fwarn_delay_time',
+			title : '报警延时时间',
+			halign : "center",
+			align : "left"
+		},/*{
 			field : 'finitial',
 			title : '干伸长度',
 			halign : "center",
 			align : "left",
 			hidden : true
-		}, {
-			field : 'fweld_vol',
-			title : '焊接上限',
+		},*/ {
+			field : 'fpreset_ele_top',
+			title : '预置电流上限',
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'fweld_ele',
-			title : '焊接下限',
+			field : 'fpreset_ele_bottom',
+			title : '预置电流下限',
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'fini_ele',
-			title : '初期上限',
+			field : 'fpreset_vol_top',
+			title : '预置电压上限',
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'fini_vol',
-			title : '初期下限',
+			field : 'fpreset_vol_bottom',
+			title : '预置电压下限',
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'farc_ele',
-			title : '收弧上限',
+			field : 'fini_vol1',
+			title : '初期电流上限',
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_tuny_ele',
+			title : '初期电流下限',
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'farc_vol',
-			title : '收弧下限',
+			title : '初期电压上限',
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'fadvance',
-			title : '延时时间',
+			field : 'fweld_tuny_vol',
+			title : '初期电压下线',
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'fhysteresis',
-			title : '修正周期',
+			field : 'fweld_vol1',
+			title : '收弧电流上线',
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'farc_tuny_ele',
+			title : '收弧电流下线',
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'farc_vol_top',
+			title : '收弧电压上线',
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'farc_tuny_vol',
+			title : '收弧电压下线',
 			halign : "center",
 			align : "left"
 		} ] ],
@@ -1466,6 +1496,7 @@ function setSxMainWps() {
 			}
 		}
 		var oneMinuteTimer = window.setTimeout(function() {
+			websocket.close();
 			alert("下发完成");
 			$('#sxSelectdlg').window('close');
 			$('#sxMachinedlg').window('close');
@@ -1492,7 +1523,7 @@ function setSxMainWps() {
 		
 		websocket.onmessage = function(msg) {
 			var fan = msg.data;
-			if (fan.substring(0, 6) == "FE5AA5") {
+			if (fan.substring(0, 6) == "FE5AA5" && fan.substring(6,10) == "001A") {
 				var rows = $('#giveResultTable').datagrid("getRows");
 				if (parseInt(fan.substring(44, 46), 16) != 2) {//控制，2表示OK
 					realLength++;
@@ -1675,7 +1706,7 @@ function getSxMainWps() {
 		websocket.onmessage = function(msg) {
 			var da = msg.data;
 			if (da.substring(0, 6) == "FE5AA5") {
-				if (parseInt(da.substring(46, 48)) == 0) {
+				if (da.substring(6,10) == "001A") {
 					flag++;
 					websocket.close();
 					if (websocket.readyState != 1) {
@@ -1703,7 +1734,7 @@ function getSxMainWps() {
 					$("#sxfcontroller").combobox('setValue', parseInt(da.substring(106, 108), 16));
 					$("#sxfarc").combobox('setValue', parseInt(da.substring(108, 110), 16));
 					$("#sxftime").numberbox('setValue', (parseInt(da.substring(110, 114), 16) / 10).toFixed(1));
-					if (da.substring(114, 116) == "0") {
+					if (parseInt(da.substring(114, 116)) == "0") {
 						$('#sxfselect').combobox('select', 102);
 					} else {
 						$('#sxfselect').combobox('select', 101);
