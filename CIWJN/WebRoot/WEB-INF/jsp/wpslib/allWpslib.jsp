@@ -660,7 +660,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>延时时间：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fdelay_time" id="sxfdelay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1"></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fdelay_time" id="sxfdelay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,,precision:1"></td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>超限时间：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fover_time" id="sxfover_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>修正周期：</lable></td>
