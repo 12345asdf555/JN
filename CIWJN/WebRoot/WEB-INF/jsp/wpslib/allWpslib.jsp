@@ -628,8 +628,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fadvance" id="sxfadvance" class="easyui-numberbox" data-options="required:true,max:255"></td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>修正周期：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fhysteresis" id="sxfhysteresis" class="easyui-numberbox" data-options="required:true,max:255"></td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>点焊时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="ftime" id="sxftime" class="easyui-numberbox" data-options="required:true,min:0,max:6553.5,precision:1"></td>
+<!-- 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>点焊时间：</lable></td> -->
+<!-- 				  				<td class="rightTd" width="120"><input style="width:85px;" name="ftime" id="sxftime" class="easyui-numberbox" data-options="required:true,min:0,max:6553.5,precision:1"></td> -->
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>干伸长度：</lable></td>
@@ -666,10 +666,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="ffixed_cycle" id="sxffixed_cycle" class="easyui-numberbox" data-options="required:true,min:0.1,max:10,precision:1"></td>
 				  			</tr>
 		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>起弧延时时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_delay_time" id="sxfarc_delay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:3,precision:1">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警延时时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_delay_time" id="sxfwarn_delay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
+<!-- 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>起弧延时时间：</lable></td> -->
+<!-- 				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_delay_time" id="sxfarc_delay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:3,precision:1">(A)</td> -->
+<!-- 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警延时时间：</lable></td> -->
+<!-- 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_delay_time" id="sxfwarn_delay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td> -->
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警停机时间：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_stop_time" id="sxfwarn_stop_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
 				  			</tr>
