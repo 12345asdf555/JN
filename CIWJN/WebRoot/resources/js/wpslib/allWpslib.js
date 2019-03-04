@@ -652,6 +652,16 @@ function wpslibDatagrid(){
 						halign : "center",
 						align : "left"
 					},{
+						field : 'fwarn_tuny_ele',
+						title : '报警电流微调',
+						halign : "center",
+						align : "left"
+					},{
+						field : 'fwarn_tuny_vol',
+						title : '报警电压微调',
+						halign : "center",
+						align : "left"
+					},{
 						field : 'edit',
 						title : '编辑',
 						width : 150,
@@ -745,10 +755,10 @@ function sxDefault(){
 	$("#sxfover_time").numberbox('setValue', 12.3);
 	$("#sxffixed_cycle").numberbox('setValue', 12.3);
 	$("#sxfwarn_stop_time").numberbox('setValue', 12.3);
-	$("#sxfpreset_ele_warn_top").numberbox('setValue', 1234);
+/*	$("#sxfpreset_ele_warn_top").numberbox('setValue', 1234);
 	$("#sxfpreset_vol_warn_top").numberbox('setValue', 543.2);
 	$("#sxfpreset_ele_warn_bottom").numberbox('setValue', 1234);
-	$("#sxfpreset_vol_warn_bottom").numberbox('setValue', 543.2);
+	$("#sxfpreset_vol_warn_bottom").numberbox('setValue', 543.2);*/
 	
 	$("#sxfini_ele_warn_top").numberbox('setValue', 1234);
 	$("#sxfini_vol_warn_top").numberbox('setValue', 543.2);

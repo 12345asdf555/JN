@@ -219,6 +219,16 @@ function selectMainWps(value,model){
 			title : '收弧电压微调',
 			halign : "center",
 			align : "left"
+		},{
+			field : 'fwarn_tuny_ele',
+			title : '报警电流微调',
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fwarn_tuny_vol',
+			title : '报警电压微调',
+			halign : "center",
+			align : "left"
 		}
 		] ],
 		pagination : true,
@@ -1486,7 +1496,7 @@ function setSxMainWps() {
 				giveArray.push(0);//失败
 				giveArray.push(0);//未响应
 			} else {
-				if (giveArray.indexOf(selectMachine[smindex].equipmentNo) == (-1)) {
+				if ($.inArray(selectMachine[smindex],giveArray) == (-1)) {
 					giveArray.push(selectMachine[smindex].equipmentNo);
 					giveArray.push(parseInt(selectMachine[smindex].gatherId));
 					giveArray.push(0);
@@ -1528,12 +1538,12 @@ function setSxMainWps() {
 				if (parseInt(fan.substring(44, 46), 16) != 2) {//控制，2表示OK
 					realLength++;
 					var frchanel = parseInt(fan.substring(46, 48), 16);
-					var indexNum = giveArray.indexOf(parseInt(fan.substring(10, 14), 16));
+					var indexNum = $.inArray(parseInt(fan.substring(10, 14),16),giveArray);
 					if (indexNum != -1) {
 						giveArray[indexNum + 2] = frchanel;
 						if (rows[(indexNum - 1) / 5].noNum != "0") {
 							var onNumArr = rows[(indexNum - 1) / 5].noNum.split(",");
-							onNumArr.splice(onNumArr.indexOf(frchanel), 1);
+							onNumArr.splice($.inArray(frchanel,onNumArr), 1);
 							var nowNoArr = onNumArr;
 							if (nowNoArr.length != 0) {
 								rows[(indexNum - 1) / 5].noNum = nowNoArr.join(",");
@@ -1571,12 +1581,12 @@ function setSxMainWps() {
 				} else {
 					realLength++;
 					var frchanel = parseInt(fan.substring(46, 48), 16);
-					var indexNum = giveArray.indexOf(parseInt(fan.substring(10, 14), 16));
+					var indexNum = $.inArray(parseInt(fan.substring(10, 14), 16),giveArray);
 					if (indexNum != -1) {
 						giveArray[indexNum + 1] = frchanel;
 						if (rows[(indexNum - 1) / 5].noNum != "0") {
 							var onNumArr = rows[(indexNum - 1) / 5].noNum.split(",");
-							onNumArr.splice(onNumArr.indexOf(frchanel), 1);
+							onNumArr.splice($.inArray(frchanel,onNumArr), 1);
 							var nowNoArr = onNumArr;
 							if (nowNoArr.length != 0) {
 								rows[(indexNum - 1) / 5].noNum = nowNoArr.join(",");

@@ -118,10 +118,10 @@ function save(){
 	var url2 = "";
 	if(flag==1){
 		messager = "新增成功！";
-		url2 = url+"?status="+sid+"&aid="+str+"&roleName="+roleName+"&roleDesc="+roleDesc;
+		url2 = url+"?status="+sid+"&aid="+str+"&roleName="+encodeURI(roleName)+"&roleDesc="+encodeURI(roleDesc);
 	}else{
 		messager = "修改成功！";
-		url2 = url+"&status="+sid+"&aid="+str+"&roleName="+roleName+"&roleDesc="+roleDesc;
+		url2 = url+"&status="+sid+"&aid="+str+"&roleName="+encodeURI(roleName)+"&roleDesc="+encodeURI(roleDesc);
 	}
 /*	$('#fm').form('submit', {
 		url : url2,

@@ -107,7 +107,7 @@ function webclient() {
 	};
 	socket.onmessage = function(msg) {
 		var xxx = msg.data;
-		if(xxx.length==285||xxx.length==95){
+		if(xxx.length==333||xxx.length==111){
 		if (xxx.substring(0, 2) != "7E") {
 			redata = msg.data;
 			if (symbol == 0) {
@@ -173,7 +173,7 @@ function webclient() {
 				symbol = 1;
 			}
 
-			for (var i = 0; i < redata.length; i += 95) {
+			for (var i = 0; i < redata.length; i += 111) {
 				if (redata.substring(0 + i, 4 + i) != "0000") {
 					//组织机构与焊工编号都与数据库中一致则录入
 					if (weld.length == 0) {
@@ -192,7 +192,7 @@ function webclient() {
 				}
 				if (redata.substring(36 + i, 38 + i) == "03" || redata.substring(36 + i, 38 + i) == "05" || redata.substring(36 + i, 38 + i) == "07" || redata.substring(36 + i, 38 + i) == "00") {
 					for (var x = 0; x < machine.length; x++) {
-						if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i))) {
+						if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i),10)) {
 							if (mall.length == 0) {
 								var arr = {
 									"fid" : redata.substring(4 + i, 8 + i),
@@ -218,7 +218,7 @@ function webclient() {
 					}
 				}else{
 					for (var x = 0; x < machine.length; x++) {
-						if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i))) {
+						if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i),10)) {
 							if (warn.length == 0) {
 								warn.push(redata.substring(4 + i, 8 + i));
 							} else {

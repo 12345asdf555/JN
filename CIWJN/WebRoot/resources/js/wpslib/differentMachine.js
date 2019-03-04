@@ -205,6 +205,20 @@ function CPVEW() {
 					fweld_tuny_ele = "0" + fweld_tuny_ele;
 				}
 			}
+			var fwarn_tuny_ele = parseInt(selectMainWpsRows[mwindex].fwarn_tuny_ele).toString(16);
+			if (fwarn_tuny_ele.length < 2) {
+				var length = 2 - fwarn_tuny_ele.length;
+				for (var i = 0; i < length; i++) {
+					fwarn_tuny_ele = "0" + fwarn_tuny_ele;
+				}
+			}
+			var fwarn_tuny_vol = (parseFloat(selectMainWpsRows[mwindex].fwarn_tuny_vol) * 10).toString(16);
+			if (fwarn_tuny_vol.length < 2) {
+				var length = 2 - fwarn_tuny_vol.length;
+				for (var i = 0; i < length; i++) {
+					fwarn_tuny_vol = "0" + fwarn_tuny_vol;
+				}
+			}
 			if (selectMainWpsRows[mwindex].fselect == 102) {
 				var fweld_tuny_vol = (parseFloat(selectMainWpsRows[mwindex].fweld_tuny_vol) * 10).toString(16);
 				var farc_tuny_vol = (parseFloat(selectMainWpsRows[mwindex].farc_tuny_vol) * 10).toString(16);
@@ -291,7 +305,7 @@ function CPVEW() {
 				}
 			}
 			;
-			xxx = "7E" + data_length + "01010152" + xiafasend1;
+			xxx = "7E" + data_length + "01"+fwarn_tuny_ele+fwarn_tuny_vol+"52" + xiafasend1;
 			var check = 0;
 			for (var i = 0; i < (xxx.length / 2); i++) {
 				var tstr1 = xxx.substring(i * 2, i * 2 + 2);
@@ -548,6 +562,8 @@ function CPVEWGET(data) {
 	}
 	$("#fweld_tuny_ele").numberbox('setValue', parseInt(data.substring(84, 86), 16));
 	$("#farc_tuny_ele").numberbox('setValue', parseInt(data.substring(88, 90), 16));
+	$("#fwarn_tuny_ele").numberbox('setValue', parseInt(data.substring(6, 8), 16));
+	$("#fwarn_tuny_vol").numberbox('setValue', (parseInt(data.substring(8, 10), 16) / 10).toFixed(1));
 	if (sconx.substring(2, 3) == "0") {
 		$("#fweld_tuny_vol").numberbox('setValue', (parseInt(data.substring(86, 88), 16) / 10).toFixed(1));
 		$("#farc_tuny_vol").numberbox('setValue', (parseInt(data.substring(90, 92), 16) / 10).toFixed(1));
@@ -644,6 +660,8 @@ function CPVEWINIT() {
 	$("#fweld_tuny_vol").numberbox('setValue', 0);
 	$("#farc_tuny_ele").numberbox('setValue', 0);
 	$("#farc_tuny_vol").numberbox('setValue', 0);
+	$("#fwarn_tuny_ele").numberbox('setValue', 20);
+	$("#fwarn_tuny_vol").numberbox('setValue', 4);
 	$('#farc').combobox('select', 111);
 	$('#fweldprocess').combobox('select', 0);
 	/*$("#frequency").numberbox('setValue', 3);
@@ -724,6 +742,14 @@ function CPVEWCHECK() {
 	}
 	if ($('#farc_tuny_ele').numberbox('getValue') < (0) || $('#farc_tuny_ele').numberbox('getValue') > (50)) {
 		alert("收弧电流微调范围：0~50");
+		return false;
+	}
+	if ($('#fwarn_tuny_ele').numberbox('getValue') < (0) || $('#fwarn_tuny_ele').numberbox('getValue') > (250)) {
+		alert("报警电流微调范围：0~250");
+		return false;
+	}
+	if ($('#fwarn_tuny_vol').numberbox('getValue') < (0) || $('#fwarn_tuny_vol').numberbox('getValue') > (25)) {
+		alert("报警电压微调范围：0~25");
 		return false;
 	}
 	if ($('#fselect').combobox('getValue') == 102) {

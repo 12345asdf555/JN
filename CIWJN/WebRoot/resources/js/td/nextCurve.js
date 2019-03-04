@@ -35,6 +35,7 @@ var maxele = 0;
 var minele = 0;
 var maxvol = 0;
 var minvol = 0;
+var warnele_up=0,warnele_down=0,warnvol_up=0,warnvol_down=0;
 var rows;
 var fmch;
 var tongdao;
@@ -402,8 +403,8 @@ function iview() {
 	vol.length = 0;
 	ele.length = 0;
 
-	if(redata.length==285||redata.length==95){
-	for (var i = 0; i < redata.length; i += 95) {
+	if(redata.length==333||redata.length==111){
+	for (var i = 0; i < redata.length; i += 111) {
 		//				if(redata.substring(8+i, 12+i)!="0000"){
 		if (parseInt(redata.substring(4 + i, 8 + i),10) == $("#machineid").val()) {
 			time1++;
@@ -424,6 +425,10 @@ function iview() {
 			minele = parseInt(redata.substring(79 + i, 83 + i), 10);
 			maxvol = parseFloat(parseInt(redata.substring(83 + i, 87 + i), 10) / 10).toFixed(2);
 			minvol = parseFloat(parseInt(redata.substring(87 + i, 91 + i), 10) / 10).toFixed(2);
+			warnele_up = parseInt(redata.substring(95 + i, 99 + i), 10);
+			warnele_down = parseInt(redata.substring(99 + i, 103 + i), 10);
+			warnvol_up = parseFloat(parseInt(redata.substring(103 + i, 107 + i), 10) / 10).toFixed(2);
+			warnvol_down = parseFloat(parseInt(redata.substring(107 + i, 111 + i), 10) / 10).toFixed(2);
 			if (symbol == 0) {
 				elecurve();
 				volcurve();
@@ -435,10 +440,10 @@ function iview() {
 			$("#r14").html(parseFloat((parseInt(redata.substring(50 + i, 54 + i), 10) / 10).toFixed(2)));
 			$("#c1").html(parseInt(redata.substring(38 + i, 42 + i), 10));
 			$("#c2").html((parseInt(redata.substring(42 + i, 46 + i), 10) / 10).toFixed(1));
-			if(parseInt(redata.substring(91 + i, 95 + i))==255){
+			if(parseInt(redata.substring(91 + i, 95 + i),10)==255){
 				$("#r6").textbox('setValue',"自由调节状态");
 			}else{
-				$("#r6").textbox('setValue',parseInt(redata.substring(91 + i, 95 + i)));
+				$("#r6").textbox('setValue',parseInt(redata.substring(91 + i, 95 + i),10));
 			}
 			for (var k = 0; k < welderName.length; k++) {
 				if (welderName[k].fid == parseInt(redata.substring(0 + i, 4 + i),10)) {
@@ -620,6 +625,8 @@ function activeLastPointToolip(chart) {
 	chart.yAxis[0].removePlotLine('plot-line-0');
 	chart.yAxis[0].removePlotLine('plot-line-1');
 	chart.yAxis[0].removePlotLine('plot-line-2');
+	chart.yAxis[0].removePlotLine('plot-line-6');
+	chart.yAxis[0].removePlotLine('plot-line-7');
 	/*  		    chart.tooltip.refresh(points[points.length -1]);
 	  		    chart.tooltip.refresh(points1[points1.length -1]);*/
 	chart.yAxis[0].addPlotLine({ //在y轴上增加 
@@ -646,6 +653,30 @@ function activeLastPointToolip(chart) {
 			x : 10 //标签相对于被定位的位置水平偏移的像素，重新定位，水平居左10px
 		}
 	})
+		chart.yAxis[0].addPlotLine({ //在y轴上增加 
+		value : warnele_up, //在值为2的地方 
+		width : 2, //标示线的宽度为2px 
+		color : 'red', //标示线的颜色 
+		dashStyle : 'longdashdot',
+		id : 'plot-line-6', //标示线的id，在删除该标示线的时候需要该id标示 });
+		label : {
+			text : '报警电流上限', //标签的内容
+			align : 'center', //标签的水平位置，水平居左,默认是水平居中center
+			x : 10 //标签相对于被定位的位置水平偏移的像素，重新定位，水平居左10px
+		}
+	});
+	chart.yAxis[0].addPlotLine({ //在y轴上增加 
+		value : warnele_down, //在值为2的地方 
+		width : 2, //标示线的宽度为2px 
+		color : 'red', //标示线的颜色 
+		dashStyle : 'longdashdot',
+		id : 'plot-line-7', //标示线的id，在删除该标示线的时候需要该id标示 });
+		label : {
+			text : '报警电流下限', //标签的内容
+			align : 'center', //标签的水平位置，水平居左,默认是水平居中center
+			x : 10 //标签相对于被定位的位置水平偏移的像素，重新定位，水平居左10px
+		}
+	})
 	chart.yAxis[0].addPlotLine({ //在y轴上增加 
 		value : (minele + maxele) / 2, //在值为2的地方 
 		width : 2, //标示线的宽度为2px 
@@ -665,6 +696,8 @@ function activeLastPointToolip1(chart) {
 	chart.yAxis[0].removePlotLine('plot-line-3');
 	chart.yAxis[0].removePlotLine('plot-line-4');
 	chart.yAxis[0].removePlotLine('plot-line-5');
+	chart.yAxis[0].removePlotLine('plot-line-8');
+	chart.yAxis[0].removePlotLine('plot-line-9');
 	/*  		    chart.tooltip.refresh(points[points.length -1]);
 	  		    chart.tooltip.refresh(points1[points1.length -1]);*/
 	chart.yAxis[0].addPlotLine({ //在y轴上增加 
@@ -687,6 +720,30 @@ function activeLastPointToolip1(chart) {
 		id : 'plot-line-4', //标示线的id，在删除该标示线的时候需要该id标示 });
 		label : {
 			text : '最低电压', //标签的内容
+			align : 'center', //标签的水平位置，水平居左,默认是水平居中center
+			x : 10 //标签相对于被定位的位置水平偏移的像素，重新定位，水平居左10px
+		}
+	})
+		chart.yAxis[0].addPlotLine({ //在y轴上增加 
+		value : warnvol_up, //在值为2的地方 
+		width : 2, //标示线的宽度为2px 
+		color : 'black', //标示线的颜色 
+		dashStyle : 'longdashdot',
+		id : 'plot-line-8', //标示线的id，在删除该标示线的时候需要该id标示 });
+		label : {
+			text : '报警电压上限', //标签的内容
+			align : 'center', //标签的水平位置，水平居左,默认是水平居中center
+			x : 10
+		}
+	})
+	chart.yAxis[0].addPlotLine({ //在y轴上增加 
+		value : warnvol_down, //在值为2的地方 
+		width : 2, //标示线的宽度为2px 
+		color : 'black', //标示线的颜色 
+		dashStyle : 'longdashdot',
+		id : 'plot-line-9', //标示线的id，在删除该标示线的时候需要该id标示 });
+		label : {
+			text : '报警电压下限', //标签的内容
 			align : 'center', //标签的水平位置，水平居左,默认是水平居中center
 			x : 10 //标签相对于被定位的位置水平偏移的像素，重新定位，水平居左10px
 		}

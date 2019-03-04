@@ -3,7 +3,7 @@ var charts;
 var websocketURL, dic, starows, redata, symbol=0, welderName, taskNum, socket;
 var worknum=0, standbynum=0, warnnum=0, offnum=0, flag = 0, showflag = 0;
 var liveary = new Array(), machine = new Array();
-
+var charts;
 $(function(){
 	loadtree();
 	websocketUrl();
@@ -53,6 +53,8 @@ function loadtree() {
 				$('#myTree').tree('select', nownodes.target);
 				getMachine(insfid);
 				//初始化
+			 	//初始化echart实例
+				charts = echarts.init(document.getElementById("piecharts"));
 				showChart();
 			}
 
@@ -134,9 +136,9 @@ function getMachine(insfid) {
 					if(type==41){
 						imgnum = 1;
 					}else if(type==42){
-						imgnum = 2;
-					}else if(type==43){
 						imgnum = 3;
+					}else if(type==43){
+						imgnum = 2;
 					}
 					var str = '<div id="machine'+machine[i].fid+'" style="width:250px;height:120px;float:left;margin-right:10px;display:none">'+
 						'<div style="float:left;width:40%;height:100%;"><a href="td/goNextcurve?value='+machine[i].fid+'&valuename='+machine[i].fequipment_no+'&type='+machine[i].type+'"><img id="img'+machine[i].fid+'" src="resources/images/welder_4'+imgnum+'.png" style="height:110px;width:100%;padding-top:10px;"></a></div>'+
@@ -315,11 +317,11 @@ function iview(){
 			showChart();
     		/*document.getElementById("load").style.display ='none';
     		document.getElementById("show").style.display ='none';*/
-		},5000);
+		},3000);
 		flag=2;
 	}
-	if(redata.length==285||redata.length==95){
-		for(var i = 0;i < redata.length;i+=95){
+	if(redata.length==333||redata.length==111){
+		for(var i = 0;i < redata.length;i+=111){
 //			if(redata.substring(8+i, 12+i)!="0000"){
 				for(var f=0;f<machine.length;f++){
 					if(machine[f].fid==(parseInt(redata.substring(4+i, 8+i),10))){
@@ -327,9 +329,9 @@ function iview(){
 						if(type==41){
 							imgnum = 1;
 						}else if(type==42){
-							imgnum = 2;
-						}else if(type==43){
 							imgnum = 3;
+						}else if(type==43){
+							imgnum = 2;
 						}
 						$("#m3"+machine[f].fid).html("--");
 						$("#m2"+machine[f].fid).html("--");
@@ -344,7 +346,7 @@ function iview(){
 							}
 						}
 						var liveele = parseInt(redata.substring(38+i, 42+i),10);
-			            var livevol = parseFloat((parseInt(redata.substring(42+i, 46+i))/10).toFixed(2));
+			            var livevol = parseFloat((parseInt(redata.substring(42+i, 46+i),10)/10).toFixed(2));
 			            var maxele = parseInt(redata.substring(75+i, 79+i));
 			            var minele = parseInt(redata.substring(79+i, 83+i));
 			            var maxvol = parseInt(redata.substring(83+i, 87+i));
@@ -482,8 +484,6 @@ function iview(){
 }
 //饼图统计
 function showChart(){
- 	//初始化echart实例
-	var charts = echarts.init(document.getElementById("piecharts"));
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -506,7 +506,7 @@ function showChart(){
 			name:'实时统计',
 			type:'pie',
 			radius : ['45%', '60%'],
-          color:['#7cbc16','#55a7f3','#fe0002','#818181'],
+          color:['#55a7f3','#7cbc16','#fe0002','#818181'],
 			data:[
               {value:($("#work").html()/$("#machinenum").html()*100).toFixed(2), name:'工作', id :0},
               {value:($("#standby").html()/$("#machinenum").html()*100).toFixed(2), name:'待机', id :1},
@@ -554,9 +554,9 @@ window.setInterval(function(){
 			if(type==41){
 				imgnum = 1;
 			}else if(type==42){
-				imgnum = 2;
-			}else if(type==43){
 				imgnum = 3;
+			}else if(type==43){
+				imgnum = 2;
 			}
 			for(var j=0;j<tempary.length;j++){
 				if(machine[i].fid==tempary[j].fid){
@@ -588,9 +588,9 @@ window.setInterval(function(){
 				if(type==41){
 					imgnum = 1;
 				}else if(type==42){
-					imgnum = 2;
-				}else if(type==43){
 					imgnum = 3;
+				}else if(type==43){
+					imgnum = 2;
 				}
 				if(statusnum==3){
 					var offflag = true;
@@ -662,9 +662,9 @@ function statusClick(statusnum){
 				if(type==41){
 					imgnum = 1;
 				}else if(type==42){
-					imgnum = 2;
-				}else if(type==43){
 					imgnum = 3;
+				}else if(type==43){
+					imgnum = 2;
 				}
 				for(var j=0;j<tempary.length;j++){
 					if(machine[i].fid==tempary[j].fid){

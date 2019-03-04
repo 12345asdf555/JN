@@ -341,6 +341,8 @@ public class WpsController {
 		double farc_vol1 = Double.valueOf(request.getParameter("farc_vol1"));
 		double fweld_tuny_vol = Double.valueOf(request.getParameter("fweld_tuny_vol"));
 		double farc_tuny_vol = Double.valueOf(request.getParameter("farc_tuny_vol"));
+		double fwarn_tuny_ele = Double.valueOf(request.getParameter("fwarn_tuny_ele"));
+		double fwarn_tuny_vol = Double.valueOf(request.getParameter("fwarn_tuny_vol"));
 		int fprocess = Integer.valueOf(request.getParameter("fprocess"));
 		int ftorch = Integer.valueOf(request.getParameter("ftorch"));
 		try{
@@ -375,6 +377,8 @@ public class WpsController {
 			wps.setFid(fid);
 			wps.setFprocessid(fprocess);
 			wps.setFtorch(ftorch);
+			wps.setFwarn_tuny_ele(fwarn_tuny_ele);
+			wps.setFwarn_tuny_vol(fwarn_tuny_vol);
 /*			if(wpsService.findCount(machine,chanel.toString())<=0){
 				wpsService.saveSpe(wps);
 			}else{
@@ -425,6 +429,8 @@ public class WpsController {
 		double farc_vol1 = Double.valueOf(request.getParameter("farc_vol1"));
 		double fweld_tuny_vol = Double.valueOf(request.getParameter("fweld_tuny_vol"));
 		double farc_tuny_vol = Double.valueOf(request.getParameter("farc_tuny_vol"));
+		double fwarn_tuny_ele = Double.valueOf(request.getParameter("fwarn_tuny_ele"));
+		double fwarn_tuny_vol = Double.valueOf(request.getParameter("fwarn_tuny_vol"));
 		int fprocess = Integer.valueOf(request.getParameter("fprocess"));
 		int ftorch = Integer.valueOf(request.getParameter("ftorch"));
 		try{
@@ -459,6 +465,9 @@ public class WpsController {
 			wps.setFid(fid);
 			wps.setFprocessid(fprocess);
 			wps.setFtorch(ftorch);
+			wps.setFwarn_tuny_ele(fwarn_tuny_ele);
+			wps.setFwarn_tuny_vol(fwarn_tuny_vol);
+			
 /*			if(wpsService.findCount(machine,chanel.toString())<=0){
 				wpsService.saveSpe(wps);
 			}else{
@@ -927,6 +936,8 @@ public class WpsController {
 				json.put("farc_tuny_vol", wps.getFdiameter());
 				json.put("fweldprocess", wps.getFprocessid());
 				json.put("fprocessname", wps.getFprocessname());
+				json.put("fwarn_tuny_ele", wps.getFwarn_tuny_ele());
+				json.put("fwarn_tuny_vol", wps.getFwarn_tuny_vol());
 				ary.add(json);
 			}
 		}catch(Exception e){

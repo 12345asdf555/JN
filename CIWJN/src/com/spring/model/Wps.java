@@ -83,6 +83,8 @@ public class Wps {
 	private double fdelay_time;
 	private double fover_time;
 	private double ffixed_cycle;
+	private double fwarn_tuny_ele;
+	private double fwarn_tuny_vol;
 	private int fselect;
 	private int farc;
 	private int fcharacter;
@@ -306,7 +308,7 @@ public class Wps {
 			int fweld_i,int fweld_v,int fweld_i_max,int fweld_i_min,int fweld_v_max,int fweld_v_min,int fweld_alter_i,int fweld_alter_v,int fweld_prechannel,Date fcreatedate,Date fupdatedate,long fcreater,long fupdater,long fowner,
 			String fback,String fname,double fdiameter,double ftime,double fadvance,double fhysteresis,double fini_ele,double fini_vol,double fini_vol1,double fweld_ele,
 			double fweld_vol,double fweld_vol1,double farc_ele,double farc_vol,double farc_vol1,double fweld_tuny_ele,double fweld_tuny_vol,double farc_tuny_ele,String finitial,
-			String fcontroller,String fmode,int fstatus,String arcname,String selectname,String gasname,String dianame,String materialname,int ftorch,int fprocessid,String fprocessname) {
+			String fcontroller,String fmode,int fstatus,String arcname,String selectname,String gasname,String dianame,String materialname,int ftorch,int fprocessid,String fprocessname,double fwarn_tuny_ele,double fwarn_tuny_vol) {
 		super();
 		this.macid = macid;
 		this.insname = insname;
@@ -359,6 +361,8 @@ public class Wps {
 		this.fprocessid = fprocessid;
 		this.fprocessname = fprocessname;
 		this.ftorch = ftorch;
+		this.fwarn_tuny_ele = fwarn_tuny_ele;
+		this.fwarn_tuny_vol = fwarn_tuny_vol;
 	}
 	public double getFtime() {
 		return ftime;
@@ -671,6 +675,18 @@ public class Wps {
 	}
 	public void setFtorch(int ftorch) {
 		this.ftorch = ftorch;
+	}
+	public double getFwarn_tuny_ele() {
+		return fwarn_tuny_ele;
+	}
+	public void setFwarn_tuny_ele(double fwarn_tuny_ele) {
+		this.fwarn_tuny_ele = fwarn_tuny_ele;
+	}
+	public double getFwarn_tuny_vol() {
+		return fwarn_tuny_vol;
+	}
+	public void setFwarn_tuny_vol(double fwarn_tuny_vol) {
+		this.fwarn_tuny_vol = fwarn_tuny_vol;
 	}
 	
 }

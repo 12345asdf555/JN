@@ -266,7 +266,7 @@ public class DataStatisticsController {
 				ary.add(json);
 			}
 			//表头
-			String [] str = {"所属班组","设备总数","开机设备数","实焊设备数","设备利用率(%)","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String [] str = {"所属班组","设备总数","开机设备数","实焊设备数","设备利用率(%)","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -328,7 +328,7 @@ public class DataStatisticsController {
 						json.put("t2", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
 						json.put("t3", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
 						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t4", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))));//规范符合率
+							json.put("t4", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))*100));//规范符合率
 						}else{
 							json.put("t4",0);
 						}
@@ -447,7 +447,7 @@ public class DataStatisticsController {
 				ary.add(json);
 			}
 			//表头
-			String [] str = {"所属班组","设备编号","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String [] str = {"所属班组","设备编号","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -515,7 +515,7 @@ public class DataStatisticsController {
 						json.put("t3", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
 						json.put("t4", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
 						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t5", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))));//规范符合率
+							json.put("t5", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))*100));//规范符合率
 						}else{
 							json.put("t5",0);
 						}
@@ -626,7 +626,7 @@ public class DataStatisticsController {
 				ary.add(json);
 			}
 			//表头
-			String [] str = {"焊工编号","焊工名称","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String [] str = {"焊工编号","焊工名称","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -688,7 +688,7 @@ public class DataStatisticsController {
 						json.put("t3", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
 						json.put("t4", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
 						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t5", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))));//规范符合率
+							json.put("t5", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))*100));//规范符合率
 						}else{
 							json.put("t5",0);
 						}
@@ -860,7 +860,7 @@ public class DataStatisticsController {
 						json.put("t2", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
 						json.put("t3", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
 						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t4", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))));//规范符合率
+							json.put("t4", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))*100));//规范符合率
 						}else{
 							json.put("t4",0);
 						}
