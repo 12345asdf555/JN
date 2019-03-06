@@ -562,6 +562,16 @@ function iview() {
 					$("#l5").css("background-color", "#fe0002");
 					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
 					break;
+				case "98":
+					$("#l5").val("超规范停机");
+					$("#l5").css("background-color", "#fe0002");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+					break;
+				case "99":
+					$("#l5").val("超规范报警");
+					$("#l5").css("background-color", "#fe0002");
+					$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+					break;
 				}
 				var x = time[z],
 					y = ele[z],
@@ -749,7 +759,7 @@ function activeLastPointToolip1(chart) {
 		}
 	})
 	chart.yAxis[0].addPlotLine({ //在y轴上增加 
-		value : (minvol + maxvol) / 2, //在值为2的地方 
+		value : (parseInt(minvol) + parseInt(maxvol)) / 2, //在值为2的地方 
 		width : 2, //标示线的宽度为2px 
 		color : 'black', //标示线的颜色 
 		dashStyle : 'longdashdot',

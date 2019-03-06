@@ -449,6 +449,16 @@ function iview(){
 							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
+						case "98":
+							livestatus = "超规范停机";
+							livestatusid = 2;
+							liveimg = "resources/images/welder_3"+imgnum+".png";
+							break;
+						case "99":
+							livestatus = "超规范报警";
+							livestatusid = 2;
+							liveimg = "resources/images/welder_3"+imgnum+".png";
+							break;
 						}
 						if(liveary.length==0){
 							liveary.push(

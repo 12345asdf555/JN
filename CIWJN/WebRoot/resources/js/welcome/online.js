@@ -3,6 +3,7 @@ var wait = new Array();
 var weld = new Array();
 var mall = new Array();
 var warn = new Array();
+var machineary = [], mallary = [];
 var websocketURL;
 var socket;
 var redata;
@@ -41,7 +42,6 @@ function welder() {
 		}
 	});
 }
-
 function machine() {
 	//焊机总数machine.length
 	$.ajax({
@@ -53,6 +53,9 @@ function machine() {
 		success : function(result) {
 			if (result) {
 				machine = eval(result.rows);
+				for(var i=0;i<machine.length;i++){
+					machineary.push(machine[i].fid);
+				}
 			}
 		},
 		error : function(errorMsg) {
@@ -179,61 +182,68 @@ function webclient() {
 					if (weld.length == 0) {
 						weld.push(redata.substring(0 + i, 4 + i));
 					} else {
-						for (var j = 0; j < weld.length; j++) {
-							if (weld[j] != redata.substring(0 + i, 4 + i)) {
-								if (j == weld.length - 1) {
+//						for (var j = 0; j < weld.length; j++) {
+//							if (weld[j] != redata.substring(0 + i, 4 + i)) {
+							if($.inArray(redata.substring(0 + i, 4 + i),weld)==-1){
+//								if (j == weld.length - 1) {
 									weld.push(redata.substring(0 + i, 4 + i));
-								}
+//								}
 							} else {
 								break;
 							}
-						}
+//						}
 					}
 				}
 				if (redata.substring(36 + i, 38 + i) == "03" || redata.substring(36 + i, 38 + i) == "05" || redata.substring(36 + i, 38 + i) == "07" || redata.substring(36 + i, 38 + i) == "00") {
-					for (var x = 0; x < machine.length; x++) {
-						if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i),10)) {
+//					for (var x = 0; x < machine.length; x++) {
+//						if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i),10)) {
+						if($.inArray(parseInt(redata.substring(4 + i, 8 + i),10),machineary)!=-1){
 							if (mall.length == 0) {
 								var arr = {
 									"fid" : redata.substring(4 + i, 8 + i),
 									"fstatus" : redata.substring(36 + i, 38 + i)
 								}
+								mallary.push(redata.substring(4 + i, 8 + i));
 								mall.push(arr);
 							} else {
-								for (var j = 0; j < mall.length; j++) {
-									if (mall[j].fid != redata.substring(4 + i, 8 + i)) {
-										if (j == mall.length - 1) {
+//								for (var j = 0; j < mall.length; j++) {
+//									if (mall[j].fid != redata.substring(4 + i, 8 + i)) {
+									if($.inArray(redata.substring(4 + i, 8 + i),mallary)==-1){
+//										if (j == mall.length - 1) {
 											var arr = {
 												"fid" : redata.substring(4 + i, 8 + i),
 												"fstatus" : redata.substring(36 + i, 38 + i)
 											}
 											mall.push(arr);
-										}
+											mallary.push(redata.substring(4 + i, 8 + i));
+//										}
 									} else {
 										break;
 									}
-								}
+//								}
 							}
 						}
-					}
+//					}
 				}else{
-					for (var x = 0; x < machine.length; x++) {
-						if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i),10)) {
+//					for (var x = 0; x < machine.length; x++) {
+//						if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i),10)) {
+						if($.inArray(parseInt(redata.substring(4 + i, 8 + i),10),machineary)!=-1){
 							if (warn.length == 0) {
 								warn.push(redata.substring(4 + i, 8 + i));
 							} else {
-								for (var j = 0; j < warn.length; j++) {
-									if (warn[j].fid != redata.substring(4 + i, 8 + i)) {
-										if (j == warn.length - 1) {
+//								for (var j = 0; j < warn.length; j++) {
+//									if (warn[j].fid != redata.substring(4 + i, 8 + i)) {
+									if($.inArray(redata.substring(4 + i, 8 + i),warn)==-1){
+//										if (j == warn.length - 1) {
 											warn.push(redata.substring(4 + i, 8 + i));
-										}
+//										}
 									} else {
 										break;
 									}
-								}
+//								}
 							}
 						}
-					}
+//					}
 				}
 			}
 		}
