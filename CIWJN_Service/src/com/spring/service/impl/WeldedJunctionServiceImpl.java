@@ -31,6 +31,8 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 	
 	public SocketChannel socketChannel = null;
 	
+	public String data = "";
+	
 	@Override
 	public Object getWeldedJunctionAll() {
 		try{
@@ -456,4 +458,45 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 		return data;
 	}
 
+	@Override
+	public Object getMachineData() {
+		
+		client.run();
+		int count = 0;
+		while(socketChannel == null){
+			count++;
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(count == 2){
+				break;
+			}
+		}
+		if(socketChannel != null){
+			try {
+				socketChannel.writeAndFlush("SS").sync();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		int count1 = 0;
+		while(data.equals("")){
+			count1++;
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(count1 == 1){
+				break;
+			}
+		}
+		return data;
+	}
+	
 }

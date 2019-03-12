@@ -73,4 +73,6 @@ public interface WeldedJunctionService {
 	 * @param object
 	 */
 	boolean giveToServer(String object);
+	
+	Object getMachineData();
 }

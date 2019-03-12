@@ -28,6 +28,7 @@ public class Client
   public Bootstrap bootstrap = new Bootstrap();
   public WeldedJunctionServiceImpl weldedJunctionServiceImpl;
   public ConnectionListener CL = new ConnectionListener(this);
+  public TcpClientHandler handler;
   
   public Client(WeldedJunctionServiceImpl weldedJunctionServiceImpl1) {
 	// TODO Auto-generated constructor stub
@@ -61,7 +62,7 @@ public class Client
           CL.socketChannel = socketChannel;
         }  
       });  
-      bootstrap.remoteAddress("192.168.3.79",5551);
+      bootstrap.remoteAddress("192.168.3.140",5551);
       bootstrap.connect().addListener(CL); 
     }  
     return bootstrap;  
