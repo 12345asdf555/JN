@@ -33,6 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/wpslib/giveWpslib.js"></script>
 	<script type="text/javascript" src="resources/js/wpslib/differentMachine.js"></script>
 	<script type="text/javascript" src="resources/js/wpslib/control.js"></script>
+	<script type="text/javascript" src="resources/js/wpslib/comboboxCheck.js"></script>
 	<script type="text/javascript" src="resources/js/swfobject.js"></script>
 	<script type="text/javascript" src="resources/js/web_socket.js"></script>
 	<style type="text/css">
@@ -171,8 +172,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  				<td class="rightTd" width="20"><input style="width:30px;" name="fcontroller" id="fcontroller" type="checkbox" value="1"/></td>
 			  				<td id="dmodel" class="leftTd" width="100"><lable>柔软电弧模式：</lable></td>
 			  				<td id="imodel" class="rightTd" width="30"><input style="width:30px;" name="fmode" id="fmode" type="checkbox" value="1"></td>
-			  				<td id="dtorch" class="leftTd" width="100"><lable>水冷焊枪：</lable></td>
-			  				<td id="itorch" class="rightTd" width="30"><input style="width:30px;" name="ftorch" id="ftorch" type="checkbox" value="0"></td>
+			  				<td id="dtorch" class="leftTd" width="100" style="display:none"><lable>水冷焊枪：</lable></td>
+			  				<td id="itorch" class="rightTd" width="30" style="display:none"><input style="width:30px;" name="ftorch" id="ftorch" type="checkbox" value="0"></td>
 			  			</tr>
 	            	</table>
 	            </div>
@@ -254,16 +255,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_tuny_ele" id="fweld_tuny_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电流微调：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_tuny_ele" id="farc_tuny_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警电流微调：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_tuny_ele" id="fwarn_tuny_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
+				  				<!-- <td class="leftTd" width="120"><lable><span class="required">*</span>报警电流微调：</lable></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_tuny_ele" id="fwarn_tuny_ele" class="easyui-numberbox" data-options="required:true">(A)</td> -->
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电压微调：</lable></td>
 				  				<td class="rightTd" width="130"><input style="width:85px;" name="fweld_tuny_vol" id="fweld_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压微调：</lable></td>
 				  				<td class="rightTd" width="130"><input style="width:85px;" name="farc_tuny_vol" id="farc_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警电压微调：</lable></td>
-				  				<td class="rightTd" width="130"><input style="width:85px;" name="fwarn_tuny_vol" id="fwarn_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td>
+				  				<!-- <td class="leftTd" width="120"><lable><span class="required">*</span>报警电压微调：</lable></td>
+				  				<td class="rightTd" width="130"><input style="width:85px;" name="fwarn_tuny_vol" id="fwarn_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td> -->
+				  			</tr>
+				  			<tr>
+				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警电流上限：</lable></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_ele_up" id="fwarn_ele_up" class="easyui-numberbox" data-options="required:true">(A)</td>
+				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警电流下限：</lable></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_ele_down" id="fwarn_ele_down" class="easyui-numberbox" data-options="required:true">(A)</td>
+				  				<!-- <td class="leftTd" width="120"><lable><span class="required">*</span>报警电流微调：</lable></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_tuny_ele" id="fwarn_tuny_ele" class="easyui-numberbox" data-options="required:true">(A)</td> -->
+				  			</tr>
+		            		<tr>
+				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警电压上限：</lable></td>
+				  				<td class="rightTd" width="130"><input style="width:85px;" name="fwarn_vol_up" id="fwarn_vol_up" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td>
+				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警电压下限：</lable></td>
+				  				<td class="rightTd" width="130"><input style="width:85px;" name="fwarn_vol_down" id="fwarn_vol_down" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td>
+				  				<!-- <td class="leftTd" width="120"><lable><span class="required">*</span>报警电压微调：</lable></td>
+				  				<td class="rightTd" width="130"><input style="width:85px;" name="fwarn_tuny_vol" id="fwarn_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td> -->
 				  			</tr>
 		            	</table>
 		            </div>
@@ -406,7 +423,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电流：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_ele" id="fweld_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
 				  			</tr>
-		            		<tr>
+		            		<tr id="trgebie">
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol" id="fini_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电压：</lable></td>
@@ -414,7 +431,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  			    <td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol" id="farc_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
 				  			</tr>
-		            		<tr>
+		            		<tr id="tryiyuan">
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电压（一元）：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_vol1" id="fweld_vol1" class="easyui-numberbox" data-options="required:true">(±1)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压（一元）：</lable></td>

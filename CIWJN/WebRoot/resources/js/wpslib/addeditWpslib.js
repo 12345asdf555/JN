@@ -187,6 +187,7 @@ function addMainWps() {
 		return;
 	} else if (wlrow.model == 171) {
 		CPVEWINIT();
+		comboboxCheck(wlrow.model);
 		$('#mwdlg').window('open');
 		return;
 	} else if (wlrow.model == 172) {
@@ -212,6 +213,7 @@ function addMainWps() {
 		url = "wps/addSxWps?fwpslib_id=" + wlrow.fid+"&fcharacter="+$('input[name="sxfcharacter"]:checked').val();
 		return;
 	}
+	
 }
 
 function editMainWps(indexrow,row) {
@@ -232,6 +234,9 @@ function editMainWps(indexrow,row) {
 			CPVESINIT();
 		} else if (row.model == 173) {
 			CPVETINIT();
+		} else if (row.model == 171) {
+			CPVEWINIT();
+			comboboxCheck(row.model);
 		} else if (row.model == 180){
 			mflag = 2;
 			$('#sxfm').form('clear');
@@ -256,16 +261,16 @@ function editMainWps(indexrow,row) {
 		});
 		$('#mwdlg').window('open');
 		$('#mwfm').form('load', indexrow);
-		if (indexrow.finitial == "是") {
+		if (encodeURI(indexrow.initial) == "1") {
 			$("#finitial").prop("checked", true);
 		}
-		if (indexrow.fmode == "是") {
+		if (encodeURI(indexrow.mode) == "1") {
 			$("#fmode").prop("checked", true);
 		}
-		if (indexrow.fcontroller == "是") {
+		if (encodeURI(indexrow.controller) == "1") {
 			$("#fcontroller").prop("checked", true);
 		}
-		if (indexrow.ftorch == "是") {
+		if (encodeURI(indexrow.torch) == "1") {
 			$("#ftorch").prop("checked", true);
 		}
 		url = "wps/updateMainWps?fid=" + indexrow.fid;
@@ -356,7 +361,7 @@ function saveMainWps() {
 	} else {
 		fcontroller = 0;
 	}
-	if ($("#finitial").is(":checked") == true) {
+	if ($("#fmode").is(":checked") == true) {
 		fmode = 1;
 	} else {
 		fmode = 0;
@@ -390,9 +395,18 @@ function saveMainWps() {
 	var fweld_tuny_vol = $('#fweld_tuny_vol').numberbox('getValue');
 	var farc_tuny_vol = $('#farc_tuny_vol').numberbox('getValue');
 	var fprocess = $('#fweldprocess').combobox('getValue');
-	var fwarn_tuny_ele = $('#fwarn_tuny_ele').numberbox('getValue');
-	var fwarn_tuny_vol = $('#fwarn_tuny_vol').numberbox('getValue');
-	url2 = url + "&finitial=" + finitial + "&fcontroller=" + fcontroller + "&fmode=" + fmode + "&fselect=" + fselect + "&farc=" + farc + "&fmaterial=" + fmaterial + "&fgas=" + fgas + "&fdiameter=" + fdiameter + "&chanel=" + chanel + "&ftime=" + ftime + "&fadvance=" + fadvance + "&fini_ele=" + fini_ele + "&fweld_ele=" + fweld_ele + "&farc_ele=" + farc_ele + "&fhysteresis=" + fhysteresis + "&fcharacter=" + fcharacter + "&fweld_tuny_ele=" + fweld_tuny_ele + "&farc_tuny_ele=" + farc_tuny_ele + "&fini_vol=" + fini_vol + "&fini_vol1=" + fini_vol1 + "&fweld_vol=" + fweld_vol + "&fweld_vol1=" + fweld_vol1 + "&farc_vol=" + farc_vol + "&farc_vol1=" + farc_vol1 + "&fweld_tuny_vol=" + fweld_tuny_vol + "&farc_tuny_vol=" + farc_tuny_vol + "&fprocess=" + fprocess + "&ftorch=" + ftorch + "&fwarn_tuny_ele=" + fwarn_tuny_ele + "&fwarn_tuny_vol=" + fwarn_tuny_vol;
+	var fwarn_ele_up = $('#fwarn_ele_up').numberbox('getValue');
+	var fwarn_ele_down = $('#fwarn_ele_down').numberbox('getValue');
+	var fwarn_vol_up = $('#fwarn_vol_up').numberbox('getValue');
+	var fwarn_vol_down = $('#fwarn_vol_down').numberbox('getValue');
+	url2 = url + "&finitial=" + finitial + "&fcontroller=" + fcontroller + "&fmode=" + fmode + "&fselect=" + fselect 
+	+ "&farc=" + farc + "&fmaterial=" + fmaterial + "&fgas=" + fgas + "&fdiameter=" + fdiameter + "&chanel=" + chanel 
+	+ "&ftime=" + ftime + "&fadvance=" + fadvance + "&fini_ele=" + fini_ele + "&fweld_ele=" + fweld_ele + "&farc_ele=" + farc_ele 
+	+ "&fhysteresis=" + fhysteresis + "&fcharacter=" + fcharacter + "&fweld_tuny_ele=" + fweld_tuny_ele + "&farc_tuny_ele=" + farc_tuny_ele 
+	+ "&fini_vol=" + fini_vol + "&fini_vol1=" + fini_vol1 + "&fweld_vol=" + fweld_vol + "&fweld_vol1=" + fweld_vol1 + "&farc_vol=" + farc_vol 
+	+ "&farc_vol1=" + farc_vol1 + "&fweld_tuny_vol=" + fweld_tuny_vol + "&farc_tuny_vol=" + farc_tuny_vol + "&fprocess=" + fprocess 
+	+ "&ftorch=" + ftorch + "&fwarn_ele_up=" + fwarn_ele_up + "&fwarn_ele_down=" + fwarn_ele_down + "&fwarn_vol_up=" + fwarn_vol_up 
+	+ "&fwarn_vol_down=" + fwarn_vol_down;
 	$.ajax({
 		type : "post",
 		async : false,
