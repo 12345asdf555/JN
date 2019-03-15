@@ -305,6 +305,19 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			client.run();
 			while(!a){
 				time++;
+				int count1 = 0;
+				while(socketChannel == null){
+					count1++;
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if(count1 == 2){
+						break;
+					}
+				}
 				if(socketChannel != null){
 					try {
 						socketChannel.writeAndFlush("JN"+","+taskid+","+welderid+","+machineid+","+status+","+machineno).sync();
@@ -349,6 +362,19 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			client.run();
 			while(!a){
 				time++;
+				int count1 = 0;
+				while(socketChannel == null){
+					count1++;
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if(count1 == 2){
+						break;
+					}
+				}
 				if(socketChannel != null){
 					try {
 						socketChannel.writeAndFlush("JN"+","+taskid+","+welderid+","+machineid+","+status+","+machineno).sync();
@@ -395,6 +421,19 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			client.run();
 			while(!a){
 				time++;
+				int count = 0;
+				while(socketChannel == null){
+					count++;
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if(count == 2){
+						break;
+					}
+				}
 				if(socketChannel != null){
 					try {
 						socketChannel.writeAndFlush("JN"+","+taskid+","+welderid+","+machineid+","+status+","+machineno).sync();
@@ -428,6 +467,19 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			client.run();
 			while(!a){
 				time++;
+				int count = 0;
+				while(socketChannel == null){
+					count++;
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if(count == 2){
+						break;
+					}
+				}
 				if(socketChannel != null){
 					try {
 						socketChannel.writeAndFlush("JN"+","+taskid+","+welderid+","+machineid+","+status+","+machineno).sync();
