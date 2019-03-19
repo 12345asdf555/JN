@@ -341,8 +341,10 @@ public class WpsController {
 		double farc_vol1 = Double.valueOf(request.getParameter("farc_vol1"));
 		double fweld_tuny_vol = Double.valueOf(request.getParameter("fweld_tuny_vol"));
 		double farc_tuny_vol = Double.valueOf(request.getParameter("farc_tuny_vol"));
-		double fwarn_tuny_ele = Double.valueOf(request.getParameter("fwarn_tuny_ele"));
-		double fwarn_tuny_vol = Double.valueOf(request.getParameter("fwarn_tuny_vol"));
+		double fwarn_ele_up = Double.valueOf(request.getParameter("fwarn_ele_up"));
+		double fwarn_ele_down = Double.valueOf(request.getParameter("fwarn_ele_down"));
+		double fwarn_vol_up = Double.valueOf(request.getParameter("fwarn_vol_up"));
+		double fwarn_vol_down = Double.valueOf(request.getParameter("fwarn_vol_down"));
 		int fprocess = Integer.valueOf(request.getParameter("fprocess"));
 		int ftorch = Integer.valueOf(request.getParameter("ftorch"));
 		try{
@@ -377,8 +379,10 @@ public class WpsController {
 			wps.setFid(fid);
 			wps.setFprocessid(fprocess);
 			wps.setFtorch(ftorch);
-			wps.setFwarn_tuny_ele(fwarn_tuny_ele);
-			wps.setFwarn_tuny_vol(fwarn_tuny_vol);
+			wps.setFwarn_ele_up(fwarn_ele_up);
+			wps.setFwarn_ele_down(fwarn_ele_down);
+			wps.setFwarn_vol_up(fwarn_vol_up);
+			wps.setFwarn_vol_down(fwarn_vol_down);
 /*			if(wpsService.findCount(machine,chanel.toString())<=0){
 				wpsService.saveSpe(wps);
 			}else{
@@ -429,8 +433,10 @@ public class WpsController {
 		double farc_vol1 = Double.valueOf(request.getParameter("farc_vol1"));
 		double fweld_tuny_vol = Double.valueOf(request.getParameter("fweld_tuny_vol"));
 		double farc_tuny_vol = Double.valueOf(request.getParameter("farc_tuny_vol"));
-		double fwarn_tuny_ele = Double.valueOf(request.getParameter("fwarn_tuny_ele"));
-		double fwarn_tuny_vol = Double.valueOf(request.getParameter("fwarn_tuny_vol"));
+		double fwarn_ele_up = Double.valueOf(request.getParameter("fwarn_ele_up"));
+		double fwarn_ele_down = Double.valueOf(request.getParameter("fwarn_ele_down"));
+		double fwarn_vol_up = Double.valueOf(request.getParameter("fwarn_vol_up"));
+		double fwarn_vol_down = Double.valueOf(request.getParameter("fwarn_vol_down"));
 		int fprocess = Integer.valueOf(request.getParameter("fprocess"));
 		int ftorch = Integer.valueOf(request.getParameter("ftorch"));
 		try{
@@ -465,8 +471,10 @@ public class WpsController {
 			wps.setFid(fid);
 			wps.setFprocessid(fprocess);
 			wps.setFtorch(ftorch);
-			wps.setFwarn_tuny_ele(fwarn_tuny_ele);
-			wps.setFwarn_tuny_vol(fwarn_tuny_vol);
+			wps.setFwarn_ele_up(fwarn_ele_up);
+			wps.setFwarn_ele_down(fwarn_ele_down);
+			wps.setFwarn_vol_up(fwarn_vol_up);
+			wps.setFwarn_vol_down(fwarn_vol_down);
 			
 /*			if(wpsService.findCount(machine,chanel.toString())<=0){
 				wpsService.saveSpe(wps);
@@ -892,12 +900,16 @@ public class WpsController {
 				json.put("fid", wps.getFid());
 				json.put("fchanel", wps.getWelderid());
 				json.put("finitial", "否");
+				json.put("initial", "0");
 				if(Integer.valueOf(wps.getFinitial())==1){
 					json.put("finitial", "是");
+					json.put("initial", "1");
 				}
 				json.put("fcontroller", "否");
+				json.put("controller", "0");
 				if(Integer.valueOf(wps.getFcontroller())==1){
 					json.put("fcontroller", "是");
+					json.put("controller", "1");
 				}
 				json.put("fselect",wps.getInsname());
 				json.put("fselectname",wps.getSelectname());
@@ -905,12 +917,16 @@ public class WpsController {
 				json.put("farcname", wps.getArcname());
 				json.put("fcharacter", wps.getFweld_v_max());
 				json.put("fmode", "否");
+				json.put("mode", "0");
 				if(Integer.valueOf(wps.getFmode())==1){
 					json.put("fmode", "是");
+					json.put("mode", "1");
 				}
 				json.put("ftorch", "否");
+				json.put("torch", "0");
 				if(wps.getFtorch()==1){
 					json.put("ftorch", "是");
+					json.put("torch", "1");
 				}
 				json.put("fmaterial", wps.getUpdatename());
 				json.put("fmaterialname", wps.getMaterialname());
@@ -936,8 +952,11 @@ public class WpsController {
 				json.put("farc_tuny_vol", wps.getFdiameter());
 				json.put("fweldprocess", wps.getFprocessid());
 				json.put("fprocessname", wps.getFprocessname());
-				json.put("fwarn_tuny_ele", wps.getFwarn_tuny_ele());
-				json.put("fwarn_tuny_vol", wps.getFwarn_tuny_vol());
+				json.put("fwarn_ele_up", wps.getFwarn_ele_up());
+				json.put("fwarn_ele_down", wps.getFwarn_ele_down());
+				json.put("fwarn_vol_up", wps.getFwarn_vol_up());
+				json.put("fwarn_vol_down", wps.getFwarn_vol_down());
+				
 				ary.add(json);
 			}
 		}catch(Exception e){

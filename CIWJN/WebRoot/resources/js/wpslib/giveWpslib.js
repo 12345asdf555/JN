@@ -220,13 +220,23 @@ function selectMainWps(value,model){
 			halign : "center",
 			align : "left"
 		},{
-			field : 'fwarn_tuny_ele',
-			title : '报警电流微调',
+			field : 'fwarn_ele_up',
+			title : '报警电流上限',
 			halign : "center",
 			align : "left"
 		},{
-			field : 'fwarn_tuny_vol',
-			title : '报警电压微调',
+			field : 'fwarn_ele_down',
+			title : '报警电流下限',
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fwarn_vol_up',
+			title : '报警电压上限',
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fwarn_vol_down',
+			title : '报警电压下限',
 			halign : "center",
 			align : "left"
 		}

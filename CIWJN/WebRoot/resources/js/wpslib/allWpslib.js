@@ -4,6 +4,17 @@
 $(function(){
 	wpslibDatagrid();
 	sxDefault();
+	$("#fselect").combobox({
+		onSelect : function(record) {
+			if (record.value == 102) {
+//				document.getElementById("tryiyuan").style.display = "none";
+				$("#tryiyuan").next().hide();
+			} else {
+//				document.getElementById("trgebie").style.display = "none";
+				$("#trgebie").css('display' ,'none')
+			}
+		}
+	});
 })
 
 function wpslibDatagrid(){
@@ -486,16 +497,34 @@ function wpslibDatagrid(){
 						halign : "center",
 						align : "left"
 					},{ 
+						field : 'initial',
+						title : '初期条件value值',
+						halign : "center",
+						align : "left",
+						hidden : true
+					},{ 
 						field : 'fcontroller',
 						title : '熔深控制',
 						halign : "center",
 						align : "left"
 					},{ 
+						field : 'controller',
+						title : '熔深控制value值',
+						halign : "center",
+						align : "left",
+						hidden : true
+					},{ 
 						field : 'ftorch',
 						title : '水冷焊枪',
 						halign : "center",
 						align : "left"
-					}, {
+					}, { 
+						field : 'torch',
+						title : '水冷焊枪value值',
+						halign : "center",
+						align : "left",
+						hidden : true
+					},{
 						field : 'fselectname',
 						title : '一元/个别',
 						halign : "center",
@@ -527,6 +556,12 @@ function wpslibDatagrid(){
 						title : '柔软电弧模式',
 						halign : "center",
 						align : "left"
+					} ,{
+						field : 'mode',
+						title : '柔软电弧模式value值',
+						halign : "center",
+						align : "left",
+						hidden : true
 					}, {
 						field : 'fmaterialname',
 						title : '焊丝材质',
@@ -652,13 +687,23 @@ function wpslibDatagrid(){
 						halign : "center",
 						align : "left"
 					},{
-						field : 'fwarn_tuny_ele',
-						title : '报警电流微调',
+						field : 'fwarn_ele_up',
+						title : '报警电流上限',
 						halign : "center",
 						align : "left"
 					},{
-						field : 'fwarn_tuny_vol',
-						title : '报警电压微调',
+						field : 'fwarn_ele_down',
+						title : '报警电流下限',
+						halign : "center",
+						align : "left"
+					},{
+						field : 'fwarn_vol_up',
+						title : '报警电压上限',
+						halign : "center",
+						align : "left"
+					},{
+						field : 'fwarn_vol_down',
+						title : '报警电压下限',
 						halign : "center",
 						align : "left"
 					},{

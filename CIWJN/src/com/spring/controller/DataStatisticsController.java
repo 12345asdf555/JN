@@ -314,27 +314,27 @@ public class DataStatisticsController {
 			}
 			dto.setParent(im.getUserInsframework());
 			List<DataStatistics> ilist = dss.getWeldItemInCount(page,dto);
-			List<DataStatistics> olist = dss.getWeldItemOutCount(page,dto);
+//			List<DataStatistics> olist = dss.getWeldItemOutCount(page,dto);
 			
 			if(ilist != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(ilist);
 				total = pageinfo.getTotal();
 			}
 			for(DataStatistics i:ilist){
-				for(DataStatistics o:olist){
-					if(i.getName().equals(o.getName())){
+/*				for(DataStatistics o:olist){
+					if(i.getName().equals(o.getName())){*/
 						json.put("t0", i.getName());//所属班组
 						json.put("t1", getTimeStrBySecond(i.getInsid()));//累计焊接时间
-						json.put("t2", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
-						json.put("t3", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
-						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t4", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))*100));//规范符合率
+						json.put("t2", getTimeStrBySecond(i.getInsid().subtract(i.getWorktime())));//正常焊接时长
+						json.put("t3", getTimeStrBySecond(i.getWorktime()));//超规范焊接时长
+						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(i.getWorktime().toString())!=0){
+							json.put("t4", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(i.getWorktime()).toString())/(Integer.valueOf(i.getInsid().toString()))*100));//规范符合率
 						}else{
 							json.put("t4",0);
 						}
 						ary.add(json);
-					}
-				}
+/*					}
+				}*/
 			}
 			//表头
 			String [] str = {"所属班组","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
@@ -500,28 +500,28 @@ public class DataStatisticsController {
 				itemid = im.getUserInsframework();
 			}
 			List<DataStatistics> ilist = dss.getWeldMachineInCount(page,dto,itemid);
-			List<DataStatistics> olist = dss.getWeldMachineOutCount(page,dto,itemid);
+//			List<DataStatistics> olist = dss.getWeldMachineOutCount(page,dto,itemid);
 			
 			if(ilist != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(ilist);
 				total = pageinfo.getTotal();
 			}
 			for(DataStatistics i:ilist){
-				for(DataStatistics o:olist){
-					if(i.getName().equals(o.getName())){
+/*				for(DataStatistics o:olist){
+					if(i.getName().equals(o.getName())){*/
 						json.put("t0", i.getInsname());//所属班组
 						json.put("t1", i.getName());//焊机编号
 						json.put("t2", getTimeStrBySecond(i.getInsid()));//累计焊接时间
-						json.put("t3", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
-						json.put("t4", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
-						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t5", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))*100));//规范符合率
+						json.put("t3", getTimeStrBySecond(i.getInsid().subtract(i.getWorktime())));//正常焊接时长
+						json.put("t4", getTimeStrBySecond(i.getWorktime()));//超规范焊接时长
+						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(i.getWorktime().toString())!=0){
+							json.put("t5", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(i.getWorktime()).toString())/(Integer.valueOf(i.getInsid().toString()))*100));//规范符合率
 						}else{
 							json.put("t5",0);
 						}
 						ary.add(json);
-					}
-				}
+/*					}
+				}*/
 			}
 			//表头
 			String [] str = {"所属班组","设备编码","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
@@ -673,28 +673,28 @@ public class DataStatisticsController {
 			}
 			dto.setParent(im.getUserInsframework());
 			List<DataStatistics> ilist = dss.getWeldPersonInCount(page,dto);
-			List<DataStatistics> olist = dss.getWeldPersonOutCount(page,dto);
+//			List<DataStatistics> olist = dss.getWeldPersonOutCount(page,dto);
 			
 			if(ilist != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(ilist);
 				total = pageinfo.getTotal();
 			}
 			for(DataStatistics i:ilist){
-				for(DataStatistics o:olist){
-					if((i.getInsname()).equals(o.getInsname())){
+//				for(DataStatistics o:olist){
+//					if((i.getInsname()).equals(o.getInsname())){
 						json.put("t0", i.getInsname());//焊工编号
 						json.put("t1", i.getName());//焊工 姓名
 						json.put("t2", getTimeStrBySecond(i.getInsid()));//累计焊接时间
-						json.put("t3", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
-						json.put("t4", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
-						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t5", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))*100));//规范符合率
+						json.put("t3", getTimeStrBySecond(i.getInsid().subtract(i.getWorktime())));//正常焊接时长
+						json.put("t4", getTimeStrBySecond(i.getWorktime()));//超规范焊接时长
+						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(i.getWorktime().toString())!=0){
+							json.put("t5", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(i.getWorktime()).toString())/(Integer.valueOf(i.getInsid().toString()))*100));//规范符合率
 						}else{
 							json.put("t5",0);
 						}
 						ary.add(json);
-					}
-				}
+//					}
+//				}
 			}
 			//表头
 			String [] str = {"焊工编号","焊工姓名","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
@@ -846,27 +846,27 @@ public class DataStatisticsController {
 			}
 			dto.setParent(im.getUserInsframework());
 			List<DataStatistics> ilist = dss.getWeldPieceInCount(page,dto,"%"+ junctionno+"%");
-			List<DataStatistics> olist = dss.getWeldPieceOutCount(page,dto,"%"+ junctionno+"%");
+//			List<DataStatistics> olist = dss.getWeldPieceOutCount(page,dto,"%"+ junctionno+"%");
 			
 			if(ilist != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(ilist);
 				total = pageinfo.getTotal();
 			}
 			for(DataStatistics i:ilist){
-				for(DataStatistics o:olist){
-					if((i.getInsname()).equals(o.getInsname())){
+//				for(DataStatistics o:olist){
+//					if((i.getInsname()).equals(o.getInsname())){
 						json.put("t0", i.getInsname());//工件编号
 						json.put("t1", getTimeStrBySecond(i.getInsid()));//累计焊接时间
-						json.put("t2", getTimeStrBySecond(i.getInsid().subtract(o.getInsid())));//正常焊接时长
-						json.put("t3", getTimeStrBySecond(o.getInsid()));//超规范焊接时长
-						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-							json.put("t4", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString()))*100));//规范符合率
+						json.put("t2", getTimeStrBySecond(i.getInsid().subtract(i.getWorktime())));//正常焊接时长
+						json.put("t3", getTimeStrBySecond(i.getWorktime()));//超规范焊接时长
+						if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(i.getWorktime().toString())!=0){
+							json.put("t4", new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(i.getWorktime()).toString())/(Integer.valueOf(i.getInsid().toString()))*100));//规范符合率
 						}else{
 							json.put("t4",0);
 						}
 						ary.add(json);
-					}
-				}
+//					}
+//				}
 			}
 			//表头
 			String [] str = {"焊缝编号","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
