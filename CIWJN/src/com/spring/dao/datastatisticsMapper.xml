@@ -61,7 +61,7 @@
 		<if test="dtoTime2!=null and dtoTime2!=''">
 			and (frealendtime &lt;= #{dtoTime2}  or frealendtime is null)
 		</if> group by t.ftaskid,t.fwelderid,t.fmachineid
-		UNION ALL
+		<!-- UNION ALL
 		select t.ftaskid,t.fwelderid,t.fmachineid, i.fname,w.fwelder_no,w.fname weldername,m.fequipment_no, j.fwelded_junction_no,t.frealstarttime,
 		t.frealendtime,fchannel,avg(felectricity) felectricity, AVG(fvoltage) fvoltage,sum(tw.falarmtime) alarmtime,0 warntime ,0 worktime from tb_taskresult t 
 		left JOIN tb_welder w on w.fid = t.fwelderid left join tb_welding_machine m on m.fid = t.fmachineid 
@@ -83,7 +83,7 @@
 		</if>
 		<if test="dtoTime2!=null and dtoTime2!=''">
 			and (frealendtime &lt;= #{dtoTime2}  or frealendtime is null)
-		</if> group by t.ftaskid,t.fwelderid,t.fmachineid
+		</if> group by t.ftaskid,t.fwelderid,t.fmachineid -->
 		UNION ALL
 		select t.ftaskid,t.fwelderid,t.fmachineid, i.fname,w.fwelder_no,w.fname weldername,m.fequipment_no, j.fwelded_junction_no,t.frealstarttime,
 		t.frealendtime,fchannel,avg(felectricity) felectricity, AVG(fvoltage) fvoltage,0 alarmtime,sum(tw.fwarntime) warntime ,0 worktime from tb_taskresult t 
@@ -206,7 +206,7 @@
 			</if>
 		</if>
 		UNION
-		select fmachine_id from tb_alarm  w
+		select fmachine_id from tb_warn  w
 		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
         left JOIN tb_insframework insf on insf.fid = ins.fparent
 		where fmachine_id!=0
@@ -370,9 +370,9 @@
 			</if>
 		</if>
 		UNION ALL
-		select sum(falarmtime) num from tb_alarm w INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
+		select sum(fwarntime) num from tb_warn w INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
         left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where 1=1
+		where w.fstatus !=99
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
@@ -429,9 +429,9 @@
 			</if>
 		</if>
 		UNION ALL
-		select sum(falarmtime) num from tb_alarm w INNER JOIN tb_insframework i on i.fid  = w.fjunction_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
+		select sum(fwarntime) num from tb_warn w INNER JOIN tb_insframework i on i.fid  = w.fjunction_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
         left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where 1=1
+		where w.fstatus !=99
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
@@ -488,9 +488,9 @@
 			</if>
 		</if>
 		UNION ALL
-		select sum(falarmtime) num from tb_alarm w INNER JOIN tb_insframework i on i.fid  = w.fwelder_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
+		select sum(fwarntime) num from tb_warn w INNER JOIN tb_insframework i on i.fid  = w.fjunction_itemid left JOIN tb_insframework ins on ins.fid = i.fparent
         left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where 1=1
+		where w.fstatus !=99
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
@@ -1216,9 +1216,9 @@
 	<!-- 查询组织机构超规范焊接时长 -->
 	<select id="getItemOverProofTime"  resultMap="dataMap">
 		select * from (
-		select i.fid,i.fname,SUM(w.falarmtime)/60/60 hour,DATE_FORMAT( fstarttime,'%Y-%m-%d' ) time from tb_insframework i 
-		inner join tb_alarm w on w.fmachine_itemid=i.fid
-		where i.ftype=23
+		select i.fid,i.fname,SUM(w.fwarntime)/60/60 hour,DATE_FORMAT( fstarttime,'%Y-%m-%d' ) time from tb_insframework i 
+		inner join tb_warn w on w.fmachine_itemid=i.fid
+		where i.ftype=23 and fstatus=99
 		<if test="dto!=null and dto!=''">
 			<if test="dto.parent!=null and dto.parent!=''">
 				and i.fparent = #{dto.parent}
