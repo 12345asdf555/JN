@@ -161,7 +161,7 @@
 	<!-- 公司超标统计 -->
 	<select id="getCompanyOverproof" resultMap="dtoMap">
 		select * from (
-		select sum(falarmtime)/60/60 as overproof,
+		select sum(fwarntime)/60/60 as overproof,
 		<if test="dto!=null and dto!=''">
 			<if test="dto.year!=null and dto.year!=''">
 				DATE_FORMAT( fstarttime,  '%Y' )
@@ -175,12 +175,12 @@
 			<if test="dto.week!=null and dto.week!=''">
 				weekofyear(fstarttime)
 			</if>
-		</if> weldtime,insf.fid companyid,insf.fname companyname,ins.fname caustname,ins.fid caustid,i.fid,i.fname from  tb_alarm l 
+		</if> weldtime,insf.fid companyid,insf.fname companyname,ins.fname caustname,ins.fid caustid,i.fid,i.fname from  tb_warn l 
 		inner join tb_welded_junction j on j.fid = l.fjunction_id 
 		inner join tb_insframework i on l.fjunction_itemid = i.fid 
 		left join tb_insframework ins on ins.fid = i.fparent 
 		left join tb_insframework insf on insf.fid = ins.fparent 
-		where 1=1
+		where fstatus=99
 		<if test="parent!=null and parent!=''">
 			and (i.fid = #{parent} or ins.fid = #{parent} or insf.fid = #{parent} or insf.fparent=#{parent})
 		</if> 
