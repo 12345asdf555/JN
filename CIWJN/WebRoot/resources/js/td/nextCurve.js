@@ -63,6 +63,14 @@ $(function() {
 	$("#body32").width(livewidth);
 	$("#body32").height(liveheight);
 	var width = $("#treeDiv").width();
+	var machinemodel = $("#machinemodel").val();
+	if(machinemodel==171){
+		$("#r5").textbox('setValue',30);
+	}else if(machinemodel==180){
+		$("#r5").textbox('setValue',100);
+	}else{
+		$("#r5").textbox('setValue',0);
+	}
 	$.ajax({
 		type : "post",
 		async : false,
@@ -109,7 +117,7 @@ $(function() {
 		}
 	});
 	//获取工作、焊接时间以及设备类型
-	$.ajax({
+/*	$.ajax({
 		type : "post",
 		async : false,
 		url : "td/getLiveTime?machineid="+$("#machineid").val(),
@@ -133,7 +141,7 @@ $(function() {
 		error : function(errorMsg) {
 			alert("数据请求失败，请联系系统管理员!");
 		}
-	});
+	});*/
 	/*		$.ajax({  
 			      type : "post",  
 			      async : false,
@@ -417,6 +425,7 @@ function iview() {
 		    }
 			ele.push(parseInt(redata.substring(38 + i, 42 + i), 10));
 			vol.push(parseFloat((parseInt(redata.substring(42 + i, 46 + i), 10) / 10).toFixed(2)));
+			$("#r10").textbox('setValue',parseInt(redata.substring(38 + i, 42 + i), 10)*parseFloat((parseInt(redata.substring(42 + i, 46 + i), 10) / 10).toFixed(2)));
 			var ttme = redata.substring(54 + i, 73 + i);
 			ttme = ttme.replace(/-/g, '/');
 			time.push(Date.parse(new Date(ttme)));

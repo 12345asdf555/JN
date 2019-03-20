@@ -80,4 +80,10 @@ public class TdServiceImpl implements TdService {
 	public Td getLiveTime(String time, BigInteger machineid) {
 		return mapper.getLiveTime(time, machineid);
 	}
+
+	@Override
+	public String getBootTime(String time,BigInteger machineId) {
+		// TODO Auto-generated method stub
+		return mapper.getBootTime(time,machineId);
+	}
 }

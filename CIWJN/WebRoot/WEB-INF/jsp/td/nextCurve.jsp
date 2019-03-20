@@ -64,6 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body class="easyui-layout" style="overflow:auto;">
 	<input  id="machineid" type="hidden" value="${value }"/>
 	<input id="type" type="hidden" value="${type }"/>
+	<input id="machinemodel" type="hidden" value="${model }"/>
 	<input name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
 	<div style="float:left; width:100%;height:30px;background-color: #474960;color:#ffffff;font-size:14px;line-height:30px;">
 		<div style="float:left;">设备运行参数监控</div>
@@ -118,10 +119,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div style="float:left; width:100%;padding-left:40px;">
 			<table>
 				<tr>
-					<td>开机时长：</td>
-					<td class="tdinput"><input class="easyui-textbox" id="r1" readonly="readonly"/></td>
+					<td>开机时间：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r1" readonly="readonly" value="${time}"/></td>
 				</tr>
-				<tr>
+<!-- 				<tr>
 					<td>离线时长：</td>
 					<td class="tdinput"><input class="easyui-textbox" id="r2" readonly="readonly"/></td>
 				</tr>
@@ -132,16 +133,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<tr>
 					<td>焊接时长：</td>
 					<td class="tdinput"><input class="easyui-textbox" id="r4" readonly="readonly" value="00:00:00"/></td>
-				</tr>
+				</tr> -->
 				<tr>
 					<td>通道总数：</td>
-					<td class="tdinput"><input class="easyui-textbox" id="r5" readonly="readonly" value="30"/></td>
+					<td class="tdinput"><input class="easyui-textbox" id="r5" readonly="readonly"/></td>
 				</tr>
 				<tr>
 					<td>当前通道：</td>
 					<td class="tdinput"><input class="easyui-textbox" id="r6" readonly="readonly"/></td>
 				</tr>
-				<tr>
+<!-- 				<tr>
 					<td>焊接控制：</td>
 					<td class="tdinput"><input class="easyui-textbox" id="r7" readonly="readonly"/></td>
 				</tr>
@@ -152,12 +153,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<tr>
 					<td>气体流量：</td>
 					<td class="tdinput"><input class="easyui-textbox" id="r9" readonly="readonly"/></td>
-				</tr>
+				</tr> -->
 				<tr>
 					<td>瞬时功率：</td>
 					<td class="tdinput"><input class="easyui-textbox" id="r10" readonly="readonly"/></td>
 				</tr>
-				<tr>
+<!-- 				<tr>
 					<td>初期电流：</td>
 					<td class="tdinput"><input class="easyui-textbox" id="r15" readonly="readonly"/></td>
 				</tr>
@@ -172,7 +173,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<tr>
 					<td>滞后停气时间：</td>
 					<td class="tdinput"><input class="easyui-textbox" id="r12" readonly="readonly"/></td>
-				</tr>
+				</tr> -->
 			</table>
 		</div>
 	</div>

@@ -78,9 +78,14 @@ public class TdController {
 	    String value = request.getParameter("value");
 	    String valuename = request.getParameter("valuename");
 	    String type = request.getParameter("type");
+	    String model = request.getParameter("model");
+	    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+	    String time = tdService.getBootTime(df.format(new Date())+" 00:00:00", new BigInteger(value));
 	    request.setAttribute("value", value);
 	    request.setAttribute("valuename", valuename);
 	    request.setAttribute("type", type);
+	    request.setAttribute("model", model);
+	    request.setAttribute("time", time.substring(11));
 		return "td/nextCurve";
 	}
 	
@@ -459,6 +464,7 @@ public class TdController {
 					json.put("finsid", td.getFci());
 					json.put("finsname", td.getFcn());
 					json.put("type", td.getTypeid());
+					json.put("model", td.getFpp());
 					ary.add(json);
 				}
 			}catch(Exception e){

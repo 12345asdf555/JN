@@ -29,4 +29,5 @@ public interface TdService {
 	 * @return
 	 */
 	Td getLiveTime(String time,BigInteger machineid);
+	String getBootTime(String time,BigInteger machineId);
 }
