@@ -3,7 +3,7 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showCompanyOverproofChart();
+	showCompanyOverproofChart(0);
 })
 
 function setParam(){
@@ -16,10 +16,12 @@ function setParam(){
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showCompanyOverproofChart(){
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("companyOverproofChart"));
+var charts,Series = [];
+function showCompanyOverproofChart(num){
+	if(num == 0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("companyOverproofChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -134,7 +136,7 @@ function serachCompanyOverproof(){
 	chartStr = "";
 	setTimeout(function(){
 		CompanyHourDatagrid();
-		showCompanyOverproofChart();
+		showCompanyOverproofChart(1);
 	},500);
 }
 
@@ -149,5 +151,5 @@ function domresize() {
 		height : $("body").height()/2-$("#companyOverproof_btn").height()-30,
 		width : $("body").width()
 	});
-	echarts.init(document.getElementById('companyOverproofChart')).resize();
+	charts.resize();
 }

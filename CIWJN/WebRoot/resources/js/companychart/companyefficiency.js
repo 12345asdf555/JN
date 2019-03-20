@@ -4,7 +4,7 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showcompanyEfficiencyChart();
+	showcompanyEfficiencyChart(0);
 })
 
 function setParam(){
@@ -15,7 +15,8 @@ function setParam(){
 	chartStr = "?parent="+parent+"&nextparent="+nextparent+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2;
 }
 
-function showcompanyEfficiencyChart(){
+var charts;
+function showcompanyEfficiencyChart(num){
 	setParam();
 	var array1 = new Array();
 	var Series = [];
@@ -58,8 +59,10 @@ function showcompanyEfficiencyChart(){
              alert("图表请求数据失败啦!");  
          }  
     }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("companyEfficiencyChart"));
+	 if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("companyEfficiencyChart"));
+	 }
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -208,7 +211,7 @@ function serachEfficiencyCompany(){
 	$("#chartLoading").show();
 	setTimeout(function() {
 		CompanyEfficiencyDatagrid();
-		showcompanyEfficiencyChart();
+		showcompanyEfficiencyChart(1);
 	}, 500)
 }
 
@@ -223,5 +226,5 @@ function domresize() {
 		height : $("body").height()/2-$("#companyEfficiency_btn").height()-30,
 		width : $("body").width()
 	});
-	echarts.init(document.getElementById('companyEfficiencyChart')).resize();
+	charts.resize();
 }

@@ -16,6 +16,7 @@ function setParam(){
 	chartStr = "&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2;
 }
 
+var charts1,charts2;
 function showMachine(status,id){
 	setParam();
 	var array1 = new Array();
@@ -42,9 +43,9 @@ function showMachine(status,id){
          }  
     }); 
    	//初始化echart实例
-	charts = echarts.init(document.getElementById(id));
+	 charts1 = echarts.init(document.getElementById(id));
 	//显示加载动画效果
-	charts.showLoading({
+	 charts1.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
 		effect:'whirling'
 	});
@@ -103,9 +104,9 @@ function showMachine(status,id){
      	}]
 	}
 	//为echarts对象加载数据
-	charts.setOption(option);
+	charts1.setOption(option);
 	//隐藏动画加载效果
-	charts.hideLoading();
+	charts1.hideLoading();
 	chartStr="";
 }
 
@@ -132,9 +133,9 @@ function showWelder(status,id){
          }  
     }); 
    	//初始化echart实例
-	charts = echarts.init(document.getElementById(id));
+    charts2 = echarts.init(document.getElementById(id));
 	//显示加载动画效果
-	charts.showLoading({
+    charts2.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
 		effect:'whirling'
 	});
@@ -193,9 +194,9 @@ function showWelder(status,id){
      	}]
 	}
 	//为echarts对象加载数据
-	charts.setOption(option);
+	charts2.setOption(option);
 	//隐藏动画加载效果
-	charts.hideLoading();
+	charts2.hideLoading();
 	chartStr="";
 }
 //监听窗口大小变化
@@ -206,9 +207,7 @@ window.onresize = function() {
 //改变表格高宽
 function domresize() {
 	$("#chartdiv").css({'height':'100%','width':'100%',});
-	echarts.init(document.getElementById('left1')).resize();
-	echarts.init(document.getElementById('left2')).resize();
-	echarts.init(document.getElementById('right1')).resize();
-	echarts.init(document.getElementById('right2')).resize();
+	charts1.resize();
+	charts2.resize();
 }
 

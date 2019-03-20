@@ -3,7 +3,7 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showCompanyOverptimeChart();
+	showCompanyOverptimeChart(0);
 })
 
 function setParam(){
@@ -16,10 +16,12 @@ function setParam(){
 
 var array1 = new Array();
 var array2 = new Array();
-var Series = [];
-function showCompanyOverptimeChart(){
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("companyOvertimeChart"));
+var charts,Series = [];
+function showCompanyOverptimeChart(num){
+	if(num==0){
+	   	//初始化echart实例
+		charts = echarts.init(document.getElementById("companyOvertimeChart"));
+	}
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -136,7 +138,7 @@ function serachCompanyOvertime(){
 	chartStr = "";
 	setTimeout(function(){
 		CompanytimeDatagrid();
-		showCompanyOverptimeChart();
+		showCompanyOverptimeChart(1);
 	},500);
 }
 
@@ -151,5 +153,5 @@ function domresize() {
 		height : $("body").height() /2-$("#companyOvertime_btn").height()-30,
 		width : $("body").width()
 	});
-	echarts.init(document.getElementById('companyOvertimeChart')).resize();
+	charts.resize();
 }

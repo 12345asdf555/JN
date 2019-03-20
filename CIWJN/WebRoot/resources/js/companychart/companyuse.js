@@ -4,7 +4,7 @@ $(function(){
 })
 var chartStr = "";
 $(document).ready(function(){
-	showcompanyUseChart();
+	showcompanyUseChart(0);
 })
 
 function setParam(){
@@ -37,8 +37,10 @@ function showcompanyUseChart(){
             alert("图表请求数据失败啦!");  
         }  
    }); 
-   	//初始化echart实例
-	charts = echarts.init(document.getElementById("companyUseChart"));
+	 if(num==0){
+		//初始化echart实例
+		charts = echarts.init(document.getElementById("companyUseChart"));
+	 }
 	//显示加载动画效果
 	charts.showLoading({
 		text: '稍等片刻,精彩马上呈现...',
@@ -165,7 +167,7 @@ function serachcompanyUse(){
 	chartStr = "";
 	setTimeout(function(){
 		CaustUseDatagrid();
-		showcompanyUseChart();
+		showcompanyUseChart(1);
 	},500);
 }
 
