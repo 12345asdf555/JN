@@ -34,36 +34,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <div id="topdiv">
 		<div class="mainfitem" align="center">
-				<input type="hidden" id="wId" value="${w.id }"/>
-				<lable>固定资产编号</lable>
-				<input class="easyui-textbox" id="equipmentno" readonly="readonly" value="${w.equipmentNo }"/>
-				<lable>设备类型</lable>
-				<input class="easyui-textbox" id="tId" readonly="readonly" value="${w.typename}"/>
-			</div>
-			<div class="mainfitem" align="center">
-				<lable>入厂时间</lable>
-				<input class="easyui-textbox" id="joinTime" readonly="readonly" value="${w.joinTime }"/>
-				<lable>所属项目</lable>
-				<input class="easyui-textbox" id="iId" readonly="readonly" value="${w.insframeworkId.name }"/>
-			</div>
-			<div class="mainfitem" align="center">
-				<lable>生产厂商</lable>
-				<input class="easyui-textbox" id="manuno" readonly="readonly" value="${w.mvaluename }"/>
-				<lable>采集序号</lable>
-				<input class="easyui-textbox" id="gatherId" readonly="readonly" value="${w.gatherId.gatherNo }"/>
-			</div>
-			<div class="mainfitem" align="center">
-				<lable>设备位置</lable>
-				<input class="easyui-textbox" id="position" readonly="readonly" value="${w.position }"/>
-				<lable>是否联网</lable>
-				<input class="easyui-textbox" id="isnetworking" readonly="readonly" value="${isnetworking }"/>
-			</div>
-			<div class="mainfitem" align="center">
-				<lable>状态</lable>
-				<input class="easyui-textbox" id="statusName" readonly="readonly" value="${w.statusname }"/>
-				<lable></lable>
-				<input type="text" id="zhanwei" readonly="readonly" style="border: 0px;"/>
-			</div>
+			<input type="hidden" id="wId" value="${w.id }"/>
+			<lable>固定资产编号</lable>
+			<input class="easyui-textbox" id="equipmentno" readonly="readonly" value="${w.equipmentNo }"/>
+			<lable>设备类型</lable>
+			<input class="easyui-textbox" id="tId" readonly="readonly" value="${w.typename}"/>
+		</div>
+		<div class="mainfitem" align="center">
+			<lable>入厂时间</lable>
+			<input class="easyui-textbox" id="joinTime" readonly="readonly" value="${w.joinTime }"/>
+			<lable>所属项目</lable>
+			<input class="easyui-textbox" id="iId" readonly="readonly" value="${w.insframeworkId.name }"/>
+		</div>
+		<div class="mainfitem" align="center">
+			<lable>生产厂商</lable>
+			<input class="easyui-textbox" id="manuno" readonly="readonly" value="${w.mvaluename }"/>
+			<lable>采集序号</lable>
+			<input class="easyui-textbox" id="gatherId" readonly="readonly" value="${w.gatherId.gatherNo }"/>
+		</div>
+		<div class="mainfitem" align="center">
+			<lable>设备位置</lable>
+			<input class="easyui-textbox" id="position" readonly="readonly" value="${w.position }"/>
+			<lable>是否联网</lable>
+			<input class="easyui-textbox" id="isnetworking" readonly="readonly" value="${isnetworking }"/>
+		</div>
+		<div class="mainfitem" align="center">
+			<lable>状态</lable>
+			<input class="easyui-textbox" id="statusName" readonly="readonly" value="${w.statusname }"/>
+			<lable>&nbsp;</lable>
+			<input type="easyui-textbox" id="zhanwei" readonly="readonly" style="border: 0px;"/>
+		</div>
 	</div>
 	<div>
 		<div id="bottomdiv" style="margin: 20px;">

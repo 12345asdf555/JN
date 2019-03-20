@@ -58,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 			<a href="javascript:fullScreen()" class="easyui-linkbutton" iconCls="icon-select" id="full" >全屏显示</a> -->
 		</div>
 		<div id="load" style="width:100%;height:42%;"></div>
-		<div id="elebody" style="position:absolute;top:58%;width:100%;height:25%;z-index:999;background:#fff;">
+		<div id="elebody" style="position:absolute;top:60%;width:100%;height:25%;z-index:999;background:#fff;">
 			<a href="javascript:fullScreen()" class="easyui-linkbutton" iconCls="icon-select" id="full">全屏显示</a>
 			<a href="javascript:theSmallScreen()" class="easyui-linkbutton" iconCls="icon-select" id="little">还原</a>
 			<div id="body1" style="position:absolute;top:23;width:100%;z-index:999;"></div>

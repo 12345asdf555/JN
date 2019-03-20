@@ -1,5 +1,6 @@
 $(function(){
 //	getHiddenMenu();
+	checkBrowser();
 	getUserInsframework();
 	addWelcom("欢迎使用","welcome.jsp");
 	tabsIncident();
@@ -7,6 +8,13 @@ $(function(){
 	$("#junctiondiv").hide();
 	$("#machinediv").hide();
 })
+
+var browsernum = "auto";
+function checkBrowser(){
+	if(window.navigator.userAgent.indexOf("MSIE")>=1){//IE
+		browsernum = "0";
+	}
+}
 
 function getUserInsframework(){
 	$.ajax({
@@ -121,7 +129,7 @@ function anaylsis(ipurl){
 						array.push(firstshowIndex);
 						firstcontext +='<li onclick="changeColor(this)" id="'+firstshowIndex+'"><a href="javascript:openSubmenus('+showIndex+','+firstshowIndex+')">'+
 						'<div><img src="resources/images/'+firstimgName+'" />&nbsp;&nbsp;'+firstName+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="resources/images/arrow.png" id="subimg'+showIndex+'_'+firstshowIndex+'"/></div>'+
-						'</a></li><li><div id="div'+showIndex+'_'+firstshowIndex+'" style="display:none;"><ul id="last'+firstshowIndex+'">';
+						'</a></li><li style="height:'+browsernum+'px;"><div id="div'+showIndex+'_'+firstshowIndex+'" style="display:none;"><ul id="last'+firstshowIndex+'">';
 						for (var j = 0; j < firstsubmenus.length; j++) {
 							var LastName = firstsubmenus[j].getElementsByTagName("LastName");
 							var LastResource = firstsubmenus[j].getElementsByTagName("LastResource");
