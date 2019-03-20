@@ -524,7 +524,7 @@ public class DataStatisticsController {
 				}*/
 			}
 			//表头
-			String [] str = {"所属班组","设备编码","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
+			String [] str = {"设备编码","所属班组","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -614,19 +614,22 @@ public class DataStatisticsController {
 						double wireweight =Double.valueOf(str[0]);
 						double wire = (double)Math.round(wireweight*parameter.getSpeed()*time*100)/100;//焊丝消耗量=焊丝|焊丝重量*送丝速度*焊接时间
 						double air = (double)Math.round(parameter.getAirflow()*time*100)/100;//气体消耗量=气体流量*焊接时间
+						String sperate = new DecimalFormat("0.00").format((float)Integer.valueOf(weld.getWorktime().subtract(new BigInteger(weld.getTime())).toString())/(Integer.valueOf(weld.getWorktime().toString()))*100);
 						json.put("t6", wire);//焊丝消耗
 						json.put("t8", air);//气体消耗
+						json.put("t9", sperate);//规范符合率
 					}
 				}else{
 					json.put("t3", "00:00:00");
 					json.put("t5", 0);
 					json.put("t6", 0);
 					json.put("t8", 0);
+					json.put("t9", 0);//规范符合率
 				}
 				ary.add(json);
 			}
 			//表头
-			String [] str = {"焊工编号","焊工名称","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String [] str = {"焊工编号","焊工名称","焊接任务数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)","规范符合率(%)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
@@ -786,19 +789,22 @@ public class DataStatisticsController {
 						double wireweight =Double.valueOf(str[0]);
 						double wire = (double)Math.round(wireweight*parameter.getSpeed()*time*100)/100;//焊丝消耗量=焊丝|焊丝重量*送丝速度*焊接时间
 						double air = (double)Math.round(parameter.getAirflow()*time*100)/100;//气体消耗量=气体流量*焊接时间
+						String sperate = new DecimalFormat("0.00").format((float)Integer.valueOf(weld.getWorktime().subtract(new BigInteger(weld.getTime())).toString())/(Integer.valueOf(weld.getWorktime().toString()))*100);
 						json.put("t4", wire);//焊丝消耗
 						json.put("t6", air);//气体消耗
+						json.put("t7", sperate);
 					}
 				}else{
 					json.put("t1", "00:00:00");
 					json.put("t3", 0);
 					json.put("t4", 0);
 					json.put("t6", 0);
+					json.put("t7", 0);
 				}
 				ary.add(json);
 			}
 			//表头
-			String [] str = {"焊缝编号","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
+			String [] str = {"焊缝编号","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)","规范符合率(%)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);
