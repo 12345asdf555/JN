@@ -24,19 +24,6 @@ a{text-decoration:none;outline:none;}
 	padding: 10px 10px;
 }
 
-.fitem {
-	padding-bottom: 10px;
- 	text-align: right;
- 	padding-right:50px;
-}
-
-.fitem lable{
-  	width: 120px;
-  	line-height: 30px;
-  	display: inline-block;
-  	text-align: right;
-}
-
 .fitems {
   	font-size:14px;
 	padding-bottom: 8px;
@@ -118,18 +105,13 @@ select::-ms-expand {
 .livelist {
 	width: 60px;background-color: #fff;font-size: 12px;border-radius: 5px;line-height: 24px;color: blue;text-align: center;margin-top: 10px;margin-left: 10px;border: 1px solid #ccc;display: inline-block;
 }
-
-/* #accordiondiv ul li{
-	line-height:30px;
-	padding-left: 20px;
-	padding-top:10px;
-} */
 #accordiondiv a{
-	color: #000;
+	color: #000;	
 }
-#accordiondiv li{
-	margin-top: 7px;
+
+#accordiondiv ul li{
 	padding-left: 20px;
+	padding-top:7px;
 }
 
 .libottom{

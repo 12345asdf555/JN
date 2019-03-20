@@ -16,6 +16,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	
+	
+	<link rel="stylesheet" type="text/css" href="" />
 	<link rel="stylesheet" type="text/css" href="resources/themes/icon.css" />
 	<link rel="stylesheet" type="text/css" href="resources/css/datagrid.css" />
 	<link rel="stylesheet" type="text/css" href="resources/themes/default/easyui.css" />
@@ -28,7 +30,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/authority/allauthority.js"></script>
 	<script type="text/javascript" src="resources/js/authority/addeditauthority.js"></script>
 	<script type="text/javascript" src="resources/js/search/search.js"></script>
-
   </head>
 
   <body>

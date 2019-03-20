@@ -5,6 +5,20 @@ var condition="";
 var content="";
 var joint = "";
 var flag = true;
+
+$(function(){
+	//根据不同浏览器选择不同的css
+	if(window.navigator.userAgent.indexOf("MSIE")>=1){//IE
+		setActiveStyleSheet("ieBrowser.css"); 
+	}else{
+		setActiveStyleSheet("otherBrowser.css");
+	}
+})
+
+function setActiveStyleSheet(title){ 
+	document.getElementsByTagName("link")[0].href = "resources/css/" + title; 
+}
+
 //工时分类进入查询
 function serachClassify(){
 	$("#searchdiv").dialog("open");
@@ -803,4 +817,8 @@ function close1(){
 
 function close2(){
 	$('#rdlg').dialog('close')
+}
+
+function closeDialog(name){
+	$('#'+name).dialog('close');
 }

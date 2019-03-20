@@ -36,7 +36,7 @@ function mainDatagrid(){
 		}, {
 			field : 'starttime',
 			title : '维修起始时间',
-			width : 100,
+			width : 150,
 			halign : "center",
 			align : "left"
 		}, {
@@ -88,7 +88,7 @@ function mainDatagrid(){
 		}, {
 			field : 'edit',
 			title : '编辑',
-			width : 120,
+			width : 150,
 			halign : "center",
 			align : "left",
 			formatter:function(value,row,index){
