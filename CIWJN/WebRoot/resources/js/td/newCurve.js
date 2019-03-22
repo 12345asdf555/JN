@@ -32,12 +32,16 @@ function loadtree() {
 						for(var i=0;i<nownodes.children.length;i++){
 							var nextnodes1 = nownodes.children[i];
 							$('#' + nextnodes1.domId + ' .tree-icon').css("background", "url(resources/images/menu_2.png) no-repeat center center");
-							for(var j=0;j<nextnodes1.children.length;j++){
-								var nextnodes2 = nextnodes1.children[j];
-								$('#' + nextnodes2.domId + ' .tree-icon').css("background", "url(resources/images/menu_3.png) no-repeat center center");
-								for(var x=0;x<nextnodes2.children.length;x++){
-									var nextnodes3 = nextnodes2.children[x];
-									$('#' + nextnodes3.domId + ' .tree-icon').css("background", "url(resources/images/menu_3.png) no-repeat center center");
+							if(nextnodes1.children != null){
+								for(var j=0;j<nextnodes1.children.length;j++){
+									var nextnodes2 = nextnodes1.children[j];
+									$('#' + nextnodes2.domId + ' .tree-icon').css("background", "url(resources/images/menu_3.png) no-repeat center center");
+									if(nextnodes2.children != null){
+										for(var x=0;x<nextnodes2.children.length;x++){
+											var nextnodes3 = nextnodes2.children[x];
+											$('#' + nextnodes3.domId + ' .tree-icon').css("background", "url(resources/images/menu_3.png) no-repeat center center");
+										}
+									}
 								}
 							}
 							

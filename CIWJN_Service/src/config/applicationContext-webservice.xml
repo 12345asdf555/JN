@@ -20,10 +20,10 @@
 			<!--  要暴露的 bean 的引用 -->
         	<ref bean="ciwjnWebService"/>
     	</jaxws:serviceBean>
-    	<jaxws:inInterceptors>
-    	    <!-- 拦截处理用户名密码 -->
+    	<!-- <jaxws:inInterceptors>
+    	    拦截处理用户名密码
         	<ref bean="inInterceptor"/>
-    	</jaxws:inInterceptors>
+    	</jaxws:inInterceptors> -->
  	</jaxws:server>
 	
 <!-- 	<jaxws:endpoint id="blocWebService" address="/blocWebService" -->
