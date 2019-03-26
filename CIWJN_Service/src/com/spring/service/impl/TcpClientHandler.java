@@ -32,14 +32,6 @@ public class TcpClientHandler extends SimpleChannelInboundHandler{
 	@Override  
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {  
 	
-      final EventLoop eventLoop = ctx.channel().eventLoop();  
-      eventLoop.schedule(new Runnable() {  
-    	@Override  
-        public void run() {  
-    		client.createBootstrap(new Bootstrap(),eventLoop);
-        }  
-      }, 1L, TimeUnit.SECONDS);  
-      super.channelInactive(ctx);  
     }  
 	
 }
