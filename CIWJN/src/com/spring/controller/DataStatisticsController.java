@@ -514,9 +514,9 @@ public class DataStatisticsController {
 			}
 			for(DataStatistics i:ilist){
 /*				for(DataStatistics o:olist){
-					if(i.getName().equals(o.getName())){*/
-						json.put("t0", i.getInsname());//所属班组
-						json.put("t1", i.getName());//焊机编号
+					if(i.getName().equals(o.getName())){*/					
+						json.put("t0", i.getName());//焊机编号
+						json.put("t1", i.getInsname());//所属班组	
 						json.put("t2", getTimeStrBySecond(i.getInsid()));//累计焊接时间
 						json.put("t3", getTimeStrBySecond(i.getInsid().subtract(i.getWorktime())));//正常焊接时长
 						json.put("t4", getTimeStrBySecond(i.getWorktime()));//超规范焊接时长
@@ -1082,6 +1082,9 @@ public class DataStatisticsController {
 	}
 	
 	public String getTimeStrBySecond(BigInteger timeParam ) {
+		if(timeParam == null){
+			return "00:00:00";
+		}
 		BigInteger[] str = timeParam.divideAndRemainder(new BigInteger("60"));//divideAndRemainder返回数组。第一个是商第二个时取模
 		BigInteger second = str[1];
 		BigInteger minuteTemp = timeParam.divide(new BigInteger("60"));//subtract：BigInteger相减，multiply：BigInteger相乘，divide : BigInteger相除

@@ -3,14 +3,22 @@ var wait = new Array();
 var weld = new Array();
 var mall = new Array();
 var warn = new Array();
-var machineary = [], mallary = [];
+var machineary = [],
+	mallary = [];
 var websocketURL;
 var socket;
 var redata;
 var symbol = 0;
 var machine;
 var namex;
-var worknum=0, waitnum=0, warnnum=0, offnum=0, weldnum=0, personnum=0, machineflag=0, personfalg=0;
+var worknum = 0,
+	waitnum = 0,
+	warnnum = 0,
+	offnum = 0,
+	weldnum = 0,
+	personnum = 0,
+	machineflag = 0,
+	personfalg = 0;
 
 $(function() {
 	welder();
@@ -53,7 +61,7 @@ function machine() {
 		success : function(result) {
 			if (result) {
 				machine = eval(result.rows);
-				for(var i=0;i<machine.length;i++){
+				for (var i = 0; i < machine.length; i++) {
 					machineary.push(machine[i].fid);
 				}
 			}
@@ -102,151 +110,50 @@ function webclient() {
 		}
 	}, 10000);
 	socket.onopen = function() {
-		/*		setTimeout(function(){
-					if(symbol==0){
-						alert("在线统计连接成功，但未接收到任何数据");
-					}
-				},5000);*/
 	};
 	socket.onmessage = function(msg) {
 		var xxx = msg.data;
-		if(xxx.length==333||xxx.length==111){
-		if (xxx.substring(0, 2) != "7E") {
-			redata = msg.data;
-			if (symbol == 0) {
-				window.setTimeout(function() {
-					for (var m = 0; m < mall.length; m++) {
-						if (mall[m].fstatus == "00") {
-							wait.push(mall[m]);
-						} else {
-							work.push(mall[m]);
-						}
-					}
-					var data = [ {
-						value : work.length,
-						name : '工作',
-						itemStyle:{
-		                  normal:{color:'#66b731'}
-						}
-					},
-					{
-						value : wait.length,
-						name : '待机',
-						itemStyle:{
-		                  normal:{color:'#2da2f1'}
-						}
-					},
-					{
-						value : warn.length,
-						name : '故障',
-						itemStyle:{
-		                  normal:{color:'#dc0201'}
-						}
-					},
-					{
-						value : machine.length - work.length - wait.length,
-						name : '关机',
-						itemStyle:{
-		                  normal:{color:'#ebebeb'}
-						}
-					} ];
-					refreshWelderData(data);
-					data = [ {
-						value : weld.length,
-						name : '在线',
-						itemStyle:{
-			                  normal:{color:'#67b73e'}
-							}
-					}, {
-						value : namex.length - weld.length,
-						name : '其它',
-						itemStyle:{
-			                  normal:{color:'#fff'}
-							}
-					} ];
-					refreshPersonData(data);
-					machineflag = 1,personfalg = 1;
-					weldnum = weld.length, personnum = namex.length;
-					worknum = work.length, waitnum = wait.length, warnnum = warn.length, offnum = machine.length - work.length - wait.length;
-					work.length = 0;
-					wait.length = 0;
-					mall.length = 0;
-					warn.length = 0;
-				}, 3000)
-				symbol = 1;
-			}
+		if (xxx.length == 333 || xxx.length == 111) {
+			if (xxx.substring(0, 2) != "7E") {
+				redata = msg.data;
+				if (symbol == 0) {
+					window.setTimeout(function() {
+						showWelderChart();
+						showPersonChart();
+					}, 3000)
+					symbol = 1;
+				}
 
-			for (var i = 0; i < redata.length; i += 111) {
-				if (redata.substring(0 + i, 4 + i) != "0000") {
-					//组织机构与焊工编号都与数据库中一致则录入
-					if (weld.length == 0) {
-						weld.push(redata.substring(0 + i, 4 + i));
-					} else {
-//						for (var j = 0; j < weld.length; j++) {
-//							if (weld[j] != redata.substring(0 + i, 4 + i)) {
-							if($.inArray(redata.substring(0 + i, 4 + i),weld)==-1){
-//								if (j == weld.length - 1) {
-									weld.push(redata.substring(0 + i, 4 + i));
-//								}
+				for (var i = 0; i < redata.length; i += 111) {
+					if (redata.substring(0 + i, 4 + i) != "0000") {
+						//组织机构与焊工编号都与数据库中一致则录入
+						if (weld.length == 0) {
+							weld.push(redata.substring(0 + i, 4 + i));
+						} else {
+							if ($.inArray(redata.substring(0 + i, 4 + i), weld) == -1) {
+								weld.push(redata.substring(0 + i, 4 + i));
 							} else {
 								break;
 							}
-//						}
+						}
+					}
+					if ($.inArray(parseInt(redata.substring(4 + i, 8 + i), 10), machineary) != -1) {
+						if(mall.length == 0){
+							mallary.length = 0;
+						}
+						if ($.inArray(redata.substring(4 + i, 8 + i), mallary) == -1) {
+							var arr = {
+								"fid" : redata.substring(4 + i, 8 + i),
+								"fstatus" : redata.substring(36 + i, 38 + i)
+							}
+							mall.push(arr);
+							mallary.push(redata.substring(4 + i, 8 + i));
+						} else {
+							break;
+						}
 					}
 				}
-				if (redata.substring(36 + i, 38 + i) == "03" || redata.substring(36 + i, 38 + i) == "05" || redata.substring(36 + i, 38 + i) == "07" || redata.substring(36 + i, 38 + i) == "00") {
-//					for (var x = 0; x < machine.length; x++) {
-//						if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i),10)) {
-						if($.inArray(parseInt(redata.substring(4 + i, 8 + i),10),machineary)!=-1){
-							if (mall.length == 0) {
-								var arr = {
-									"fid" : redata.substring(4 + i, 8 + i),
-									"fstatus" : redata.substring(36 + i, 38 + i)
-								}
-								mallary.push(redata.substring(4 + i, 8 + i));
-								mall.push(arr);
-							} else {
-//								for (var j = 0; j < mall.length; j++) {
-//									if (mall[j].fid != redata.substring(4 + i, 8 + i)) {
-									if($.inArray(redata.substring(4 + i, 8 + i),mallary)==-1){
-//										if (j == mall.length - 1) {
-											var arr = {
-												"fid" : redata.substring(4 + i, 8 + i),
-												"fstatus" : redata.substring(36 + i, 38 + i)
-											}
-											mall.push(arr);
-											mallary.push(redata.substring(4 + i, 8 + i));
-//										}
-									} else {
-										break;
-									}
-//								}
-							}
-						}
-//					}
-				}else{
-//					for (var x = 0; x < machine.length; x++) {
-//						if (machine[x].fid == parseInt(redata.substring(4 + i, 8 + i),10)) {
-						if($.inArray(parseInt(redata.substring(4 + i, 8 + i),10),machineary)!=-1){
-							if (warn.length == 0) {
-								warn.push(redata.substring(4 + i, 8 + i));
-							} else {
-//								for (var j = 0; j < warn.length; j++) {
-//									if (warn[j].fid != redata.substring(4 + i, 8 + i)) {
-									if($.inArray(redata.substring(4 + i, 8 + i),warn)==-1){
-//										if (j == warn.length - 1) {
-											warn.push(redata.substring(4 + i, 8 + i));
-//										}
-									} else {
-										break;
-									}
-//								}
-							}
-						}
-//					}
-				}
 			}
-		}
 		}
 		;
 		//关闭事件
@@ -313,15 +220,12 @@ function showPersonChart() {
 			formatter : function(name) {
 				var index = 0;
 				var clientlabels = [ '焊工', '在线' ];
-				if(personfalg == 0){
-					weldnum = weld.length, personnum = namex.length;
-				}
-				var clientcounts = [ personnum, weldnum ];
-				$.each(clientlabels,function (i,value) {
+				var clientcounts = [ namex.length, weld.length ];
+				$.each(clientlabels, function(i, value) {
 					if (value == name) {
 						index = i;
 					}
-			    })
+				})
 				return name + "：" + clientcounts[index];
 			}
 		},
@@ -330,14 +234,16 @@ function showPersonChart() {
 				name : '焊工在线统计',
 				type : 'pie',
 				radius : [ '50%', '60%' ],
-				center: ['40%', '50%'],
+				center : [ '40%', '50%' ],
 				color : [ '#abced2' ],
 				data : [
 					{
 						value : namex.length,
 						name : '焊工',
-						itemStyle:{
-		                  normal:{color:'#abced2'}
+						itemStyle : {
+							normal : {
+								color : '#abced2'
+							}
 						}
 					}
 				].sort(function(a, b) {
@@ -358,21 +264,25 @@ function showPersonChart() {
 				name : '焊工在线统计',
 				type : 'pie',
 				radius : [ '30%', '40%' ],
-				center: ['40%', '50%'],
+				center : [ '40%', '50%' ],
 				color : [ '#67b73e', '#fff' ],
 				data : [
 					{
 						value : weld.length,
 						name : '在线',
-						itemStyle:{
-		                  normal:{color:'#67b73e'}
+						itemStyle : {
+							normal : {
+								color : '#67b73e'
+							}
 						}
 					},
 					{
 						value : namex.length - weld.length,
 						name : '其它',
-						itemStyle:{
-		                  normal:{color:'#fff'}
+						itemStyle : {
+							normal : {
+								color : '#fff'
+							}
 						}
 					}
 				],
@@ -399,40 +309,25 @@ function showPersonChart() {
 	personcharts.setOption(option);
 	//隐藏动画加载效果
 	personcharts.hideLoading();
+	weld.length = 0;
 }
 
-function refreshPersonData(data) {
-	if (!personcharts) {
-		return;
-	}
-	//更新数据
-	var option = personcharts.getOption();
-	option.series[1].data = data.sort(function(a, b) {
-		return a.value - b.value;
-	});
-	personcharts.setOption(option);
-}
-window.setInterval(function() {
-	var data = [ {
-		value : weld.length,
-		name : '在线',
-		itemStyle:{
-	          normal:{color:'#67b73e'}
-			}
-	}, {
-		value : namex.length - weld.length,
-		name : '其它',
-		itemStyle:{
-	          normal:{color:'#fff'}
-			}
-	} ];
-	refreshPersonData(data);
-}, 30000);
-
-var weldercharts;
+var weldercharts,flagnum = 0;
 function showWelderChart() {
-	//初始化echart实例
-	weldercharts = echarts.init(document.getElementById("machine"));
+	for (var m = 0; m < mall.length; m++) {
+		if (mall[m].fstatus == "00") {
+			wait.push(mall[m]);
+		} else if(mall[m].fstatus == "03" || mall[m].fstatus == "05" || mall[m].fstatus == "07") {
+			work.push(mall[m]);
+		}  else{
+			warn.push(mall[m]);
+		}
+	}
+	if(flagnum == 0){
+		flagnum = 1;
+		//初始化echart实例
+		weldercharts = echarts.init(document.getElementById("machine"));
+	}
 	//显示加载动画效果
 	weldercharts.showLoading({
 		text : '稍等片刻,精彩马上呈现...',
@@ -456,21 +351,17 @@ function showWelderChart() {
 			orient : 'vertical',
 			x : 'right',
 			top : 50,
-			data : [ '工作', '待机','故障', '关机' ],
+			data : [ '工作', '待机', '故障', '关机' ],
 			formatter : function(name) {
 				var index = 0;
-				var clientlabels = [ '工作', '待机','故障', '关机' ];
-				if(machineflag==0){
-					worknum = work.length, waitnum = wait.length, warnnum = warn.length, offnum = machine.length - work.length - wait.length
-				}
-				var clientcounts = [ worknum, waitnum,warnnum, offnum ];
-				$.each(clientlabels,function (i,value) {
+				var clientlabels = [ '工作', '待机', '故障', '关机' ];
+				var clientcounts = [ work.length, wait.length, warn.length,  machine.length - work.length - wait.length - warn.length ];
+				$.each(clientlabels, function(i, value) {
 					if (value == name) {
 						index = i;
 					}
-			    })
-			    //console.log(clientcounts[0]+","+clientcounts[1]+","+clientcounts[2]+","+clientcounts[3]);
-				return name + "：" + clientcounts[index] ;
+				})
+				return name + "：" + clientcounts[index];
 			}
 		},
 		series : [
@@ -478,34 +369,42 @@ function showWelderChart() {
 				name : '焊机在线统计',
 				type : 'pie',
 				radius : [ '40%', '60%' ],
-				center: ['40%', '50%'],
+				center : [ '40%', '50%' ],
 				data : [
 					{
 						value : work.length,
 						name : '工作',
-						itemStyle:{
-		                  normal:{color:'#66b731'}
+						itemStyle : {
+							normal : {
+								color : '#66b731'
+							}
 						}
 					},
 					{
 						value : wait.length,
 						name : '待机',
-						itemStyle:{
-		                  normal:{color:'#2da2f1'}
+						itemStyle : {
+							normal : {
+								color : '#2da2f1'
+							}
 						}
 					},
 					{
 						value : warn.length,
 						name : '故障',
-						itemStyle:{
-		                  normal:{color:'#dc0201'}
+						itemStyle : {
+							normal : {
+								color : '#dc0201'
+							}
 						}
 					},
 					{
-						value : machine.length - work.length - wait.length,
+						value : machine.length - work.length - wait.length - warn.length,
 						name : '关机',
-						itemStyle:{
-		                  normal:{color:'#ebebeb'}
+						itemStyle : {
+							normal : {
+								color : '#ebebeb'
+							}
 						}
 					}
 				].sort(function(a, b) {
@@ -513,17 +412,13 @@ function showWelderChart() {
 				}),
 				label : {
 					normal : {
-						/*formatter : '{d}%',
-						textStyle : {
-							color : '#000'
-						}*/
 						show : false,
 						position : 'center'
 					}
 				},
 				labelLine : {
 					normal : {
-	                    length: 0,
+						length : 0,
 						show : false
 					}
 				},
@@ -539,61 +434,13 @@ function showWelderChart() {
 	weldercharts.setOption(option);
 	//隐藏动画加载效果
 	weldercharts.hideLoading();
-}
-
-function refreshWelderData(data) {
-	if (!weldercharts) {
-		return;
-	}
-	//更新数据
-	var option = weldercharts.getOption();
-	option.series[0].data = data.sort(function(a, b) {
-		return a.value - b.value;
-	});
-	weldercharts.setOption(option);
-}
-window.setInterval(function() {
-	for (var m = 0; m < mall.length; m++) {
-		if (mall[m].fstatus == "00") {
-			wait.push(mall[m]);
-		} else {
-			work.push(mall[m]);
-		}
-	}
-	var data = [ {
-		value : work.length,
-		name : '工作',
-		itemStyle:{
-          normal:{color:'#66b731'}
-		}
-	},
-	{
-		value : wait.length,
-		name : '待机',
-		itemStyle:{
-          normal:{color:'#2da2f1'}
-		}
-	},
-	{
-		value : warn.length,
-		name : '故障',
-		itemStyle:{
-          normal:{color:'#dc0201'}
-		}
-	},
-	{
-		value : machine.length - work.length - wait.length,
-		name : '关机',
-		itemStyle:{
-          normal:{color:'#ebebeb'}
-		}
-	} ]
-	refreshWelderData(data);
-	weldnum = weld.length, personnum = namex.length;
-	worknum = work.length, waitnum = wait.length, warnnum = warn.length, offnum = machine.length - work.length - wait.length
 	work.length = 0;
-	weld.length = 0;
 	wait.length = 0;
 	warn.length = 0;
 	mall.length = 0;
+}
+
+window.setInterval(function() {
+	showWelderChart();
+	showPersonChart();
 }, 30000);

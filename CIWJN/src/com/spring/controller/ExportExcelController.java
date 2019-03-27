@@ -247,7 +247,7 @@ public class ExportExcelController {
 					}else{
 						electric = (double)Math.round((time+standytimes*parameter.getStandbypower()/1000)*100)/100;//电能消耗量=焊接时间*焊接平均电流*焊接平均电压+待机时间*待机功率
 					}
-					data[ii][11]=electric;//电能消耗
+					data[ii][10]=electric;//电能消耗
 				}else{
 					data[ii][2]=0;
 					data[ii][5]=0;
@@ -266,8 +266,8 @@ public class ExportExcelController {
 					}
 					if(parameter!=null){
 						double  time = weldtime.getWorktime().doubleValue()/60;
-						String[] strsz = parameter.getWireweight().split(",");
-						double wireweight =Double.valueOf(strsz[0]);
+						String[] str = parameter.getWireweight().split(",");
+						double wireweight =Double.valueOf(str[0]);
 						double wire = (double)Math.round(wireweight*parameter.getSpeed()*time*100)/100;//焊丝消耗量=焊丝|焊丝重量*送丝速度*焊接时间
 						double air = (double)Math.round(parameter.getAirflow()*time*100)/100;//气体消耗量=气体流量*焊接时间
 						data[ii][9]=wire;//焊丝消耗
@@ -340,26 +340,23 @@ public class ExportExcelController {
 				dto.setDtoTime2(time2);
 			}
 			List<DataStatistics> ilist = dss.getWeldItemInCountData(dto);
-			List<DataStatistics> olist = dss.getWeldItemOutCountData(dto);
 			String[] titles = new String[]{"所属班组","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			Object[][] data = new Object[ilist.size()][5];
-			int ii=0;
-					for(DataStatistics i:ilist){
-						for(DataStatistics o:olist){
-							if(i.getName().equals(o.getName())){
-								if(ii<ilist.size()){
-								data[ii][0]=i.getName();//所属班组
-								data[ii][1]=getTimeStrBySecond(i.getInsid());//累计焊接时间
-								data[ii][2]=getTimeStrBySecond(i.getInsid().subtract(o.getInsid()));//正常焊接时长
-								data[ii][3]=getTimeStrBySecond(o.getInsid());//超规范焊接时长
-								if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-									data[ii][4]=new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString())));//规范符合率
-								}else{
-									data[ii][4]=0;
-								}
-								}
-							}
-						}
+			int ii = 0;
+			for (DataStatistics i : ilist) {
+				if (ii < ilist.size()) {
+					data[ii][0] = i.getName();// 所属班组
+					data[ii][1] = getTimeStrBySecond(i.getInsid());// 累计焊接时间
+					data[ii][2] = getTimeStrBySecond(i.getInsid().subtract(i.getWorktime()));// 正常焊接时长
+					data[ii][3] = getTimeStrBySecond(i.getWorktime());// 超规范焊接时长
+					if (Integer.valueOf(i.getInsid().toString()) + Integer.valueOf(i.getWorktime().toString()) != 0) {
+						data[ii][4] = new DecimalFormat("0.00")
+								.format((float) Integer.valueOf(i.getInsid().subtract(i.getWorktime()).toString())
+										/ (Integer.valueOf(i.getInsid().toString())) * 100);// 规范符合率
+					} else {
+						data[ii][4] = 0;
+					}
+				}
 				ii++;
 			}
 			filename = "班组焊接数据" + sdf.format(new Date())+".xls";
@@ -537,27 +534,24 @@ public class ExportExcelController {
 				itemid = new BigInteger(item);
 			}
 			List<DataStatistics> ilist = dss.getWeldMachineInCountData(dto,itemid);
-			List<DataStatistics> olist = dss.getWeldMachineOutCountData(dto,itemid);
-			String[] titles = new String[]{"所属班组","设备编码","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
+			String[] titles = new String[]{"设备编码","所属班组","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			Object[][] data = new Object[ilist.size()][6];
-			int ii=0;
-					for(DataStatistics i:ilist){
-						for(DataStatistics o:olist){
-							if(i.getName().equals(o.getName())){
-								if(ii<ilist.size()){
-									data[ii][0]=i.getInsname();//所属班组
-									data[ii][1]=i.getName();//焊机编号
-									data[ii][2]=getTimeStrBySecond(i.getInsid());//累计焊接时间
-									data[ii][3]=getTimeStrBySecond(i.getInsid().subtract(o.getInsid()));//正常焊接时长
-									data[ii][4]=getTimeStrBySecond(o.getInsid());//超规范焊接时长
-									if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-										data[ii][5]=new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString())));//规范符合率
-									}else{
-										data[ii][5]=0;
-									}
-								}
-							}
-						}
+			int ii = 0;
+			for (DataStatistics i : ilist) {
+				if (ii < ilist.size()) {
+					data[ii][0] = i.getName();// 焊机编号
+					data[ii][1] = i.getInsname();// 所属班组
+					data[ii][2] = getTimeStrBySecond(i.getInsid());// 累计焊接时间
+					data[ii][3] = getTimeStrBySecond(i.getInsid().subtract(i.getWorktime()));// 正常焊接时长
+					data[ii][4] = getTimeStrBySecond(i.getWorktime());// 超规范焊接时长
+					if (Integer.valueOf(i.getInsid().toString()) + Integer.valueOf(i.getWorktime().toString()) != 0) {
+						data[ii][5] = new DecimalFormat("0.00")
+								.format((float) Integer.valueOf(i.getInsid().subtract(i.getWorktime()).toString())
+										/ (Integer.valueOf(i.getInsid().toString())) * 100);// 规范符合率
+					} else {
+						data[ii][5] = 0;
+					}
+				}
 				ii++;
 			}
 			filename = "设备焊接数据" + sdf.format(new Date())+".xls";
@@ -614,8 +608,8 @@ public class ExportExcelController {
 				dto.setDtoTime2(time2);
 			}
 			List<DataStatistics> list = dss.getAllPersonData(im.getUserInsframework());
-			String[] titles = new String []{"焊工编号","焊工名称","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
-			Object[][] data = new Object[list.size()][9];
+			String[] titles = new String []{"焊工编号","焊工名称","焊接焊缝数","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)","规范符合率(%)"};
+			Object[][] data = new Object[list.size()][10];
 			int ii=0;
 			for(DataStatistics i:list){
 				if(ii<list.size()){
@@ -658,14 +652,17 @@ public class ExportExcelController {
 							double wireweight =Double.valueOf(str[0]);
 							double wire = (double)Math.round(wireweight*parameter.getSpeed()*time*100)/100;//焊丝消耗量=焊丝|焊丝重量*送丝速度*焊接时间
 							double air = (double)Math.round(parameter.getAirflow()*time*100)/100;//气体消耗量=气体流量*焊接时间
+							String sperate = new DecimalFormat("0.00").format((float)Integer.valueOf(weld.getWorktime().subtract(new BigInteger(weld.getTime())).toString())/(Integer.valueOf(weld.getWorktime().toString()))*100);
 							data[ii][6]=wire;//焊丝消耗
 							data[ii][8]=air;//气体消耗
+							data[ii][9]=sperate;//规范符合率
 						}
 					}else{
 						data[ii][3]="00:00:00";
 						data[ii][5]=0;
 						data[ii][6]=0;
 						data[ii][8]=0;
+						data[ii][9]=0;//规范符合率
 					}
 				}
 				ii++;
@@ -724,29 +721,27 @@ public class ExportExcelController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
+			dto.setParent(im.getUserInsframework());
 			List<DataStatistics> ilist = dss.getWeldPersonInCountData(dto);
-			List<DataStatistics> olist = dss.getWeldPersonOutCountData(dto);
 			String[] titles = new String[]{"焊工编号","焊工姓名","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			Object[][] data = new Object[ilist.size()][6];
-			int ii=0;
-					for(DataStatistics i:ilist){
-						for(DataStatistics o:olist){
-							if(i.getInsname().equals(o.getInsname())){
-								if(ii<ilist.size()){
-								data[ii][0]=i.getInsname();//焊工编号
-								data[ii][1]=i.getName();//焊工 姓名
-								data[ii][2]=getTimeStrBySecond(i.getInsid());//累计焊接时间
-								data[ii][3]=getTimeStrBySecond(i.getInsid().subtract(o.getInsid()));//正常焊接时长
-								data[ii][4]=getTimeStrBySecond(o.getInsid());//超规范焊接时长
-								if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-									data[ii][5]=new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString())));//规范符合率
-								}else{
-									data[ii][5]=0;
-								}
-								}
-							}
-						}
-						ii++;
+			int ii = 0;
+			for (DataStatistics i : ilist) {
+				if (ii < ilist.size()) {
+					data[ii][0] = i.getInsname();// 焊工编号
+					data[ii][1] = i.getName();// 焊工 姓名
+					data[ii][2] = getTimeStrBySecond(i.getInsid());// 累计焊接时间
+					data[ii][3] = getTimeStrBySecond(i.getInsid().subtract(i.getWorktime()));// 正常焊接时长
+					data[ii][4] = getTimeStrBySecond(i.getWorktime());// 超规范焊接时长
+					if (Integer.valueOf(i.getInsid().toString()) + Integer.valueOf(i.getWorktime().toString()) != 0) {
+						data[ii][5] = new DecimalFormat("0.00")
+								.format((float) Integer.valueOf(i.getInsid().subtract(i.getWorktime()).toString())
+										/ (Integer.valueOf(i.getInsid().toString())) * 100);// 规范符合率
+					} else {
+						data[ii][5] = 0;
+					}
+				}
+				ii++;
 			}
 			filename = "人员焊接数据" + sdf.format(new Date())+".xls";
 
@@ -803,8 +798,8 @@ public class ExportExcelController {
 				dto.setDtoTime2(time2);
 			}
 			List<DataStatistics> list = dss.getAllJunctionData(junctionno);
-			String[] titles = new String []{"焊缝编号","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)"};
-			Object[][] data = new Object[list.size()][7];
+			String[] titles = new String []{"焊缝编号","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)","规范符合率(%)"};
+			Object[][] data = new Object[list.size()][8];
 			int ii=0;
 			for(DataStatistics i:list){
 				if(ii<list.size()){
@@ -844,14 +839,17 @@ public class ExportExcelController {
 							double wireweight =Double.valueOf(str[0]);
 							double wire = (double)Math.round(wireweight*parameter.getSpeed()*time*100)/100;//焊丝消耗量=焊丝|焊丝重量*送丝速度*焊接时间
 							double air = (double)Math.round(parameter.getAirflow()*time*100)/100;//气体消耗量=气体流量*焊接时间
+							String sperate = new DecimalFormat("0.00").format((float)Integer.valueOf(weld.getWorktime().subtract(new BigInteger(weld.getTime())).toString())/(Integer.valueOf(weld.getWorktime().toString()))*100);
 							data[ii][4]=wire;//焊丝消耗
 							data[ii][6]=air;//气体消耗
+							data[ii][7]=sperate;
 						}
 					}else{
 						data[ii][1]="00:00:00";
 						data[ii][3]=0;
 						data[ii][4]=0;
 						data[ii][6]=0;
+						data[ii][7]=0;
 					}
 				}
 				ii++;
@@ -912,26 +910,23 @@ public class ExportExcelController {
 				dto.setDtoTime2(time2);
 			}
 			List<DataStatistics> ilist = dss.getWeldWorkpieceInCountData(dto,junctionno);
-			List<DataStatistics> olist = dss.getWeldWorkpieceOutCountData(dto,junctionno);
 			String[] titles = new String[]{"焊缝编号","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			Object[][] data = new Object[ilist.size()][5];
-			int ii=0;
-					for(DataStatistics i:ilist){
-						for(DataStatistics o:olist){
-							if(i.getInsname().equals(o.getInsname())){
-								if(ii<ilist.size()){
-								data[ii][0]=i.getInsname().substring(2, 8);//工件编号
-								data[ii][1]=getTimeStrBySecond(i.getInsid());//累计焊接时间
-								data[ii][2]=getTimeStrBySecond(i.getInsid().subtract(o.getInsid()));//正常焊接时长
-								data[ii][3]=getTimeStrBySecond(o.getInsid());//超规范焊接时长
-								if(Integer.valueOf(i.getInsid().toString())+Integer.valueOf(o.getInsid().toString())!=0){
-									data[ii][4]=new DecimalFormat("0.00").format((float)Integer.valueOf(i.getInsid().subtract(o.getInsid()).toString())/(Integer.valueOf(i.getInsid().toString())));//规范符合率
-								}else{
-									data[ii][4]=0;
-								}
-								}
-							}
-						}
+			int ii = 0;
+			for (DataStatistics i : ilist) {
+				if (ii < ilist.size()) {
+					data[ii][0] = i.getInsname().substring(2, 8);// 工件编号
+					data[ii][1] = getTimeStrBySecond(i.getInsid());// 累计焊接时间
+					data[ii][2] = getTimeStrBySecond(i.getInsid().subtract(i.getWorktime()));// 正常焊接时长
+					data[ii][3] = getTimeStrBySecond(i.getWorktime());// 超规范焊接时长
+					if (Integer.valueOf(i.getInsid().toString()) + Integer.valueOf(i.getWorktime().toString()) != 0) {
+						data[ii][4] = new DecimalFormat("0.00")
+								.format((float) Integer.valueOf(i.getInsid().subtract(i.getWorktime()).toString())
+										/ (Integer.valueOf(i.getInsid().toString())));// 规范符合率
+					} else {
+						data[ii][4] = 0;
+					}
+				}
 				ii++;
 			}
 			filename = "工件焊接数据" + sdf.format(new Date())+".xls";
@@ -968,6 +963,9 @@ public class ExportExcelController {
 	}	
 	
 	public String getTimeStrBySecond(BigInteger timeParam ) {
+		if(timeParam == null){
+			return "00:00:00";
+		}
 		BigInteger[] str = timeParam.divideAndRemainder(new BigInteger("60"));//divideAndRemainder返回数组。第一个是商第二个时取模
 		BigInteger second = str[1];
 		BigInteger minuteTemp = timeParam.divide(new BigInteger("60"));//subtract：BigInteger相减，multiply：BigInteger相乘，divide : BigInteger相除
