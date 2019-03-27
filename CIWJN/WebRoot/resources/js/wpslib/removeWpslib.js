@@ -113,6 +113,7 @@ function rmSxWps(row){
 		$("#sxSaveWpsBut").hide();
 		$('#editSxDlg').window('open');
 		$('#sxfm').form('load', row);
+		$("input[name='sxfcharacter']").eq(row.sxfcharacter).prop("checked", true);
 		rurl = "wps/removeMainWps?fid="+row.fid;
 	}
 }

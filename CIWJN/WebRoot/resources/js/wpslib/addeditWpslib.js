@@ -251,6 +251,7 @@ function editMainWps(indexrow,row) {
 				$('#editSxDlg').window('open');
 				$('#sxfm').form('load', indexrow);
 				$('#sxchanel').val(indexrow.fwpsnum);
+				$("input[name='sxfcharacter']").eq(indexrow.sxfcharacter).prop("checked", true);
 				url = "wps/editSxWps?fid="+indexrow.fid+"&fcharacter="+$('input[name="sxfcharacter"]:checked').val();
 			}
 			return;

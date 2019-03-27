@@ -30,7 +30,7 @@ function dgDatagrid(){
             			 fitColumns : true,
         				 height : $("#body").height(),
         				 width : $("#body").width(),
-        				 url : "datastatistics/getPersonData"+chartStr,
+        				 url : "",
         				 pageSize : 10,
         				 pageList : [ 10, 20, 30, 40, 50 ],
         				 singleSelect : true,
@@ -52,6 +52,7 @@ function dgDatagrid(){
         		         }
                  };
             	 $('#dg').datagrid(grid);  
+            	 $('#dg').datagrid('loadData', result.rows);
             }  
         },  
         error : function(errorMsg) {  

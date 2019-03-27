@@ -4,6 +4,7 @@
 var websocketUrl;
 var selectflag;
 var wpslibindex;
+var wpslibId;
 $(function() {
 	$.ajax({
 		type : "post",
@@ -24,6 +25,7 @@ $(function() {
 
 //选择工艺
 function selectMainWps(value,model){
+	wpslibId = value;
 	if(model == 180){
 		flag = 1;
 		$('#sxSelectdlg').window( {
@@ -843,7 +845,7 @@ function giveMainWps(){
 			return;
 		}
 	}else if(wpslibrow.model==171){
-		if(CPVEW()==false){
+		if(CPVEW(wpslibId)==false){
 			return;
 		}
 	}
@@ -1517,7 +1519,7 @@ function setSxMainWps() {
 		}
 		var oneMinuteTimer = window.setTimeout(function() {
 			websocket.close();
-			alert("下发完成");
+			alert("下发超时");
 			$('#sxSelectdlg').window('close');
 			$('#sxMachinedlg').window('close');
 			$('#sxSelectWpsTab').datagrid('clearSelections');
@@ -1574,18 +1576,34 @@ function setSxMainWps() {
 						websocket.close();
 						if (websocket.readyState != 1) {
 							window.clearTimeout(oneMinuteTimer);
-							alert("下发完成");
-							$('#sxSelectdlg').window('close');
-							$('#sxMachinedlg').window('close');
-							$('#sxSelectWpsTab').datagrid('clearSelections');
-							$('#sxMachineTable').datagrid('clearSelections');
-							selectMainWpsRows.length = 0;
-							selectMachine.length = 0;
-							sochet_send_data.length = 0;
-							giveArray.length = 0;
-							resultData.length = 0;
-							noReceiveGiveChanel.length = 0;
-							realLength = 0;
+							$.ajax({  
+							      type : "post",  
+							      async : false,
+							      url : "wps/saveGiveWpsHistory", 
+							      data : {mainwps:JSON.stringify(selectMainWpsRows),machine:JSON.stringify(selectMachine),wpslib:wpslibId,flag:1},  
+							      dataType : "json", //返回数据形式为json  
+							      success : function(result) {
+							          if (result.success) {
+											alert("下发完成");
+							          } else{
+							        	  	alert("下发完成，存储下发记录失败")
+							          }
+									  $('#sxSelectdlg').window('close');
+									  $('#sxMachinedlg').window('close');
+									  $('#sxSelectWpsTab').datagrid('clearSelections');
+									  $('#sxMachineTable').datagrid('clearSelections');
+									  selectMainWpsRows.length = 0;
+									  selectMachine.length = 0;
+									  sochet_send_data.length = 0;
+									  noReceiveGiveChanel.length = 0;
+									  giveArray.length = 0;
+									  resultData.length = 0;
+									  realLength = 0;
+							      },  
+							      error : function(errorMsg) {  
+							          alert("数据请求失败，请联系系统管理员!");  
+							      }  
+							}); 
 						}
 					}
 				} else {
@@ -1616,19 +1634,35 @@ function setSxMainWps() {
 					if (realLength == checkLength) {
 						websocket.close();
 						if (websocket.readyState != 1) {
-							alert("下发完成");
 							window.clearTimeout(oneMinuteTimer);
-							$('#sxSelectdlg').window('close');
-							$('#sxMachinedlg').window('close');
-							$('#sxSelectWpsTab').datagrid('clearSelections');
-							$('#sxMachineTable').datagrid('clearSelections');
-							selectMainWpsRows.length = 0;
-							selectMachine.length = 0;
-							sochet_send_data.length = 0;
-							noReceiveGiveChanel.length = 0;
-							giveArray.length = 0;
-							resultData.length = 0;
-							realLength = 0;
+							$.ajax({  
+							      type : "post",  
+							      async : false,
+							      url : "wps/saveGiveWpsHistory", 
+							      data : {mainwps:JSON.stringify(selectMainWpsRows),machine:JSON.stringify(selectMachine),wpslib:wpslibId,flag:1},  
+							      dataType : "json", //返回数据形式为json  
+							      success : function(result) {
+							          if (result.success) {
+											alert("下发完成");
+							          } else{
+							        	  	alert("下发完成，存储下发记录失败")
+							          }
+									  $('#sxSelectdlg').window('close');
+									  $('#sxMachinedlg').window('close');
+									  $('#sxSelectWpsTab').datagrid('clearSelections');
+									  $('#sxMachineTable').datagrid('clearSelections');
+									  selectMainWpsRows.length = 0;
+									  selectMachine.length = 0;
+									  sochet_send_data.length = 0;
+									  noReceiveGiveChanel.length = 0;
+									  giveArray.length = 0;
+									  resultData.length = 0;
+									  realLength = 0;
+							      },  
+							      error : function(errorMsg) {  
+							          alert("数据请求失败，请联系系统管理员!");  
+							      }  
+							});
 						}
 					}
 				}

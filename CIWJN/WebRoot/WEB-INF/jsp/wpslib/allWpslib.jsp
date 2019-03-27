@@ -36,6 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="resources/js/wpslib/differentMachine.js"></script>
 	<script type="text/javascript" src="resources/js/wpslib/control.js"></script>
 	<script type="text/javascript" src="resources/js/wpslib/comboboxCheck.js"></script>
+	<script type="text/javascript" src="resources/js/getTimeToHours.js"></script>
 	<script type="text/javascript" src="resources/js/swfobject.js"></script>
 	<script type="text/javascript" src="resources/js/web_socket.js"></script>
 	<style type="text/css">
@@ -56,6 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div>
 			<a href="javascript:addWpslib();" class="easyui-linkbutton" iconCls="icon-newadd">新增工艺库</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:openCondlg();" class="easyui-linkbutton" iconCls="icon-newadd">控制命令下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:openHistorydlg();" class="easyui-linkbutton" iconCls="icon-newadd"> 下发历史查询</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 	</div>
   	<div id="body" >
@@ -231,10 +233,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电流：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_ele" id="fini_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  				<td class="leftTd" width="120"><lable><lable><span class="required">*</span>收弧电流：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_ele" id="farc_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电流：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_ele" id="fweld_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
+				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电流：</lable></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_ele" id="farc_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
 				  			</tr>
 		            		<tr>
 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压：</lable></td>
@@ -290,8 +292,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</form>
 		</div>
 		<div id="mwdlg-buttons">
-			<a href="javascript:selectMachineList(0);" class="easyui-linkbutton" iconCls="icon-getwps">索取规范</a>
-			<a href="javascript:saveMainWps();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+			<a href="javascript:selectMachineList(0);" class="easyui-linkbutton" iconCls="icon-getwps" id="otcgetWpsBut">索取规范</a>
+			<a href="javascript:saveMainWps();" class="easyui-linkbutton" iconCls="icon-ok" id="otcsaveWpsBut">保存</a>
 			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		
@@ -814,6 +816,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="sxmachinedlg-buttons">
 			<a href="javascript:selectSxModel();" class="easyui-linkbutton" iconCls="icon-ok">确认</a>
 			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+		</div>
+		
+		<!-- 下发历史查询 -->
+		<div id="wmhistorydlg" class="easyui-dialog" style="width: 950px; height: 520px; padding:10px 20px" closed="true">
+			<form id="wmhistoryfm" class="easyui-form" method="post" data-options="novalidate:true">
+			  	<div id="dg_btn">
+					<div style="margin-bottom: 5px;">
+			 			焊机编号：
+						<input class="easyui-numberbox" name="machineNum" id="machineNum">
+						工艺库名称：
+						<input class="easyui-textbox" name="theWpslibName" id="theWpslibName">
+						时间：
+						<input class="easyui-datetimebox" name="dtoTime1" id="dtoTime1">--
+						<input class="easyui-datetimebox" name="dtoTime2" id="dtoTime2">
+						<a href="javascript:searchHistory();" class="easyui-linkbutton" iconCls="icon-select" >搜索</a>
+					</div>
+				</div>
+				<table id="historyTable" style="table-layout: fixed; width:100%;"></table>
+			</form>
 		</div>
 	</div>
   </body>

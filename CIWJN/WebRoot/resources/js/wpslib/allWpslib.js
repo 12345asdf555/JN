@@ -814,6 +814,217 @@ function sxDefault(){
 	$("#sxfarc_ele_warn_bottom").numberbox('setValue', 1234);
 	$("#sxfarc_vol_warn_bottom").numberbox('setValue', 543.2);
 }
+
+//打开历史查询窗口
+function openHistorydlg(){
+	$("#wmhistorydlg").dialog({
+	    onClose: function () {
+	    	$('#machineNum').numberbox('clear');
+	    	$('#theWpslibName').textbox('clear');
+	    	getOldTime();
+	    	getNewTime();
+	    	$('#historyTable').datagrid('loadData',{total:0,rows:[]});
+	    	chartStr = "";
+	    }
+	});
+	$('#wmhistorydlg').window( {
+		title : "历史下发查询",
+		modal : true
+	});
+	$('#wmhistorydlg').window("open");
+	historyTable();
+}
+
+var chartStr = "";
+function setParam(){
+	var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
+	var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
+	var machineNum = $("#machineNum").numberbox('getValue');
+	var wpslibName = $("#theWpslibName").textbox('getValue');
+	chartStr += "?machineNum="+machineNum+"&wpslibName="+encodeURI(wpslibName)+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2;
+}
+
+function historyTable(){
+	setParam();
+	$("#historyTable").datagrid( {
+		fitColumns : true,
+		height : $("#wmhistorydlg").height()*0.9,
+		width : $("#wmhistorydlg").width(),
+		idField : 'id',
+		pageSize : 10,
+		pageList : [ 10, 20, 30, 40, 50 ],  
+		url : "wps/getWpslibMachineHistory"+chartStr,
+		singleSelect : true,
+		rownumbers : true,
+		pagination : true,
+		showPageList : false,
+		columns : [ [ {
+			field : 'fid',
+			title : 'fid',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		} ,{
+			field : 'machineNum',
+			title : '焊机编号',
+			width : 100,
+			halign : "center",
+			align : "left"
+		} ,{
+			field : 'machineModel',
+			title : '焊机型号',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		} ,{
+			field : 'wpslibName',
+			title : '工艺库名称',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'chanel',
+			title : '通道号',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'updateTime',
+			title : '下发时间',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'weld_ele',
+			title : '焊接电流',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'warn_ele_up',
+			title : '报警电流上限',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'warn_ele_down',
+			title : '报警电流下限',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'weld_vol',
+			title : '焊接电压',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'warn_vol_up',
+			title : '报警电压上限',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'warn_vol_down',
+			title : '报警电压下限',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'back',
+			title : '备注',
+			width : 100,
+			halign : "center",
+			align : "left",
+			formatter:function(value,row,index){
+			var str = "";
+			str += '<a id="fdetail" class="easyui-linkbutton" href="javascript:getDetail('+encodeURI(JSON.stringify(row))+')"/>';
+			return str; 
+			}
+		}]],
+		nowrap : false,
+		rowStyler: function(index,row){
+            if ((index % 2)!=0){
+            	//处理行代背景色后无法选中
+            	var color=new Object();
+                return color;
+            }
+		},
+		onLoadSuccess:function(data){
+	        $("a[id='fdetail']").linkbutton({text:'参数详情',plain:true});
+	    }
+	});
+}
+
+function getDetail(row){
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "wps/getSpeDetail?machineId="+row.fid+"&machineModel="+row.machineModel+"&chanel="+row.chanel+"&time="+row.updateTime,
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if(row.machineModel==171){
+					$("#mwdlg").dialog({
+					    onClose: function () {
+							$("#otcsaveWpsBut").show();
+							$("#otcgetWpsBut").show();
+					    }
+					});
+					$('#mwfm').form('clear');
+					$('#mwdlg').window({
+						title : "参数详情",
+						modal : true
+					});
+					$("#otcsaveWpsBut").hide();
+					$("#otcgetWpsBut").hide();
+					$('#mwdlg').window('open');
+					$('#mwfm').form('load', result.rows[0]);
+					if (encodeURI(result.rows[0].initial) == "1") {
+						$("#finitial").prop("checked", true);
+					}
+					if (encodeURI(result.rows[0].mode) == "1") {
+						$("#fmode").prop("checked", true);
+					}
+					if (encodeURI(result.rows[0].controller) == "1") {
+						$("#fcontroller").prop("checked", true);
+					}
+					if (encodeURI(result.rows[0].torch) == "1") {
+						$("#ftorch").prop("checked", true);
+					}
+				}else{
+					$('#editSxDlg').window( {
+						title : "参数详情",
+						modal : true
+					});
+					$("#sxRemoveWpsBut").hide();
+					$("#sxgetWpsBut").show();
+					$("#sxSaveWpsBut").show();
+					$("#sxgetWpsBut").hide();
+					$("#sxSaveWpsBut").hide();
+					$('#editSxDlg').window('open');
+					$('#sxfm').form('load', result.rows[0]);
+					$("input[name='sxfcharacter']").eq(result.rows[0].sxfcharacter).prop("checked", true);
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+}
+
+//搜索
+function searchHistory(){
+	chartStr = "";
+	setTimeout(function(){
+		historyTable();
+	},500);
+}
+
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize(), 500);

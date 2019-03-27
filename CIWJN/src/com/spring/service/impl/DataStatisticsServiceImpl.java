@@ -328,4 +328,10 @@ public class DataStatisticsServiceImpl implements DataStatisticsService {
 		}
 		return str;
 	}
+
+	@Override
+	public List<String> getMachineNoTask(BigInteger insid,WeldDto dto) {
+		// TODO Auto-generated method stub
+		return ds.getMachineNoTask(insid,dto);
+	}
 }

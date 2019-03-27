@@ -641,14 +641,14 @@ function domresize() {
 
 function activeLastPointToolip(chart) {
 	var points = chart.series[0].points;
-	chart.yAxis[0].removePlotLine('plot-line-0');
+/*	chart.yAxis[0].removePlotLine('plot-line-0');
 	chart.yAxis[0].removePlotLine('plot-line-1');
-	chart.yAxis[0].removePlotLine('plot-line-2');
+	chart.yAxis[0].removePlotLine('plot-line-2');*/
 	chart.yAxis[0].removePlotLine('plot-line-6');
 	chart.yAxis[0].removePlotLine('plot-line-7');
 	/*  		    chart.tooltip.refresh(points[points.length -1]);
 	  		    chart.tooltip.refresh(points1[points1.length -1]);*/
-	chart.yAxis[0].addPlotLine({ //在y轴上增加 
+/*	chart.yAxis[0].addPlotLine({ //在y轴上增加 
 		value : maxele, //在值为2的地方 
 		width : 2, //标示线的宽度为2px 
 		color : 'red', //标示线的颜色 
@@ -671,7 +671,7 @@ function activeLastPointToolip(chart) {
 			align : 'center', //标签的水平位置，水平居左,默认是水平居中center
 			x : 10 //标签相对于被定位的位置水平偏移的像素，重新定位，水平居左10px
 		}
-	})
+	})*/
 		chart.yAxis[0].addPlotLine({ //在y轴上增加 
 		value : warnele_up, //在值为2的地方 
 		width : 2, //标示线的宽度为2px 
@@ -696,7 +696,7 @@ function activeLastPointToolip(chart) {
 			x : 10 //标签相对于被定位的位置水平偏移的像素，重新定位，水平居左10px
 		}
 	})
-	chart.yAxis[0].addPlotLine({ //在y轴上增加 
+/*	chart.yAxis[0].addPlotLine({ //在y轴上增加 
 		value : (minele + maxele) / 2, //在值为2的地方 
 		width : 2, //标示线的宽度为2px 
 		color : 'red', //标示线的颜色 
@@ -707,19 +707,19 @@ function activeLastPointToolip(chart) {
 			align : 'center', //标签的水平位置，水平居左,默认是水平居中center
 			x : 10 //标签相对于被定位的位置水平偏移的像素，重新定位，水平居左10px
 		}
-	})
+	})*/
 }
 
 function activeLastPointToolip1(chart) {
 	var points = chart.series[0].points;
-	chart.yAxis[0].removePlotLine('plot-line-3');
+/*	chart.yAxis[0].removePlotLine('plot-line-3');
 	chart.yAxis[0].removePlotLine('plot-line-4');
-	chart.yAxis[0].removePlotLine('plot-line-5');
+	chart.yAxis[0].removePlotLine('plot-line-5');*/
 	chart.yAxis[0].removePlotLine('plot-line-8');
 	chart.yAxis[0].removePlotLine('plot-line-9');
 	/*  		    chart.tooltip.refresh(points[points.length -1]);
 	  		    chart.tooltip.refresh(points1[points1.length -1]);*/
-	chart.yAxis[0].addPlotLine({ //在y轴上增加 
+/*	chart.yAxis[0].addPlotLine({ //在y轴上增加 
 		value : maxvol, //在值为2的地方 
 		width : 2, //标示线的宽度为2px 
 		color : 'black', //标示线的颜色 
@@ -742,7 +742,7 @@ function activeLastPointToolip1(chart) {
 			align : 'center', //标签的水平位置，水平居左,默认是水平居中center
 			x : 10 //标签相对于被定位的位置水平偏移的像素，重新定位，水平居左10px
 		}
-	})
+	})*/
 		chart.yAxis[0].addPlotLine({ //在y轴上增加 
 		value : warnvol_up, //在值为2的地方 
 		width : 2, //标示线的宽度为2px 
@@ -767,7 +767,7 @@ function activeLastPointToolip1(chart) {
 			x : 10 //标签相对于被定位的位置水平偏移的像素，重新定位，水平居左10px
 		}
 	})
-	chart.yAxis[0].addPlotLine({ //在y轴上增加 
+/*	chart.yAxis[0].addPlotLine({ //在y轴上增加 
 		value : (parseInt(minvol) + parseInt(maxvol)) / 2, //在值为2的地方 
 		width : 2, //标示线的宽度为2px 
 		color : 'black', //标示线的颜色 
@@ -778,7 +778,7 @@ function activeLastPointToolip1(chart) {
 			align : 'center', //标签的水平位置，水平居左,默认是水平居中center
 			x : 10 //标签相对于被定位的位置水平偏移的像素，重新定位，水平居左10px
 		}
-	})
+	})*/
 }
 
 //显示系统当前时间

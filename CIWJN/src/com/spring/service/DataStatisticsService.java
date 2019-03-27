@@ -356,4 +356,12 @@ public interface DataStatisticsService {
 	List<DataStatistics> getMachineTask(BigInteger parent,String sql,int type);
 	
 	String getDay(String time,String time2);
+	
+	/**
+	 * 
+	 * @param bigInteger 组织机构id
+	 * @param dto 时间
+	 * @return
+	 */
+	List<String> getMachineNoTask(BigInteger insid, WeldDto dto);
 }

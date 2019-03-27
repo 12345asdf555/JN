@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.spring.dto.WeldDto;
 import com.spring.model.Dictionarys;
 import com.spring.model.MyUser;
 import com.spring.model.Td;
@@ -1226,6 +1227,346 @@ public class WpsController {
         }  
         obj.put("CRC7_code", result);
         return obj.toString();
+	}
+	
+	@RequestMapping("/getWpslibMachineHistory")
+	@ResponseBody
+	public String getWpslibMachineHistory(HttpServletRequest request){
+		pageIndex = Integer.parseInt(request.getParameter("page"));
+		pageSize = Integer.parseInt(request.getParameter("rows"));
+		page = new Page(pageIndex,pageSize,total);
+		String machineNum = request.getParameter("machineNum");
+		String wpslibName = request.getParameter("wpslibName");
+		String time1 = request.getParameter("dtoTime1");
+		String time2 = request.getParameter("dtoTime2");
+		if(iutil.isNull(machineNum)){
+			machineNum = "'%" + machineNum + "%'";
+		}
+		if(iutil.isNull(wpslibName)){
+			wpslibName = "'%" + wpslibName + "%'";
+		}
+		WeldDto dto = new WeldDto();
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
+		List<Wps> list = wpsService.getWpslibMachineHistoryList(page, machineNum, wpslibName, dto);
+		long total = 0;
+		if(list != null){
+			PageInfo<Wps> pageinfo = new PageInfo<Wps>(list);
+			total = pageinfo.getTotal();
+		}
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(int i=0;i<list.size();i++){
+				if(String.valueOf(list.get(i).getMacid()).equals("171")){
+					json.put("fid", list.get(i).getFid());
+					json.put("machineNum", list.get(i).getInsname());
+					json.put("wpslibName", list.get(i).getFwpsnum());
+					json.put("machineModel",list.get(i).getMacid());
+					json.put("chanel",list.get(i).getInsid());
+					json.put("updateTime", list.get(i).getUpdatename());
+					json.put("weld_ele", list.get(i).getFweld_ele());
+					json.put("warn_ele_up", list.get(i).getFwarn_ele_up());
+					json.put("warn_ele_down", list.get(i).getFwarn_ele_down());
+					json.put("weld_vol", list.get(i).getFweld_vol());
+					json.put("warn_vol_up", list.get(i).getFwarn_vol_up());
+					json.put("warn_vol_down", list.get(i).getFwarn_vol_down());
+					ary.add(json);
+				}else{
+					json.put("fid", list.get(i).getFid());
+					json.put("machineNum", list.get(i).getInsname());
+					json.put("wpslibName", list.get(i).getFwpsnum());
+					json.put("machineModel",list.get(i).getMacid());
+					json.put("chanel",list.get(i).getInsid());
+					json.put("updateTime", list.get(i).getUpdatename());
+					json.put("weld_ele", "");
+					json.put("warn_ele_up", list.get(i).getFpreset_ele_warn_top());
+					json.put("warn_ele_down", list.get(i).getFpreset_ele_warn_bottom());
+					json.put("weld_vol", "");
+					json.put("warn_vol_up", list.get(i).getFpreset_vol_warn_top());
+					json.put("warn_vol_down", list.get(i).getFpreset_vol_warn_bottom());
+					ary.add(json);
+				}
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getSpeDetail")
+	@ResponseBody
+	public String getSpeDetail(HttpServletRequest request){
+		String machineId = request.getParameter("machineId");
+		String chanel = request.getParameter("chanel");
+		String time = request.getParameter("time");
+		String machineModel = request.getParameter("machineModel");
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			if(machineModel.equals("171")){
+				Wps wps = wpsService.getOtcDetail(machineId,chanel,time);
+				json.put("fid", wps.getFid());
+				json.put("fchanel", wps.getWelderid());
+				json.put("finitial", "否");
+				json.put("initial", "0");
+				if(Integer.valueOf(wps.getFinitial())==1){
+					json.put("finitial", "是");
+					json.put("initial", "1");
+				}
+				json.put("fcontroller", "否");
+				json.put("controller", "0");
+				if(Integer.valueOf(wps.getFcontroller())==1){
+					json.put("fcontroller", "是");
+					json.put("controller", "1");
+				}
+				json.put("fselect",wps.getInsname());
+				json.put("fselectname",wps.getSelectname());
+				json.put("farc", wps.getWeldername());
+				json.put("farcname", wps.getArcname());
+				json.put("fcharacter", wps.getFweld_v_max());
+				json.put("fmode", "否");
+				json.put("mode", "0");
+				if(Integer.valueOf(wps.getFmode())==1){
+					json.put("fmode", "是");
+					json.put("mode", "1");
+				}
+				json.put("ftorch", "否");
+				json.put("torch", "0");
+				if(wps.getFtorch()==1){
+					json.put("ftorch", "是");
+					json.put("torch", "1");
+				}
+				json.put("fmaterial", wps.getUpdatename());
+				json.put("fmaterialname", wps.getMaterialname());
+				json.put("fgas", wps.getFback());
+				json.put("fgasname", wps.getGasname());
+				json.put("fdiameter", wps.getFname());
+				json.put("fdiametername", wps.getDianame());
+				json.put("ftime", wps.getFtime());
+				json.put("fadvance", wps.getFadvance());
+				json.put("fhysteresis", wps.getFhysteresis());
+				json.put("fini_ele", wps.getFini_ele());
+				json.put("fini_vol", wps.getFini_vol());
+				json.put("fini_vol1", wps.getFini_vol1());
+				json.put("fweld_ele", wps.getFweld_ele());
+				json.put("fweld_vol", wps.getFweld_vol());
+				json.put("fweld_vol1", wps.getFweld_vol1());
+				json.put("farc_ele", wps.getFarc_ele());
+				json.put("farc_vol", wps.getFarc_vol());
+				json.put("farc_vol1", wps.getFarc_vol1());
+				json.put("fweld_tuny_ele", wps.getFweld_tuny_ele());
+				json.put("fweld_tuny_vol", wps.getFweld_tuny_vol());
+				json.put("farc_tuny_ele", wps.getFarc_tuny_ele());
+				json.put("farc_tuny_vol", wps.getFdiameter());
+				json.put("fweldprocess", wps.getFprocessid());
+				json.put("fprocessname", wps.getFprocessname());
+				json.put("fwarn_ele_up", wps.getFwarn_ele_up());
+				json.put("fwarn_ele_down", wps.getFwarn_ele_down());
+				json.put("fwarn_vol_up", wps.getFwarn_vol_up());
+				json.put("fwarn_vol_down", wps.getFwarn_vol_down());
+				ary.add(json);
+			}else{
+				Wps list = wpsService.getSxDetail(machineId,chanel,time);
+				json.put("fid", list.getFid());
+				json.put("fwpsnum", list.getFwpsnum());
+				json.put("sxfcharacter", list.getFcharacter());
+				json.put("ftime", list.getFtime());
+				json.put("fhysteresis",list.getFhysteresis());
+				json.put("fadvance",list.getFadvance());
+				json.put("fini_ele", list.getFini_ele());
+				json.put("fini_vol", list.getFini_vol());
+				json.put("fini_vol1", list.getFini_vol1());
+				json.put("fweld_ele", list.getFweld_ele());
+				json.put("fweld_vol", list.getFweld_vol());
+				json.put("fweld_vol1", list.getFweld_vol1());
+				json.put("farc_ele", list.getFarc_ele());
+				json.put("farc_vol", list.getFarc_vol());
+				json.put("farc_vol1", list.getFarc_vol1());
+				json.put("fweld_tuny_ele", list.getFweld_tuny_ele());
+				json.put("fweld_tuny_vol", list.getFweld_tuny_vol());
+				json.put("farc_tuny_vol", list.getFarc_tuny_vol());
+				json.put("farc_tuny_ele", list.getFarc_tuny_ele());
+				json.put("fpreset_ele_top", list.getFpreset_ele_top());
+				json.put("fpreset_vol_top", list.getFpreset_vol_top());
+				json.put("fpreset_ele_bottom", list.getFpreset_ele_bottom());
+				json.put("fpreset_vol_bottom", list.getFpreset_vol_bottom());
+				json.put("farc_vol_top", list.getFarc_vol_top());
+				json.put("fpreset_ele_warn_top", list.getFpreset_ele_warn_top());
+				json.put("fpreset_vol_warn_top", list.getFpreset_vol_warn_top());
+				json.put("fpreset_ele_warn_bottom", list.getFpreset_ele_warn_bottom());
+				json.put("fpreset_vol_warn_bottom", list.getFpreset_vol_warn_bottom());
+				json.put("fini_ele_warn_top", list.getFini_ele_warn_top());
+				json.put("fini_vol_warn_top", list.getFini_vol_warn_top());
+				json.put("fini_ele_warn_bottom", list.getFini_ele_warn_bottom());
+				json.put("fini_vol_warn_bottom", list.getFini_vol_warn_bottom());
+				json.put("farc_ele_warn_top", list.getFarc_ele_warn_top());
+				json.put("farc_vol_warn_top", list.getFarc_vol_warn_top());
+				json.put("farc_ele_warn_bottom", list.getFarc_ele_warn_bottom());
+				json.put("farc_vol_warn_bottom", list.getFarc_vol_warn_bottom());
+				json.put("farc_delay_time", list.getFarc_delay_time());
+				json.put("fwarn_delay_time", list.getFwarn_delay_time());
+				json.put("fwarn_stop_time", list.getFwarn_stop_time());
+				json.put("fflow_top", list.getFflow_top());
+				json.put("fflow_bottom", list.getFflow_bottom());
+				json.put("fdelay_time", list.getFdelay_time());
+				json.put("fover_time", list.getFover_time());
+				json.put("ffixed_cycle", list.getFfixed_cycle());
+				json.put("selectname", list.getSelectname());
+				json.put("gasname", list.getGasname());
+				json.put("dianame", list.getDianame());
+				json.put("materialname", list.getMaterialname());
+				json.put("fcontrollername", list.getConname());
+				json.put("farcname", list.getArcname());
+				json.put("ininame", list.getFinitial());
+				json.put("fselect", list.getFselect());
+				json.put("farc", list.getFarc());
+				json.put("fmaterial", list.getFmaterial());
+				json.put("fdiameter", list.getFdiameter());
+				json.put("fcontroller", list.getFcontroller());
+				json.put("finitial", list.getFini());
+				json.put("fgas", list.getFgas());
+				json.put("charactername", list.getFcharacter()==0?"停机":"不停机");
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/saveGiveWpsHistory")
+	@ResponseBody
+	public String saveGiveWpsHistory(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONArray wpsary = new JSONArray();
+		JSONArray machineary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		String mainwps = request.getParameter("mainwps");
+		String machine = request.getParameter("machine");
+		String wpslib = request.getParameter("wpslib");
+		int flag = Integer.valueOf(request.getParameter("flag"));
+		wpsary = JSONArray.fromObject(mainwps);
+		machineary = JSONArray.fromObject(machine);
+		try{
+			Wps wps = new Wps();
+			if(flag==0){
+				for(int i=0;i<machineary.size();i++){
+					for(int j=0;j<wpsary.size();j++){
+						wps.setFweld_i_max(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fchanel"))));
+						wps.setFweld_i_min(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("initial"))));
+						wps.setFweld_alter_i(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("controller"))));
+						wps.setFweld_v_min(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("mode"))));
+						wps.setFweld_i(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fselect"))));
+						wps.setFweld_v(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc"))));
+						wps.setFweld_v_max(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fcharacter"))));
+						wps.setFweld_prechannel(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fmaterial"))));
+						wps.setFweld_alter_v(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fgas"))));
+						wps.setInsid(new BigInteger(String.valueOf(wpsary.getJSONObject(j).get("fdiameter"))));
+						wps.setFtime(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("ftime"))));
+						wps.setFadvance(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fadvance"))));
+						wps.setFhysteresis(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fhysteresis"))));
+						wps.setFini_ele(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fini_ele"))));
+						wps.setFini_vol(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fini_vol"))));
+						wps.setFini_vol1(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fini_vol1"))));
+						wps.setFweld_ele(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fweld_ele"))));
+						wps.setFweld_vol(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fweld_vol"))));
+						wps.setFweld_vol1(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fweld_vol1"))));
+						wps.setFarc_ele(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_ele"))));
+						wps.setFarc_vol(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_vol"))));
+						wps.setFarc_vol1(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_vol1"))));
+						wps.setFweld_tuny_ele(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fweld_tuny_ele"))));
+						wps.setFweld_tuny_vol(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fweld_tuny_vol"))));
+						wps.setFarc_tuny_ele(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_tuny_ele"))));
+						wps.setFdiameter(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_tuny_vol"))));
+						wps.setFid(Long.valueOf(wpslib));
+						wps.setFprocessid(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fweldprocess"))));
+						wps.setFtorch(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("torch"))));
+						wps.setFwarn_ele_up(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fwarn_ele_up"))));
+						wps.setFwarn_ele_down(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fwarn_ele_down"))));
+						wps.setFwarn_vol_up(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fwarn_vol_up"))));
+						wps.setFwarn_vol_down(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fwarn_vol_down"))));
+						wps.setMacid(new BigInteger(String.valueOf(machineary.getJSONObject(i).get("id"))));
+						wpsService.saveOtcWpsHistory(wps);
+						obj.put("success", true);
+					}
+				}
+			}else{
+				for(int i=0;i<machineary.size();i++){
+					for(int j=0;j<wpsary.size();j++){
+						wps.setFid(Long.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fid"))));
+						wps.setFwpsnum(String.valueOf(wpsary.getJSONObject(j).get("fwpsnum")));
+						wps.setFcharacter(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("sxfcharacter"))));
+						wps.setFtime(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("ftime"))));
+						wps.setFhysteresis(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fhysteresis"))));
+						wps.setFadvance(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fadvance"))));
+						wps.setFini_ele(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fini_ele"))));
+						wps.setFini_vol(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fini_vol"))));
+						wps.setFini_vol1(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fini_vol1"))));
+						wps.setFweld_ele(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fweld_ele"))));
+						wps.setFweld_vol(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fweld_vol"))));
+						wps.setFweld_vol1(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fweld_vol1"))));
+						wps.setFarc_ele(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_ele"))));
+						wps.setFarc_vol(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_vol"))));
+						wps.setFarc_vol1(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_vol1"))));
+						wps.setFweld_tuny_ele(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fweld_tuny_ele"))));
+						wps.setFweld_tuny_vol(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fweld_tuny_vol"))));
+						wps.setFarc_tuny_vol(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_tuny_vol"))));
+						wps.setFarc_tuny_ele(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_tuny_ele"))));
+						wps.setFpreset_ele_top(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fpreset_ele_top"))));
+						wps.setFpreset_vol_top(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fpreset_vol_top"))));
+						wps.setFpreset_ele_bottom(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fpreset_ele_bottom"))));
+						wps.setFpreset_vol_bottom(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fpreset_vol_bottom"))));
+						wps.setFarc_vol_top(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_vol_top"))));
+						wps.setFpreset_ele_warn_top(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fpreset_ele_warn_top"))));
+						wps.setFpreset_vol_warn_top(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fpreset_vol_warn_top"))));
+						wps.setFpreset_ele_warn_bottom(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fpreset_ele_warn_bottom"))));
+						wps.setFpreset_vol_warn_bottom(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fpreset_vol_warn_bottom"))));
+						wps.setFini_ele_warn_top(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fini_ele_warn_top"))));
+						wps.setFini_vol_warn_top(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fini_vol_warn_top"))));
+						wps.setFini_ele_warn_bottom(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fini_ele_warn_bottom"))));
+						wps.setFini_vol_warn_bottom(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fini_vol_warn_bottom"))));
+						wps.setFarc_ele_warn_top(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_ele_warn_top"))));
+						wps.setFarc_vol_warn_top(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_vol_warn_top"))));
+						wps.setFarc_ele_warn_bottom(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_ele_warn_bottom"))));
+						wps.setFarc_vol_warn_bottom(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_vol_warn_bottom"))));
+						wps.setFarc_delay_time(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc_delay_time"))));
+						wps.setFwarn_delay_time(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fwarn_delay_time"))));
+						wps.setFwarn_stop_time(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fwarn_stop_time"))));
+						wps.setFflow_top(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fflow_top"))));
+						wps.setFflow_bottom(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fflow_bottom"))));
+						wps.setFdelay_time(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fdelay_time"))));
+						wps.setFover_time(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fover_time"))));
+						wps.setFfixed_cycle(Double.valueOf(String.valueOf(wpsary.getJSONObject(j).get("ffixed_cycle"))));
+						wps.setFselect(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fselect"))));
+						wps.setFarc(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("farc"))));
+						wps.setFmaterial(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fmaterial"))));
+						wps.setFdiameter(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fdiameter"))));
+						wps.setFcontroller(String.valueOf(wpsary.getJSONObject(j).get("fcontroller")));
+						wps.setFinitial(String.valueOf(wpsary.getJSONObject(j).get("finitial")));
+						wps.setFgas(Integer.valueOf(String.valueOf(wpsary.getJSONObject(j).get("fgas"))));
+						wps.setMacid(new BigInteger(String.valueOf(machineary.getJSONObject(i).get("id"))));
+						wps.setFwpslib_id(new BigInteger(wpslib));
+						wpsService.saveSxWpsHistory(wps);
+						obj.put("success", true);
+					}
+				}
+			}
+		}catch(Exception e){
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+			e.getMessage();
+		}
+		return obj.toString();
 	}
 	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.dto.WeldDto;
 import com.spring.model.Wps;
 import com.spring.page.Page;
 
@@ -40,5 +41,10 @@ public interface WpsMapper {
 	
 	List<Wps> getSxWpsList(@Param("parent")BigInteger parent);
 	boolean saveSxWps(Wps wps);
+	boolean saveSxWpsHistory(Wps wps);
+	boolean saveOtcWpsHistory(Wps wps);
 	boolean editSxWps(Wps wps);
+	List<Wps> getWpslibMachineHistoryList(@Param("machineNum")String machineNum, @Param("wpslibName")String wpslibName, @Param("dto")WeldDto dto);
+	Wps getSxDetail(@Param("machineId")String machineId, @Param("chanel")String chanel, @Param("time")String time);
+	Wps getOtcDetail(@Param("machineId")String machineId, @Param("chanel")String chanel, @Param("time")String time);
 }

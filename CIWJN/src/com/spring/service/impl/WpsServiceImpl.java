@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.spring.dao.WpsMapper;
+import com.spring.dto.WeldDto;
 import com.spring.model.User;
 import com.spring.model.Wps;
 import com.spring.page.Page;
@@ -197,6 +198,37 @@ public class WpsServiceImpl implements WpsService{
 	@Override
 	public boolean editSxWps(Wps wps) {
 		return mapper.editSxWps(wps);
+	}
+
+	@Override
+	public List<Wps> getWpslibMachineHistoryList(Page page, String machineNum, String wpslibName, WeldDto dto) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return mapper.getWpslibMachineHistoryList(machineNum, wpslibName, dto);
+	}
+
+	@Override
+	public Wps getOtcDetail(String machineId, String chanel, String time) {
+		// TODO Auto-generated method stub
+		return mapper.getOtcDetail(machineId, chanel, time);
+	}
+
+	@Override
+	public Wps getSxDetail(String machineId, String chanel, String time) {
+		// TODO Auto-generated method stub
+		return mapper.getSxDetail(machineId, chanel, time);
+	}
+
+	@Override
+	public boolean saveSxWpsHistory(Wps wps) {
+		// TODO Auto-generated method stub
+		return mapper.saveSxWpsHistory(wps);
+	}
+
+	@Override
+	public boolean saveOtcWpsHistory(Wps wps) {
+		// TODO Auto-generated method stub
+		return mapper.saveOtcWpsHistory(wps);
 	}
 	
 	

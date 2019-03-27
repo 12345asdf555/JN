@@ -29,7 +29,7 @@ function EPWINIT() {}
 function EPWCHECK() {}
 
 //CPVE-500
-function CPVEW() {
+function CPVEW(wpslibId) {
 	var sochet_send_data = new Array();
 	var giveArray = new Array();
 	var resultData = new Array();
@@ -369,8 +369,8 @@ function CPVEW() {
 	}
 	websocket = new WebSocket(websocketUrl);
 	websocket.onopen = function() {
-/*		var oneMinuteTimer = window.setTimeout(function() {
-			alert("下发完成");
+		var oneMinuteTimer = window.setTimeout(function() {
+			alert("部分焊机下发超时");
 			$('#smdlg').window('close');
 			$('#smwdlg').window('close');
 			$('#weldingmachineTable').datagrid('clearSelections');
@@ -382,7 +382,7 @@ function CPVEW() {
 			noReceiveGiveChanel.length = 0;
 			resultData.length = 0;
 			realLength = 0;
-		}, 30000);*/
+		}, 30000);
 		showResult();
 		$("#giveResultTable").datagrid('loadData', resultData);
 		var timer = window.setInterval(function() {
@@ -429,19 +429,35 @@ function CPVEW() {
 					if (realLength == checkLength) {
 						websocket.close();
 						if (websocket.readyState != 1) {
-//							window.clearTimeout(oneMinuteTimer);
-							$('#smdlg').window('close');
-							$('#smwdlg').window('close');
-							$('#weldingmachineTable').datagrid('clearSelections');
-							$('#mainWpsTable').datagrid('clearSelections');
-							selectMainWpsRows.length = 0;
-							selectMachine.length = 0;
-							sochet_send_data.length = 0;
-							giveArray.length = 0;
-							resultData.length = 0;
-							noReceiveGiveChanel.length = 0;
-							realLength = 0;
-							alert("下发完成");
+							window.clearTimeout(oneMinuteTimer);
+							$.ajax({  
+							      type : "post",  
+							      async : false,
+							      url : "wps/saveGiveWpsHistory", 
+							      data : {mainwps:JSON.stringify(selectMainWpsRows),machine:JSON.stringify(selectMachine),wpslib:wpslibId,flag:0},  
+							      dataType : "json", //返回数据形式为json  
+							      success : function(result) {
+							          if (result.success) {
+											alert("下发完成");
+							          } else{
+							        	  	alert("下发完成，存储下发记录失败")
+							          }
+										$('#smdlg').window('close');
+										$('#smwdlg').window('close');
+										$('#weldingmachineTable').datagrid('clearSelections');
+										$('#mainWpsTable').datagrid('clearSelections');
+										selectMainWpsRows.length = 0;
+										selectMachine.length = 0;
+										sochet_send_data.length = 0;
+										giveArray.length = 0;
+										resultData.length = 0;
+										noReceiveGiveChanel.length = 0;
+										realLength = 0;
+							      },  
+							      error : function(errorMsg) {  
+							          alert("数据请求失败，请联系系统管理员!");  
+							      }  
+							 }); 
 						}
 					}
 				} else {
@@ -476,19 +492,35 @@ function CPVEW() {
 					if (realLength == checkLength) {
 						websocket.close();
 						if (websocket.readyState != 1) {
-//							window.clearTimeout(oneMinuteTimer);
-							$('#smdlg').window('close');
-							$('#smwdlg').window('close');
-							$('#weldingmachineTable').datagrid('clearSelections');
-							$('#mainWpsTable').datagrid('clearSelections');
-							selectMainWpsRows.length = 0;
-							selectMachine.length = 0;
-							sochet_send_data.length = 0;
-							noReceiveGiveChanel.length = 0;
-							giveArray.length = 0;
-							resultData.length = 0;
-							realLength = 0;
-							alert("下发完成");
+							window.clearTimeout(oneMinuteTimer);
+							$.ajax({  
+							      type : "post",  
+							      async : false,
+							      url : "wps/saveGiveWpsHistory", 
+							      data : {mainwps:JSON.stringify(selectMainWpsRows),machine:JSON.stringify(selectMachine),wpslib:wpslibId,flag:0},  
+							      dataType : "json", //返回数据形式为json  
+							      success : function(result) {
+							          if (result.success) {
+											alert("下发完成");
+							          } else{
+							        	  	alert("下发完成，存储下发记录失败")
+							          }
+										$('#smdlg').window('close');
+										$('#smwdlg').window('close');
+										$('#weldingmachineTable').datagrid('clearSelections');
+										$('#mainWpsTable').datagrid('clearSelections');
+										selectMainWpsRows.length = 0;
+										selectMachine.length = 0;
+										sochet_send_data.length = 0;
+										giveArray.length = 0;
+										resultData.length = 0;
+										noReceiveGiveChanel.length = 0;
+										realLength = 0;
+							      },  
+							      error : function(errorMsg) {  
+							          alert("数据请求失败，请联系系统管理员!");  
+							      }  
+							 }); 
 						}
 					}
 				}

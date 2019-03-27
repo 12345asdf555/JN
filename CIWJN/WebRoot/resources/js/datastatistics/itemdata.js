@@ -21,16 +21,32 @@ function dgDatagrid(){
         success : function(result) {
             if (result) {
             	 for(var i=0;i<result.ary.length;i++){
-            		 column.push({field:"t"+i,title:result.ary[i].title,width:100,halign : "center",align : "left",sortable : true,
-            				sorter : function(a,b){
-            					return (a>b?1:-1);
-            				}});
+            		 if(i==4){
+                		 column.push({field:"t"+i,title:result.ary[i].title,width:200,halign : "center",align : "left",sortable : true,
+             				sorter : function(a,b){
+             					return (a>b?1:-1);
+             				},formatter:function(value,row,index){
+             					var str = "";
+             					str += '<a id="mnt" class="easyui-linkbutton" href="javascript:alertDetail('+encodeURI(JSON.stringify(row))+')">&nbsp;&nbsp;&nbsp;&nbsp;'+row.t4+'&nbsp;&nbsp;&nbsp;&nbsp;</a>';
+             					return str; 
+             				}});
+            		 }else if(i==13){
+            			 column.push({field:"t"+i,title:result.ary[i].title,width:100,halign : "center",align : "left",sortable : true,
+              				sorter : function(a,b){
+              					return (a>b?1:-1);
+              				},hidden: true});
+            		 }else{
+                		 column.push({field:"t"+i,title:result.ary[i].title,width:100,halign : "center",align : "left",sortable : true,
+             				sorter : function(a,b){
+             					return (a>b?1:-1);
+             				}});
+            		 }
              	 }
             	 var grid = {
             			 fitColumns : true,
         				 height : $("#body").height(),
         				 width : $("#body").width(),
-        				 url : "datastatistics/getItemData"+chartStr,
+        				 url : "",
         				 pageSize : 10,
         				 pageList : [ 10, 20, 30, 40, 50 ],
         				 singleSelect : true,
@@ -49,9 +65,13 @@ function dgDatagrid(){
         		         },
         		         onBeforeLoad : function(param){
      		        		$("#chartLoading").hide();
-        		         }
+        		         },
+        		         onLoadSuccess:function(data){
+        			        $("a[id='mnt']").linkbutton({plain:true});
+        			     }
                  };
             	 $('#dg').datagrid(grid);  
+            	 $('#dg').datagrid('loadData', result.rows);
             }  
         },  
         error : function(errorMsg) {  
@@ -66,6 +86,10 @@ function serach(){
 	setTimeout(function(){
 		dgDatagrid();
 	},500);
+}
+
+function alertDetail(data){
+	alert(data.t13);
 }
 
 //导出到Excel

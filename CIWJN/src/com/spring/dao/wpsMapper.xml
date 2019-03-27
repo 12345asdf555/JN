@@ -103,7 +103,7 @@
 	</update>
 	
 	<insert id="saveSpe" parameterType="Wps">
-		INSERT INTO `tb_specification`(`fspe_num`, `finitial`, `fcontroller`, `fselect`, `farc`, `fcharacter`, `fmode`, `ftime`, `fmaterial`, `fadvance`, `fhysteresis`, `fgas`, `fdiameter`, `fini_ele`, `fini_vol`, `fini_vol1`, `fweld_ele`, `fweld_vol`, `fweld_vol1`, `farc_ele`, `farc_vol`, `farc_vol1`, `fweld_tuny_ele`, `fweld_tuny_vol`, `farc_tuny_ele`, `farc_tuny_vol`, `Fcreater`, `fwpslib_id`, `fwater_cooled_torch`, `fwelding_process`, `fwarn_ele_up`, `fwarn_ele_down`, `fwarn_vol_up`, `fwarn_vol_down`) VALUES (#{fweld_i_max},#{fweld_i_min},#{fweld_alter_i},#{fweld_i},#{fweld_v},#{fweld_v_max},#{fweld_v_min},#{ftime},#{fweld_prechannel},#{fadvance},#{fhysteresis},#{fweld_alter_v},#{insid},#{fini_ele},#{fini_vol},#{fini_vol1},#{fweld_ele},#{fweld_vol},#{fweld_vol1},#{farc_ele},#{farc_vol},#{farc_vol1},#{fweld_tuny_ele},#{fweld_tuny_vol},#{farc_tuny_ele},#{fdiameter},#{fcreater},#{fid},#{ftorch},#{fprocessid},#{fwarn_ele_up},#{fwarn_ele_down},#{fwarn_vol_up},#{fwarn_vol_down})
+		INSERT INTO `tb_specification`(`fspe_num`, `finitial`, `fcontroller`, `fselect`, `farc`, `fcharacter`, `fmode`, `ftime`, `fmaterial`, `fadvance`, `fhysteresis`, `fgas`, `fdiameter`, `fini_ele`, `fini_vol`, `fini_vol1`, `fweld_ele`, `fweld_vol`, `fweld_vol1`, `farc_ele`, `farc_vol`, `farc_vol1`, `fweld_tuny_ele`, `fweld_tuny_vol`, `farc_tuny_ele`, `farc_tuny_vol`, `Fcreater`, `fwpslib_id`, `fwater_cooled_torch`, `fwelding_process`, `fwarn_ele_up`, `fwarn_ele_down`, `fwarn_vol_up`, `fwarn_vol_down`, `fmachine_id`) VALUES (#{fweld_i_max},#{fweld_i_min},#{fweld_alter_i},#{fweld_i},#{fweld_v},#{fweld_v_max},#{fweld_v_min},#{ftime},#{fweld_prechannel},#{fadvance},#{fhysteresis},#{fweld_alter_v},#{insid},#{fini_ele},#{fini_vol},#{fini_vol1},#{fweld_ele},#{fweld_vol},#{fweld_vol1},#{farc_ele},#{farc_vol},#{farc_vol1},#{fweld_tuny_ele},#{fweld_tuny_vol},#{farc_tuny_ele},#{fdiameter},#{fcreater},#{fid},#{ftorch},#{fprocessid},#{fwarn_ele_up},#{fwarn_ele_down},#{fwarn_vol_up},#{fwarn_vol_down},#{macid})
 	</insert>
 	
 	<update id="updateSpe" parameterType="Wps">
@@ -206,4 +206,82 @@
 	<select id="getCountByWpslibidChanel" resultType="java.lang.Integer">
 		SELECT COUNT(fid) FROM `tb_specification` WHERE `fspe_num`=#{chanel} AND `fwpslib_id`=#{wpslibid}
 	</select>
+	
+	<select id="getWpslibMachineHistoryList" resultType="Wps">
+		SELECT wm.fid,wm.fequipment_no insname,wm.fmodel macid,wl.fwps_lib_name fwpsnum,wmh.fspe_num insid,wmh.fweld_ele,wmh.fweld_vol,wmh.fwarn_ele_up,wmh.fwarn_ele_down,wmh.fwarn_vol_up,wmh.fwarn_vol_down,wmh.fpreset_ele_warn_top,wmh.fpreset_vol_warn_top,wmh.fpreset_ele_warn_bottom,wmh.fpreset_vol_warn_bottom,wmh.fcreate_time updatename FROM tb_wps_machine_history wmh 
+		LEFT JOIN tb_welding_machine wm ON wmh.fmachine_id=wm.fid
+		LEFT JOIN tb_wps_library wl ON wmh.fwpslib_id=wl.fid
+		WHERE 1=1
+		<if test="wpslibName!=null and wpslibName!=''">
+			AND wl.fwps_lib_name like ${wpslibName}
+		</if>
+		<if test="machineNum!=null and machineNum!=''">
+			AND wm.fequipment_no like ${machineNum}
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fcreate_time &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fcreate_time &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		ORDER BY wmh.fcreate_time DESC
+	</select>
+	
+	<select id="getOtcDetail" resultType="Wps">
+		select s.`fid` fid,s.`fspe_num` welderid,s.finitial finitial,s.fcontroller fcontroller,s.fselect insname,s.farc weldername,s.fcharacter fweld_v_max,s.fmode fmode,s.fmaterial updatename,s.fgas fback,s.fdiameter fname,s.ftime,s.fhysteresis,s.fadvance,s.fini_ele ,s.fini_vol,s.fini_vol1,s.fweld_ele,s.fweld_vol,s.fweld_vol1,s.farc_ele,s.farc_vol,s.farc_vol1,s.fweld_tuny_ele,s.fwarn_ele_up,s.fwarn_ele_down,s.fwarn_vol_up,s.fwarn_vol_down,s.fweld_tuny_vol,s.farc_tuny_ele,s.farc_tuny_vol fdiameter,dm.fvaluename materialname,ds.fvaluename selectname,dg.fvaluename gasname,da.fvaluename arcname,dd.fvaluename dianame,s.fwater_cooled_torch ftorch,s.fwelding_process fprocessid,dp.fvaluename fprocessname FROM tb_wps_machine_history s 
+		LEFT JOIN tb_dictionary dm ON s.fmaterial=dm.fvalue and dm.ftypeid=9
+        LEFT JOIN tb_dictionary ds ON s.fselect=ds.fvalue and ds.ftypeid=10
+        LEFT JOIN tb_dictionary da ON s.farc=da.fvalue and da.ftypeid=11
+        LEFT JOIN tb_dictionary dg ON s.fgas=dg.fvalue and dg.ftypeid=12
+        LEFT JOIN tb_dictionary dd ON s.fdiameter=dd.fvalue and dd.ftypeid=13
+        LEFT JOIN tb_dictionary dp ON s.fwelding_process=dp.fvalue AND dp.ftypeid=22
+		where 1=1 
+		<if test="machineId!=null and machineId!=''">
+			AND s.`fmachine_id`=#{machineId}
+		</if>
+		<if test="chanel!=null and chanel!=''">
+			AND s.`fspe_num`=#{chanel}
+		</if>
+		<if test="time!=null and time!=''">
+			AND s.`fcreate_time`=#{time}
+		</if>
+	</select>
+	
+	<select id="getSxDetail" resultType="Wps">
+		select s.fid fid,s.fspe_num fwpsnum,fselect,farc,fmaterial,fdiameter,finitial fini,fgas,fcontroller,s.fcharacter fcharacter,s.ftime,s.fhysteresis,s.fadvance,s.fini_ele ,s.fini_vol,s.fini_vol1,s.fweld_ele,
+		s.fweld_vol,s.fweld_vol1,s.farc_ele,s.farc_vol,s.farc_vol1,s.fweld_tuny_ele,s.fweld_tuny_vol,s.farc_tuny_ele,farc_tuny_vol,fpreset_ele_top,fpreset_vol_top,fpreset_ele_bottom,fpreset_vol_bottom,farc_vol_top,fpreset_ele_warn_top,fpreset_vol_warn_top,fpreset_ele_warn_bottom,fpreset_vol_warn_bottom,fini_ele_warn_top,fini_vol_warn_top,fini_ele_warn_bottom,fini_vol_warn_bottom,farc_ele_warn_top,farc_vol_warn_top,farc_ele_warn_bottom,farc_vol_warn_bottom,farc_delay_time,fwarn_delay_time,fwarn_stop_time,fflow_top,fflow_bottom,fdelay_time,fover_time,ffixed_cycle,
+		d1.fvaluename selectname,d2.fvaluename gasname,d3.fvaluename dianame,d4.fvaluename materialname,d5.fvaluename conname,d6.fvaluename finitial,d7.fvaluename arcname FROM tb_wps_machine_history s 
+		LEFT JOIN tb_dictionary d1 ON s.fselect=d1.fvalue and d1.ftypeid = 10
+        LEFT JOIN tb_dictionary d2 ON s.fgas=d2.fvalue and d2.ftypeid=24
+        LEFT JOIN tb_dictionary d3 ON s.fdiameter=d3.fvalue and d3.ftypeid = 23
+        LEFT JOIN tb_dictionary d4 ON s.fmaterial=d4.fvalue and d4.ftypeid=18
+        LEFT JOIN tb_dictionary d5 ON s.fcontroller=d5.fvalue and d5.ftypeid = 19
+        LEFT JOIN tb_dictionary d6 ON s.finitial=d6.fvalue and d6.ftypeid=20
+        LEFT JOIN tb_dictionary d7 ON s.farc=d7.fvalue  and d7.ftypeid=21
+		where 1=1
+		<if test="machineId!=null and machineId!=''">
+			AND s.`fmachine_id`=#{machineId}
+		</if>
+		<if test="chanel!=null and chanel!=''">
+			AND s.`fspe_num`=#{chanel}
+		</if>
+		<if test="time!=null and time!=''">
+			AND s.`fcreate_time`=#{time}
+		</if>
+	</select>
+	
+	<insert id="saveSxWpsHistory" parameterType="Wps">
+		INSERT INTO tb_wps_machine_history (fspe_num, finitial, fcontroller, fselect, farc, fcharacter, fmode, ftime, fmaterial, fadvance, fhysteresis, fgas, fdiameter, fini_ele, fini_vol, fini_vol1, fweld_ele, fweld_vol, fweld_vol1, farc_ele, farc_vol, farc_vol1, fweld_tuny_ele, fweld_tuny_vol, farc_tuny_ele, farc_tuny_vol,
+		fmachine_id, FCReateDate, FUpdateDate, Fcreater, Fupdater, fwpslib_id, fpreset_vol_top, fpreset_ele_top, fpreset_ele_bottom, fpreset_vol_bottom, farc_vol_top, fpreset_ele_warn_top, fpreset_vol_warn_top, fpreset_ele_warn_bottom, fpreset_vol_warn_bottom, fini_ele_warn_top, fini_vol_warn_top, fini_ele_warn_bottom, fini_vol_warn_bottom, farc_ele_warn_top, farc_vol_warn_top, 
+		farc_ele_warn_bottom, farc_vol_warn_bottom, farc_delay_time, fwarn_delay_time, fwarn_stop_time,fflow_top, fflow_bottom, fdelay_time, fover_time, ffixed_cycle, fcreate_time) VALUES 
+		(#{fwpsnum}, #{finitial}, #{fcontroller}, #{fselect}, #{farc}, #{fcharacter}, 0, #{ftime}, #{fmaterial}, #{fadvance}, #{fhysteresis}, #{fgas}, #{fdiameter}, #{fini_ele},#{fini_vol}, #{fini_vol1}, #{fweld_ele}, #{fweld_vol}, #{fweld_vol1}, #{farc_ele}, #{farc_vol}, #{farc_vol1}, #{fweld_tuny_ele}, #{fweld_tuny_vol}, #{farc_tuny_ele}, #{farc_tuny_vol},
+		#{macid}, now(), now(), #{fcreater}, #{fupdater}, #{fwpslib_id}, #{fpreset_vol_top}, #{fpreset_ele_top}, #{fpreset_ele_bottom}, #{fpreset_vol_bottom}, #{farc_vol_top}, #{fpreset_ele_warn_top}, #{fpreset_vol_warn_top}, #{fpreset_ele_warn_bottom}, #{fpreset_vol_warn_bottom}, #{fini_ele_warn_top}, #{fini_vol_warn_top}, #{fini_ele_warn_bottom}, #{fini_vol_warn_bottom}, #{farc_ele_warn_top}, #{farc_vol_warn_top}, 
+		#{farc_ele_warn_bottom}, #{farc_vol_warn_bottom}, #{farc_delay_time}, #{fwarn_delay_time}, #{fwarn_stop_time}, #{fflow_top}, #{fflow_bottom}, #{fdelay_time}, #{fover_time}, #{ffixed_cycle}, now())
+	</insert>
+	
+	<insert id="saveOtcWpsHistory" parameterType="Wps">
+		INSERT INTO `tb_wps_machine_history`(`fspe_num`, `finitial`, `fcontroller`, `fselect`, `farc`, `fcharacter`, `fmode`, `ftime`, `fmaterial`, `fadvance`, `fhysteresis`, `fgas`, `fdiameter`, `fini_ele`, `fini_vol`, `fini_vol1`, `fweld_ele`, `fweld_vol`, `fweld_vol1`, `farc_ele`, `farc_vol`, `farc_vol1`, `fweld_tuny_ele`, `fweld_tuny_vol`, `farc_tuny_ele`, `farc_tuny_vol`, `Fcreater`, `fwpslib_id`, `fwater_cooled_torch`, `fwelding_process`, `fwarn_ele_up`, `fwarn_ele_down`, `fwarn_vol_up`, `fwarn_vol_down`, `fmachine_id`, `fcreate_time`) VALUES (#{fweld_i_max},#{fweld_i_min},#{fweld_alter_i},#{fweld_i},#{fweld_v},#{fweld_v_max},#{fweld_v_min},#{ftime},#{fweld_prechannel},#{fadvance},#{fhysteresis},#{fweld_alter_v},#{insid},#{fini_ele},#{fini_vol},#{fini_vol1},#{fweld_ele},#{fweld_vol},#{fweld_vol1},#{farc_ele},#{farc_vol},#{farc_vol1},#{fweld_tuny_ele},#{fweld_tuny_vol},#{farc_tuny_ele},#{fdiameter},#{fcreater},#{fid},#{ftorch},#{fprocessid},#{fwarn_ele_up},#{fwarn_ele_down},#{fwarn_vol_up},#{fwarn_vol_down},#{macid},now())
+	</insert>
 </mapper>
