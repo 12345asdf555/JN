@@ -30,7 +30,7 @@ function dgDatagrid(){
             			 fitColumns : true,
         				 height : $("#body").height(),
         				 width : $("#body").width(),
-        				 url : "",
+        				 url : "datastatistics/getPersonData"+chartStr,
         				 pageSize : 10,
         				 pageList : [ 10, 20, 30, 40, 50 ],
         				 singleSelect : true,

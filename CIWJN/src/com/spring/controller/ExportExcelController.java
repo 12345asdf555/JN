@@ -797,7 +797,7 @@ public class ExportExcelController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> list = dss.getAllJunctionData(junctionno);
+			List<DataStatistics> list = dss.getAllJunctionData("%"+ junctionno+"%");
 			String[] titles = new String []{"焊缝编号","焊接时间","工作时间","焊接效率(%)","焊丝消耗(KG)","电能消耗(KWH)","气体消耗(L)","规范符合率(%)"};
 			Object[][] data = new Object[list.size()][8];
 			int ii=0;
@@ -909,13 +909,13 @@ public class ExportExcelController {
 			if(iutil.isNull(time2)){
 				dto.setDtoTime2(time2);
 			}
-			List<DataStatistics> ilist = dss.getWeldWorkpieceInCountData(dto,junctionno);
+			List<DataStatistics> ilist = dss.getWeldWorkpieceInCountData(dto,"%"+ junctionno+"%");
 			String[] titles = new String[]{"焊缝编号","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			Object[][] data = new Object[ilist.size()][5];
 			int ii = 0;
 			for (DataStatistics i : ilist) {
 				if (ii < ilist.size()) {
-					data[ii][0] = i.getInsname().substring(2, 8);// 工件编号
+					data[ii][0] = i.getInsname();// 工件编号
 					data[ii][1] = getTimeStrBySecond(i.getInsid());// 累计焊接时间
 					data[ii][2] = getTimeStrBySecond(i.getInsid().subtract(i.getWorktime()));// 正常焊接时长
 					data[ii][3] = getTimeStrBySecond(i.getWorktime());// 超规范焊接时长
@@ -956,6 +956,7 @@ public class ExportExcelController {
 			
 			return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		} finally {
 			file.delete();
