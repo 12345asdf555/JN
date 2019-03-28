@@ -63,6 +63,7 @@ public class WeldingMachineWebServiceImpl implements WeldingMachineWebService {
 				obj.put("TYPE", jutil.setValue(list.get(i).getTypeId()));
 				obj.put("STATUS", jutil.setValue(list.get(i).getStatusId()));
 				obj.put("POSITION",jutil.setValue(list.get(i).getPosition()));
+				obj.put("SUPINS",jutil.setValue(list.get(i).getModifier()));
 				ary.add(obj);
 			}
 			return JSON.toJSONString(ary);

@@ -38,7 +38,10 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 		try{
 			JSONObject obj = new JSONObject();
 			JSONArray ary = new JSONArray();
-			List<WeldedJunction> list = wjm.getWeldedJunctionAll();
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String currentTime = df.format(new Date());
+			String startTime = currentTime.substring(0,10)+" 00:00:00";
+			List<WeldedJunction> list = wjm.getWeldedJunctionAll(startTime);
 			for(int i=0;i<list.size();i++){
 				obj.put("ID", jutil.setValue(list.get(i).getId()));
 				obj.put("TASKNO",jutil.setValue(list.get(i).getWeldedJunctionno()));
