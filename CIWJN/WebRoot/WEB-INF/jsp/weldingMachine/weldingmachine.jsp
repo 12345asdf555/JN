@@ -95,9 +95,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<select class="easyui-combobox" name="manuno" id="manuno" data-options="required:true,editable:false""></select>
 				</div>
 				<div class="fitem">
-					<lable>采集序号</lable>
+					<lable><span class="required">*</span>采集序号</lable>
 					<input type="hidden" id="validgid">
-					<select class="easyui-combobox" name="gid" id="gid" data-options="validType:['checkNumber','wmGatheridValidate'],editable:false""></select>
+					<select class="easyui-combobox" name="gid" id="gid" data-options="required:true,validType:['checkNumber','wmGatheridValidate'],editable:false""></select>
 				</div>
 				<div class="fitem">
 					<lable>设备位置</lable>

@@ -652,10 +652,16 @@ public class ExportExcelController {
 							double wireweight =Double.valueOf(str[0]);
 							double wire = (double)Math.round(wireweight*parameter.getSpeed()*time*100)/100;//焊丝消耗量=焊丝|焊丝重量*送丝速度*焊接时间
 							double air = (double)Math.round(parameter.getAirflow()*time*100)/100;//气体消耗量=气体流量*焊接时间
-							String sperate = new DecimalFormat("0.00").format((float)Integer.valueOf(weld.getWorktime().subtract(new BigInteger(weld.getTime())).toString())/(Integer.valueOf(weld.getWorktime().toString()))*100);
+//							String sperate = new DecimalFormat("0.00").format((float)Integer.valueOf(weld.getWorktime().subtract(new BigInteger(weld.getTime())).toString())/(Integer.valueOf(weld.getWorktime().toString()))*100);
+							if(String.valueOf(weld.getWorktime()).equals("0")){
+								data[ii][9]=0;//规范符合率
+							}else{
+								String sperate = new DecimalFormat("0.00").format((float)Integer.valueOf(weld.getWorktime().subtract(new BigInteger(weld.getTime())).toString())/(Integer.valueOf(weld.getWorktime().toString()))*100);
+								data[ii][9]=sperate;//规范符合率
+							}
 							data[ii][6]=wire;//焊丝消耗
 							data[ii][8]=air;//气体消耗
-							data[ii][9]=sperate;//规范符合率
+							
 						}
 					}else{
 						data[ii][3]="00:00:00";
@@ -839,10 +845,16 @@ public class ExportExcelController {
 							double wireweight =Double.valueOf(str[0]);
 							double wire = (double)Math.round(wireweight*parameter.getSpeed()*time*100)/100;//焊丝消耗量=焊丝|焊丝重量*送丝速度*焊接时间
 							double air = (double)Math.round(parameter.getAirflow()*time*100)/100;//气体消耗量=气体流量*焊接时间
-							String sperate = new DecimalFormat("0.00").format((float)Integer.valueOf(weld.getWorktime().subtract(new BigInteger(weld.getTime())).toString())/(Integer.valueOf(weld.getWorktime().toString()))*100);
+							if(String.valueOf(weld.getWorktime()).equals("0")){
+								data[ii][7]=0;
+							}else{
+								String sperate = new DecimalFormat("0.00").format((float)Integer.valueOf(weld.getWorktime().subtract(new BigInteger(weld.getTime())).toString())/(Integer.valueOf(weld.getWorktime().toString()))*100);
+								data[ii][7]=sperate;
+							}
+//							String sperate = new DecimalFormat("0.00").format((float)Integer.valueOf(weld.getWorktime().subtract(new BigInteger(weld.getTime())).toString())/(Integer.valueOf(weld.getWorktime().toString()))*100);
 							data[ii][4]=wire;//焊丝消耗
 							data[ii][6]=air;//气体消耗
-							data[ii][7]=sperate;
+							
 						}
 					}else{
 						data[ii][1]="00:00:00";

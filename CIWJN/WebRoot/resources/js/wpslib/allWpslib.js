@@ -974,6 +974,8 @@ function getDetail(row){
 							$("#otcgetWpsBut").show();
 					    }
 					});
+					CPVEWINIT();
+					comboboxCheck(row.model);
 					$('#mwfm').form('clear');
 					$('#mwdlg').window({
 						title : "参数详情",
