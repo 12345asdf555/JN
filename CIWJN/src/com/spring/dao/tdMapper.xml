@@ -54,6 +54,7 @@
 		<if test="str!=null and str!=''">
 			and ${str}
 		</if>
+		ORDER BY fequipment_no ASC
 	</select>
 	
 	<select id="getMachine" parameterType="String" resultType="Td">

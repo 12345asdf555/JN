@@ -38,6 +38,13 @@ function wpslibDatagrid(){
 			halign : "center",
 			align : "left",
 			hidden:true
+		},{
+			field : 'manu',
+			title : '厂商类型id',
+			width : 30,
+			halign : "center",
+			align : "left",
+			hidden:true
 		}, {
 			field : 'wpslibName',
 			title : '工艺库名称',
@@ -84,7 +91,7 @@ function wpslibDatagrid(){
 			align : "left",
 			formatter: function(value,row,index){
 				var str = "";
-				str += '<a id="wpslibgive" class="easyui-linkbutton" href="javascript:selectMainWps('+row.fid+','+row.model+')"/>';
+				str += '<a id="wpslibgive" class="easyui-linkbutton" href="javascript:selectMainWps('+row.fid+','+row.manu+')"/>';
 				str += '<a id="wpslibadd" class="easyui-linkbutton" href="javascript:addMainWps()"/>';
 				str += '<a id="wpslibedit" class="easyui-linkbutton" href="javascript:editWpslib()"/>';
 				str += '<a id="wpslibremove" class="easyui-linkbutton" href="javascript:openRemoveWpslib()"/>';
@@ -110,7 +117,7 @@ function wpslibDatagrid(){
 		},
 		onExpandRow: function(index,row){
 			var ddv = $(this).datagrid('getRowDetail',index).find('#ddv-'+index);
-			if(row.model==180){
+			if(row.manu==149){
 				ddv.datagrid({
 					width: $("#div"+index).width,
 					height: $("#div"+index).height,

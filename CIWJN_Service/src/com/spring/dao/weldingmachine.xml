@@ -46,7 +46,7 @@
 		LEFT JOIN tb_dictionary d ON m.fmanufacturer_id=d.fvalue AND d.ftypeid=14
 		LEFT JOIN tb_insframework i ON m.finsframework_id=i.fid
 		LEFT JOIN tb_insframework ins ON ins.fid=i.fparent AND ins.ftype=22
-		WHERE 1=1 order by m.fequipment_no
+		WHERE 1=1 order by m.fequipment_no asc
 	</select>
 	
 	<select id="getWeldingMachineById"  resultMap="wmMap"  parameterType="java.math.BigInteger">

@@ -1,9 +1,8 @@
 var insfid;
-var charts;
-var websocketURL, dic, starows, redata, symbol=0, welderName, taskNum, socket;
-var worknum=0, standbynum=0, warnnum=0, offnum=0, flag = 0, showflag = 0;
+var websocketURL, symbol=0, welderName, taskNum, socket;
+var showflag = 0,timeflag;
 var liveary = new Array(), machine = new Array();
-var charts;
+var off = new Array(), on = new Array(), warn = new Array(), stand = new Array(), cleardata = new Array();
 $(function(){
 	loadtree();
 	websocketUrl();
@@ -56,40 +55,20 @@ function loadtree() {
 				//默认选中第一个项目部
 				$('#myTree').tree('select', nownodes.target);
 				getMachine(insfid);
-				//初始化
-			 	//初始化echart实例
-				charts = echarts.init(document.getElementById("piecharts"));
-				showChart();
 			}
 
 		},
 		//树形菜单点击事件,获取项目部id，默认选择当前组织机构下的第一个
 		onClick : function(node) {
 			showflag = 0;
-			/*document.getElementById("load").style.display="block";
+/*			document.getElementById("load").style.display="block";
 			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
 			$("#bodydiv").append(sh);
 			document.getElementById("show").style.display="block";*/
 			var nownodes = $('#myTree').tree('find', node.id);
 			insfid = nownodes.id;
-			$("#curve").html("");
-			$("#standby").html(0);
-			$("#work").html(0);
-			$("#off").html(0);
-			$("#overproof").html(0);
-			$("#overtime").html(0);
+			$("#bodydiv").html("");
 			getMachine(insfid);
-			$('#itemname').html(nownodes.text);
-			flag = 0;
-			//清空实时数组
-			liveary.length = 0;
-			setTimeout(function() {
-				if (symbol == 0) {
-					alert("未接收到数据!!!");
-		    		/*document.getElementById("load").style.display ='none';
-		    		document.getElementById("show").style.display ='none';*/
-				}
-			}, 10000);
 		}
 	});
 }
@@ -131,10 +110,6 @@ function getMachine(insfid) {
 		success : function(result) {
 			if (result) {
 				machine = eval(result.rows);
-				$("#machinenum").html(machine.length);
-				$("#off").html(machine.length);
-//				showChart();
-				$("#curve").html();
 				for(var i=0;i<machine.length;i++){
 					var type = machine[i].type,imgnum=0;
 					if(type==41){
@@ -144,22 +119,21 @@ function getMachine(insfid) {
 					}else if(type==43){
 						imgnum = 2;
 					}
-					var str = '<div id="machine'+machine[i].fid+'" style="width:250px;height:120px;float:left;margin-right:10px;display:none">'+
-						'<div style="float:left;width:40%;height:100%;"><a href="td/goNextcurve?value='+machine[i].fid+'&valuename='+machine[i].fequipment_no+'&type='+machine[i].type+'&model='+machine[i].model+'"><img id="img'+machine[i].fid+'" src="resources/images/welder_4'+imgnum+'.png" style="height:110px;width:100%;padding-top:10px;"></a></div>'+
-						'<div style="float:left;width:60%;height:100%;">'+
-						'<ul><li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">设备编号：<span id="m1'+machine[i].fid+'">'+machine[i].fequipment_no+'</span></li>'+
-						'<li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">任务编号：<span id="m2'+machine[i].fid+'">--</span></li>'+
-						'<li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">操作人员：<span id="m3'+machine[i].fid+'">--</span></li>'+
-						'<li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">焊接电流：<span id="m4'+machine[i].fid+'">--A</span></li>'+
-						'<li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">焊接电压：<span id="m5'+machine[i].fid+'">--V</span></li>'+
-						'<li style="width:100%;height:19px;">焊机状态：<span id="m6'+machine[i].fid+'">关机</span></li></ul><input id="status'+machine[i].fid+'" type="hidden" value="3"></div></div>';
-					$("#curve").append(str);
-					var statusnum = $("#status").combobox('getValue');
-					if(showflag==0 && (statusnum==99 || statusnum==3)){
-						$("#machine"+machine[i].fid).show();
-					}
+					off.push(machine[i].fid);
+					var str = '<div id="machine'+machine[i].fid+'" style="width:240px;height:120px;float:left;margin-right:10px;display:none">'+
+					'<div style="float:left;width:40%;height:100%;"><a href="td/goNextcurve?value='+machine[i].fid+'&valuename='+machine[i].fequipment_no+'&type='+machine[i].type+'&model='+machine[i].model+'"><img id="img'+machine[i].fid+'" src="resources/images/welder_4'+imgnum+'.png" style="height:110px;width:100%;padding-top:10px;"></a></div>'+
+					'<div style="float:left;width:60%;height:100%;">'+
+					'<ul><li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">设备编号：<span id="m1'+machine[i].fid+'">'+machine[i].fequipment_no+'</span></li>'+
+					'<li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">任务编号：<span id="m2'+machine[i].fid+'">--</span></li>'+
+					'<li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">操作人员：<span id="m3'+machine[i].fid+'">--</span></li>'+
+					'<li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">焊接电流：<span id="m4'+machine[i].fid+'">--A</span></li>'+
+					'<li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">焊接电压：<span id="m5'+machine[i].fid+'">--V</span></li>'+
+					'<li style="width:100%;height:19px;">焊机状态：<span id="m6'+machine[i].fid+'">关机</span></li></ul><input id="status'+machine[i].fid+'" type="hidden" value="3"></div></div>';
+					$("#bodydiv").append(str);
+					$("#machine"+machine[i].fid).show();
 				}
 				showflag=1;
+				$("#off").html(off.length);
 			}
 		},
 		error : function(errorMsg) {
@@ -245,6 +219,9 @@ function webclient() {
 			showflag = 1;
 		}
 		iview();
+		if(symbol==0){
+			clearData();
+		}
 		symbol++;
 	};
 	//关闭事件
@@ -279,51 +256,6 @@ function webclient() {
 }
 
 function iview(){
-	if(flag==0){
-		/*if(machine!=null){
-			document.getElementById("load").style.display="block";
-			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
-			$("#bodydiv").append(sh);
-			document.getElementById("show").style.display="block";
-		}*/
-		window.setTimeout(function() {
-			tempary = liveary;
-			worknum=0, standbynum=0, warnnum=0, offnum=machine.length-tempary.length;
-			//默认显示所有
-			for(var i=0;i<machine.length;i++){
-				for(var j=0;j<tempary.length;j++){
-					if(tempary[j].fid==machine[i].fid){
-						$("#m4"+machine[i].fid).html(tempary[j].liveele);
-						$("#m5"+machine[i].fid).html(tempary[j].livevol);
-						$("#m6"+machine[i].fid).html(tempary[j].livestatus);
-						$("#status"+machine[i].fid).val(tempary[j].livestatusid);
-						$("#img"+machine[i].fid).attr("src",tempary[j].liveimg);
-					}
-				}
-				$("#machine"+machine[i].fid).show();
-			}
-			for(var j=0;j<tempary.length;j++){
-				var status = $("#status"+tempary[j].fid).val();
-				if(status == 0){
-					worknum += 1;
-				}else if(status == 1){
-					standbynum += 1;
-				}else if(status == 2){
-					warnnum += 1;
-				}else if(status == 3){
-					offnum += 1;
-				}
-			}
-			$("#work").html(worknum);
-			$("#standby").html(standbynum);
-			$("#warn").html(warnnum);
-			$("#off").html(offnum);
-			showChart();
-    		/*document.getElementById("load").style.display ='none';
-    		document.getElementById("show").style.display ='none';*/
-		},3000);
-		flag=2;
-	}
 	if(redata.length==333||redata.length==111){
 		for(var i = 0;i < redata.length;i+=111){
 //			if(redata.substring(8+i, 12+i)!="0000"){
@@ -336,6 +268,13 @@ function iview(){
 							imgnum = 3;
 						}else if(type==43){
 							imgnum = 2;
+						}
+						var cleardataIndex = $.inArray(parseInt(redata.substring(4+i, 8+i),10), cleardata);
+						if(cleardataIndex==(-1)){
+							cleardata.push(parseInt(redata.substring(4+i, 8+i),10));
+							cleardata.push(new Date().getTime());
+						}else{
+							cleardata.splice(cleardataIndex+1, 1, new Date().getTime());
 						}
 						$("#m3"+machine[f].fid).html("--");
 						$("#m2"+machine[f].fid).html("--");
@@ -351,367 +290,196 @@ function iview(){
 						}
 						var liveele = parseInt(redata.substring(38+i, 42+i),10);
 			            var livevol = parseFloat((parseInt(redata.substring(42+i, 46+i),10)/10).toFixed(2));
-			            var maxele = parseInt(redata.substring(75+i, 79+i));
-			            var minele = parseInt(redata.substring(79+i, 83+i));
-			            var maxvol = parseInt(redata.substring(83+i, 87+i));
-			            var minvol = parseInt(redata.substring(87+i, 91+i));
+			            $("#m4"+machine[f].fid).html(liveele+"A");
+						$("#m5"+machine[f].fid).html(livevol+"V");
 						var mstatus = redata.substring(36 + i, 38 + i);
 						var livestatus,livestatusid,liveimg;
+						if(mstatus=="00"){
+							var num;
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), stand);
+							if(num==(-1)){
+								stand.push(parseInt(redata.substring(4+i, 8+i),10));
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), warn);
+							if(num!=(-1)){
+								warn.splice(num, 1);
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), off);
+							if(num!=(-1)){
+								off.splice(num, 1);
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), on);
+							if(num!=(-1)){
+								on.splice(num, 1);
+							}
+						}else if(mstatus=="03"||mstatus=="05"||mstatus=="07"){
+							var num;
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), on);
+							if(num==(-1)){
+								on.push(parseInt(redata.substring(4+i, 8+i),10));
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), warn);
+							if(num!=(-1)){
+								warn.splice(num, 1);
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), off);
+							if(num!=(-1)){
+								off.splice(num, 1);
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), stand);
+							if(num!=(-1)){
+								stand.splice(num, 1);
+							}
+						}else{
+							var num;
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), warn);
+							if(num==(-1)){
+								warn.push(parseInt(redata.substring(4+i, 8+i),10));
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), on);
+							if(num!=(-1)){
+								on.splice(num, 1);
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), off);
+							if(num!=(-1)){
+								off.splice(num, 1);
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), stand);
+							if(num!=(-1)){
+								stand.splice(num, 1);
+							}
+						}
+						$("#standby").html(stand.length);
+						$("#work").html(on.length);
+						$("#off").html(off.length);
+						$("#warn").html(warn.length);
 						switch (mstatus){
 						case "00":
 							livestatus = "待机";
-							livestatusid = 1;
 							liveimg = "resources/images/welder_2"+imgnum+".png";
 							break;
 						case "01":
 							livestatus = "E-010 焊枪开关OFF等待";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "02":
 							livestatus = "E-000工作停止";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "03":
 							livestatus = "工作";
-							livestatusid = 0;
 							liveimg = "resources/images/welder_1"+imgnum+".png";
 							break;
 						case "04":
 							livestatus = "电流过低";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "05":
 							livestatus = "收弧";
-							livestatusid = 0;
 							liveimg = "resources/images/welder_1"+imgnum+".png";
 							break;
 						case "06":
 							livestatus = "电流过高";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "07":
 							livestatus = "启弧";
-							livestatusid = 0;
 							liveimg = "resources/images/welder_1"+imgnum+".png";
 							break;
 						case "08":
 							livestatus = "电压过低";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "09":
 							livestatus = "电压过高";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "10":
 							livestatus = "E-100控制电源异常";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "15":
 							livestatus = "E-150一次输入电压过高";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "16":
 							livestatus = "E-160一次输入电压过低";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "20":
 							livestatus = "E-200一次二次电流检出异常";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "21":
 							livestatus = "E-210电压检出异常";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "22":
 							livestatus = "E-220逆变电路反馈异常";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "30":
 							livestatus = "E-300温度异常";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "70":
 							livestatus = "E-700输出过流异常";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "71":
 							livestatus = "E-710输入缺相异常";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "98":
 							livestatus = "超规范停机";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						case "99":
 							livestatus = "超规范报警";
-							livestatusid = 2;
 							liveimg = "resources/images/welder_3"+imgnum+".png";
 							break;
 						}
-						if(liveary.length==0){
-							liveary.push(
-									{"fid":machine[f].fid,
-									"liveele":liveele+"A",
-									"livevol":livevol+"V",
-									"livestatus":livestatus,
-									"livestatusid":livestatusid,
-									"liveimg":liveimg})
-						}else{
-							var tempflag = false;
-							for(var x=0;x<liveary.length;x++){
-								if(liveary[x].fid == machine[f].fid){
-									tempflag = true;
-									break;
-								}
-							}
-							if(!tempflag){
-								liveary.push(
-										{"fid":machine[f].fid,
-										"liveele":liveele+"A",
-										"livevol":livevol+"V",
-										"livestatus":livestatus,
-										"livestatusid":livestatusid,
-										"liveimg":liveimg})
-							}
-						}
+						$("#m6"+machine[f].fid).html(livestatus);
+						$("#img"+parseInt(redata.substring(4+i, 8+i),10)).attr("src",liveimg);
+						$("#machine"+parseInt(redata.substring(4+i, 8+i),10)).show();
 					}
 				}
 //			}
 		};
 	}
 }
-//饼图统计
-function showChart(){
-	//显示加载动画效果
-	charts.showLoading({
-		text: '稍等片刻,精彩马上呈现...',
-		effect:'whirling'
-	});
-	option = {
-		tooltip:{
-			trigger: 'item',
-			formatter: function(param){
-				return '<div>实时统计<div>'+'<div style="float:left;margin-top:5px;border-radius:50px;border:solid rgb(100,100,100) 1px;width:10px;height:10px;background-color:'+param.color+'"></div><div style="float:left;">&nbsp;'+param.name+'：'+param.value+'%<div>';
-			}
-		},
-		toolbox:{
-			feature:{
-				saveAsImage:{}//保存为图片
-			},
-			right:'2%'
-		},
-		series:[{
-			name:'实时统计',
-			type:'pie',
-			radius : ['45%', '60%'],
-          color:['#55a7f3','#7cbc16','#fe0002','#818181'],
-			data:[
-              {value:($("#work").html()/$("#machinenum").html()*100).toFixed(2), name:'工作', id :0},
-              {value:($("#standby").html()/$("#machinenum").html()*100).toFixed(2), name:'待机', id :1},
-              {value:($("#warn").html()/$("#machinenum").html()*100).toFixed(2), name:'故障', id :2},
-              {value:($("#off").html()/$("#machinenum").html()*100).toFixed(2), name:'关机', id :3}
-          ],
-    		itemStyle : {
-    			normal: {
-    				label : {
-    					formatter: function(param){
-    						return param.name+"："+param.value+"%";
-    					}
-    				}
-    			}
-    		}
-		}]
-	}
-	// 1、清除画布
-	charts.clear();
-	// 2、为echarts对象加载数据
-	charts.setOption(option);
-	//3、在渲染点击事件之前先清除点击事件
-	charts.off('click');
-	//隐藏动画加载效果
-	charts.hideLoading();
-	// 4、echarts 点击事件
-	charts.on('click', function (param) {
-		statusClick(param.data.id);
-	});
-	$("#chartLoading").hide();
-}
-
-//每30'刷新一次
-var tempary = new Array();
-window.setInterval(function(){
-	//清空数组
-	liveary.length = 0;
-	window.setTimeout(function() {
-		tempary = liveary;
-		var statusnum = $("#status").combobox('getValue');
-		worknum=0, standbynum=0, warnnum=0, offnum=machine.length-tempary.length;
-		for(var i=0;i<machine.length;i++){
-			var isoffflag = true;
-			var type = machine[i].type,imgnum=0;
-			if(type==41){
-				imgnum = 1;
-			}else if(type==42){
-				imgnum = 3;
-			}else if(type==43){
-				imgnum = 2;
-			}
-			for(var j=0;j<tempary.length;j++){
-				if(machine[i].fid==tempary[j].fid){
-					isoffflag = false;
-				}
-			}
-			if(isoffflag){
-				$("#m3"+machine[i].fid).html("--");
-				$("#m4"+machine[i].fid).html("--A");
-				$("#m5"+machine[i].fid).html("--V");
-				$("#m6"+machine[i].fid).html("关机");
-				$("#status"+machine[i].fid).val(3);
-				$("#img"+machine[i].fid).attr("src","resources/images/welder_4"+imgnum+".png");
-			}
-			if(statusnum == 99){
-				for(var j=0;j<tempary.length;j++){
-					if(tempary[j].fid==machine[i].fid){
-						$("#m4"+machine[i].fid).html(tempary[j].liveele);
-						$("#m5"+machine[i].fid).html(tempary[j].livevol);
-						$("#m6"+machine[i].fid).html(tempary[j].livestatus);
-						$("#status"+machine[i].fid).val(tempary[j].livestatusid);
-						$("#img"+machine[i].fid).attr("src",tempary[j].liveimg);
-					}
-				}
-				$("#machine"+machine[i].fid).show();
-			}else{
-				$("#machine"+machine[i].fid).hide();
-				var type = machine[i].type,imgnum=0;
-				if(type==41){
-					imgnum = 1;
-				}else if(type==42){
-					imgnum = 3;
-				}else if(type==43){
-					imgnum = 2;
-				}
-				if(statusnum==3){
-					var offflag = true;
-					for(var j=0;j<tempary.length;j++){
-						if(machine[i].fid==tempary[j].fid){
-							offflag = false;
-						}
-					}
-					if(offflag){
-						$("#m3"+machine[i].fid).html("--");
-						$("#m4"+machine[i].fid).html("--A");
-						$("#m5"+machine[i].fid).html("--V");
-						$("#m6"+machine[i].fid).html("关机");
-						$("#status"+machine[i].fid).val(3);
-						$("#img"+machine[i].fid).attr("src","resources/images/welder_4"+imgnum+".png");
-						$("#machine"+machine[i].fid).show();
-					}
-				}
-			}
-		}
-		for(var j=0;j<tempary.length;j++){
-			var status = $("#status"+tempary[j].fid).val();
-			if(status == 0){
-				worknum += 1;
-			}else if(status == 1){
-				standbynum += 1;
-			}else if(status == 2){
-				warnnum += 1;
-			}else if(status == 3){
-				offnum += 1;
-			}
-			if(status == statusnum){
-				$("#m4"+tempary[j].fid).html(tempary[j].liveele);
-				$("#m5"+tempary[j].fid).html(tempary[j].livevol);
-				$("#m6"+tempary[j].fid).html(tempary[j].livestatus);
-				$("#status"+tempary[j].fid).val(tempary[j].livestatusid);
-				$("#img"+tempary[j].fid).attr("src",tempary[j].liveimg);
-				$("#machine"+tempary[j]).show();
-			}
-		}
-		$("#work").html(worknum);
-		$("#standby").html(standbynum);
-		$("#warn").html(warnnum);
-		$("#off").html(offnum);
-		showChart();
-	}, 6000);
-},24000);
-
-//状态按钮点击事件
-function statusClick(statusnum){
-	$("#status").combobox('setValue',statusnum);
-	for(var i=0;i<machine.length;i++){
-		if(statusnum == 99){
-			for(var j=0;j<tempary.length;j++){
-				if(tempary[j].fid==machine[i].fid){
-					$("#m4"+machine[i].fid).html(tempary[j].liveele);
-					$("#m5"+machine[i].fid).html(tempary[j].livevol);
-					$("#m6"+machine[i].fid).html(tempary[j].livestatus);
-					$("#status"+machine[i].fid).val(tempary[j].livestatusid);
-					$("#img"+machine[i].fid).attr("src",tempary[j].liveimg);
-				}
-			}
-			$("#machine"+machine[i].fid).show();
-		}else{
-			$("#machine"+machine[i].fid).hide();
-			if(statusnum==3){
-				var offflag = true;
-				var type = machine[i].type,imgnum=0;
-				if(type==41){
-					imgnum = 1;
-				}else if(type==42){
-					imgnum = 3;
-				}else if(type==43){
-					imgnum = 2;
-				}
-				for(var j=0;j<tempary.length;j++){
-					if(machine[i].fid==tempary[j].fid){
-						offflag = false;
-					}
-				}
-				if(offflag){
-					$("#m3"+machine[i].fid).html("--");
-					$("#m4"+machine[i].fid).html("--A");
-					$("#m5"+machine[i].fid).html("--V");
-					$("#m6"+machine[i].fid).html("关机");
-					$("#status"+machine[i].fid).val(3);
-					$("#img"+machine[i].fid).attr("src","resources/images/welder_4"+imgnum+".png");
-					$("#machine"+machine[i].fid).show();
-				}
-			}
-		}
-	}
-	for(var j=0;j<tempary.length;j++){
-		var status = $("#status"+tempary[j].fid).val();
-		if(status == statusnum){
-			$("#machine"+tempary[j].fid).show();
-		}
-	}
-}
-
-//监听窗口大小变化
-window.onresize = function() {
-	setTimeout(domresize, 500);
-}
-
-//改变图表高宽
-function domresize() {
-	echarts.init(document.getElementById('piecharts')).resize();
-}
   	
+function clearData(){
+	window.setInterval(function() {
+		timeflag = new Date().getTime();
+		for(var i=0;i<cleardata.length;i=i+2){
+			if(timeflag-cleardata[i+1]>=30000){
+				cleardata.splice(i+1, 1);
+				$("#img"+cleardata[i]).attr("src","resources/images/welder_42.png");
+				var num;
+				num = $.inArray(cleardata[i], stand);
+				if(num!=(-1)){
+					stand.splice(num, 1);
+				}
+				num = $.inArray(cleardata[i], warn);
+				if(num!=(-1)){
+					warn.splice(num, 1);
+				}
+				num = $.inArray(cleardata[i], on);
+				if(num!=(-1)){
+					on.splice(num, 1);
+				}
+				num = $.inArray(cleardata[i], off);
+				if(num==(-1)){
+					off.push(cleardata[i]);
+				}
+				$("#standby").html(stand.length);
+				$("#work").html(on.length);
+				$("#off").html(off.length);
+				$("#warn").html(warn.length);
+				$("#machine"+cleardata[i]).show();
+				cleardata.splice(i, 1);
+			}
+		}
+	}, 30000)
+}

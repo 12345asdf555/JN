@@ -85,7 +85,11 @@ public class TdController {
 	    request.setAttribute("valuename", valuename);
 	    request.setAttribute("type", type);
 	    request.setAttribute("model", model);
-	    request.setAttribute("time", time.substring(11));
+	    if("".equals(time)||time==null||"null".equals(time)){
+		    request.setAttribute("time", "--");
+	    }else{
+		    request.setAttribute("time", time.substring(11));
+	    }
 		return "td/nextCurve";
 	}
 	

@@ -27,6 +27,10 @@
 		select * from tb_dictionary where fid=#{id};
 	</select>
 	
+	<select id="getManuModel" resultMap="dMap">
+		SELECT `ftype` ftypeid,`ftype_value` fvalue FROM `tb_equipment_manufacturer` WHERE 1=1
+	</select>
+	
 	<select id="getDictionaryType" resultMap="dMap">
 		SELECT ftypeid ,fback FROM tb_dictionary GROUP BY ftypeid
 	</select>

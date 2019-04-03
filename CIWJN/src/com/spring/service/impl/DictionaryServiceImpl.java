@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 import com.spring.dao.DictionaryMapper;
 import com.spring.model.Dictionarys;
+import com.spring.model.WeldingMachine;
 import com.spring.page.Page;
 import com.spring.service.DictionaryService;
 
@@ -78,5 +79,10 @@ public class DictionaryServiceImpl implements DictionaryService {
 	public List<Dictionarys> getModelOfManu(int num) {
 		// TODO Auto-generated method stub
 		return dictionaryMapper.getModelOfManu(num);
+	}
+	@Override
+	public List<Dictionarys> getManuModel() {
+		// TODO Auto-generated method stub
+		return dictionaryMapper.getManuModel();
 	}
 }

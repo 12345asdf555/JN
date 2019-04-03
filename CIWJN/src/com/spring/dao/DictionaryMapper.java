@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.model.Dictionarys;
+import com.spring.model.WeldingMachine;
 
 import tk.mybatis.mapper.common.Mapper;
 
@@ -37,5 +38,7 @@ public interface DictionaryMapper extends Mapper<Dictionarys> {
 	String getDicValueByType(@Param("typeid")int typeid,@Param("value")int value);
 	
 	List<Dictionarys> getModelOfManu(@Param("num")int num);
+	
+	List<Dictionarys> getManuModel();
 	
 }

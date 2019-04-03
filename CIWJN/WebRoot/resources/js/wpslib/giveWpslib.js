@@ -26,7 +26,7 @@ $(function() {
 //选择工艺
 function selectMainWps(value,model){
 	wpslibId = value;
-	if(model == 180){
+	if(model == 149){
 		flag = 1;
 		$('#sxSelectdlg').window( {
 			title : "选择工艺",
@@ -885,7 +885,7 @@ function selectSxMachineList(status){
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
-		url : "weldingMachine/getWedlingMachineList?searchStr=dict.fvalue=180",
+		url : "weldingMachine/getWedlingMachineList?searchStr=w.fmanufacturer_id=149",
 		singleSelect : true,
 		rownumbers : true,
 		showPageList : false, 
@@ -1531,7 +1531,7 @@ function setSxMainWps() {
 			noReceiveGiveChanel.length = 0;
 			resultData.length = 0;
 			realLength = 0;
-		}, 60000);
+		}, selectMachine.length*selectMainWpsRows.length*30000);
 		showResult();
 		$("#giveResultTable").datagrid('loadData', resultData);//下发结果展示
 		var timer = window.setInterval(function() {

@@ -103,4 +103,5 @@ public interface WeldingMachineService {
 	 * @return
 	 */
 	List<WeldingMachine> getMachineGather();
+	
 }

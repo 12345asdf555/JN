@@ -150,9 +150,10 @@
 	</delete>
 	
 	<select id="getWpslibList" resultType="Wps">
-		SELECT tb_wps_library.fid,`fwps_lib_name` fwpsnum,`fmachinemodel` macid,di.fvaluename fname,`fcreatedate` fcreatedate,`fstatus` fstatus,d.fvaluename insname FROM tb_wps_library
-		LEFT JOIN tb_dictionary d ON tb_wps_library.fstatus=d.fvalue and d.ftypeid=6
-        LEFT JOIN tb_dictionary di ON tb_wps_library.fmachinemodel=di.fvalue AND di.ftypeid=17
+		SELECT wl.fid,`fwps_lib_name` fwpsnum,`fmachinemodel` macid,di.fvaluename fname,`fcreatedate` fcreatedate,`fstatus` fstatus,d.fvaluename insname,em.ftype conname FROM tb_wps_library wl
+		LEFT JOIN tb_dictionary d ON wl.fstatus=d.fvalue and d.ftypeid=6
+        LEFT JOIN tb_dictionary di ON wl.fmachinemodel=di.fvalue AND di.ftypeid=17
+        LEFT JOIN tb_equipment_manufacturer em ON wl.fmachinemodel = em.ftype_value
 		where 1=1
 		<if test="search!=null and search!=''">
 			AND s.`fwps_lib_name`=#{search}

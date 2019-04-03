@@ -71,4 +71,10 @@ public interface DictionaryService {
 	 * @return
 	 */
 	List<Dictionarys> getModelOfManu(int num);
+	
+	/**
+	 * 获取厂商及其对应的焊机类型
+	 * @return
+	 */
+	List<Dictionarys> getManuModel();
 }

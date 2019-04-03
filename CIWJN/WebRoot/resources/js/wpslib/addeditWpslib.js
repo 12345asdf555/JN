@@ -198,7 +198,7 @@ function addMainWps() {
 		CPVETINIT();
 		$('#mwdlg').window('open');
 		return;
-	} else if (wlrow.model == 180) {
+	} else if (wlrow.manu == 149) {
 		$('#editSxDlg').window({
 			title : "新增工艺",
 			modal : true
@@ -237,7 +237,7 @@ function editMainWps(indexrow,row) {
 		} else if (row.model == 171) {
 			CPVEWINIT();
 			comboboxCheck(row.model);
-		} else if (row.model == 180){
+		} else if (row.manu == 149){
 			mflag = 2;
 			$('#sxfm').form('clear');
 			if (row) {
@@ -313,7 +313,7 @@ function saveMainWps() {
 		if (CPVETCHECK() == false) {
 			return;
 		}
-	} else if (wlrow.model == 180) {
+	} else if (wlrow.manu == 149) {
 		saveSxWps();
 		return;
 	}

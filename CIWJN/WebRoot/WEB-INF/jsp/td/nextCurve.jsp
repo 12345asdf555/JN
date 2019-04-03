@@ -122,18 +122,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td>开机时间：</td>
 					<td class="tdinput"><input class="easyui-textbox" id="r1" readonly="readonly" value="${time}"/></td>
 				</tr>
-<!-- 				<tr>
-					<td>离线时长：</td>
-					<td class="tdinput"><input class="easyui-textbox" id="r2" readonly="readonly"/></td>
+ 				<tr>
+					<td>关机时间：</td>
+					<td class="tdinput"><input class="easyui-textbox" id="r2" readonly="readonly" value="--"/></td>
 				</tr>
-				<tr>
+<!--				<tr>
 					<td>工作时长：</td>
 					<td class="tdinput"><input class="easyui-textbox" id="r3" readonly="readonly" value="00:00:00"/></td>
-				</tr>
+				</tr> -->
 				<tr>
 					<td>焊接时长：</td>
 					<td class="tdinput"><input class="easyui-textbox" id="r4" readonly="readonly" value="00:00:00"/></td>
-				</tr> -->
+				</tr> 
 				<tr>
 					<td>通道总数：</td>
 					<td class="tdinput"><input class="easyui-textbox" id="r5" readonly="readonly"/></td>

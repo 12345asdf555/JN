@@ -1,5 +1,8 @@
+var manumodelArr = new Array();
+
 $(function(){
 	//typeCombobox();
+	manuModel();
 	manuCombobox();
 	weldmachine();
 	//DictionaryDataGrid();
@@ -26,6 +29,7 @@ function weldmachine(){
 		width : $("#body").width(),
 		idField : 'roles_name',
 		url : urls,
+		singleSelect : false,
 		rownumbers : false,
 		showPageList : false,
 		checkOnSelect:true,
@@ -66,13 +70,20 @@ function weldmachine(){
 			 $('#tt').datagrid('clearChecked');
 		},
 		onLoadSuccess:function(data){
-			 if(data){
-				 $.each(data.rows, function(index, item){
-					 if(item.symbol==1){
-				         $('#tt').datagrid('checkRow', index);
-					 }
-				 })
-			 }
+			$("#desc").combobox({
+				onChange : function(newValue, oldValue) {
+					$("#tt").datagrid('clearSelections');
+					for(var i=0;i<manumodelArr.ary.length;i++){
+						if(parseInt(manumodelArr.ary[i].manu)==newValue){
+							for(var j=0;j<data.rows.length;j++){
+								if(parseInt(manumodelArr.ary[i].model)==data.rows[j].machinevalue){
+									$("#tt").datagrid('selectRow',j);
+								}
+							}
+						}
+					}
+				}
+			})
 		}
 	});
 }
@@ -124,9 +135,10 @@ function save(){
 						msg : result.errorMsg
 					});
 				} else {
+					manuModel();
 					$.messager.alert("提示", messager);
 					//$('#dlg').dialog('close');
-					$('#dg').datagrid('reload');
+//					$('#dg').datagrid('reload');
 				}
 			}
 			
@@ -160,6 +172,25 @@ function manuCombobox(){
 	  }  
 	}); 
 	$("#desc").combobox();
+}
+
+//厂商和对应的焊机型号
+function manuModel(){
+	$.ajax({  
+		  type : "post",  
+		  async : false,
+		  url : "weldingMachine/getManuModel",  
+		  data : {},  
+		  dataType : "json", //返回数据形式为json  
+		  success : function(result) {  
+		      if (result) {
+		    	  manumodelArr = eval(result);
+		      }  
+		  },  
+		  error : function(errorMsg) {  
+		      alert("数据请求失败，请联系系统管理员!");  
+		  }  
+		});
 }
 
 //监听窗口大小变化

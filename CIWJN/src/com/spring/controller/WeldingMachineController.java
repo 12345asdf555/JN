@@ -644,4 +644,27 @@ public class WeldingMachineController {
 		return data + "";
 	}
 	
+	/**
+	 * 获取厂商及其对应的焊机类型
+	 * @return
+	 */
+	@RequestMapping("/getManuModel")
+	@ResponseBody
+	public String getManuModel(){
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			List<Dictionarys> dictionary = dm.getManuModel();
+			for(Dictionarys d:dictionary){
+				json.put("manu", d.getTypeid());
+				json.put("model", d.getValue());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
 }

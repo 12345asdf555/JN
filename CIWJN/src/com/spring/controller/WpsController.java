@@ -804,6 +804,7 @@ public class WpsController {
 				json.put("statusId", wps.getFstatus());
 				json.put("model", wps.getMacid());
 				json.put("modelname", wps.getFname());
+				json.put("manu", wps.getConname());
 				ary.add(json);
 			}
 		}catch(Exception e){
