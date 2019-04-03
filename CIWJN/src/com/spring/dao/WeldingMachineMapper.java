@@ -26,6 +26,8 @@ public interface WeldingMachineMapper extends Mapper<WeldingMachine>{
 	
 	int getEquipmentnoCount(@Param("eno")String eno);
 	
+	List<WeldingMachine> findAllweldmachine();
+	
 	int getEquipmentidCount(@Param("eid")String eid);
 	
 	int getGatheridCount(@Param("itemid")BigInteger itemid,@Param("gather")String gather);
@@ -45,6 +47,10 @@ public interface WeldingMachineMapper extends Mapper<WeldingMachine>{
 	BigInteger getMachineCountByManu(@Param("mid")BigInteger mid,@Param("id")BigInteger id);
 	
 	void deleteHistory(@Param("wid")BigInteger wid);
+	
+	void addfactoryType(WeldingMachine wm);
+	
+	void deletefactory(@Param("statusId")BigInteger statusId);
 	
 	List<WeldingMachine> getAllMachine();
 	

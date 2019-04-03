@@ -29,6 +29,11 @@ public interface WeldingMachineService {
 	void editWeldingMachine(WeldingMachine wm);
 	
 	/**
+	 * 查询所有焊机型号信息
+	 */
+	List<WeldingMachine> findAllweldmachine();
+	
+	/**
 	 * 删除设备
 	 * @param wid
 	 */
@@ -82,6 +87,16 @@ public interface WeldingMachineService {
 	 * 根据组织机构获取对应焊机
 	 */
 	List<WeldingMachine> getMachineByIns(BigInteger id);
+	
+	/**
+	 * 厂商焊机型号绑定
+	 */
+	void addfactoryType(WeldingMachine wm);
+	
+	/**
+	 * 删除旧厂商焊机型号绑定
+	 */
+	void deletefactory(BigInteger statusId);
 	
 	/**
 	 * 获取所有焊机及其对应的采集模块

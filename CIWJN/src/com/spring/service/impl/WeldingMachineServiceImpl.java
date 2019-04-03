@@ -31,6 +31,11 @@ public class WeldingMachineServiceImpl implements WeldingMachineService {
 	}
 	
 	@Override
+	public List<WeldingMachine> findAllweldmachine() {
+		return wmm.findAllweldmachine();
+	}
+	
+	@Override
 	public List<WeldingMachine> AllMachine(Page page,BigInteger parent) {
 		PageHelper.startPage(page.getPageIndex(),page.getPageSize());
 		return wmm.AllMachine(parent);
@@ -107,5 +112,14 @@ public class WeldingMachineServiceImpl implements WeldingMachineService {
 		// TODO Auto-generated method stub
 		return wmm.getMachineGather();
 	}
+	@Override
+	public void addfactoryType(WeldingMachine wm) {
+		wmm.addfactoryType(wm);
+	}
 
+	@Override
+	public void deletefactory(BigInteger statusId) {
+		wmm.deletefactory(statusId);
+	}
+	
 }

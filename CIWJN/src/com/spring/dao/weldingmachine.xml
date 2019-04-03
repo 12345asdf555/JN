@@ -89,6 +89,10 @@
 		where (d.ftypeid=3 and di.ftypeid=4 and dic.ftypeid=14) and w.fid = #{wid}
 	</select>
 	
+	<select id="findAllweldmachine" resultMap="wmMap">
+		select fid,fvalue mname,fvaluename typename from tb_dictionary WHERE ftypeid=17
+	</select>
+	
 	<select id="getMachineGather"  resultMap="wmMap">
 		SELECT 
 		w.fid fid,g.fid gid,fgather_no
@@ -166,6 +170,12 @@
 	<delete id="deleteByInsf" parameterType="java.math.BigInteger">
 		DELETE FROM tb_welding_machine WHERE finsframework_id = #{insfId}
 	</delete>
-
+	<update id="addfactoryType"  parameterType="com.spring.model.WeldingMachine">
+		INSERT INTO tb_equipment_manufacturer(fname,ftype,ftype_value) VALUES (#{fmachingname},#{statusId},#{typeId})
+	</update>
+	
+	<delete id="deletefactory" parameterType="java.math.BigInteger">
+		DELETE FROM tb_equipment_manufacturer WHERE ftype = #{statusId}
+	</delete>
 		
 </mapper>

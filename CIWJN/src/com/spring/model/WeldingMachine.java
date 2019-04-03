@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class WeldingMachine {
 	private BigInteger id;
 	private String ip;
+	private String fmachingname;
 	private String equipmentNo;
 	private String position;
 	private int isnetworking;
@@ -66,6 +67,12 @@ public class WeldingMachine {
 	}
 	public void setId(BigInteger id) {
 		this.id = id;
+	}
+	public String getFmachingname() {
+		return fmachingname;
+	}
+	public void setFmachingname(String fmachingname) {
+		this.fmachingname = fmachingname;
 	}
 	public String getIp() {
 		return ip;
