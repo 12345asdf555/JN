@@ -2,6 +2,7 @@ package com.spring.controller;
 
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -653,12 +654,15 @@ public class TdController {
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String time = sdf.format(new Date());
-			Td list = tdService.getLiveTime(time, new BigInteger(request.getParameter("machineid")));
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.DATE, 1); //得到后一天
+			String totime = sdf.format(calendar.getTime());
+			Td list = tdService.getLiveTime(time, totime, new BigInteger(request.getParameter("machineid")));
 			WeldingMachine machinelist = wm.getWeldingMachineById(new BigInteger(request.getParameter("machineid")));
 			json.put("machineno", machinelist.getTypename());
 			if(list!=null){
 				json.put("worktime",list.getWorktime());
-				json.put("time",list.getTime());
+				json.put("time",list.getWorktime());
 			}
 		}catch(Exception e){
 			e.printStackTrace();

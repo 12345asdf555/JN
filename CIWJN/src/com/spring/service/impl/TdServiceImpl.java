@@ -77,8 +77,8 @@ public class TdServiceImpl implements TdService {
 	}
 
 	@Override
-	public Td getLiveTime(String time, BigInteger machineid) {
-		return mapper.getLiveTime(time, machineid);
+	public Td getLiveTime(String time, String totime, BigInteger machineid) {
+		return mapper.getLiveTime(time, totime, machineid);
 	}
 
 	@Override

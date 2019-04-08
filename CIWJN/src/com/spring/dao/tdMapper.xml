@@ -72,12 +72,8 @@
 	</select>
 	
 	<select id="getLiveTime" resultType="Td">
-		select sum(wtime) worktime,time from (
-        SELECT count(fid) wtime,count(fid) time from tb_live_data 
-        where FWeldTime &gt;= #{time} and FWeldTime &lt; date_sub(date_sub(#{time},interval -1 day),interval 0 minute) and fmachine_id=#{machineid} and fstatus!=0
-        UNION ALL
-        SELECT count(fid) wtime,0 time from tb_live_data 
-        where FWeldTime &gt;= #{time} and FWeldTime &lt; date_sub(date_sub(#{time},interval -1 day),interval 0 minute) and fmachine_id=#{machineid} and fstatus=0)temp
+        SELECT count(fid) worktime from tb_live_data 
+        where FWeldTime &gt;= #{time} and FWeldTime &lt; #{totime} and fmachine_id=#{machineid} and fstatus!=0
 	</select>
 	
 	<select id="getBootTime" resultType="String">
