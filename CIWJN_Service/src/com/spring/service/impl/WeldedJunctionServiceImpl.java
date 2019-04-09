@@ -547,7 +547,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(count1 == 1){
+			if(count1 == 2){
 				break;
 			}
 		}

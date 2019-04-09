@@ -26,7 +26,7 @@ public class TcpClientHandler extends SimpleChannelInboundHandler{
 		// TODO Auto-generated method stub
 		msg = (String) arg1;
 		client.weldedJunctionServiceImpl.data = msg;
-		arg0.close();
+		//arg0.close();
 	}
 	
 	@Override  

@@ -5,8 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -28,11 +30,12 @@ public class Client
   public Bootstrap bootstrap = new Bootstrap();
   public WeldedJunctionServiceImpl weldedJunctionServiceImpl;
   public ConnectionListener CL = new ConnectionListener(this);
-  public TcpClientHandler handler;
+  public Client client;
   
   public Client(WeldedJunctionServiceImpl weldedJunctionServiceImpl1) {
 	// TODO Auto-generated constructor stub
 	  this.weldedJunctionServiceImpl = weldedJunctionServiceImpl1;
+	  client = this;
   }
 
   public Client() {
@@ -44,30 +47,53 @@ public class Client
     new Client().run();  
   }  
   
-  public Bootstrap createBootstrap(Bootstrap bootstrap, EventLoopGroup eventLoop) {  
-    if (bootstrap != null) {  
-      final TcpClientHandler handler = new TcpClientHandler(this);  
-     
-      bootstrap.group(eventLoop);  
-      bootstrap.channel(NioSocketChannel.class);  
-      bootstrap.option(ChannelOption.SO_KEEPALIVE, true);  
-      bootstrap.handler(new ChannelInitializer<SocketChannel>() {  
-        @Override  
-        protected void initChannel(SocketChannel socketChannel) throws Exception { 
-          socketChannel.pipeline().addLast("frameDecoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));    
-      	  socketChannel.pipeline().addLast("frameEncoder", new LengthFieldPrepender(4));    
-      	  socketChannel.pipeline().addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));    
-      	  socketChannel.pipeline().addLast("encoder", new StringEncoder(CharsetUtil.UTF_8)); 
-          socketChannel.pipeline().addLast(handler);  
-          CL.socketChannel = socketChannel;
-        }  
-      });  
-      bootstrap.remoteAddress("localhost",5551);
-      bootstrap.connect().addListener(CL); 
-    }  
-    return bootstrap;  
-  }  
+  public Runnable start = new Runnable() {
+	  public void run(){
+		  final TcpClientHandler handler = new TcpClientHandler(client);
+		  EventLoopGroup group = new NioEventLoopGroup();
+	       try {
+	           Bootstrap b = new Bootstrap();
+	           b.group(group) // 注册线程池
+	           .channel(NioSocketChannel.class) // 使用NioSocketChannel来作为连接用的channel类
+	           .remoteAddress(new InetSocketAddress("localhost", 5551)) // 绑定连接端口和host信息
+	           .handler(new ChannelInitializer<SocketChannel>() { // 绑定连接初始化器
+	           @Override
+	           protected void initChannel(SocketChannel ch) throws Exception {
+	        	   		ch.pipeline().addLast("frameDecoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));    
+	        	   		ch.pipeline().addLast("frameEncoder", new LengthFieldPrepender(4));    
+	        	   		ch.pipeline().addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));    
+	        	   		ch.pipeline().addLast("encoder", new StringEncoder(CharsetUtil.UTF_8)); 
+	                    ch.pipeline().addLast(handler);
+	                    weldedJunctionServiceImpl.socketChannel = ch;
+	               }
+	           });
+		   
+	           ChannelFuture cf;
+			try {
+				cf = b.connect().sync();
+		        cf.channel().closeFuture().sync(); // 异步等待关闭连接channel
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // 异步连接服务器
+	   
+	       } finally {
+	           try {
+				group.shutdownGracefully().sync();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // 释放线程池资源
+	       } 
+	  }
+   };
+
   public void run() {  
-    createBootstrap(bootstrap, loop);
+	  try {
+		new Thread(start).start();;
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
   }  
 }

@@ -19,18 +19,12 @@ public class ConnectionListener implements ChannelFutureListener {
 	@Override
 	public void operationComplete(ChannelFuture channelFuture) throws Exception {
 		// TODO Auto-generated method stub
-		if (!channelFuture.isSuccess()) {  
-		      //System.out.println("Reconnect");  
-		      final EventLoop loop = channelFuture.channel().eventLoop();  
-		      loop.schedule(new Runnable() {  
-		        @Override  
-		        public void run() {  
-		          client.createBootstrap(new Bootstrap(), loop);  
-		        }  
-		      }, 1L, TimeUnit.SECONDS);  
+		/*if (!channelFuture.isSuccess()) {
+		      final EventLoop loop = channelFuture.channel().eventLoop(); 
+	          client.createBootstrap(new Bootstrap(), loop);
 	    }else{
-				  client.weldedJunctionServiceImpl.socketChannel = socketChannel;
-		}  
+	    	client.weldedJunctionServiceImpl.socketChannel = socketChannel;
+		}  */
 	  }  
 	}
 
