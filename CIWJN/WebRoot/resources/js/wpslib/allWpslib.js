@@ -910,6 +910,12 @@ function historyTable(){
 			halign : "center",
 			align : "left"
 		}, {
+			field : 'weld_vol',
+			title : '焊接电压',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
 			field : 'warn_ele_up',
 			title : '报警电流上限',
 			width : 100,
@@ -918,12 +924,6 @@ function historyTable(){
 		}, {
 			field : 'warn_ele_down',
 			title : '报警电流下限',
-			width : 100,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'weld_vol',
-			title : '焊接电压',
 			width : 100,
 			halign : "center",
 			align : "left"
