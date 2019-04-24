@@ -284,6 +284,7 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 		String machineid = json.getString("MACHINEID");
 		int status = Integer.valueOf(json.getString("STATUS"));
 		WeldedJunction wj = new WeldedJunction();
+		socketChannel = null;
 		if(status==1){
 			String operatorid = json.getString("OPERATOR");
 			wj.setTaskid(new BigInteger(taskid));
@@ -516,6 +517,8 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 	@Override
 	public Object getMachineData() {
 		
+		socketChannel = null;
+		data = "";
 		client.run();
 		int count = 0;
 		while(socketChannel == null){
