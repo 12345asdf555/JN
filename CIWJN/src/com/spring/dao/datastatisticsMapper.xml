@@ -1295,17 +1295,26 @@
 	</select>
 	
 	<select id="getMachineNoTask" resultType="String">
-		SELECT m.fequipment_no FROM tb_welding_machine m 
-		INNER JOIN tb_insframework i on i.fid  = m.finsframework_id left JOIN tb_insframework ins on ins.fid = i.fparent
-        left JOIN tb_insframework insf on insf.fid = ins.fparent
+		SELECT distinct l.fweld_no fequipment_no FROM tb_live_data l 
+		INNER JOIN tb_insframework i on i.fid  = l.fmachine_itemid
+    	left JOIN tb_insframework ins on ins.fid = i.fparent
+    	left JOIN tb_insframework insf on insf.fid = ins.fparent
 		WHERE 1=1 
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
-		AND m.fid NOT IN 
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and l.FWeldTime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and l.FWeldTime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+    	AND l.fmachine_id NOT IN 
 		(SELECT DISTINCT t.fmachineid FROM tb_taskresult t 
 		WHERE 1=1 
-		<if test="dto!=null and dto!=''">
+				<if test="dto!=null and dto!=''">
 			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
 				and t.frealstarttime &gt;= #{dto.dtoTime1}
 			</if>

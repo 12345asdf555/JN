@@ -319,6 +319,7 @@ function saveMainWps() {
 	}
 
 	var wpsLibRow = $('#wpslibTable').datagrid('getSelected');
+	var index = $('#wpslibTable').datagrid('getRowIndex',wpsLibRow);
 	if (parseInt(oldchanel) != $('#fchanel').combobox('getValue')) {
 		var num;
 		$.ajax({
@@ -422,10 +423,11 @@ function saveMainWps() {
 				});
 				oldchanel = 0;
 			} else {
+				$('#ddv-'+index).datagrid('reload');
 				$.messager.alert("提示", messager);
 				oldchanel = 0;
 				$('#mwdlg').dialog('close');
-				$('#wpslibTable').datagrid('reload');
+		//		$('#wpslibTable').datagrid('reload');
 			}
 		},
 		error : function(errorMsg) {
@@ -627,6 +629,8 @@ function saveSxWps(){
 	if(checkSxWps()==false){
 		return;
 	};
+	var wpsLibRow = $('#wpslibTable').datagrid('getSelected');
+	var index = $('#wpslibTable').datagrid('getRowIndex',wpsLibRow);
 	var messager = "";
 	var url2 = "";
 	if(mflag==1){
@@ -650,9 +654,10 @@ function saveSxWps(){
 						msg : result.errorMsg
 					});
 				}else{
+					$('#ddv-'+index).datagrid('reload');
 					$.messager.alert("提示", messager);
 					$('#editSxDlg').dialog('close');
-					$('#wpslibTable').datagrid('reload');
+//					$('#wpslibTable').datagrid('reload');
 				}
 			}
 			

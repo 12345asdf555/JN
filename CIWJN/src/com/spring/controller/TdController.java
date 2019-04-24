@@ -81,16 +81,17 @@ public class TdController {
 	    String type = request.getParameter("type");
 	    String model = request.getParameter("model");
 	    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
-	    String time = tdService.getBootTime(df.format(new Date())+" 00:00:00", new BigInteger(value));
+//	    String time = tdService.getBootTime(df.format(new Date())+" 00:00:00", new BigInteger(value));
 	    request.setAttribute("value", value);
 	    request.setAttribute("valuename", valuename);
 	    request.setAttribute("type", type);
 	    request.setAttribute("model", model);
-	    if("".equals(time)||time==null||"null".equals(time)){
+	    request.setAttribute("time", "--");
+/*	    if("".equals(time)||time==null||"null".equals(time)){
 		    request.setAttribute("time", "--");
 	    }else{
 		    request.setAttribute("time", time.substring(11));
-	    }
+	    }*/
 		return "td/nextCurve";
 	}
 	

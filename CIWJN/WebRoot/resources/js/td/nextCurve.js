@@ -467,9 +467,9 @@ function iview() {
 			if(type==41){
 				imgnum = 1;
 			}else if(type==42){
-				imgnum = 2;
-			}else if(type==43){
 				imgnum = 3;
+			}else if(type==43){
+				imgnum = 2;
 			}
 			var mstatus = redata.substring(36 + i, 38 + i);
 			switch (mstatus) {
