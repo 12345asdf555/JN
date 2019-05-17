@@ -653,12 +653,12 @@ public class TdController {
 	public String getLiveTime(HttpServletRequest request){
 		JSONObject json = new JSONObject();
 		try{
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String time = sdf.format(new Date());
-			Calendar calendar = Calendar.getInstance();
+/*			Calendar calendar = Calendar.getInstance();
 			calendar.add(Calendar.DATE, 1); //得到后一天
-			String totime = sdf.format(calendar.getTime());
-			Td list = tdService.getLiveTime(time, totime, new BigInteger(request.getParameter("machineid")));
+			String totime = sdf.format(calendar.getTime());*/
+			Td list = tdService.getLiveTime(time.substring(0,11)+"00:00:00", time.substring(0,14)+"00:00", new BigInteger(request.getParameter("machineid")));
 			WeldingMachine machinelist = wm.getWeldingMachineById(new BigInteger(request.getParameter("machineid")));
 			json.put("machineno", machinelist.getTypename());
 			if(list!=null){

@@ -44,7 +44,7 @@ var series;
 var chart;
 var series1;
 var chart1;
-var time1 = 0,time2 = 0;
+var time1 = 0,time2 = 0,timeFlag=0;
 var led = [ "0,1,2,4,5,6", "2,5", "0,2,3,4,6", "0,2,3,5,6", "1,2,3,5", "0,1,3,5,6", "0,1,3,4,5,6", "0,2,5", "0,1,2,3,4,5,6", "0,1,2,3,5,6" ];
 $(function() {
 	var type = $("#type").val(),imgnum=0;
@@ -114,32 +114,7 @@ $(function() {
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	});
-	//获取工作、焊接时间以及设备类型
-	$.ajax({
-		type : "post",
-		async : false,
-		url : "td/getLiveTime?machineid="+$("#machineid").val(),
-		data : {},
-		dataType : "json", //返回数据形式为json  
-		success : function(result) {
-			if (result) {
-				worktime = eval(result);
-				if(worktime.worktime!=null && worktime.worktime!=''){
-					time1 = worktime.worktime;
-				}
-				if(worktime.time!=null && worktime.time!=''){
-					time2 = worktime.time;
-				}
-				var t1 = secondToDate(time1);
-			    $("#r3").textbox('setValue',t1);
-			    var t2 = secondToDate(time2);
-			    $("#r4").textbox('setValue',t2);
-			}
-		},
-		error : function(errorMsg) {
-			alert("数据请求失败，请联系系统管理员!");
-		}
-	});
+
 	/*		$.ajax({  
 			      type : "post",  
 			      async : false,
@@ -198,6 +173,35 @@ function webclient() {
 	socket.onmessage = function(msg) {
 		redata = msg.data;
 		iview();
+		if(timeFlag==0){
+			//获取工作、焊接时间以及设备类型
+			$.ajax({
+				type : "post",
+				async : false,
+				url : "td/getLiveTime?machineid="+$("#machineid").val(),
+				data : {},
+				dataType : "json", //返回数据形式为json  
+				success : function(result) {
+					if (result) {
+						worktime = eval(result);
+						if(worktime.worktime!=null && worktime.worktime!=''){
+							time1 = worktime.time;
+						}
+						if(worktime.time!=null && worktime.time!=''){
+							time2 = worktime.worktime;
+						}
+						var t1 = secondToDate(time1);
+					    $("#r3").textbox('setValue',t1);
+					    var t2 = secondToDate(time2);
+					    $("#r4").textbox('setValue',t2);
+					}
+				},
+				error : function(errorMsg) {
+					alert("数据请求失败，请联系系统管理员!");
+				}
+			});
+			timeFlag = 1;
+		}
 	};
 	//关闭事件
 	socket.onclose = function(e) {
@@ -413,14 +417,16 @@ function iview() {
 	for (var i = 0; i < redata.length; i += 111) {
 		//				if(redata.substring(8+i, 12+i)!="0000"){
 		if (parseInt(redata.substring(4 + i, 8 + i),10) == $("#machineid").val()) {
-			time1++;
-		    var t1 = secondToDate(time1);
-		    $("#r3").textbox('setValue',t1);
-		    if(redata.substring(36 + i, 38 + i)!="00"){
-			    time2++;
-			    var t2 = secondToDate(time2);
-			    $("#r4").textbox('setValue',t2);
-		    }
+			if(time2!=0){
+				time1++;
+			    var t1 = secondToDate(time1);
+			    $("#r3").textbox('setValue',t1);
+			    if(redata.substring(36 + i, 38 + i)!="00"){
+				    time2++;
+				    var t2 = secondToDate(time2);
+				    $("#r4").textbox('setValue',t2);
+			    }
+			}
 			ele.push(parseInt(redata.substring(38 + i, 42 + i), 10));
 			vol.push(parseFloat((parseInt(redata.substring(42 + i, 46 + i), 10) / 10).toFixed(2)));
 			$("#r10").textbox('setValue',parseInt(redata.substring(38 + i, 42 + i), 10)*parseFloat((parseInt(redata.substring(42 + i, 46 + i), 10) / 10).toFixed(2)));

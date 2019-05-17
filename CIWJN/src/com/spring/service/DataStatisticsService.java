@@ -363,5 +363,5 @@ public interface DataStatisticsService {
 	 * @param dto 时间
 	 * @return
 	 */
-	List<String> getMachineNoTask(BigInteger insid, WeldDto dto);
+	List<DataStatistics> getMachineNoTask(BigInteger insid, String time1, String totime, String time2);
 }

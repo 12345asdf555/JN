@@ -1294,8 +1294,9 @@
 		order by fid,time,type
 	</select>
 	
-	<select id="getMachineNoTask" resultType="String">
-		SELECT distinct l.fweld_no fequipment_no FROM tb_live_data l 
+	<select id="getMachineNoTask" resultMap="dataMap">
+		SELECT DISTINCT k.fname,k.fid from (
+		SELECT distinct l.fweld_no fname,i.fid FROM tb_live_data l 
 		INNER JOIN tb_insframework i on i.fid  = l.fmachine_itemid
     	left JOIN tb_insframework ins on ins.fid = i.fparent
     	left JOIN tb_insframework insf on insf.fid = ins.fparent
@@ -1303,24 +1304,35 @@
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
-		<if test="dto!=null and dto!=''">
-			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
-				and l.FWeldTime &gt;= #{dto.dtoTime1}
-			</if>
-			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and l.FWeldTime &lt;= #{dto.dtoTime2}
-			</if>
+		<if test="totime!=null and totime!=''">
+			and l.FWeldTime &gt;= #{totime}
 		</if>
-    	AND l.fmachine_id NOT IN 
+		<if test="time2!=null and time2!=''">
+			and l.FWeldTime &lt;= #{time2}
+		</if>
+		union all
+		SELECT distinct l.fweld_no fname,i.fid FROM tb_work l 
+		INNER JOIN tb_insframework i on i.fid  = l.fmachine_itemid
+    	left JOIN tb_insframework ins on ins.fid = i.fparent
+    	left JOIN tb_insframework insf on insf.fid = ins.fparent
+		WHERE 1=1 
+		<if test="itemid!=null and itemid!=''">
+			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
+		</if>
+		<if test="time1!=null and time1!=''">
+			and l.fstarttime &gt;= #{time1}
+		</if>
+		<if test="totime!=null and totime!=''">
+			and l.fendtime &lt;= #{totime}
+		</if>
+		) k where k.fname NOT IN 
 		(SELECT DISTINCT t.fmachineid FROM tb_taskresult t 
 		WHERE 1=1 
-				<if test="dto!=null and dto!=''">
-			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
-				and t.frealstarttime &gt;= #{dto.dtoTime1}
-			</if>
-			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
-				and t.frealstarttime &lt;= #{dto.dtoTime2}
-			</if>
+		<if test="time1!=null and time1!=''">
+			and t.frealstarttime &gt;= #{time1}
+		</if>
+		<if test="time2!=null and time2!=''">
+			and t.frealstarttime &lt;= #{time2}
 		</if>
 		)
 	</select>

@@ -330,8 +330,8 @@ public class DataStatisticsServiceImpl implements DataStatisticsService {
 	}
 
 	@Override
-	public List<String> getMachineNoTask(BigInteger insid,WeldDto dto) {
+	public List<DataStatistics> getMachineNoTask(BigInteger insid, String time1, String totime, String time2) {
 		// TODO Auto-generated method stub
-		return ds.getMachineNoTask(insid,dto);
+		return ds.getMachineNoTask(insid,time1,totime,time2);
 	}
 }

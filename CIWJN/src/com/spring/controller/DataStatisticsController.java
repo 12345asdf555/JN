@@ -3,6 +3,7 @@ package com.spring.controller;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -197,7 +198,12 @@ public class DataStatisticsController {
 				dto.setDtoTime2(time2);
 			}
 			List<DataStatistics> list = dss.getItemMachineCount(page,im.getUserInsframework());
-			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(sdf.parse(time2));
+			calendar.add(Calendar.HOUR, -1);
+			String totime = sdf.format(calendar.getTime());
+			List<DataStatistics> mNoTask = dss.getMachineNoTask(im.getUserInsframework(),time1,totime,time2);
 			if(list != null){
 				PageInfo<DataStatistics> pageinfo = new PageInfo<DataStatistics>(list);
 				total = pageinfo.getTotal();
@@ -211,46 +217,61 @@ public class DataStatisticsController {
 				DataStatistics junction = dss.getWorkJunctionNum(i.getId(), dto);//获取工作(焊接)的焊口数
 				DataStatistics parameter = dss.getParameter();//获取参数
 				BigInteger standytime = null;
-				if(junction.getJunctionnum()!=0){
-					machinenum = dss.getStartingUpMachineNum(i.getId(),dto);//获取开机焊机总数
-					starttime = dss.getStaringUpTime(i.getId(), dto);//获取开机总时长
-					json.put("t2", machinenum);//开机设备数
-					json.put("t6", junction.getJunctionnum());//焊接焊缝数
+				machinenum = dss.getStartingUpMachineNum(i.getId(),dto);//获取开机焊机总数
+				starttime = dss.getStaringUpTime(i.getId(), dto);//获取开机总时长
+				standytime = dss.getStandytime(i.getId(), dto);//获取待机总时长
+				weldtime = dss.getWorkTimeAndEleVol(i.getId(),dto);//获取焊接时长，平均电流电压
+				DataStatistics machine = dss.getWorkMachineNum(i.getId(), dto);//获取工作(焊接)的焊机数
+				if(!("").equals(starttime) && starttime!=null){
 					json.put("t8", getTimeStrBySecond(starttime));//工作时间
-					standytime = dss.getStandytime(i.getId(), dto);//获取待机总时长
-					weldtime = dss.getWorkTimeAndEleVol(i.getId(),dto);//获取焊接时长，平均电流电压
-					double standytimes = 0,time=0,electric=0;
-					if(standytime!=null){
-						standytimes = standytime.doubleValue()/60/60;
-					}
-					if(weldtime!=null){
-						electric = (double)Math.round((weldtime.getWorktime().doubleValue()/60/60*(weldtime.getElectricity()*weldtime.getVoltage())/1000+standytimes*parameter.getStandbypower()/1000)*100)/100;//电能消耗量=焊接时间*焊接平均电流*焊接平均电压+待机时间*待机功率
-					}else{
-						electric = (double)Math.round((time+standytimes*parameter.getStandbypower()/1000)*100)/100;//电能消耗量=焊接时间*焊接平均电流*焊接平均电压+待机时间*待机功率
-					}
-					json.put("t11", electric);//电能消耗
 				}else{
-					json.put("t2", 0);
-					json.put("t6", 0);
 					json.put("t8", "00:00:00");
-					json.put("t11", 0);
 				}
-				List<String> mNoTask = dss.getMachineNoTask(i.getId(),dto);
-				String machineStr = String.join("~",mNoTask);
+				json.put("t2", machinenum);//开机设备数
+				if(machine!=null){
+					json.put("t3",machine.getMachinenum() );//实焊设备数
+				}else{
+					json.put("t3",0);//实焊设备数
+				}
+				double standytimes = 0,time=0,electric=0;
+				if(standytime!=null){
+					standytimes = standytime.doubleValue()/60/60;
+				}
+				if(weldtime!=null){
+					electric = (double)Math.round((weldtime.getWorktime().doubleValue()/60/60*(weldtime.getElectricity()*weldtime.getVoltage())/1000+standytimes*parameter.getStandbypower()/1000)*100)/100;//电能消耗量=焊接时间*焊接平均电流*焊接平均电压+待机时间*待机功率
+					json.put("t7", getTimeStrBySecond(weldtime.getWorktime()));//焊接时间
+					double weldingproductivity = (double)Math.round(weldtime.getWorktime().doubleValue()/starttime.doubleValue()*100*100)/100;
+					json.put("t9", weldingproductivity);//焊接效率
+				}else{
+					electric = (double)Math.round((time+standytimes*parameter.getStandbypower()/1000)*100)/100;//电能消耗量=焊接时间*焊接平均电流*焊接平均电压+待机时间*待机功率
+					json.put("t7", "00:00:00");//焊接时间
+					json.put("t9", 0);//焊接效率
+				}
+				json.put("t11", electric);//电能消耗
+				if(junction.getJunctionnum()!=0){
+					json.put("t6", junction.getJunctionnum());//焊接焊缝数
+				}else{
+					json.put("t6", 0);
+				}
 				if(i.getTotal()!=0 && weldtime!=null){
-					DataStatistics machine = dss.getWorkMachineNum(i.getId(), dto);//获取工作(焊接)的焊机数
 					if(machine!=null && junction!=null){
-						json.put("t3",machine.getMachinenum() );//实焊设备数
-						json.put("t4", mNoTask.size());
+						String machineStr = "";
+						int macNum = 0;
+						for(DataStatistics m:mNoTask){
+							if(!("").equals(m.getId()) && m.getId()!=null){
+								if(i.getId().toString().equals(m.getId().toString())){
+									machineStr = machineStr + m.getName()+"~";
+									macNum++;
+								}
+							}
+						}
+						json.put("t4", macNum);
 						json.put("t13", machineStr);
-						json.put("t7", getTimeStrBySecond(weldtime.getWorktime()));//焊接时间
 						double useratio =(double)Math.round(Double.valueOf(machinenum)/Double.valueOf(i.getTotal())*100*100)/100;
-						double weldingproductivity = (double)Math.round(weldtime.getWorktime().doubleValue()/starttime.doubleValue()*100*100)/100;
 						json.put("t5", useratio);//设备利用率
-						json.put("t9", weldingproductivity);//焊接效率
 					}
 					if(parameter!=null){
-						double  time = weldtime.getWorktime().doubleValue()/60;
+						time = weldtime.getWorktime().doubleValue()/60;
 						String[] str = parameter.getWireweight().split(",");
 						double wireweight =Double.valueOf(str[0]);
 						double wire = (double)Math.round(wireweight*parameter.getSpeed()*time*100)/100;//焊丝消耗量=焊丝|焊丝重量*送丝速度*焊接时间
@@ -259,12 +280,19 @@ public class DataStatisticsController {
 						json.put("t12", air);//气体消耗
 					}
 				}else{
-					json.put("t3",0);//实焊设备数
-					json.put("t4", mNoTask.size());//未绑定设备数
+					String machineStr = "";
+					int macNum = 0;
+					for(DataStatistics m:mNoTask){
+						if(!("").equals(m.getId()) && m.getId()!=null){
+							if(i.getId().toString().equals(m.getId().toString())){
+								machineStr += m.getName()+"~";
+								macNum++;
+							}
+						}
+					}
+					json.put("t4", macNum);
 					json.put("t13", machineStr);
-					json.put("t7", "00:00:00");//焊接时间
 					json.put("t5", 0);//设备利用率
-					json.put("t9", 0);//焊接效率
 					json.put("t2", 0);//开机设备数
 					json.put("t10", 0);//焊丝消耗
 					json.put("t12", 0);//气体消耗

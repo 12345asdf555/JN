@@ -46,7 +46,7 @@ function dgDatagrid(){
             			 fitColumns : true,
         				 height : $("#body").height(),
         				 width : $("#body").width(),
-        				 url : "datastatistics/getItemData"+chartStr,
+        				 url : "/",
         				 pageSize : 10,
         				 pageList : [ 10, 20, 30, 40, 50 ],
         				 singleSelect : true,
