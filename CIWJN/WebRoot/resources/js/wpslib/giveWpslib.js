@@ -1047,7 +1047,7 @@ function setSxMainWps() {
 						data_length = "0" + data_length;
 					}
 				}
-				var equipmentNo = (parseInt(selectMachine[smindex].equipmentNo)).toString(16);
+				var equipmentNo = (parseInt(selectMachine[smindex].gatherId)).toString(16);
 				crc7_str.push(equipmentNo);
 				if (equipmentNo.length < 4) {
 					var length = 4 - equipmentNo.length;
@@ -1704,7 +1704,7 @@ function getSxMainWps() {
 				data_length = "0" + data_length;
 			}
 		}
-		var mach = parseInt(selectMachine.equipmentNo).toString(16);
+		var mach = parseInt(selectMachine.gatherId).toString(16);
 		crc7_str.push(mach);
 		if (mach.length < 4) {
 			var length = 4 - mach.length;
