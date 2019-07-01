@@ -280,7 +280,7 @@ function iview(){
 						$("#m2"+machine[f].fid).html("--");
 						for(var k=0;k<welderName.length;k++){
 							if(welderName[k].fid==parseInt(redata.substring(0+i, 4+i),10)){
-								$("#m3"+machine[f].fid).html(welderName[k].fwelder_no);
+								$("#m3"+machine[f].fid).html(welderName[k].fname);
 							}
 						}
 						for(var t=0;t<taskNum.length;t++){

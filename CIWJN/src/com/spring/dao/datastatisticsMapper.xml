@@ -832,8 +832,8 @@
 	
 	<!-- 查询焊机正常焊接时长 -->
 	<select id="getWeldMachineInCount"  resultMap="dataMap">
- 		select fequipment_no insname,fname,sum(insid) insid,sum(hour) worktime from(
-        select j.fid,j.fequipment_no,i.fname, 0 insid, 0 hour from tb_welding_machine j
+ 		select insname,fname,sum(insid) insid,sum(hour) worktime from(
+        select j.fid,j.fequipment_no insname,i.fname, 0 insid, 0 hour from tb_welding_machine j
         INNER JOIN tb_insframework i on i.fid = j.finsframework_id
         LEFT JOIN tb_insframework ins on ins.fid = i.fparent
         LEFT JOIN tb_insframework insf on insf.fid = ins.fparent WHERE 1=1 
@@ -930,8 +930,8 @@
 	
 	<!-- 查询焊工正常焊接时长 -->
 	<select id="getWeldPersonInCount"  resultMap="dataMap">
-		        select fwelder_no insname,fname,sum(insid) insid,sum(hour) worktime from(
-        select j.fid,j.fwelder_no,j.fname, 0 insid, 0 hour from tb_welder j
+		        select insname,fname,sum(insid) insid,sum(hour) worktime from(
+<!--         select j.fid,j.fwelder_no insname,j.fname, 0 insid, 0 hour from tb_welder j
         INNER JOIN tb_insframework i on i.fid = j.Fowner
         LEFT JOIN tb_insframework ins on ins.fid = i.fparent
         LEFT JOIN tb_insframework insf on insf.fid = ins.fparent WHERE 1=1 
@@ -940,7 +940,7 @@
 				and (i.fid=#{dto.parent} or ins.fid=#{dto.parent} or insf.fid=#{dto.parent} or insf.fparent=#{dto.parent})
 			</if>
 		</if>
-        union all 
+        union all  -->
         SELECT j.fid, j.fwelder_no insname,j.fname,SUM(a.fworktime) insid, 0 hour FROM tb_welder j 
 		INNER JOIN tb_work a ON j.fid=a.fwelder_id
 		INNER JOIN tb_insframework i on i.fid = j.Fowner
@@ -1035,8 +1035,8 @@
 	
 	<!-- 查询工件正常焊接时长 -->
 	<select id="getWeldPieceInCount"  resultMap="dataMap">
-        select fwelded_junction_no insname,sum(insid) insid,sum(hour) worktime from(
-        select j.fid,j.fwelded_junction_no, 0 insid, 0 hour from tb_welded_junction j
+        select insname,sum(insid) insid,sum(hour) worktime from(
+        <!-- select j.fid,j.fwelded_junction_no insname, 0 insid, 0 hour from tb_welded_junction j
         INNER JOIN tb_insframework i on i.fid = j.fitemId
         LEFT JOIN tb_insframework ins on ins.fid = i.fparent
         LEFT JOIN tb_insframework insf on insf.fid = ins.fparent WHERE 1=1 
@@ -1048,7 +1048,7 @@
 		<if test="junctionno!=null and junctionno!=''">
 			and j.fwelded_junction_no like #{junctionno}
 		</if>
-        union all 
+        union all  -->
         SELECT j.fid, j.fwelded_junction_no insname,SUM(a.fworktime) insid, 0 hour FROM tb_welded_junction j 
 		INNER JOIN tb_work a ON j.fid=a.fjunction_id
 		INNER JOIN tb_insframework i on i.fid = j.fitemId
@@ -1300,7 +1300,7 @@
 		INNER JOIN tb_insframework i on i.fid  = l.fmachine_itemid
     	left JOIN tb_insframework ins on ins.fid = i.fparent
     	left JOIN tb_insframework insf on insf.fid = ins.fparent
-		WHERE 1=1 
+		WHERE 1=1 and (l.fstatus=3 or l.fstatus=5 or l.fstatus=7 or l.fstatus=99) 
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
@@ -1326,8 +1326,8 @@
 			and l.fendtime &lt;= #{totime}
 		</if>
 		) k where k.fname NOT IN 
-		(SELECT DISTINCT t.fmachineid FROM tb_taskresult t 
-		WHERE 1=1 
+		(SELECT DISTINCT m.fequipment_no FROM tb_taskresult t 
+		left join tb_welding_machine m on t.fmachineid=m.fid WHERE 1=1 
 		<if test="time1!=null and time1!=''">
 			and t.frealstarttime &gt;= #{time1}
 		</if>

@@ -144,17 +144,25 @@ function importWeldingMachine(){
 		$.messager.alert("提示", "请选择要上传的文件！");
 		return false;
 	}else{
+		document.getElementById("load").style.display="block";
+		var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
+		$("#body").append(sh);
+		document.getElementById("show").style.display="block";
 		$('#importfm').form('submit', {
 			url : "import/importWelder",
 			success : function(result) {
 				if(result){
 					var result = eval('(' + result + ')');
 					if (!result.success) {
+			    		document.getElementById("load").style.display ='none';
+			    		document.getElementById("show").style.display ='none';
 						$.messager.show( {
 							title : 'Error',
 							msg : result.msg
 						});
 					} else {
+			    		document.getElementById("load").style.display ='none';
+			    		document.getElementById("show").style.display ='none';
 						$('#importdiv').dialog('close');
 						$('#welderTable').datagrid('reload');
 						$.messager.alert("提示", result.msg);
