@@ -97,4 +97,10 @@ public class PersonServiceImpl implements PersonService{
 		return mapper.findAll(parent, str);
 	}
 
+	@Override
+	public void updateByWelderno(Person welder) {
+		// TODO Auto-generated method stub
+		mapper.updateByWelderno(welder);
+	}
+
 }

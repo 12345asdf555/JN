@@ -1,6 +1,8 @@
 /**
  * 
  */
+var sxTableFlag=0;
+var otcTableFlag=0;
 $(function(){
 	wpslibDatagrid();
 	sxDefault();
@@ -460,7 +462,10 @@ function wpslibDatagrid(){
 							plain : true,
 							iconCls : 'icon-delete'
 						});
-						$("#div"+index).height($("#div"+index).height()+20);
+						if(sxTableFlag==0){
+							$("#div"+index).height($("#div"+index).height()+20);
+							sxTableFlag++;
+						}
 						$("#ddv-"+index).datagrid('resize', {
 							height : $("#div"+index).height(),
 							width : $("#div"+index).width()
@@ -745,7 +750,10 @@ function wpslibDatagrid(){
 						},0);
 				        $("a[id='mainwpsedit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 				        $("a[id='mainwpsremove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
-						$("#div"+index).height($("#div"+index).height()+20);
+						if(otcTableFlag==0){
+							$("#div"+index).height($("#div"+index).height()+20);
+							otcTableFlag++;
+						}
 						$("#ddv-"+index).datagrid('resize', {
 							height : $("#div"+index).height(),
 							width : $("#div"+index).width()

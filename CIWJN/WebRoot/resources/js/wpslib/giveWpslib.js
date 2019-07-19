@@ -477,8 +477,12 @@ function selectMachineList(value){
 			alert("密码范围是1~999");
 			return;
 		}
-	}else{
+	}else if(value==3){
 		url = "weldingMachine/getWedlingMachineList?searchStr="+"w.fmanufacturer_id="+147;
+	}else if(value==4){
+		url = "weldingMachine/getWedlingMachineList?searchStr="+"w.fmanufacturer_id="+149;
+	}else if(value==5){
+		url = "weldingMachine/getWedlingMachineList?searchStr="+"w.fmanufacturer_id="+149;
 	}
 	$('#smfm').form('clear');
 	$('#smdlg').window( {
@@ -641,11 +645,21 @@ function selectMachineList(value){
 			singleSelect: true
 		});
 		selectflag=3;
-	}else{
+	}else if(value==0){
 		$("#weldingmachineTable").datagrid({
 			singleSelect: true
 		});
 		selectflag=0;
+	}else if(value==4){
+		$("#weldingmachineTable").datagrid({
+			singleSelect: true
+		});
+		selectflag=4;
+	}else if(value==5){
+		$("#weldingmachineTable").datagrid({
+			singleSelect: true
+		});
+		selectflag=5;
 	}
 	$('#smdlg').window('open');
 }
@@ -659,6 +673,10 @@ function selectModel(){
 		passfun();
 	}else if(selectflag==3){
 		controlfun();
+	}else if(selectflag==4){
+		sxMachineIsLock(1);
+	}else if(selectflag==5){
+		sxMachineIsLock(0);
 	}else{
 		return;
 	}

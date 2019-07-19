@@ -71,4 +71,8 @@
 			and ${str}
 		</if>
 	</select>
+	
+	<update id="updateByWelderno" parameterType="Person">
+		update tb_welder set fname=#{name},FCellPhone=#{cellphone},FLeveID=#{leveid},FCardNUm=#{cardnum},Fqualification=#{quali},FUpdateDate=now(),Fowner=#{owner},Fback=#{back},Fupdater=#{updater} where fwelder_no=#{welderno};
+	</update>
 </mapper>

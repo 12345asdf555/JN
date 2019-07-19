@@ -21,4 +21,5 @@ public interface PersonMapper {
 	Person getIdByWelderno(@Param("welderno")String welderno);
 	
 	List<Person> getFreeWelder(@Param("str")String str);
+	void updateByWelderno(Person welder);
 }

@@ -209,3 +209,60 @@ function openPassDlg(){
 	});
 	$('#pwd').window('open');
 }
+
+function sxMachineIsLock(value){
+	var selectMachine = $('#weldingmachineTable').datagrid('getSelections');
+	if (selectMachine.length == 0) {
+		alert("请先选择焊机!!!");
+		return;
+	}
+	for (var m = 0; m < selectMachine.length; m++) {
+		if (!selectMachine[m].gatherId) {
+			alert(selectMachine[m].equipmentNo + "未绑定采集模块，请重新选择!!!");
+			return;
+		}
+	}
+	var flag = 0;
+	var websocket = null;
+	var sochet_send_data = new Array();
+	if (typeof (WebSocket) == "undefined") {
+		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+		WEB_SOCKET_DEBUG = true;
+	}
+	websocket = new WebSocket(websocketUrl);
+	websocket.onopen = function() {
+		for(var s=0;s<selectMachine.length;s++){
+			var mach = (parseInt(selectMachine[s].gatherId,10)).toString(16);
+			if (mach.length < 4) {
+				var length = 4 - mach.length;
+				for (var i = 0; i < length; i++) {
+					mach = "0" + mach;
+				}
+			}
+			sochet_send_data.push("FE5AA5001A"+mach+"000000000000000000000000000212020"+value+"0000");
+		}
+		var timer = window.setInterval(function() {
+			if (sochet_send_data.length != 0) {
+				var popdata = sochet_send_data.pop();
+				websocket.send(popdata);//下发
+			} else {
+				window.clearInterval(timer);
+			}
+		}, 1000)
+		websocket.onmessage = function(msg) {
+			if(msg.data.substring(0,6)=="FE5AA5" && msg.data.substring(40,44)=="0212"){
+				if(msg.data.substring(msg.data.length-2)=="01"){
+					alert("操作成功");
+					$('#weldingmachineTable').datagrid('clearSelections');
+					$('#smdlg').window("close");
+					websocket.close();
+				}else{
+					alert("操作失败");
+					$('#weldingmachineTable').datagrid('clearSelections');
+					$('#smdlg').window("close");
+					websocket.close();
+				}
+			}
+		}
+	}
+}

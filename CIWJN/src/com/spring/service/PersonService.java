@@ -38,4 +38,9 @@ public interface PersonService {
 	 * @return
 	 */
 	List<Person> getFreeWelder(Page page,String str);
+	/**
+	 * 以焊工编号为条件更新焊工信息
+	 * @param welder
+	 */
+	void updateByWelderno(Person welder);
 }

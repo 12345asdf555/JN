@@ -282,10 +282,12 @@ public class ImportExcelController {
 				//编码唯一
 				int count1 = ps.getUsernameCount(w.getWelderno());
 				if(count1>0){
-					obj.put("msg","导入失败，请检查您的焊工编号是否已存在！");
-					obj.put("success",false);
-					return obj.toString();
+					/*
+					 * obj.put("msg","导入失败，请检查您的焊工编号是否已存在！"); obj.put("success",false); return
+					 * obj.toString();
+					 */
 //					continue;
+					ps.updateByWelderno(w);
 				}else{
 					ps.save(w);
 				}

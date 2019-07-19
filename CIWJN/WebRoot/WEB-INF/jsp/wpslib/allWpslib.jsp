@@ -58,6 +58,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:addWpslib();" class="easyui-linkbutton" iconCls="icon-newadd">新增工艺库</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:openCondlg();" class="easyui-linkbutton" iconCls="icon-newadd">控制命令下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:openHistorydlg();" class="easyui-linkbutton" iconCls="icon-newadd"> 下发历史查询</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:selectMachineList(5);" class="easyui-linkbutton" iconCls="icon-history"> 松下焊机通道锁定</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:selectMachineList(4);" class="easyui-linkbutton" iconCls="icon-reload"> 松下焊机通道解锁</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 	</div>
   	<div id="body" >
