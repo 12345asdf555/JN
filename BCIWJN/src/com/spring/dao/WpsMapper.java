@@ -48,4 +48,17 @@ public interface WpsMapper {
 	Wps getSxDetail(@Param("machineId")String machineId, @Param("chanel")String chanel, @Param("time")String time);
 	Wps getOtcDetail(@Param("machineId")String machineId, @Param("chanel")String chanel, @Param("time")String time);
 	String getIdByWpslibname(@Param("wpslibname")String wpslibname);
+	
+	List<Wps> getFnsDetail(@Param("machine")BigInteger machine, @Param("chanel")String chanel);
+	List<Wps> getFnsJobList(@Param("machine")BigInteger machine);
+	void addJob(Wps wps);
+	void updateJob(Wps wps);
+	void deleteJob(@Param("machine")String machine,@Param("chanel")String chanel);
+	List<String> getTpsiMaterial();
+	List<String> getTpsiGas();
+	List<String> getTpsiWire();
+	
+	int getCountByWpsidAndLayerroad(@Param("wpsid")String wpsid,@Param("layer")String layer,@Param("road")String road);
+	void addWpsDetail(Wps wps);
+	void updateWpsDetail(Wps wps);
 }

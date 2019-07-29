@@ -667,4 +667,32 @@ public class WeldingMachineController {
 		obj.put("ary", ary);
 		return obj.toString();
 	}
+	
+	/**
+	 * 获取所有焊机及其型号
+	 * @return
+	 */
+	@RequestMapping("/getMachineModelAll")
+	@ResponseBody
+	public String getMachineModelAll(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			List<WeldingMachine> mml = wmm.getMachineModel();
+			for(WeldingMachine wm:mml){
+				json.put("id", wm.getId());
+				json.put("equip", wm.getEquipmentNo());
+				json.put("model", wm.getModel());
+				json.put("modelname", wm.getModelname());
+				json.put("manuid", wm.getMvalueid());
+				json.put("manuname", wm.getMvaluename());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
 }

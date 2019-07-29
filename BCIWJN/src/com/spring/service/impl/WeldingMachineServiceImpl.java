@@ -122,4 +122,9 @@ public class WeldingMachineServiceImpl implements WeldingMachineService {
 		wmm.deletefactory(statusId);
 	}
 	
+	@Override
+	public List<WeldingMachine> getMachineModel() {
+		// TODO Auto-generated method stub
+		return wmm.getMachineModel();
+	}
 }

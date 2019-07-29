@@ -1570,4 +1570,325 @@ public class WpsController {
 		return obj.toString();
 	}
 	
+	@RequestMapping("/getFnsDetail")
+	@ResponseBody
+	public String getFnsDetail(HttpServletRequest request){
+		BigInteger machine = new BigInteger(request.getParameter("machine"));
+		String chanel = request.getParameter("chanel");
+		List<Wps> findAll = wpsService.getFnsDetail(machine,chanel);
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(Wps wps:findAll){
+				json.put("f001", wps.getF001());
+				json.put("f002", wps.getF002());
+				json.put("f003", wps.getF003());
+				json.put("fadvance", wps.getFadvance());
+				json.put("fhysteresis", wps.getFhysteresis());
+				json.put("f004", wps.getF004());
+				json.put("f005", wps.getF005());
+				json.put("f006", wps.getF006());
+				json.put("f007", wps.getF007());
+				json.put("f008", wps.getF008());
+				json.put("f009", wps.getF009());
+				json.put("f010", wps.getF010());
+				json.put("f011", wps.getF011());
+				json.put("f012", wps.getF012());
+				json.put("f013", wps.getF013());
+				json.put("f014", wps.getF014());
+				json.put("f015", wps.getF015());
+				json.put("f016", wps.getF016());
+				json.put("f017", wps.getF017());
+				json.put("f018", wps.getF018());
+				json.put("f019", wps.getF019());
+				json.put("f020", wps.getF020());
+				json.put("f021", wps.getF021());
+				json.put("f022", wps.getF022());
+				json.put("f023", wps.getF023());
+				json.put("f024", wps.getF024());
+				json.put("f025", wps.getF025());
+				json.put("f026", wps.getF026());
+				json.put("f027", wps.getF027());
+				json.put("f028", wps.getF028());
+				json.put("f029", wps.getF029());
+				json.put("f030", wps.getF030());
+				json.put("f031", wps.getF031());
+				json.put("f032", wps.getF032());
+				json.put("f033", wps.getF033());
+				json.put("f034", wps.getF034());
+				json.put("f035", wps.getF035());
+				json.put("f036", wps.getF036());
+				json.put("f037", wps.getF037());
+				json.put("f038", wps.getF038());
+				json.put("f039", wps.getF039());
+				json.put("f040", wps.getF040());
+				json.put("f041", wps.getF041());
+				json.put("f042", wps.getF042());
+				json.put("f043", wps.getF043());
+				json.put("f044", wps.getF044());
+				json.put("f045", wps.getF045());
+				json.put("f046", wps.getF046());
+				json.put("f047", wps.getF047());
+				json.put("f048", wps.getF048());
+				json.put("f049", wps.getF049());
+				json.put("f050", wps.getF050());
+				if (chanel.length() < 4) {
+					int length = 4 - chanel.length();
+					for (int i = 0; i < length; i++) {
+						chanel = "0" + chanel;
+					}
+				}
+				json.put("jobno", chanel);
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getFnsJobList")
+	@ResponseBody
+	public String getFnsJobList(HttpServletRequest request){
+		BigInteger machine = new BigInteger(request.getParameter("machine"));
+		List<Wps> findAll = wpsService.getFnsJobList(machine);
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(Wps wps:findAll){
+				String jobno = wps.getFwpsnum();
+				if (jobno.length() < 4) {
+					int length = 4 - jobno.length();
+					for (int i = 0; i < length; i++) {
+						jobno = "0" + jobno;
+					}
+				}
+				json.put("jobno", jobno);
+				json.put("jobname", wps.getF024());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/addJobNoDetail")
+	@ResponseBody
+	public String addJobNoDetail(HttpServletRequest request){
+		Wps wps = new Wps();
+		JSONObject obj = new JSONObject();
+		try{
+			wps.setF001("0");
+			wps.setF002("0");
+			wps.setF003("0");
+			wps.setF004("135");
+			wps.setF005("0");
+			wps.setF006("0");
+			wps.setF007("1");
+			wps.setF008("1");
+			wps.setF009("50");
+			wps.setF010("0");
+			wps.setF011("0");
+			wps.setF012("0");
+			wps.setF013("0");
+			wps.setF014("0");
+			wps.setF015("0");
+			wps.setF016("0");
+			wps.setF017("0");
+			wps.setF018("0");
+			wps.setF019("0");
+			wps.setF020("-1");
+			wps.setF021("1");
+			wps.setF022("-10");
+			wps.setF023("10");
+			wps.setF024(request.getParameter("jobname"));
+			wps.setF025("9.0");
+			wps.setF027("0");
+			wps.setF028("0");
+			wps.setF029("10");
+			wps.setF030("2");
+			wps.setF031("3");
+			wps.setF032("50");
+			wps.setF033("0");
+			wps.setF034("0");
+			wps.setF035("0");
+			wps.setF036("0");
+			wps.setF037("0");
+			wps.setF038("0");
+			wps.setF039("15");
+			wps.setF040("0");
+			wps.setF041("0");
+			wps.setF042("25");
+			wps.setF043("0");
+			wps.setF044("250");
+			wps.setF045("0");
+			wps.setF046("10");
+			wps.setF047("-1");
+			wps.setF048("1");
+			wps.setF049("0");
+			wps.setF050("0");
+			wps.setFadvance(0.1);
+			wps.setFhysteresis(0.5);
+			wps.setFwpsnum(request.getParameter("jobno"));
+			wps.setMacid(new BigInteger(request.getParameter("machid")));
+			wpsService.addJob(wps);
+			obj.put("success", true);
+		}catch(Exception e){
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
+	}
+	
+	@RequestMapping("/updateJobNoDetail")
+	@ResponseBody
+	public String updateJobNoDetail(HttpServletRequest request){
+		Wps wps = new Wps();
+		JSONObject obj = new JSONObject();
+		int flag = Integer.valueOf(request.getParameter("flag"));
+		try{
+			wps.setF001(request.getParameter("f0011"));
+			wps.setF002(request.getParameter("f0021"));
+			wps.setF003(request.getParameter("f0031"));
+			wps.setF004(request.getParameter("f0041"));
+			wps.setF005(request.getParameter("f0051"));
+			wps.setF006(request.getParameter("f0061"));
+			wps.setF007(request.getParameter("f0071"));
+			wps.setF008(request.getParameter("f0081"));
+			wps.setF009(request.getParameter("f0091"));
+			wps.setF010(request.getParameter("f0101"));
+			wps.setF011(request.getParameter("f0111"));
+			wps.setF012(request.getParameter("f0121"));
+			wps.setF013(request.getParameter("f0131"));
+			wps.setF014(request.getParameter("f0141"));
+			wps.setF015(request.getParameter("f0151"));
+			wps.setF016(request.getParameter("f0161"));
+			wps.setF017(request.getParameter("f0171"));
+			wps.setF018(request.getParameter("f0181"));
+			wps.setF019(request.getParameter("f0191"));
+			wps.setF020(request.getParameter("f0201"));
+			wps.setF021(request.getParameter("f0211"));
+			wps.setF022(request.getParameter("f0221"));
+			wps.setF023(request.getParameter("f0231"));
+			wps.setF024(request.getParameter("f0241"));
+			wps.setF025(request.getParameter("f0251"));
+			wps.setF026(request.getParameter("f0261"));
+			wps.setF027(request.getParameter("f0271"));
+			wps.setF028(request.getParameter("f0281"));
+			wps.setF029(request.getParameter("f0291"));
+			wps.setF030(request.getParameter("f0301"));
+			wps.setF031(request.getParameter("f0311"));
+			wps.setF032(request.getParameter("f0321"));
+			wps.setF033(request.getParameter("f0331"));
+			wps.setF034(request.getParameter("f0341"));
+			wps.setF035(request.getParameter("f0351"));
+			wps.setF036(request.getParameter("f0361"));
+			wps.setF037(request.getParameter("f0371"));
+			wps.setF038(request.getParameter("f0381"));
+			wps.setF039(request.getParameter("f0391"));
+			wps.setF040(request.getParameter("f0401"));
+			wps.setF041(request.getParameter("f0411"));
+			wps.setF042(request.getParameter("f0421"));
+			wps.setF043(request.getParameter("f0431"));
+			wps.setF044(request.getParameter("f0441"));
+			wps.setF045(request.getParameter("f0451"));
+			wps.setF046(request.getParameter("f0461"));
+			wps.setF047(request.getParameter("f0471"));
+			wps.setF048(request.getParameter("f0481"));
+			wps.setF049(request.getParameter("f0491"));
+			wps.setF050(request.getParameter("f0501"));
+			wps.setFadvance(Double.valueOf(request.getParameter("fadvance")));
+			wps.setFhysteresis(Double.valueOf(request.getParameter("fhysteresis")));
+			wps.setFwpsnum(request.getParameter("jobno"));
+			wps.setMacid(new BigInteger(request.getParameter("machid")));
+			if(flag==0) {
+				wpsService.updateJob(wps);
+			}else {
+				wpsService.addJob(wps);
+			}
+			obj.put("success", true);
+		}catch(Exception e){
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
+	}
+	
+	@RequestMapping("/deleteJob")
+	@ResponseBody
+	public String deleteJob(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		try{
+			String chanel = request.getParameter("jobno");
+			String machine = request.getParameter("machid");
+			wpsService.deleteJob(machine,chanel);
+			obj.put("success", true);
+		}catch(Exception e){
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getTpsiMaterial")
+	@ResponseBody
+	public String getTpsiMaterial(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		List<String> findAll = wpsService.getTpsiMaterial();
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		try{
+			for(String str:findAll){
+				json.put("name", str);
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getTpsiWire")
+	@ResponseBody
+	public String getTpsiWire(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		List<String> findAll = wpsService.getTpsiWire();
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		try{
+			for(String str:findAll){
+				json.put("name", str);
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getTpsiGas")
+	@ResponseBody
+	public String getTpsiGas(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		List<String> findAll = wpsService.getTpsiGas();
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		try{
+			for(String str:findAll){
+				json.put("name", str);
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
 }

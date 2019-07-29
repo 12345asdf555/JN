@@ -104,4 +104,68 @@ public interface WpsService {
 	 * 根据工艺库名称获取对应的id
 	 */
 	String getIdByWpslibname(String wpslibname);
+	
+	/**
+	 * 根据焊机号和job号获取参数
+	 * @param machine
+	 * @param chanel
+	 * @return
+	 */
+	List<Wps> getFnsDetail(BigInteger machine, String chanel);
+	/**
+	 * 获取焊机的所有job号
+	 * @param machine
+	 * @return
+	 */
+	List<Wps> getFnsJobList(BigInteger machine);
+	/**
+	 * 新增job
+	 * @param wps
+	 */
+	void addJob(Wps wps);
+	/**
+	 * 修改job
+	 * @param wps
+	 */
+	void updateJob(Wps wps);
+	/**
+	 * 删除Job
+	 */
+	void deleteJob(String machine,String chanel);
+	
+	/**
+	 * 获取福尼斯TPSI焊机材质
+	 */
+	List<String> getTpsiMaterial();
+	
+	/**
+	 * 获取福尼斯TPSI气体
+	 */
+	List<String> getTpsiGas();
+	
+	/**
+	 * 获取福尼斯TPSI丝径
+	 */
+	List<String> getTpsiWire();
+	
+	/**
+	 * 以工艺库id，含层号，焊道号为条件判段该工艺是否存在，大于0即存在
+	 * @param wpsid 工艺库id
+	 * @param layer 焊层号
+	 * @param road 焊道号
+	 * @return
+	 */
+	int getCountByWpsidAndLayerroad(String wpsid,String layer,String road);
+	
+	/**
+	 * 新增工艺（实验室）
+	 * @param wps
+	 */
+	void addWpsDetail(Wps wps);
+	
+	/**
+	 * 修改工艺（实验室）
+	 * @param wps
+	 */
+	void updateWpsDetail(Wps wps);
 }

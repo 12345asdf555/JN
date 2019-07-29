@@ -58,6 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:addWpslib();" class="easyui-linkbutton" iconCls="icon-newadd">新增工艺库</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:openCondlg();" class="easyui-linkbutton" iconCls="icon-newadd">控制命令下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:openHistorydlg();" class="easyui-linkbutton" iconCls="icon-newadd"> 下发历史查询</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-newadd"> 工艺导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 	</div>
   	<div id="body" >
@@ -836,6 +837,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<table id="historyTable" style="table-layout: fixed; width:100%;"></table>
 			</form>
 		</div>
+		
+		<div id="importdiv" class="easyui-dialog" style="width:300px; height:200px;" closed="true">
+			<form id="importfm" method="post" class="easyui-form" data-options="novalidate:true" enctype="multipart/form-data"> 
+				<div>
+					<span><input type="file" name="file" id="file"></span>
+					<input type="button" value="上传" onclick="importWpsExcel()" class="upButton"/>
+				</div>
+			</form>
+		</div>
+		<div id="load" style="width:100%;height:100%;"></div>
 	</div>
+	<style type="text/css">
+	    #load{ display: none; position: absolute; left:0; top:0;width: 100%; height: 40%; background-color: #555753; z-index:10001; -moz-opacity: 0.4; opacity:0.5; filter: alpha(opacity=70);}
+		#show{display: none; position: absolute; top: 45%; left: 45%; width: 180px; height: 5%; padding: 8px; border: 8px solid #E8E9F7; background-color: white; z-index:10002; overflow: auto;}
+	</style>
   </body>
 </html>

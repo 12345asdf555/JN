@@ -97,6 +97,64 @@ public class Wps {
 	private int fprocessid;
 	private String fprocessname;
 	
+	private String fsolder_layer;
+	private String fweld_bead;
+	private String fweld_method;
+	private String fpower_polarity;
+	private String fgas_flow;
+	private String fweld_speed;
+	
+	private String f001;
+	private String f002;
+	private String f003;
+	private String f004;
+	private String f005;
+	private String f006;
+	private String f007;
+	private String f008;
+	private String f009;
+	private String f010;
+	private String f011;
+	private String f012;
+	private String f013;
+	private String f014;
+	private String f015;
+	private String f016;
+	private String f017;
+	private String f018;
+	private String f019;
+	private String f020;
+	private String f021;
+	private String f022;
+	private String f023;
+	private String f024;
+	private String f025;
+	private String f026;
+	private String f027;
+	private String f028;
+	private String f029;
+	private String f030;
+	private String f031;
+	private String f032;
+	private String f033;
+	private String f034;
+	private String f035;
+	private String f036;
+	private String f037;
+	private String f038;
+	private String f039;
+	private String f040;
+	private String f041;
+	private String f042;
+	private String f043;
+	private String f044;
+	private String f045;
+	private String f046;
+	private String f047;
+	private String f048;
+	private String f049;
+	private String f050;
+	
 	public int getFini() {
 		return fini;
 	}
@@ -311,7 +369,10 @@ public class Wps {
 			String fback,String fname,double fdiameter,double ftime,double fadvance,double fhysteresis,double fini_ele,double fini_vol,double fini_vol1,double fweld_ele,
 			double fweld_vol,double fweld_vol1,double farc_ele,double farc_vol,double farc_vol1,double fweld_tuny_ele,double fweld_tuny_vol,double farc_tuny_ele,String finitial,
 			String fcontroller,String fmode,int fstatus,String arcname,String selectname,String gasname,String dianame,String materialname,int ftorch,int fprocessid,
-			String fprocessname,double fwarn_ele_up,double fwarn_ele_down,double fwarn_vol_up,double fwarn_vol_down) {
+			String fprocessname,double fwarn_ele_up,double fwarn_ele_down,double fwarn_vol_up,double fwarn_vol_down
+			,String f001,String f002,String f003,String f004,String f005,String f006,String f007,String f008,String f009,String f010,String f011,String f012,String f013,String f014,String f015,String f016,String f017,String f018,String f019,String f020,String f021,String f022, String f023,String f024,String f025
+			,String f026,String f027,String f028,String f029,String f030,String f031,String f032,String f033,String f034,String f035,String f036,String f037,String f038,String f039,String f040,String f041,String f042,String f043,String f044,String f045,String f046,String f047, String f048,String f049,String f050
+			,String fsolder_layer,String fweld_bead,String fweld_method,String fpower_polarity,String fgas_flow,String fweld_speed) {
 		super();
 		this.macid = macid;
 		this.insname = insname;
@@ -364,10 +425,65 @@ public class Wps {
 		this.fprocessid = fprocessid;
 		this.fprocessname = fprocessname;
 		this.ftorch = ftorch;
-		this.setFwarn_ele_up(fwarn_ele_up);
-		this.setFwarn_ele_down(fwarn_ele_down);
-		this.setFwarn_vol_up(fwarn_vol_up);
-		this.setFwarn_vol_down(fwarn_vol_down);
+		this.fwarn_ele_up = fwarn_ele_up;
+		this.fwarn_ele_down = fwarn_ele_down;
+		this.fwarn_vol_up = fwarn_vol_up;
+		this.fwarn_vol_down = fwarn_vol_down;
+		this.fsolder_layer = fsolder_layer;
+		this.fweld_method = fweld_method;
+		this.fpower_polarity = fpower_polarity;
+		this.fgas_flow = fgas_flow;
+		this.fweld_speed = fweld_speed;
+		this.f001 = f001;
+		this.f002 = f002;
+		this.f003 = f003;
+		this.f004 = f004;
+		this.f005 = f005;
+		this.f006 = f006;
+		this.f007 = f007;
+		this.f008 = f008;
+		this.f009 = f009;
+		this.f010 = f010;
+		this.f011 = f011;
+		this.f012 = f012;
+		this.f013 = f013;
+		this.f014 = f014;
+		this.f015 = f015;
+		this.f016 = f016;
+		this.f017 = f017;
+		this.f018 = f018;
+		this.f019 = f019;
+		this.f020 = f020;
+		this.f021 = f021;
+		this.f022 = f022;
+		this.f023 = f023;
+		this.f024 = f024;
+		this.f025 = f025;
+		this.f026 = f026;
+		this.f027 = f027;
+		this.f028 = f028;
+		this.f029 = f029;
+		this.f030 = f030;
+		this.f031 = f031;
+		this.f032 = f032;
+		this.f033 = f033;
+		this.f034 = f034;
+		this.f035 = f035;
+		this.f036 = f036;
+		this.f037 = f037;
+		this.f038 = f038;
+		this.f039 = f039;
+		this.f040 = f040;
+		this.f041 = f041;
+		this.f042 = f042;
+		this.f043 = f043;
+		this.f044 = f044;
+		this.f045 = f045;
+		this.f046 = f046;
+		this.f047 = f047;
+		this.f048 = f048;
+		this.f049 = f049;
+		this.f050 = f050;
 	}
 	public double getFtime() {
 		return ftime;
@@ -704,6 +820,342 @@ public class Wps {
 	}
 	public void setFwarn_vol_down(double fwarn_vol_down) {
 		this.fwarn_vol_down = fwarn_vol_down;
+	}
+	public String getF001() {
+		return f001;
+	}
+	public void setF001(String f001) {
+		this.f001 = f001;
+	}
+	public String getF002() {
+		return f002;
+	}
+	public void setF002(String f002) {
+		this.f002 = f002;
+	}
+	public String getF003() {
+		return f003;
+	}
+	public void setF003(String f003) {
+		this.f003 = f003;
+	}
+	public String getF004() {
+		return f004;
+	}
+	public void setF004(String f004) {
+		this.f004 = f004;
+	}
+	public String getF005() {
+		return f005;
+	}
+	public void setF005(String f005) {
+		this.f005 = f005;
+	}
+	public String getF006() {
+		return f006;
+	}
+	public void setF006(String f006) {
+		this.f006 = f006;
+	}
+	public String getF007() {
+		return f007;
+	}
+	public void setF007(String f007) {
+		this.f007 = f007;
+	}
+	public String getF008() {
+		return f008;
+	}
+	public void setF008(String f008) {
+		this.f008 = f008;
+	}
+	public String getF009() {
+		return f009;
+	}
+	public void setF009(String f009) {
+		this.f009 = f009;
+	}
+	public String getF010() {
+		return f010;
+	}
+	public void setF010(String f010) {
+		this.f010 = f010;
+	}
+	public String getF011() {
+		return f011;
+	}
+	public void setF011(String f011) {
+		this.f011 = f011;
+	}
+	public String getF012() {
+		return f012;
+	}
+	public void setF012(String f012) {
+		this.f012 = f012;
+	}
+	public String getF013() {
+		return f013;
+	}
+	public void setF013(String f013) {
+		this.f013 = f013;
+	}
+	public String getF014() {
+		return f014;
+	}
+	public void setF014(String f014) {
+		this.f014 = f014;
+	}
+	public String getF015() {
+		return f015;
+	}
+	public void setF015(String f015) {
+		this.f015 = f015;
+	}
+	public String getF016() {
+		return f016;
+	}
+	public void setF016(String f016) {
+		this.f016 = f016;
+	}
+	public String getF017() {
+		return f017;
+	}
+	public void setF017(String f017) {
+		this.f017 = f017;
+	}
+	public String getF018() {
+		return f018;
+	}
+	public void setF018(String f018) {
+		this.f018 = f018;
+	}
+	public String getF019() {
+		return f019;
+	}
+	public void setF019(String f019) {
+		this.f019 = f019;
+	}
+	public String getF020() {
+		return f020;
+	}
+	public void setF020(String f020) {
+		this.f020 = f020;
+	}
+	public String getF021() {
+		return f021;
+	}
+	public void setF021(String f021) {
+		this.f021 = f021;
+	}
+	public String getF022() {
+		return f022;
+	}
+	public void setF022(String f022) {
+		this.f022 = f022;
+	}
+	public String getF023() {
+		return f023;
+	}
+	public void setF023(String f023) {
+		this.f023 = f023;
+	}
+	public String getF024() {
+		return f024;
+	}
+	public void setF024(String f024) {
+		this.f024 = f024;
+	}
+	public String getF025() {
+		return f025;
+	}
+	public void setF025(String f025) {
+		this.f025 = f025;
+	}
+	public String getF026() {
+		return f026;
+	}
+	public void setF026(String f026) {
+		this.f026 = f026;
+	}
+	public String getF027() {
+		return f027;
+	}
+	public void setF027(String f027) {
+		this.f027 = f027;
+	}
+	public String getF028() {
+		return f028;
+	}
+	public void setF028(String f028) {
+		this.f028 = f028;
+	}
+	public String getF029() {
+		return f029;
+	}
+	public void setF029(String f029) {
+		this.f029 = f029;
+	}
+	public String getF030() {
+		return f030;
+	}
+	public void setF030(String f030) {
+		this.f030 = f030;
+	}
+	public String getF031() {
+		return f031;
+	}
+	public void setF031(String f031) {
+		this.f031 = f031;
+	}
+	public String getF032() {
+		return f032;
+	}
+	public void setF032(String f032) {
+		this.f032 = f032;
+	}
+	public String getF033() {
+		return f033;
+	}
+	public void setF033(String f033) {
+		this.f033 = f033;
+	}
+	public String getF034() {
+		return f034;
+	}
+	public void setF034(String f034) {
+		this.f034 = f034;
+	}
+	public String getF035() {
+		return f035;
+	}
+	public void setF035(String f035) {
+		this.f035 = f035;
+	}
+	public String getF036() {
+		return f036;
+	}
+	public void setF036(String f036) {
+		this.f036 = f036;
+	}
+	public String getF037() {
+		return f037;
+	}
+	public void setF037(String f037) {
+		this.f037 = f037;
+	}
+	public String getF038() {
+		return f038;
+	}
+	public void setF038(String f038) {
+		this.f038 = f038;
+	}
+	public String getF039() {
+		return f039;
+	}
+	public void setF039(String f039) {
+		this.f039 = f039;
+	}
+	public String getF040() {
+		return f040;
+	}
+	public void setF040(String f040) {
+		this.f040 = f040;
+	}
+	public String getF041() {
+		return f041;
+	}
+	public void setF041(String f041) {
+		this.f041 = f041;
+	}
+	public String getF042() {
+		return f042;
+	}
+	public void setF042(String f042) {
+		this.f042 = f042;
+	}
+	public String getF043() {
+		return f043;
+	}
+	public void setF043(String f043) {
+		this.f043 = f043;
+	}
+	public String getF044() {
+		return f044;
+	}
+	public void setF044(String f044) {
+		this.f044 = f044;
+	}
+	public String getF045() {
+		return f045;
+	}
+	public void setF045(String f045) {
+		this.f045 = f045;
+	}
+	public String getF046() {
+		return f046;
+	}
+	public void setF046(String f046) {
+		this.f046 = f046;
+	}
+	public String getF047() {
+		return f047;
+	}
+	public void setF047(String f047) {
+		this.f047 = f047;
+	}
+	public String getF048() {
+		return f048;
+	}
+	public void setF048(String f048) {
+		this.f048 = f048;
+	}
+	public String getF049() {
+		return f049;
+	}
+	public void setF049(String f049) {
+		this.f049 = f049;
+	}
+	public String getF050() {
+		return f050;
+	}
+	public void setF050(String f050) {
+		this.f050 = f050;
+	}
+	public String getFsolder_layer() {
+		return fsolder_layer;
+	}
+	public void setFsolder_layer(String fsolder_layer) {
+		this.fsolder_layer = fsolder_layer;
+	}
+	public String getFweld_bead() {
+		return fweld_bead;
+	}
+	public void setFweld_bead(String fweld_bead) {
+		this.fweld_bead = fweld_bead;
+	}
+	public String getFweld_method() {
+		return fweld_method;
+	}
+	public void setFweld_method(String fweld_method) {
+		this.fweld_method = fweld_method;
+	}
+	public String getFpower_polarity() {
+		return fpower_polarity;
+	}
+	public void setFpower_polarity(String fpower_polarity) {
+		this.fpower_polarity = fpower_polarity;
+	}
+	public String getFgas_flow() {
+		return fgas_flow;
+	}
+	public void setFgas_flow(String fgas_flow) {
+		this.fgas_flow = fgas_flow;
+	}
+	public String getFweld_speed() {
+		return fweld_speed;
+	}
+	public void setFweld_speed(String fweld_speed) {
+		this.fweld_speed = fweld_speed;
 	}
 	
 }

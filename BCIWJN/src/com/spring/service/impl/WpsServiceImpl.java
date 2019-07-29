@@ -237,5 +237,69 @@ public class WpsServiceImpl implements WpsService{
 		return mapper.getIdByWpslibname(wpslibname);
 	}
 	
-	
+	@Override
+	public List<Wps> getFnsDetail(BigInteger machine, String chanel) {
+		// TODO Auto-generated method stub
+		return mapper.getFnsDetail(machine, chanel);
+	}
+
+	@Override
+	public List<Wps> getFnsJobList(BigInteger machine) {
+		// TODO Auto-generated method stub
+		return mapper.getFnsJobList(machine);
+	}
+
+	@Override
+	public void addJob(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.addJob(wps);
+	}
+
+	@Override
+	public void updateJob(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.updateJob(wps);
+	}
+
+	@Override
+	public void deleteJob(String machine, String chanel) {
+		// TODO Auto-generated method stub
+		mapper.deleteJob(machine, chanel);
+	}
+
+	@Override
+	public List<String> getTpsiMaterial() {
+		// TODO Auto-generated method stub
+		return mapper.getTpsiMaterial();
+	}
+
+	@Override
+	public List<String> getTpsiGas() {
+		// TODO Auto-generated method stub
+		return mapper.getTpsiGas();
+	}
+
+	@Override
+	public List<String> getTpsiWire() {
+		// TODO Auto-generated method stub
+		return mapper.getTpsiWire();
+	}
+
+	@Override
+	public int getCountByWpsidAndLayerroad(String wpsid, String layer, String road) {
+		// TODO Auto-generated method stub
+		return mapper.getCountByWpsidAndLayerroad(wpsid, layer, road);
+	}
+
+	@Override
+	public void addWpsDetail(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.addWpsDetail(wps);
+	}
+
+	@Override
+	public void updateWpsDetail(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.updateWpsDetail(wps);
+	}
 }

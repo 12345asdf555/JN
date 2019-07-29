@@ -55,6 +55,9 @@ $(function() {
 	}else if(type==43){
 		imgnum = 3;
 	}
+	if($("#machinenumber").val()=="6666"){
+		imgnum = 4;
+	}
 	$("#mrjpg").attr("src", "resources/images/welder_4"+imgnum+".png");
 	var livewidth = $("#livediv").width() * 0.9;
 	var liveheight = $("#livediv").height() / 2;
@@ -412,7 +415,168 @@ function iview() {
 	time.length = 0;
 	vol.length = 0;
 	ele.length = 0;
+	if(redata.substring(0, 3)=="02:"){
+		if(time2!=0){
+			time1++;
+		    var t1 = secondToDate(time1);
+		    $("#r3").textbox('setValue',t1);
+		    if(redata.substring(36 + i, 38 + i)!="00"){
+			    time2++;
+			    var t2 = secondToDate(time2);
+			    $("#r4").textbox('setValue',t2);
+		    }
+		}
+		var fnsele = parseFloat(redata.substring(3).split(",")[0]).toFixed(0);
+		var fnsvol = parseFloat(redata.substring(3).split(",")[1]).toFixed(1);
+		ele.push(parseInt(fnsele));
+		vol.push(parseFloat(fnsvol));
+		time.push((new Date()).getTime());
+		if (symbol == 0) {
+			elecurve();
+			volcurve();
+			symbol++;
+		}
+		$("#r10").textbox('setValue',parseInt(fnsele)*parseFloat(fnsvol));
+		$("#l3").html("--");
+		$("#l4").html("--");
+		$("#c1").html(parseInt(fnsele));
+		$("#c2").html(parseFloat(fnsvol));
+		$("#l2").html(worktime.machineno);
+		var type = $("#type").val(),imgnum=0;;
+		if(type==41){
+			imgnum = 1;
+		}else if(type==42){
+			imgnum = 3;
+		}else if(type==43){
+			imgnum = 2;
+		}
+		imgnum = 4;
+		var mstatus;
+		if(parseInt(fnsele)!=0){
+			mstatus = "03"
+		}else{
+			mstatus = "00"
+		}
+		switch (mstatus) {
+		case "00":
+			$("#l5").val("待机");
+			$("#l5").css("background-color", "#55a7f3");
+			$("#mrjpg").attr("src", "resources/images/welder_2"+imgnum+".png");
+			break;
+		case "01":
+			$("#l5").val("E-010 焊枪开关OFF等待");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "02":
+			$("#l5").val("E-000工作停止");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "03":
+			$("#l5").val("焊接");
+			$("#l5").css("background-color", "#7cbc16");
+			$("#mrjpg").attr("src", "resources/images/welder_1"+imgnum+".png");
+			break;
+		case "04":
+			$("#l5").val("电流过低");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "05":
+			$("#l5").val("收弧");
+			$("#l5").css("background-color", "#7cbc16");
+			$("#mrjpg").attr("src", "resources/images/welder_1"+imgnum+".png");
+			break;
+		case "06":
+			$("#l5").val("电流过高");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "07":
+			$("#l5").val("启弧");
+			$("#l5").css("background-color", "#7cbc16");
+			$("#mrjpg").attr("src", "resources/images/welder_1"+imgnum+".png");
+			break;
+		case "08":
+			$("#l5").val("电压过低");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "09":
+			$("#l5").val("电压过高");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "10":
+			$("#l5").val("E-100控制电源异常");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "15":
+			$("#l5").val("E-150一次输入电压过高");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "16":
+			$("#l5").val("E-160一次输入电压过低");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "20":
+			$("#l5").val("E-200一次二次电流检出异常");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "21":
+			$("#l5").val("E-210电压检出异常");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "22":
+			$("#l5").val("E-220逆变电路反馈异常");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "30":
+			$("#l5").val("E-300温度异常");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "70":
+			$("#l5").val("E-700输出过流异常");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "71":
+			$("#l5").val("E-710输入缺相异常");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "98":
+			$("#l5").val("超规范停机");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		case "99":
+			$("#l5").val("超规范报警");
+			$("#l5").css("background-color", "#fe0002");
+			$("#mrjpg").attr("src", "resources/images/welder_3"+imgnum+".png");
+			break;
+		}
+		if (time.length != 0 && z < time.length) {
+			var x = time[z],
+				y = ele[z],
+				v = vol[z];
+			if (z == 0) {
+				series.addPoint([ x, y ], true, true);
+				activeLastPointToolip(chart);
+				series1.addPoint([ x, v ], true, true);
+				activeLastPointToolip1(chart1);
 
+			}
+		}
+	}
 	if(redata.length==333||redata.length==111){
 	for (var i = 0; i < redata.length; i += 111) {
 		//				if(redata.substring(8+i, 12+i)!="0000"){
@@ -610,7 +774,7 @@ function iview() {
 	}
 	}
 	;
-	if ((time.length) % 3 == 1) {
+/*	if ((time.length) % 3 == 1) {
 		ele[time.length] = ele[time.length - 1];
 		ele[time.length + 1] = ele[time.length - 1];
 		vol[time.length] = vol[time.length - 1];
@@ -622,7 +786,7 @@ function iview() {
 		ele[time.length] = ele[time.length - 1];
 		vol[time.length] = vol[time.length - 1];
 		time[time.length] = time[time.length - 1] + 1000;
-	}
+	}*/
 }
 
 //监听窗口大小变化

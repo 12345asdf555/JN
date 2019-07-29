@@ -63,6 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 <body class="easyui-layout" style="overflow:auto;">
 	<input  id="machineid" type="hidden" value="${value }"/>
+	<input  id="machinenumber" type="hidden" value="${valuename }"/>
 	<input id="type" type="hidden" value="${type }"/>
 	<input id="machinemodel" type="hidden" value="${model }"/>
 	<input name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>

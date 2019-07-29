@@ -50,12 +50,14 @@ import com.spring.model.Person;
 import com.spring.model.WeldedJunction;
 import com.spring.model.WeldingMachine;
 import com.spring.model.WeldingMaintenance;
+import com.spring.model.Wps;
 import com.spring.service.DictionaryService;
 import com.spring.service.GatherService;
 import com.spring.service.MaintainService;
 import com.spring.service.PersonService;
 import com.spring.service.WeldedJunctionService;
 import com.spring.service.WeldingMachineService;
+import com.spring.service.WpsService;
 import com.spring.util.IsnullUtil;
 import com.spring.util.UploadUtil;
 
@@ -85,6 +87,8 @@ public class ImportExcelController {
 	private WeldedJunctionService wjs;
 	@Autowired
 	private WpsMapper wps;
+	@Autowired
+	private WpsService wpss;
 	
 	IsnullUtil iutil = new IsnullUtil();
 	
@@ -470,6 +474,139 @@ public class ImportExcelController {
 		System.out.println(flag);
 		obj.put("rows", ary);
 		obj.put("biaozhi", biaozhi);
+		return obj.toString();
+	}
+	
+	/**
+	 * 导入工艺
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/importWps")
+	@ResponseBody
+	public String importWps(HttpServletRequest request,
+			HttpServletResponse response){
+		UploadUtil u = new UploadUtil();
+		JSONObject obj = new JSONObject();
+		try{
+			String path = u.uploadFile(request, response);
+			List<Wps> we = xlsxWps(path);
+			//删除已保存的excel文件
+			File file  = new File(path);
+			file.delete();
+			for(Wps w:we){
+				if("".equals(w.getFsolder_layer()) && w.getFsolder_layer()==null) {
+					obj.put("msg","焊层号不能为空！");
+					obj.put("success",false);
+					return obj.toString();
+				}else {
+					w.setFsolder_layer(w.getFsolder_layer());
+				}
+				if("".equals(w.getFweld_bead()) && w.getFweld_bead()==null) {
+					obj.put("msg","焊道号不能为空！");
+					obj.put("success",false);
+					return obj.toString();
+				}else {
+					w.setFweld_bead(w.getFweld_bead());
+				}
+				if("".equals(w.getFwpsnum()) && w.getFwpsnum()==null) {
+					obj.put("msg","通道号不能为空！");
+					obj.put("success",false);
+					return obj.toString();
+				}else {
+					w.setFwpsnum(w.getFwpsnum());
+				}
+				if("".equals(w.getFweld_method()) && w.getFweld_method()==null) {
+					w.setFweld_method("-");
+				}else {
+					w.setFweld_method(w.getFweld_method());
+				}
+				try {
+					if("".equals(w.getDianame()) && w.getDianame()==null) {
+						obj.put("msg","焊材直径不能为空！");
+						obj.put("success",false);
+						return obj.toString();
+					}else {
+						w.setFdiameter(dm.getvaluebyname(13,w.getDianame()));
+					}
+				} catch (Exception e) {
+					obj.put("msg","焊材直径未在字典库中找到！");
+					obj.put("success",false);
+					return obj.toString();
+				}
+				try {
+					if("".equals(w.getMaterialname()) && w.getMaterialname()==null) {
+						obj.put("msg","焊接材料不能为空！");
+						obj.put("success",false);
+						return obj.toString();
+					}else {
+						w.setFmaterial(dm.getvaluebyname(9, w.getMaterialname()));
+					}
+				} catch (Exception e) {
+					obj.put("msg","焊接材料未在字典库中找到！");
+					obj.put("success",false);
+					return obj.toString();
+				}
+				w.setFweld_ele((w.getFpreset_ele_top()+w.getFpreset_ele_bottom())/2);
+				w.setFweld_tuny_ele(w.getFpreset_ele_top()-(w.getFpreset_ele_top()+w.getFpreset_ele_bottom())/2);
+				w.setFweld_vol((w.getFpreset_vol_top()+w.getFpreset_vol_bottom())/2);
+				w.setFweld_tuny_vol(w.getFpreset_vol_top()-(w.getFpreset_vol_top()+w.getFpreset_vol_bottom())/2);
+				if("".equals(w.getFpower_polarity()) && w.getFpower_polarity()==null) {
+					w.setFpower_polarity("-");
+				}else {
+					w.setFpower_polarity(w.getFpower_polarity());
+				}
+				if("".equals(w.getFgas_flow()) && w.getFgas_flow()==null) {
+					w.setFgas_flow("-");
+				}else {
+					w.setFgas_flow(w.getFgas_flow());
+				}
+				if("".equals(w.getFweld_speed()) && w.getFweld_speed()==null) {
+					w.setFweld_speed("-");
+				}else {
+					w.setFweld_speed(w.getFweld_speed());
+				}
+				try {
+					if("".equals(w.getFprocessname()) && w.getFprocessname()==null) {
+						obj.put("msg","脉冲不能为空！");
+						obj.put("success",false);
+						return obj.toString();
+					}else {
+						w.setFprocessid(dm.getvaluebyname(22,w.getFprocessname()));
+					}
+				} catch (Exception e) {
+					obj.put("msg","脉冲方式未在字典库中找到！");
+					obj.put("success",false);
+					return obj.toString();
+				}
+				if(!"".equals(w.getFname()) && w.getFname()!=null){
+					String wpslibid = wps.getIdByWpslibname(w.getFname());
+					if("".equals(wpslibid) && wpslibid==null){
+						obj.put("msg","导入失败，工艺库不存在！");
+						obj.put("success",false);
+						return obj.toString();
+					}
+					w.setFwpslib_id(new BigInteger(wpslibid));
+					int count1 = wpss.getCountByWpsidAndLayerroad(wpslibid, w.getFsolder_layer(), w.getFweld_bead());
+					if(count1<1){
+						wpss.addWpsDetail(w);
+					}else{
+						wpss.updateWpsDetail(w);
+					}
+				}else{
+					obj.put("msg","导入失败，工艺库不能为空！");
+					obj.put("success",false);
+					return obj.toString();
+				};
+			};
+			obj.put("success",true);
+			obj.put("msg","导入成功！");
+		}catch(Exception e){
+			e.printStackTrace();
+			obj.put("success",false);
+			obj.put("msg","导入失败，请检查您的文件格式以及数据是否符合要求！");
+		}
 		return obj.toString();
 	}
 	
@@ -862,6 +999,177 @@ public class ImportExcelController {
 		}
 		
 		return welder;
+	}
+	
+	/**
+	 * 导入wps表数据
+	 * @param path
+	 * @return
+	 * @throws IOException
+	 * @throws InvalidFormatException
+	 */
+	public static List<Wps> xlsxWps(String path) throws IOException, InvalidFormatException{
+		List<Wps> wps = new ArrayList<Wps>();
+		InputStream stream = new FileInputStream(path);
+		Workbook workbook = create(stream);
+		Sheet sheet = workbook.getSheetAt(0);
+		
+		int rowstart = sheet.getFirstRowNum()+1;
+		int rowEnd = sheet.getLastRowNum();
+	    
+		for(int i=rowstart;i<=rowEnd;i++){
+			Row row = sheet.getRow(i);
+			if(null == row){
+				continue;
+			}
+			int cellStart = row.getFirstCellNum();
+			int cellEnd = row.getLastCellNum();
+			Wps p = new Wps();
+			for(int k = cellStart; k<= cellEnd;k++){
+				Cell cell = row.getCell(k);
+				if(null == cell){
+					continue;
+				}
+				
+				String cellValue = "";
+				
+				switch (cell.getCellType()){
+				case HSSFCell.CELL_TYPE_NUMERIC://数字
+					if (HSSFDateUtil.isCellDateFormatted(cell)) {// 处理日期格式、时间格式  
+		                SimpleDateFormat sdf = null;  
+		                if (cell.getCellStyle().getDataFormat() == HSSFDataFormat  
+		                        .getBuiltinFormat("h:mm")) {  
+		                    sdf = new SimpleDateFormat("HH:mm");  
+		                } else {// 日期  
+		                    sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		                }  
+		                Date date = cell.getDateCellValue();  
+		                cellValue = sdf.format(date);  
+		            } else if (cell.getCellStyle().getDataFormat() == 58) {  
+		                // 处理自定义日期格式：m月d日(通过判断单元格的格式id解决，id的值是58)  
+		                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		                double value = cell.getNumericCellValue();  
+		                Date date = org.apache.poi.ss.usermodel.DateUtil  
+		                        .getJavaDate(value);  
+		                cellValue = sdf.format(date);  
+		            } else {
+		            	 //处理数字过长时出现x.xxxE9
+		            	 BigDecimal big=new BigDecimal(cell.getNumericCellValue());  
+		            	 cellValue = big.toString();
+                   }
+					if(k == 0){
+						p.setFsolder_layer(cellValue);//焊层号
+						break;
+					}
+					else if(k == 1){
+						p.setFweld_bead(cellValue);//焊道号
+						break;
+					}
+					else if(k == 2){
+						p.setFwpsnum(cellValue);//焊机通道号
+						break;
+ 					}
+					else if(k == 6){
+						p.setFpreset_ele_bottom(Double.parseDouble(cellValue));//焊接电流下限
+						break;
+ 					}
+					else if(k == 7){
+						p.setFpreset_ele_top(Double.parseDouble(cellValue));//焊接电流上限
+						break;
+ 					}
+					else if(k == 8){
+						p.setFpreset_vol_bottom(Double.parseDouble(cellValue));//焊接电压下限
+						break;
+ 					}
+					else if(k == 9){
+						p.setFpreset_vol_top(Double.parseDouble(cellValue));//焊接电压上限
+						break;
+ 					}
+					break;
+				case HSSFCell.CELL_TYPE_STRING://字符串
+					cellValue = cell.getStringCellValue();
+					if(k == 0){
+						p.setFsolder_layer(cellValue);//焊层号
+						break;
+					}
+					else if(k == 1){
+						p.setFweld_bead(cellValue);//焊道号
+						break;
+					}
+					else if(k == 2){
+						p.setFwpsnum(cellValue);//焊机通道号
+						break;
+ 					}
+					else if(k == 3){
+						p.setFweld_method(cellValue);//焊接方法
+						break;
+ 					}
+					else if(k == 4){
+						p.setMaterialname(cellValue);//焊接材料
+						break;
+ 					}
+					else if(k == 5){
+						p.setDianame(cellValue);//焊材直径
+						break;
+ 					}
+					else if(k == 6){
+						p.setFpreset_ele_bottom(Double.parseDouble(cellValue));//焊接电流下限
+						break;
+ 					}
+					else if(k == 7){
+						p.setFpreset_ele_top(Double.parseDouble(cellValue));//焊接电流上限
+						break;
+ 					}
+					else if(k == 8){
+						p.setFpreset_vol_bottom(Double.parseDouble(cellValue));//焊接电压下限
+						break;
+ 					}
+					else if(k == 9){
+						p.setFpreset_vol_top(Double.parseDouble(cellValue));//焊接电压上限
+						break;
+ 					}
+					else if(k == 10){
+						p.setFpower_polarity(cellValue);//电源极性
+						break;
+ 					}
+					else if(k == 11){
+						p.setFgas_flow(cellValue);//气体流量
+						break;
+ 					}
+					else if(k == 12){
+						p.setFweld_speed(cellValue);//焊接速度
+						break;
+ 					}
+					else if(k == 13){
+						p.setFprocessname(cellValue);//脉冲
+						break;
+ 					}
+					else if(k == 14){
+						p.setFname(cellValue);//工艺库名称
+						break;
+ 					}
+					break;
+				case HSSFCell.CELL_TYPE_BOOLEAN: // Boolean
+					cellValue = String.valueOf(cell.getBooleanCellValue());
+					break;
+				case HSSFCell.CELL_TYPE_FORMULA: // 公式
+					cellValue = String.valueOf(cell.getCellFormula());
+					break;
+				case HSSFCell.CELL_TYPE_BLANK: // 空值
+					cellValue = "";
+					break;
+				case HSSFCell.CELL_TYPE_ERROR: // 故障
+					cellValue = "";
+					break;
+				default:
+					cellValue = cell.toString().trim();
+					break;
+				}
+			}
+			wps.add(p);
+		}
+		
+		return wps;
 	}
 	
 	

@@ -58,4 +58,6 @@ public interface WeldingMachineMapper extends Mapper<WeldingMachine>{
 	
 	List<WeldingMachine> getMachineGather();
 	
+	List<WeldingMachine> getMachineModel();
+	
 }

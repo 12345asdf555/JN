@@ -177,5 +177,12 @@
 	<delete id="deletefactory" parameterType="java.math.BigInteger">
 		DELETE FROM tb_equipment_manufacturer WHERE ftype = #{statusId}
 	</delete>
+	
+	<select id="getMachineModel"  resultMap="wmMap">
+		SELECT m.fid,m.fequipment_no,m.fmanufacturer_id mid,m.fmodel model,d.fvaluename mname,di.fvaluename modelname FROM tb_welding_machine m
+		LEFT JOIN tb_dictionary d ON d.fvalue=m.fmanufacturer_id
+		LEFT JOIN tb_dictionary di ON di.fvalue=m.fmodel
+		WHERE 1=1 ORDER BY m.fid ASC
+	</select>
 		
 </mapper>

@@ -289,4 +289,62 @@
 	<select id="getIdByWpslibname" resultType="java.lang.String">
 		SELECT fid FROM tb_wps_library WHERE fwps_lib_name=#{wpslibname}
 	</select>
+	
+	<select id="getFnsDetail" resultType="Wps">
+		select s.* FROM tb_specification s 
+		where 1=1 AND s.fmachine_id=#{machine}
+		<if test="chanel!=null and chanel!=''">
+			AND s.fspe_num=#{chanel}
+		</if>
+		ORDER by s.fid
+	</select>
+	
+	<select id="getFnsJobList" resultType="Wps">
+		select s.fspe_num fwpsnum,s.f024 FROM tb_specification s 
+		where 1=1 AND s.fmachine_id=#{machine}
+		ORDER by s.fspe_num
+	</select>
+	
+	<insert id="addJob" parameterType="Wps">
+		INSERT INTO `tb_specification`(`fspe_num`, `f001`, `f002`, `f003`, `f004`, `f005`, `f006`, `f007`, `f008`, `f009`, `f010`, `f011`, `f012`, `f013`, `f014`, `f015`, `f016`, `f017`, `f018`, `f019`, `f020`, `f021`, `f022`, `f023`, `f024`,`f025`,`f026`,`f027`,`f028`,`f029`,`f030`,`f031`,`f032`,`f033`,`f034`,`f035`,`f036`,`f037`,`f038`,`f039`,`f040`,`f041`,`f042`,`f043`,`f044`,`f045`,`f046`,`f047`,`f048`,`f049`,`f050`, `fadvance`, `fhysteresis`, `fmachine_id`) VALUES (#{fwpsnum},#{f001},#{f002},#{f003},#{f004},#{f005},#{f006},#{f007},#{f008},#{f009},#{f010},#{f011},#{f012},#{f013},#{f014},#{f015},#{f016},#{f017},#{f018},#{f019},#{f020},#{f021},#{f022},#{f023},#{f024},#{f025},#{f026},#{f027},#{f028},#{f029},#{f030},#{f031},#{f032},#{f033},#{f034},#{f035},#{f036},#{f037},#{f038},#{f039},#{f040},#{f041},#{f042},#{f043},#{f044},#{f045},#{f046},#{f047},#{f048},#{f049},#{f050},#{fadvance},#{fhysteresis},#{macid})
+	</insert>
+	
+	<update id="updateJob" parameterType="Wps">
+		UPDATE `tb_specification` SET `fspe_num`=#{fwpsnum},`f001`=#{f001},`f002`=#{f002},`f003`=#{f003},`f004`=#{f004},`f005`=#{f005},`f006`=#{f006},`f007`=#{f007},`f008`=#{f008},`f009`=#{f009},`f010`=#{f010},`f011`=#{f011},`f012`=#{f012},`f013`=#{f013},`f014`=#{f014},`f015`=#{f015},`f016`=#{f016},`f017`=#{f017},`f018`=#{f018},`f019`=#{f019},`f020`=#{f020},`f021`=#{f021},`f022`=#{f022},`f023`=#{f023},`f024`=#{f024},`f025`=#{f025},`f026`=#{f026},`f027`=#{f027},`f028`=#{f028},`f029`=#{f029},`f030`=#{f030},`f031`=#{f031},`f032`=#{f032},`f033`=#{f033},`f034`=#{f034},`f035`=#{f035},`f036`=#{f036},`f037`=#{f037},`f038`=#{f038},`f039`=#{f039},`f040`=#{f040},`f041`=#{f041},`f042`=#{f042},`f043`=#{f043},`f044`=#{f044},`f045`=#{f045},`f046`=#{f046},`f047`=#{f047},`f048`=#{f048},`f049`=#{f049},`f050`=#{f050},`fadvance`=#{fadvance},`fhysteresis`=#{fhysteresis} WHERE `fmachine_id`=#{macid} AND `fspe_num`=#{fwpsnum}
+	</update>
+	
+	<delete id="deleteJob">
+		delete from `tb_specification` where `fmachine_id`=#{machine} AND `fspe_num`=#{chanel}
+	</delete>
+	
+	<select id="getTpsiMaterial" resultType="String">
+		SELECT DISTINCT Material FROM `TPSi` WHERE 1=1
+	</select>
+	
+	<select id="getTpsiGas" resultType="String">
+		SELECT DISTINCT Gas FROM `TPSi` WHERE 1=1
+	</select>
+	
+	<select id="getTpsiWire" resultType="String">
+		SELECT DISTINCT `Wire                               [mm]` FROM `TPSi` WHERE 1=1
+	</select>
+	
+	<select id="getCountByWpsidAndLayerroad" resultType="java.lang.Integer">
+		SELECT count(fid) FROM tb_specification WHERE fwpslib_id=#{wpsid} and fsolder_layer=#{layer} and fweld_bead=#{road}
+	</select>
+	
+	<insert id="addWpsDetail" parameterType="Wps">
+		INSERT INTO tb_specification (fspe_num, fmaterial, fdiameter, fweld_ele, fweld_vol, fweld_tuny_ele, fweld_tuny_vol,
+		 fwpslib_id, fsolder_layer, fweld_bead, fpower_polarity, fweld_speed, fgas_flow ,fweld_method ,fwelding_process) VALUES 
+		(#{fwpsnum}, #{fmaterial}, #{fdiameter}, #{fweld_ele}, #{fweld_vol}, #{fweld_tuny_ele}, #{fweld_tuny_vol}, 
+		#{fwpslib_id}, #{fsolder_layer}, #{fweld_bead}, #{fpower_polarity}, #{fweld_speed}, #{fgas_flow}, #{fweld_method}, #{fprocessid})
+	</insert>
+	
+	<update id="updateWpsDetail" parameterType="Wps">
+		update tb_specification set 
+		fspe_num=#{fwpsnum},fmaterial=#{fmaterial},fdiameter=#{fdiameter},fweld_ele=#{fweld_ele},fweld_vol=#{fweld_vol},
+		fweld_tuny_ele=#{fweld_tuny_ele},fweld_tuny_vol=#{fweld_tuny_vol},fpower_polarity=#{fpower_polarity},
+		fweld_speed=#{fweld_speed},fgas_flow=#{fgas_flow},fweld_method=#{fweld_method},fwelding_process=#{fprocessid} 
+		where fwpslib_id=#{fwpslib_id} and fsolder_layer=#{fsolder_layer} and fweld_bead=#{fweld_bead};
+	</update>
 </mapper>
