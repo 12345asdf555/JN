@@ -65,10 +65,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="body2" style="position:absolute;top:82%;width:100%;height:20%;z-index:999;"></div>
 		
-		<div id="swdetail" class="easyui-dialog" style="width:420px; height:340px;" closed="true">
+		<div id="swdetail" class="easyui-dialog" style="width:500px; height:375px;" closed="true">
 			<input name="taskno" id="taskno" type="hidden" >
 			<input name="machid" id="machid" type="hidden" >
 			<a href="javascript:loadChart('','');" class="easyui-linkbutton" iconCls="icon-search">任务曲线总览</a>
+			<a href="javascript:exportExcel('','');" class="easyui-linkbutton" iconCls="icon-export">总览导出Excel</a>
 			<table id="swdetailtable" style="table-layout:fixed;width:100%;"></table>
 		</div>
 	</div>

@@ -130,5 +130,5 @@ public interface WeldedJunctionService {
 	 * @param welderid
 	 * @return
 	 */
-	List<WeldedJunction> getSwDetail(Page page,String taskno);
+	List<WeldedJunction> getSwDetail(Page page,String taskno,String time);
 }

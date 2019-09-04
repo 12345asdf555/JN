@@ -140,12 +140,13 @@ function Junction(){
         		}, {
         			field : 'edit',
         			title : '',
-        			width : 100,
+        			width : 200,
         			halign : "center",
         			align : "left",
         			formatter:function(value,row,index){
         			var str = "";
         			str += '<a id="look" class="easyui-linkbutton" href="javascript:loadChart('+row.fsolder_layer+','+row.fweld_bead+')"/>';
+        			str += '<a id="export" class="easyui-linkbutton" href="javascript:exportExcel('+row.fsolder_layer+','+row.fweld_bead+')"/>';
         			return str;
         			}
         		}] ],
@@ -159,6 +160,7 @@ function Junction(){
                 },
                 onLoadSuccess:function(data){
         	        $("a[id='look']").linkbutton({text:'查看',plain:true,iconCls:'icon-search'});
+        	        $("a[id='export']").linkbutton({text:'导出excel',plain:true,iconCls:'icon-export'});
         	   }
         	});
         	$('#taskno').val(row.weldedJunctionno);
@@ -200,12 +202,13 @@ function Junction(){
         		}, {
         			field : 'edit',
         			title : '',
-        			width : 100,
+        			width : 200,
         			halign : "center",
         			align : "left",
         			formatter:function(value,row,index){
         			var str = "";
         			str += '<a id="look" class="easyui-linkbutton" href="javascript:loadChart('+row.fsolder_layer+','+row.fweld_bead+')"/>';
+        			str += '<a id="export" class="easyui-linkbutton" href="javascript:exportExcel('+row.fsolder_layer+','+row.fweld_bead+')"/>';
         			return str;
         			}
         		}] ],
@@ -219,6 +222,7 @@ function Junction(){
                 },
                 onLoadSuccess:function(data){
         	        $("a[id='look']").linkbutton({text:'查看',plain:true,iconCls:'icon-search'});
+        	        $("a[id='export']").linkbutton({text:'导出excel',plain:true,iconCls:'icon-export'});
         	   }
         	});
         	$('#taskno').val(row.weldedJunctionno);
@@ -497,6 +501,22 @@ function theSmallScreen(){
 	echarts.init(document.getElementById('body2')).resize();
 	$("#full").show();
 	$("#little").hide();
+}
+
+//导出到excel
+function exportExcel(solder_layer,weld_bead){
+	setParam();
+	var curveStr = "&taskno="+encodeURI($('#taskno').val())+"&mach="+$('#machid').val()+"&welderid="+$("#welderid").val()+"&solder_layer="+solder_layer+"&weld_bead="+weld_bead;
+	$.messager.confirm("提示", "文件默认保存在浏览器的默认路径，<br/>如需更改路径请设置浏览器的<br/>“下载前询问每个文件的保存位置“属性！",function(result){
+		if(result){
+			var url = "export/exportLiveData";
+			var img = new Image();
+		    img.src = url;  // 设置相对路径给Image, 此时会发送出请求
+		    url = img.src;  // 此时相对路径已经变成绝对路径
+		    img.src = null; // 取消请求
+			window.location.href = encodeURI(url+chartStr+curveStr);
+		}
+	});
 }
 
 //监听窗口大小变化

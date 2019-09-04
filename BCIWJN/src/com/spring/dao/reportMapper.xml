@@ -200,7 +200,7 @@
 	</select>
 	
 	<select id="historyData" resultType="Report">
-		SELECT `felectricity` fstandardele,`fvoltage` fstandardvol,`FWeldTime` fweldingtime,`fstatus` fstatus FROM `tb_live_data` WHERE fjunction_no=#{fid} and fmachine_id=#{mach} and (fstatus='3' or fstatus='5' or fstatus='7' or fstatus='99') 
+		SELECT fsolder_layer id,fweld_bead insid,`felectricity` fstandardele,`fvoltage` fstandardvol,`FWeldTime` fweldingtime,`fstatus` fstatus FROM `tb_live_data` WHERE fjunction_no=#{fid} and fmachine_id=#{mach} and (fstatus='3' or fstatus='5' or fstatus='7' or fstatus='99') 
 		<if test="welderid!=null and welderid!=''">
 			and `fwelder_no`=#{welderid}
 		</if>

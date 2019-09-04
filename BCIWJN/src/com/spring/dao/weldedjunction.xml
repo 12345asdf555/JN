@@ -227,9 +227,21 @@
 	</update>
 	
 	<select id="getSwDetail" resultMap="wjMap" parameterType="java.lang.String">
-	   SELECT fsolder_layer fserial_no,fweld_bead froom_no FROM tb_welded_junction j LEFT JOIN tb_specification s on j.fwpslib_id=s.fwpslib_id WHERE 1=1 
-	   <if test="taskno!=null and taskno!=''">
-	      and j.fwelded_junction_no=#{taskno}
+	    SELECT * from (
+		SELECT * from (
+	    SELECT fsolder_layer fserial_no,fweld_bead froom_no FROM tb_work WHERE 1=1 
+	    <if test="taskno!=null and taskno!=''">
+	    	and fjunction_no=#{taskno} 
 	    </if>
+	    UNION ALL 
+	    SELECT fsolder_layer fserial_no,fweld_bead froom_no FROM tb_live_data WHERE 1=1 
+	    <if test="taskno!=null and taskno!=''">
+	      and fjunction_no=#{taskno} 
+	    </if>
+	    <if test="time!=null and time!=''">
+	      and FUploadDateTime &gt;= #{time} 
+	    </if>
+	    ) t group by fserial_no,froom_no
+		) te order by froom_no desc
 	</select>
 </mapper>

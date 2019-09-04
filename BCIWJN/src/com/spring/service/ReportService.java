@@ -24,6 +24,7 @@ public interface ReportService {
 	String getFirstTime(BigInteger machid,String time);
 	List<Report> getAllPara(BigInteger parent,String str,String time);
 	List<Report> historyData(Page page,WeldDto dto,String fid,BigInteger mach, String welderid,String fsolder_layer,String fweld_bead);
+	List<Report> historyData(WeldDto dto,String fid,BigInteger mach, String welderid,String fsolder_layer,String fweld_bead);
 	
 	/**
 	 * 

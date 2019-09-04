@@ -44,5 +44,5 @@ public interface WeldedJunctionMapper extends Mapper<WeldedJunction>{
 	
 	List<WeldedJunction> getRealWelder(@Param("taskid")BigInteger taskid);
 	
-	List<WeldedJunction> getSwDetail(@Param("taskno")String taskno);
+	List<WeldedJunction> getSwDetail(@Param("taskno")String taskno,@Param("time")String time);
 }

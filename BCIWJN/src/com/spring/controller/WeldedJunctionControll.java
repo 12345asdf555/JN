@@ -2,6 +2,8 @@ package com.spring.controller;
 
 import java.math.BigInteger;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -430,7 +432,10 @@ public class WeldedJunctionControll {
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		
 		page = new Page(pageIndex,pageSize,total);
-		List<WeldedJunction> list = wjm.getSwDetail(page,taskno);
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time = df.format(new Date());
+		List<WeldedJunction> list = wjm.getSwDetail(page,taskno,time);
 		long total = 0;
 		
 		if(list != null){

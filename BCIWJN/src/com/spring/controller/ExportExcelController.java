@@ -30,6 +30,7 @@ import com.spring.model.Gather;
 import com.spring.model.Insframework;
 import com.spring.model.MyUser;
 import com.spring.model.Person;
+import com.spring.model.Report;
 import com.spring.model.WeldedJunction;
 import com.spring.model.WeldingMachine;
 import com.spring.model.WeldingMaintenance;
@@ -38,6 +39,7 @@ import com.spring.service.DataStatisticsService;
 import com.spring.service.InsframeworkService;
 import com.spring.service.MaintainService;
 import com.spring.service.PersonService;
+import com.spring.service.ReportService;
 import com.spring.service.WeldedJunctionService;
 import com.spring.service.WelderService;
 import com.spring.service.WeldingMachineService;
@@ -65,6 +67,8 @@ public class ExportExcelController {
 	private PersonService ps;
 	@Autowired
 	private WeldedJunctionService wjm;
+	@Autowired
+	private ReportService reportService;
 	
 	private String filename;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmSS");
@@ -1470,4 +1474,105 @@ public class ExportExcelController {
 		}
 	}	
 	
+	/**
+	 * 实时数据导出
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/exportLiveData")
+	@ResponseBody
+	public ResponseEntity<byte[]> exportLiveData(HttpServletRequest request,HttpServletResponse response){
+		File file = null;
+		String time1 = request.getParameter("dtoTime1");
+		String time2 = request.getParameter("dtoTime2");
+		String solder_layer = request.getParameter("solder_layer");
+		String weld_bead = request.getParameter("weld_bead");
+		String taskno = request.getParameter("taskno");
+		String welderid = request.getParameter("welderid");
+		BigInteger mach = new BigInteger(request.getParameter("mach"));
+		WeldDto dto = new WeldDto();
+		String dtime = "统计日期："+time1+"--"+time2+"\r\n";
+		double avgEle=0,avgVol=0;
+		try{
+			if(iutil.isNull(time1)){
+				dto.setDtoTime1(time1);
+			}
+			if(iutil.isNull(time2)){
+				dto.setDtoTime2(time2);
+			}
+			List<Report> list = reportService.historyData(dto,taskno,mach,welderid,solder_layer,weld_bead);
+//			dtime += "平均电流：" + String.valueOf(list.get(0).getFrealele()) + "；平均电压：" + String.valueOf(list.get(0).getFrealvol());
+			String[] titles = new String[]{"焊层号","焊道号","电流","电压","时间"};
+			Object[][] data = new Object[list.size()][5];
+			int ii = 0;
+			double tempMaxEle=0,tempMinEle=0,tempMaxVol=0,tempMinVol=0;
+			for (Report i : list) {
+				if (ii < list.size()) {
+					data[ii][0] = i.getId();// 焊层号
+					data[ii][1] = i.getInsid();// 焊道号
+					data[ii][2] = i.getFstandardele();//电流
+					data[ii][3] = i.getFstandardvol();// 电压
+					data[ii][4] = i.getFweldingtime();//时间
+					avgEle+=i.getFstandardele();
+					avgVol+=i.getFstandardvol();
+					if(ii==0) {
+						tempMinEle = i.getFstandardele();
+						tempMinVol = i.getFstandardvol();
+					}
+					if(i.getFstandardele()>tempMaxEle) {
+						tempMaxEle = i.getFstandardele();
+					}
+					if(i.getFstandardele()<tempMinEle) {
+						tempMinEle = i.getFstandardele();
+					}
+					if(i.getFstandardvol()>tempMaxVol) {
+						tempMaxVol = i.getFstandardvol();
+					}
+					if(i.getFstandardvol()<tempMinVol) {
+						tempMinVol = i.getFstandardvol();
+					}
+				}
+				ii++;
+			}
+			DecimalFormat df = new DecimalFormat("0.0");
+			if(list.size()!=0) {
+				dtime += "任务编号："+taskno+"；平均电流：" + df.format(avgEle/list.size()) + "A；平均电压：" + df.format(avgVol/list.size()) + "V"
+						+"；最大电流：" + tempMaxEle + "A；最小电流：" + tempMinEle + "A"
+						+"；最大电压：" + tempMaxVol + "V；最小电压：" + tempMinVol + "V";
+			}else {
+				dtime += "任务编号："+taskno+"；平均电流：0A；平均电压：0V；最大电流：0V；最小电流：0V；最大电压：0V；最小电压：0V";
+			}
+			filename = "历史数据" + sdf.format(new Date())+".xls";
+
+			ServletContext scontext=request.getSession().getServletContext();
+			//获取绝对路径
+			String abpath=scontext.getRealPath("");
+			//String contextpath=scontext. getContextPath() ; 获取虚拟路径
+			
+			String path = abpath+"excelfiles/" + filename;
+			
+			new CommonExcelUtil(dtime, titles, data, path, "历史焊接数据详情");
+			file = new File(path);
+			HttpHeaders headers = new HttpHeaders();
+			String fileName = "";
+			fileName = new String(filename.getBytes("gb2312"),"iso-8859-1");
+		
+			headers.setContentDispositionFormData("attachment", fileName);
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			
+			//处理ie无法下载的问题
+			response.setContentType("application/octet-stream;charset=utf-8");
+			response.setHeader( "Content-Disposition", 
+					"attachment;filename=\""+ fileName); 
+			ServletOutputStream o = response.getOutputStream();
+			o.flush();
+			
+			return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return null;
+		} finally {
+			file.delete();
+		}
+	}	
 }

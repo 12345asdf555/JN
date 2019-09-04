@@ -111,5 +111,12 @@ public class ReportServiceImpl implements ReportService{
 		// TODO Auto-generated method stub
 		return mapper.getEleVolRange(taskNum, fsolder_layer, fweld_bead);
 	}
+
+	@Override
+	public List<Report> historyData(WeldDto dto, String fid, BigInteger mach, String welderid, String fsolder_layer,
+			String fweld_bead) {
+		// TODO Auto-generated method stub
+		return mapper.historyData(dto,fid,mach,welderid,fsolder_layer,fweld_bead);
+	}
 	
 }
