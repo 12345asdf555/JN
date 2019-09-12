@@ -4,6 +4,8 @@ $(function(){
 //	exporttable();
 	statusChange();
 	resultCombobox();
+	wpslibCombobox();
+	welderCombobox();
 });
 
 function statusChange(){
@@ -51,128 +53,149 @@ function weldedJunctionDatagrid(){
 //			width : 90,
 			halign : "center",
 			align : "left"
-		}, /*{
-			field : 'serialNo',
-			title : '任务描述',
-//			width : 90,
-			halign : "center",
-			align : "left"
 		}, {
-			field : 'levelname',
-			title : '任务等级',
-//			width : 150,
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'pipelineNo',
-			title : '预设焊工',
+			field : 'startTime',
+			title : '计划开始时间',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		},{
-			field : 'realwelder',
-			title : '实际焊工',
+			field : 'fengineering_symbol',
+			title : '工程符号',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'roomNo',
-			title : '焊工资质',
+			field : 'fweld_method',
+			title : '焊接方法',
+//			width : 150,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_position',
+			title : '焊接位置',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		}, {
-			field : 'welderid',
+			field : 'fbase_material_type',
+			title : '母材型号',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_material_model',
+			title : '焊材型号',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fwelder_name',
+			title : '分配焊工',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fwelder_id',
 			title : '焊工id',
 //			width : 90,
 			halign : "center",
 			align : "left",
 			hidden:true
+		}, {
+			field : 'ftechnological_design',
+			title : '工艺设计',
+//			width : 90,
+			halign : "center",
+			align : "left"
 		},{
-			field : 'quali',
-			title : '资质id',
+			field : 'fwarm_up_requirement',
+			title : '预热要求',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'finter_channel_temperature',
+			title : '道间温度',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fcarbon_requirement',
+			title : '碳刨要求',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fpost_heat_requirement',
+			title : '后热要求',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fannealed_weld',
+			title : '退火焊道',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fassembly_clearance',
+			title : '装配间隙',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fcarbon_depth',
+			title : '碳刨深度',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fcarbon_width',
+			title : '碳刨宽度',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fpost_heat_temperature',
+			title : '后热温度',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fafter_hot_time',
+			title : '后热时间',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fwps_lib_name',
+			title : '工艺库名称',
+//			width : 90,
+			halign : "center",
+			align : "left"
+		},{
+			field : 'fwpslib_id',
+			title : '工艺库id',
 //			width : 90,
 			halign : "center",
 			align : "left",
 			hidden:true
-		},*/{
-			field : 'itemid',
+		},{
+			field : 'iid',
 			title : '项目id',
 //			width : 90,
 			halign : "center",
 			align : "left",
 			hidden:true
 		}, {
-			field : 'itemname',
+			field : 'iname',
 			title : '所属班组',
 //			width : 150,
 			halign : "center",
-			align : "left"
-		}, /*{
-			field : 'levelid',
-			title : '任务等级id',
-//			width : 150,
-			halign : "center",
 			align : "left",
 			hidden:true
-		},{
-			field : 'dtoTime1',
-			title : '计划开始时间',
-//			width : 150,
-			halign : "center",
-			align : "left"
-		},{
-			field : 'dtoTime2',
-			title : '计划结束时间',
-//			width : 150,
-			halign : "center",
-			align : "left"
-		},{
-			field : 'dyne',
-			title : '焊工id',
-			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
-		},{
-			field : 'taskResultId',
-			title : '任务执行id',
-			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
-		},*/{
-			field : 'realStartTime',
-			title : '开始时间',
-			width : 90,
-			halign : "center",
-			align : "left"
-		},{
-			field : 'realEndTime',
-			title : '结束时间',
-			width : 90,
-			halign : "center",
-			align : "left"
-		},/*{
-			field : 'resultid',
-			title : '评价id',
-			width : 90,
-			halign : "center",
-			align : "left",
-			hidden:true
-		},{
-			field : 'result',
-			title : '任务评价',
-			width : 90,
-			halign : "center",
-			align : "left"
-		},{
-			field : 'resultName',
-			title : '评价等级',
-			width : 90,
-			halign : "center",
-			align : "left"
-		},*/{
+		}, {
 			field : 'status',
 			title : '状态值',
 			width : 90,
@@ -208,15 +231,15 @@ function weldedJunctionDatagrid(){
 				var str = '<a id="edit" class="easyui-linkbutton" href="javascript:editWeldedjunction()"/>';
 				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWeldedjunction()"/>';
 				if(row.status==0){
-					str += '<a id="confirm" class="easyui-linkbutton" href="javascript:confirm()"/>';
+					str += '<a id="confirm" class="easyui-linkbutton" href="javascript:confirm() disabled="true""/>';
 				}
 				if(row.status==1){
-					str += '<a id="confirm1" class="easyui-linkbutton" href="javascript:confirm()" disabled="true"/>';
+					str += '<a id="confirm1" class="easyui-linkbutton" href="javascript:confirm()"/>';
 				}
 				if(row.status==2){
 					str += '<a id="confirm2" class="easyui-linkbutton" href="javascript:confirm()" disabled="true"/>';
 				}
-				str += '<a id="evaluation" class="easyui-linkbutton" href="javascript:evaluation()"/>';
+//				str += '<a id="evaluation" class="easyui-linkbutton" href="javascript:evaluation()"/>';
 				return str;
 			}
 		}] ],
@@ -232,15 +255,15 @@ function weldedJunctionDatagrid(){
 	        $("a[id='edit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 	        $("a[id='remove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
 	        if($("#confirm").length!=0){
-				$("a[id='confirm']").linkbutton({text:'确认完成',plain:true,iconCls:'icon-unfinished'});
+				$("a[id='confirm']").linkbutton({text:'进行中',plain:true,iconCls:'icon-unfinished'});
 			};
 			if($("#confirm1").length!=0){
-				$("a[id='confirm1']").linkbutton({text:'已完成',plain:true,iconCls:'icon-finish'});
+				$("a[id='confirm1']").linkbutton({text:'已完成，可取消',plain:true,iconCls:'icon-finish'});
 			};
 			if($("#confirm2").length!=0){
 				$("a[id='confirm2']").linkbutton({text:'未领取',plain:true,iconCls:'icon-assign'});
 			};
-			$("a[id='evaluation']").linkbutton({text:'评价',plain:true,iconCls:'icon-newadd'});
+//			$("a[id='evaluation']").linkbutton({text:'评价',plain:true,iconCls:'icon-newadd'});
 		}
 /*		detailFormatter:function(index,row2){//严重注意喔
 			return '<div"><table id="ddv-' + index + '" style=""></table></div>';
@@ -652,16 +675,16 @@ function importWeldingMachine(){
 //确认完成
 function confirm(){
 	var url2="";
-	var temp=1;
-	$.messager.confirm('提示', '此操作不可撤销，是否确认?', function(flag) {
+	var temp=3;
+	$.messager.confirm('提示', '此操作将使任务完成状态变更为未领取状态，且部分数据会变为脏数据，是否确认?', function(flag) {
 		if(flag){
 			document.getElementById("load").style.display="block";
 			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
 			$("#body").append(sh);
 			document.getElementById("show").style.display="block";
 			var row = $('#weldTaskTable').datagrid('getSelected');
-			url = "weldtask/getEvaluate?id="+row.taskResultId+"&taskid="+row.id+"&welderid="+null+"&machineid="+null;
-			url2=url+"&result="+""+"&resultid="+""+"&welderNo="+""+"&operateid="+temp+"&taskNo="+""+"&machineNo="+""+"&starttime="+row.realStartTime+"&endtime="+getNowFormatDate();
+			url = "weldtask/getEvaluate?id="+row.id+"&result="+""+"&taskid="+row.id+"&welderid="+null+"&machineid="+null;
+			url2=url+"&resultid="+""+"&welderNo="+null+"&operateid="+temp+"&taskNo="+encodeURIComponent(row.weldedJunctionno)+"&machineNo="+null;
 			$.ajax({  
 			      type : "post",  
 			      async : false,
@@ -986,6 +1009,56 @@ function exportDg(){
 			window.location.href = encodeURI(url);
 		}
 	});
+}
+
+//焊工选择下拉框
+function welderCombobox(){
+	$.ajax({  
+    type : "post",  
+    async : false,
+    url : "weldtask/getWelderAll",  
+    data : {},  
+    dataType : "json", //返回数据形式为json  
+    success : function(result) {
+        if (result) {
+            var optionStr = '';  
+            for (var i = 0; i < result.ary.length; i++) { 
+                optionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+                        + result.ary[i].name + "</option>";  
+            } 
+            $("#fwelder_id").append(optionStr);
+        }  
+    },  
+    error : function(errorMsg) {  
+        alert("数据请求失败，请联系系统管理员!");  
+    }  
+}); 
+	$("#fwelder_id").combobox();
+}
+
+//工艺选择选择下拉框
+function wpslibCombobox(){
+	$.ajax({  
+  type : "post",  
+  async : false,
+  url : "weldtask/getWpslibAll",  
+  data : {},  
+  dataType : "json", //返回数据形式为json  
+  success : function(result) {
+      if (result) {
+          var optionStr = '';  
+          for (var i = 0; i < result.ary.length; i++) { 
+              optionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+                      + result.ary[i].name + "</option>";  
+          } 
+          $("#fwpslib_id").append(optionStr);
+      }  
+  },  
+  error : function(errorMsg) {  
+      alert("数据请求失败，请联系系统管理员!");  
+  }  
+}); 
+	$("#fwpslib_id").combobox();
 }
 
 //监听窗口大小变化

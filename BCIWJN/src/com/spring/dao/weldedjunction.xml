@@ -68,12 +68,18 @@
    LEFT JOIN tb_taskresult r on r.ftaskid=j.fid
    LEFT JOIN tb_welder ww ON r.fwelderid=ww.fid
 	WHERE 1=1 AND (r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid,fwelderid,fmachineid) OR r.foperatetype IS null) -->
-	SELECT j.fid,j.fwelded_junction_no,j.froom_no,dd.fvaluename farea,j.fstart_time,j.fend_time,i.fid iid,i.fname iname,r.foperatetype fmaterial,r.frealstarttime fcreatetime,r.frealendtime fupdatetime,r.fid fdyne,r.fresultid funit,r.fresult fsystems,dic.fvaluename fchildren FROM tb_welded_junction j 
+<!-- 	SELECT j.fid,j.fwelded_junction_no,j.froom_no,dd.fvaluename farea,j.fstart_time,j.fend_time,i.fid iid,i.fname iname,r.foperatetype fmaterial,r.frealstarttime fcreatetime,r.frealendtime fupdatetime,r.fid fdyne,r.fresultid funit,r.fresult fsystems,dic.fvaluename fchildren FROM tb_welded_junction j 
 	LEFT JOIN tb_dictionary dd ON j.froom_no=dd.fvalue AND dd.ftypeid=7 
 	INNER JOIN tb_insframework i ON j.fitemId = i.fid 
     LEFT JOIN tb_taskresult r on r.ftaskid=j.fid
     LEFT JOIN tb_dictionary dic ON r.fresultid=dic.fvalue AND dic.ftypeid=16
-	WHERE 1=1 AND (r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid) OR r.foperatetype IS null)
+	WHERE 1=1 AND (r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid) OR r.foperatetype IS null) -->
+	SELECT j.*,w.fid fwelder_id,w.fname fwelder_name,l.fwps_lib_name,i.fid iid,i.fname iname,r.foperatetype fstatus FROM tb_welded_junction j 
+	LEFT JOIN tb_welder w on j.foperator=w.fid 
+	LEFT JOIN tb_wps_library l on j.fwpslib_id=l.fid 
+	INNER JOIN tb_insframework i on j.fitemId=i.fid 
+	LEFT JOIN tb_taskresult r on r.ftaskid=j.fid 
+	WHERE 1=1 and (r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid) OR r.foperatetype IS null)
 	<if test="str!=null and str!=''">
 		and ${str}
 	</if>
@@ -216,14 +222,21 @@
 	
 	<insert id="addTask" parameterType="com.spring.model.WeldedJunction">
 		insert into tb_welded_junction(fwelded_junction_no,fstart_time,fengineering_symbol,fweld_method,fweld_position,fbase_material_type,fweld_material_model,foperator,ftechnological_design,fwarm_up_requirement,finter_channel_temperature,fcarbon_requirement,fpost_heat_requirement,fannealed_weld,fassembly_clearance,fcarbon_depth,fcarbon_width,fpost_heat_temperature,fafter_hot_time,fwpslib_id,fitemId) 
-		values(#{weldedJunctionno},#{startTime},#{fengineering_symbol},#{fweld_method},#{fweld_position},#{fbase_material_type},#{fweld_material_model},#{children},#{ftechnological_design},#{fwarm_up_requirement},#{finter_channel_temperature},#{fcarbon_requirement},#{fpost_heat_requirement},#{fannealed_weld},#{fassembly_clearance},#{fcarbon_depth},#{fcarbon_width},#{fpost_heat_temperature},#{fafter_hot_time},#{roomNo},#{insfid});
+		values(#{weldedJunctionno},#{startTime},#{fengineering_symbol},#{fweld_method},#{fweld_position},#{fbase_material_type},#{fweld_material_model},#{fwelder_id},#{ftechnological_design},#{fwarm_up_requirement},#{finter_channel_temperature},#{fcarbon_requirement},#{fpost_heat_requirement},#{fannealed_weld},#{fassembly_clearance},#{fcarbon_depth},#{fcarbon_width},#{fpost_heat_temperature},#{fafter_hot_time},#{fwpslib_id},#{iid});
 	</insert>
 	
 	<update id="updateTask" parameterType="com.spring.model.WeldedJunction">
 		update tb_welded_junction set fwelded_junction_no=#{weldedJunctionno},fstart_time=#{startTime},fengineering_symbol=#{fengineering_symbol},fweld_method=#{fweld_method},fweld_position=#{fweld_position},fbase_material_type=#{fbase_material_type},
-		fweld_material_model=#{fweld_material_model},foperator=#{children},ftechnological_design=#{ftechnological_design},fwarm_up_requirement=#{fwarm_up_requirement},finter_channel_temperature=#{finter_channel_temperature},fcarbon_requirement=#{fcarbon_requirement},
-		fpost_heat_requirement=#{fpost_heat_requirement},fannealed_weld=#{fannealed_weld},fassembly_clearance=#{fassembly_clearance},fcarbon_depth=#{fcarbon_depth},fcarbon_width=#{fcarbon_width},fpost_heat_temperature=#{fpost_heat_temperature},fafter_hot_time=#{fafter_hot_time},fwpslib_id=#{roomNo},fitemId=#{insfid}
+		fweld_material_model=#{fweld_material_model},foperator=#{fwelder_id},ftechnological_design=#{ftechnological_design},fwarm_up_requirement=#{fwarm_up_requirement},finter_channel_temperature=#{finter_channel_temperature},fcarbon_requirement=#{fcarbon_requirement},
+		fpost_heat_requirement=#{fpost_heat_requirement},fannealed_weld=#{fannealed_weld},fassembly_clearance=#{fassembly_clearance},fcarbon_depth=#{fcarbon_depth},fcarbon_width=#{fcarbon_width},fpost_heat_temperature=#{fpost_heat_temperature},fafter_hot_time=#{fafter_hot_time},fwpslib_id=#{fwpslib_id},fitemId=#{iid}
 		 where fwelded_junction_no=#{weldedJunctionno};
+	</update>
+	
+	<update id="updateTaskByFid" parameterType="com.spring.model.WeldedJunction">
+		update tb_welded_junction set fwelded_junction_no=#{weldedJunctionno},fstart_time=#{startTime},fengineering_symbol=#{fengineering_symbol},fweld_method=#{fweld_method},fweld_position=#{fweld_position},fbase_material_type=#{fbase_material_type},
+		fweld_material_model=#{fweld_material_model},foperator=#{fwelder_id},ftechnological_design=#{ftechnological_design},fwarm_up_requirement=#{fwarm_up_requirement},finter_channel_temperature=#{finter_channel_temperature},fcarbon_requirement=#{fcarbon_requirement},
+		fpost_heat_requirement=#{fpost_heat_requirement},fannealed_weld=#{fannealed_weld},fassembly_clearance=#{fassembly_clearance},fcarbon_depth=#{fcarbon_depth},fcarbon_width=#{fcarbon_width},fpost_heat_temperature=#{fpost_heat_temperature},fafter_hot_time=#{fafter_hot_time},fwpslib_id=#{fwpslib_id},fitemId=#{iid}
+		 where fid=#{id};
 	</update>
 	
 	<select id="getSwDetail" resultMap="wjMap" parameterType="java.lang.String">
@@ -241,7 +254,7 @@
 	    <if test="time!=null and time!=''">
 	      and FUploadDateTime &gt;= #{time} 
 	    </if>
-	    ) t group by fserial_no,froom_no
+	    ) t WHERE fserial_no!=0 group by fserial_no,froom_no
 		) te order by froom_no desc
 	</select>
 </mapper>

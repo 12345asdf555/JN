@@ -61,4 +61,7 @@ public interface WpsMapper {
 	int getCountByWpsidAndLayerroad(@Param("wpsid")String wpsid,@Param("layer")String layer,@Param("road")String road);
 	void addWpsDetail(Wps wps);
 	void updateWpsDetail(Wps wps);
+	void updateWpsDetailById(Wps wps);
+	
+	List<Wps> getAllWpslib();
 }

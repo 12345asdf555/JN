@@ -118,7 +118,7 @@ function Junction(){
         		idField : 'id',
         		pageSize : 10,
         		pageList : [ 10, 20, 30, 40, 50 ],
-        		url : "weldedjunction/getSwDetail?taskno="+encodeURI(row.weldedJunctionno),
+        		url : "weldedjunction/getSwDetail?taskno="+encodeURIComponent(row.weldedJunctionno),
         		singleSelect : true,
         		rownumbers : true,
         		showPageList : false,
@@ -180,7 +180,7 @@ function Junction(){
         		idField : 'id',
         		pageSize : 10,
         		pageList : [ 10, 20, 30, 40, 50 ],
-        		url : "weldedjunction/getSwDetail?taskno="+encodeURI(row.weldedJunctionno),
+        		url : "weldedjunction/getSwDetail?taskno="+encodeURIComponent(row.weldedJunctionno),
         		singleSelect : true,
         		rownumbers : true,
         		showPageList : false,
@@ -249,7 +249,7 @@ function loadChart(fsolder_layer,fweld_bead){
 	setParam();
 	$.ajax({
 		   type: "post", 
-		   url: "rep/historyCurve"+chartStr+"&fid="+encodeURI($('#taskno').val())+"&mach="+$('#machid').val()+"&welderid="+$("#welderid").val()+"&fweld_bead="+fweld_bead+"&fsolder_layer="+fsolder_layer,
+		   url: "rep/historyCurve"+chartStr+"&fid="+encodeURIComponent($('#taskno').val())+"&mach="+$('#machid').val()+"&welderid="+$("#welderid").val()+"&fweld_bead="+fweld_bead+"&fsolder_layer="+fsolder_layer,
 		   dataType: "json",
 		   data: {},
 		   success: function (result) {
@@ -318,7 +318,8 @@ function eleChart(){
                 },
                 restore : {
                     show : false
-                }
+                },
+                saveAsImage: {}
             }
         },
         dataZoom : [
@@ -405,7 +406,8 @@ function volChart(){
                 },
                 restore : {
                     show : false
-                }
+                },
+                saveAsImage: {}
             }
         },
         dataZoom : [//缩放
@@ -506,7 +508,8 @@ function theSmallScreen(){
 //导出到excel
 function exportExcel(solder_layer,weld_bead){
 	setParam();
-	var curveStr = "&taskno="+encodeURI($('#taskno').val())+"&mach="+$('#machid').val()+"&welderid="+$("#welderid").val()+"&solder_layer="+solder_layer+"&weld_bead="+weld_bead;
+	var curveStr = "&taskno="+encodeURIComponent($('#taskno').val())+"&mach="+$('#machid').val()+"&welderid="+$("#welderid").val()+"&solder_layer="+solder_layer+"&weld_bead="+weld_bead
+	+"&board="+$('#boardlength').val();
 	$.messager.confirm("提示", "文件默认保存在浏览器的默认路径，<br/>如需更改路径请设置浏览器的<br/>“下载前询问每个文件的保存位置“属性！",function(result){
 		if(result){
 			var url = "export/exportLiveData";

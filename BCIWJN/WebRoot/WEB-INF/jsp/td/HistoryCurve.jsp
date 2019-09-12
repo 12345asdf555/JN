@@ -68,6 +68,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="swdetail" class="easyui-dialog" style="width:500px; height:375px;" closed="true">
 			<input name="taskno" id="taskno" type="hidden" >
 			<input name="machid" id="machid" type="hidden" >
+			<label>板长(cm)</label>
+			<input name="boardlength" id="boardlength" style="width:70px;" class="easyui-numberbox" value="0" data-options="required:true,precision:1">
 			<a href="javascript:loadChart('','');" class="easyui-linkbutton" iconCls="icon-search">任务曲线总览</a>
 			<a href="javascript:exportExcel('','');" class="easyui-linkbutton" iconCls="icon-export">总览导出Excel</a>
 			<table id="swdetailtable" style="table-layout:fixed;width:100%;"></table>

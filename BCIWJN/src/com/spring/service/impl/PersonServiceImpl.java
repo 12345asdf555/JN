@@ -97,4 +97,10 @@ public class PersonServiceImpl implements PersonService{
 		return mapper.findAll(parent, str);
 	}
 
+	@Override
+	public String getInsidByFid(BigInteger fid) {
+		// TODO Auto-generated method stub
+		return mapper.getInsidByFid(fid);
+	}
+
 }

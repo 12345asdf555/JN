@@ -19,7 +19,7 @@ function removeWeldedjunction(){
 	        			});
 	        			$('#rdlg').window('open');
 	        			$('#rfm').form('load', row);
-	        			url = "weldtask/removeWeldTask?id="+row.id+"&insfid="+row.itemid;
+	        			url = "weldtask/removeWeldTask?id="+row.id+"&insfid="+row.iid;
 	        		}
 	          }
 	      },  

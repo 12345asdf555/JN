@@ -65,6 +65,11 @@ public class WeldedJunction {
 	private String fcarbon_width;
 	private String fpost_heat_temperature;
 	private String fafter_hot_time;
+	private String fwps_lib_name;
+	private BigInteger fwpslib_id;
+	private String fwelder_name;
+	private BigInteger fwelder_id;
+	private String fstatus;
 	
 	public BigInteger getInsfid() {
 		return insfid;
@@ -377,6 +382,36 @@ public class WeldedJunction {
 	}
 	public void setFafter_hot_time(String fafter_hot_time) {
 		this.fafter_hot_time = fafter_hot_time;
+	}
+	public String getFwps_lib_name() {
+		return fwps_lib_name;
+	}
+	public void setFwps_lib_name(String fwps_lib_name) {
+		this.fwps_lib_name = fwps_lib_name;
+	}
+	public BigInteger getFwpslib_id() {
+		return fwpslib_id;
+	}
+	public void setFwpslib_id(BigInteger fwpslib_id) {
+		this.fwpslib_id = fwpslib_id;
+	}
+	public BigInteger getFwelder_id() {
+		return fwelder_id;
+	}
+	public void setFwelder_id(BigInteger fwelder_id) {
+		this.fwelder_id = fwelder_id;
+	}
+	public String getFwelder_name() {
+		return fwelder_name;
+	}
+	public void setFwelder_name(String fwelder_name) {
+		this.fwelder_name = fwelder_name;
+	}
+	public String getFstatus() {
+		return fstatus;
+	}
+	public void setFstatus(String fstatus) {
+		this.fstatus = fstatus;
 	}
 	
 }

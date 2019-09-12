@@ -38,4 +38,11 @@ public interface PersonService {
 	 * @return
 	 */
 	List<Person> getFreeWelder(Page page,String str);
+	
+	/**
+	 * 根据焊工ID获取组织机构
+	 * @param fid
+	 * @return
+	 */
+	String getInsidByFid(BigInteger fid);
 }

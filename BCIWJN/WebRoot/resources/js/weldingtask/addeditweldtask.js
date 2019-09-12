@@ -1,10 +1,12 @@
 $(function(){
-	InsframeworkCombobox();
+//	InsframeworkCombobox();
 	WelderCombobox();
 	taskCombobox();
 	$('#dlg').dialog( {
 		onClose : function() {
-			$('#itemid').combobox('clear');
+//			$('#iid').combobox('clear');
+			$('#fwpslib_id').combobox('clear');
+			$('#fwelder_id').combobox('clear');
 			$("#fm").form("disableValidation");
 		}
 	});
@@ -61,6 +63,14 @@ function editWeldedjunction(){
 	              $('#dlg').window('open');
 	              $('#fm').form('load', row);
 	              $('#oldno').val(row.weldedJunctionno);
+	      		  if(row.wps_lib_id){
+	    			  var str = $("#wps_lib_id").html();
+	    			  str += "<option value=\"" + row.wps_lib_id + "\" >"  
+	    			          + row.wps_lib_name + "</option>";
+	    			  $("#wps_lib_id").html(str);
+	    			  $("#wps_lib_id").combobox();
+	    			  $("#wps_lib_id").combobox("select", row.wps_lib_id);
+	    		  }
 	              url = "weldtask/editWeldTask?id="+ row.id;
 	            }
 	          }
@@ -74,30 +84,25 @@ function editWeldedjunction(){
 //提交
 function save(){
 	var wtno = $("#weldedJunctionno").textbox('getValue');
-	var item = $('#itemid').combobox('getValue');
-	if(wtno==""||item==""){
+	if(wtno==""){
 		alert("必选项不能为空！！！");
 	}else{
 		document.getElementById("load").style.display="block";
 		var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
 		$("#body").append(sh);
 		document.getElementById("show").style.display="block";
-		var dtoTime1 = $("#dtoTime1").datetimebox('getValue');
-		var dtoTime2 = $("#dtoTime2").datetimebox('getValue');
-//		var fwelderid = $('#welderid').val();
-		var fitemid = $('#itemid').combobox('getValue');
-//		var quali = $('#quali').combobox('getValue');
-		var tasklevel = $('#levelid').combobox('getValue');
+		var startTime = $("#startTime").datetimebox('getValue');
+//		var fitemid = $('#iid').combobox('getValue');
+		var operatorId = $('#fwelder_id').combobox('getValue');
+		var wps_lib_id = $('#fwpslib_id').combobox('getValue');
 		var messager = "";
 		var url2 = "";
 		if(flag==1){
 			messager = "新增成功！";
-//			url2 = url+"?fitemid="+fitemid+"&fwelderid="+fwelderid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&quali="+quali+"&tasklevel="+tasklevel;
-			url2 = url+"?fitemid="+fitemid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&tasklevel="+tasklevel;
+			url2 = url+"?startTime="+startTime+"&fwelder_id="+operatorId+"&fwpslib_id="+wps_lib_id+"&weldedJunctionno="+encodeURIComponent(wtno);
 		}else{
 			messager = "修改成功！";
-//			url2 = url+"&fitemid="+fitemid+"&fwelderid="+fwelderid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&quali="+quali+"&tasklevel="+tasklevel;
-			url2 = url+"&fitemid="+fitemid+"&dtoTime1="+dtoTime1+"&dtoTime2="+dtoTime2+"&tasklevel="+tasklevel;
+			url2 = url+"&startTime="+startTime+"&fwelder_id="+operatorId+"&fwpslib_id="+wps_lib_id+"&weldedJunctionno="+encodeURIComponent(wtno);
 		}
 		$('#fm').form('submit', {
 			url : url2,
@@ -146,14 +151,14 @@ function InsframeworkCombobox(){
                   optionStr += "<option value=\"" + result.ary[i].id + "\" >"  
                           + result.ary[i].name + "</option>";
               }
-              $("#itemid").html(optionStr);
+              $("#iid").html(optionStr);
           }  
       },  
       error : function(errorMsg) {  
           alert("数据请求失败，请联系系统管理员!");  
       }  
 	}); 
-	$("#itemid").combobox();
+	$("#iid").combobox();
 }
 
 //焊工资质
@@ -312,7 +317,7 @@ function saveWelder(){
 	  }else{
 		  $("#pipelineNo").textbox('setValue',row.welderno);
 		  $('#welderid').val(row.id);
-		  $('#itemid').combobox('setValue', row.owner);
+//		  $('#iid').combobox('setValue', row.owner);
 		  $('#fdlg').dialog('close');
 		  $('#welderTable').datagrid('clearSelections'); 
 	  }
@@ -325,7 +330,7 @@ function cancelWelder(){
 }
 
 function itemidChange(){
-	$("#itemid").combobox({
+	$("#iid").combobox({
 		onSelect: function (record) {
 		  if(symbol==0){
 			  $("#pipelineNo").textbox('clear');

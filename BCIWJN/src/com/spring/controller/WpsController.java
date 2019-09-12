@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,7 @@ import com.spring.dto.WeldDto;
 import com.spring.model.Dictionarys;
 import com.spring.model.MyUser;
 import com.spring.model.Td;
+import com.spring.model.WeldedJunction;
 import com.spring.model.Wps;
 import com.spring.page.Page;
 import com.spring.service.DictionaryService;
@@ -309,87 +311,15 @@ public class WpsController {
 	
 	@RequestMapping("/addMainWps")
 	@ResponseBody
-	public String addMainWps(HttpServletRequest request){
-		Wps wps = new Wps();
-		MyUser myuser = (MyUser) SecurityContextHolder.getContext()  
-			    .getAuthentication()  
-			    .getPrincipal();
+	public String addMainWps(HttpServletRequest request,@ModelAttribute Wps wps){
 		JSONObject obj = new JSONObject();
-		long fid = new Long(request.getParameter("fid"));
-		Integer finitial = Integer.valueOf(request.getParameter("finitial"));
-		Integer fcontroller = Integer.valueOf(request.getParameter("fcontroller"));
-		Integer fmode = Integer.valueOf(request.getParameter("fmode"));
-		Integer fselect = Integer.valueOf(request.getParameter("fselect"));
-		Integer farc = Integer.valueOf(request.getParameter("farc"));
-		Integer fmaterial = Integer.valueOf(request.getParameter("fmaterial"));
-		Integer fgas = Integer.valueOf(request.getParameter("fgas"));
-		BigInteger fdiameter = new BigInteger(request.getParameter("fdiameter"));
-		Integer chanel = Integer.valueOf(request.getParameter("chanel"));
-		double ftime = Double.valueOf(request.getParameter("ftime"));
-		double fadvance = Double.valueOf(request.getParameter("fadvance"));
-		double fini_ele = Double.valueOf(request.getParameter("fini_ele"));
-		double fweld_ele = Double.valueOf(request.getParameter("fweld_ele"));
-		double farc_ele = Double.valueOf(request.getParameter("farc_ele"));
-		double fhysteresis = Double.valueOf(request.getParameter("fhysteresis"));
-		int fcharacter = Integer.valueOf(request.getParameter("fcharacter"));
-		double fweld_tuny_ele = Double.valueOf(request.getParameter("fweld_tuny_ele"));
-		double farc_tuny_ele = Double.valueOf(request.getParameter("farc_tuny_ele"));
-		double fini_vol = Double.valueOf(request.getParameter("fini_vol"));
-		double fweld_vol = Double.valueOf(request.getParameter("fweld_vol"));
-		double farc_vol = Double.valueOf(request.getParameter("farc_vol"));
-		double fini_vol1 = Double.valueOf(request.getParameter("fini_vol1"));
-		double fweld_vol1 = Double.valueOf(request.getParameter("fweld_vol1"));
-		double farc_vol1 = Double.valueOf(request.getParameter("farc_vol1"));
-		double fweld_tuny_vol = Double.valueOf(request.getParameter("fweld_tuny_vol"));
-		double farc_tuny_vol = Double.valueOf(request.getParameter("farc_tuny_vol"));
-		double fwarn_ele_up = Double.valueOf(request.getParameter("fwarn_ele_up"));
-		double fwarn_ele_down = Double.valueOf(request.getParameter("fwarn_ele_down"));
-		double fwarn_vol_up = Double.valueOf(request.getParameter("fwarn_vol_up"));
-		double fwarn_vol_down = Double.valueOf(request.getParameter("fwarn_vol_down"));
-		int fprocess = Integer.valueOf(request.getParameter("fprocess"));
-		int ftorch = Integer.valueOf(request.getParameter("ftorch"));
 		try{
-			wps.setFweld_i_max(chanel);
-			wps.setFweld_i_min(finitial);
-			wps.setFweld_alter_i(fcontroller);
-			wps.setFweld_v_min(fmode);
-			wps.setFweld_i(fselect);
-			wps.setFweld_v(farc);
-			wps.setFweld_v_max(fcharacter);
-			wps.setFweld_prechannel(fmaterial);
-			wps.setFweld_alter_v(fgas);
-			wps.setInsid(fdiameter);
-			wps.setFtime(ftime);
-			wps.setFadvance(fadvance);
-			wps.setFhysteresis(fhysteresis);
-			wps.setFini_ele(fini_ele);
-			wps.setFini_vol(fini_vol);
-			wps.setFini_vol1(fini_vol1);
-			wps.setFweld_ele(fweld_ele);
-			wps.setFweld_vol(fweld_vol);
-			wps.setFweld_vol1(fweld_vol1);
-			wps.setFarc_ele(farc_ele);
-			wps.setFarc_vol(farc_vol);
-			wps.setFarc_vol1(farc_vol1);
-			wps.setFweld_tuny_ele(fweld_tuny_ele);
-			wps.setFweld_tuny_vol(fweld_tuny_vol);
-			wps.setFarc_tuny_ele(farc_tuny_ele);
-			wps.setFdiameter(farc_tuny_vol);
-			wps.setFcreater(myuser.getId());
-			wps.setFupdater(myuser.getId());
-			wps.setFid(fid);
-			wps.setFprocessid(fprocess);
-			wps.setFtorch(ftorch);
-			wps.setFwarn_ele_up(fwarn_ele_up);
-			wps.setFwarn_ele_down(fwarn_ele_down);
-			wps.setFwarn_vol_up(fwarn_vol_up);
-			wps.setFwarn_vol_down(fwarn_vol_down);
-/*			if(wpsService.findCount(machine,chanel.toString())<=0){
-				wpsService.saveSpe(wps);
-			}else{
-				wpsService.updateSpe(wps);
-			}*/
-			wpsService.saveSpe(wps);
+			wps.setFwpsnum(request.getParameter("fwpsnum"));
+			wps.setFweld_ele((wps.getFpreset_ele_top()+wps.getFpreset_ele_bottom())/2);
+			wps.setFweld_tuny_ele(wps.getFpreset_ele_top()-(wps.getFpreset_ele_top()+wps.getFpreset_ele_bottom())/2);
+			wps.setFweld_vol((wps.getFpreset_vol_top()+wps.getFpreset_vol_bottom())/2);
+			wps.setFweld_tuny_vol(wps.getFpreset_vol_top()-(wps.getFpreset_vol_top()+wps.getFpreset_vol_bottom())/2);
+			wpsService.addWpsDetail(wps);
 			obj.put("success", true);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -401,88 +331,15 @@ public class WpsController {
 	
 	@RequestMapping("/updateMainWps")
 	@ResponseBody
-	public String updateMainWps(HttpServletRequest request){
-		Wps wps = new Wps();
-		MyUser myuser = (MyUser) SecurityContextHolder.getContext()  
-			    .getAuthentication()  
-			    .getPrincipal();
+	public String updateMainWps(HttpServletRequest request,@ModelAttribute Wps wps){
 		JSONObject obj = new JSONObject();
-		long fid = new Long(request.getParameter("fid"));
-		Integer finitial = Integer.valueOf(request.getParameter("finitial"));
-		Integer fcontroller = Integer.valueOf(request.getParameter("fcontroller"));
-		Integer fmode = Integer.valueOf(request.getParameter("fmode"));
-		Integer fselect = Integer.valueOf(request.getParameter("fselect"));
-		Integer farc = Integer.valueOf(request.getParameter("farc"));
-		Integer fmaterial = Integer.valueOf(request.getParameter("fmaterial"));
-		Integer fgas = Integer.valueOf(request.getParameter("fgas"));
-		BigInteger fdiameter = new BigInteger(request.getParameter("fdiameter"));
-		Integer chanel = Integer.valueOf(request.getParameter("chanel"));
-		double ftime = Double.valueOf(request.getParameter("ftime"));
-		double fadvance = Double.valueOf(request.getParameter("fadvance"));
-		double fini_ele = Double.valueOf(request.getParameter("fini_ele"));
-		double fweld_ele = Double.valueOf(request.getParameter("fweld_ele"));
-		double farc_ele = Double.valueOf(request.getParameter("farc_ele"));
-		double fhysteresis = Double.valueOf(request.getParameter("fhysteresis"));
-		int fcharacter = Integer.valueOf(request.getParameter("fcharacter"));
-		double fweld_tuny_ele = Double.valueOf(request.getParameter("fweld_tuny_ele"));
-		double farc_tuny_ele = Double.valueOf(request.getParameter("farc_tuny_ele"));
-		double fini_vol = Double.valueOf(request.getParameter("fini_vol"));
-		double fweld_vol = Double.valueOf(request.getParameter("fweld_vol"));
-		double farc_vol = Double.valueOf(request.getParameter("farc_vol"));
-		double fini_vol1 = Double.valueOf(request.getParameter("fini_vol1"));
-		double fweld_vol1 = Double.valueOf(request.getParameter("fweld_vol1"));
-		double farc_vol1 = Double.valueOf(request.getParameter("farc_vol1"));
-		double fweld_tuny_vol = Double.valueOf(request.getParameter("fweld_tuny_vol"));
-		double farc_tuny_vol = Double.valueOf(request.getParameter("farc_tuny_vol"));
-		double fwarn_ele_up = Double.valueOf(request.getParameter("fwarn_ele_up"));
-		double fwarn_ele_down = Double.valueOf(request.getParameter("fwarn_ele_down"));
-		double fwarn_vol_up = Double.valueOf(request.getParameter("fwarn_vol_up"));
-		double fwarn_vol_down = Double.valueOf(request.getParameter("fwarn_vol_down"));
-		int fprocess = Integer.valueOf(request.getParameter("fprocess"));
-		int ftorch = Integer.valueOf(request.getParameter("ftorch"));
 		try{
-			wps.setFweld_i_max(chanel);
-			wps.setFweld_i_min(finitial);
-			wps.setFweld_alter_i(fcontroller);
-			wps.setFweld_v_min(fmode);
-			wps.setFweld_i(fselect);
-			wps.setFweld_v(farc);
-			wps.setFweld_v_max(fcharacter);
-			wps.setFweld_prechannel(fmaterial);
-			wps.setFweld_alter_v(fgas);
-			wps.setInsid(fdiameter);
-			wps.setFtime(ftime);
-			wps.setFadvance(fadvance);
-			wps.setFhysteresis(fhysteresis);
-			wps.setFini_ele(fini_ele);
-			wps.setFini_vol(fini_vol);
-			wps.setFini_vol1(fini_vol1);
-			wps.setFweld_ele(fweld_ele);
-			wps.setFweld_vol(fweld_vol);
-			wps.setFweld_vol1(fweld_vol1);
-			wps.setFarc_ele(farc_ele);
-			wps.setFarc_vol(farc_vol);
-			wps.setFarc_vol1(farc_vol1);
-			wps.setFweld_tuny_ele(fweld_tuny_ele);
-			wps.setFweld_tuny_vol(fweld_tuny_vol);
-			wps.setFarc_tuny_ele(farc_tuny_ele);
-			wps.setFdiameter(farc_tuny_vol);
-			wps.setFcreater(myuser.getId());
-			wps.setFupdater(myuser.getId());
-			wps.setFid(fid);
-			wps.setFprocessid(fprocess);
-			wps.setFtorch(ftorch);
-			wps.setFwarn_ele_up(fwarn_ele_up);
-			wps.setFwarn_ele_down(fwarn_ele_down);
-			wps.setFwarn_vol_up(fwarn_vol_up);
-			wps.setFwarn_vol_down(fwarn_vol_down);
-			
-/*			if(wpsService.findCount(machine,chanel.toString())<=0){
-				wpsService.saveSpe(wps);
-			}else{
-				wpsService.updateSpe(wps);
-			}*/
-			wpsService.updateSpe(wps);
+			wps.setFwpsnum(request.getParameter("fwpsnum"));
+			wps.setFweld_ele((wps.getFpreset_ele_top()+wps.getFpreset_ele_bottom())/2);
+			wps.setFweld_tuny_ele(wps.getFpreset_ele_top()-(wps.getFpreset_ele_top()+wps.getFpreset_ele_bottom())/2);
+			wps.setFweld_vol((wps.getFpreset_vol_top()+wps.getFpreset_vol_bottom())/2);
+			wps.setFweld_tuny_vol(wps.getFpreset_vol_top()-(wps.getFpreset_vol_top()+wps.getFpreset_vol_bottom())/2);
+			wpsService.updateWpsDetailById(wps);
 			obj.put("success", true);
 		}catch(Exception e){
 			obj.put("success", false);
@@ -900,65 +757,25 @@ public class WpsController {
 		try{
 			for(Wps wps:getMainwpsList){
 				json.put("fid", wps.getFid());
-				json.put("fchanel", wps.getWelderid());
-				json.put("finitial", "否");
-				json.put("initial", "0");
-				if(Integer.valueOf(wps.getFinitial())==1){
-					json.put("finitial", "是");
-					json.put("initial", "1");
-				}
-				json.put("fcontroller", "否");
-				json.put("controller", "0");
-				if(Integer.valueOf(wps.getFcontroller())==1){
-					json.put("fcontroller", "是");
-					json.put("controller", "1");
-				}
-				json.put("fselect",wps.getInsname());
-				json.put("fselectname",wps.getSelectname());
-				json.put("farc", wps.getWeldername());
-				json.put("farcname", wps.getArcname());
-				json.put("fcharacter", wps.getFweld_v_max());
-				json.put("fmode", "否");
-				json.put("mode", "0");
-				if(Integer.valueOf(wps.getFmode())==1){
-					json.put("fmode", "是");
-					json.put("mode", "1");
-				}
-				json.put("ftorch", "否");
-				json.put("torch", "0");
-				if(wps.getFtorch()==1){
-					json.put("ftorch", "是");
-					json.put("torch", "1");
-				}
-				json.put("fmaterial", wps.getUpdatename());
-				json.put("fmaterialname", wps.getMaterialname());
-				json.put("fgas", wps.getFback());
-				json.put("fgasname", wps.getGasname());
-				json.put("fdiameter", wps.getFname());
-				json.put("fdiametername", wps.getDianame());
-				json.put("ftime", wps.getFtime());
-				json.put("fadvance", wps.getFadvance());
-				json.put("fhysteresis", wps.getFhysteresis());
-				json.put("fini_ele", wps.getFini_ele());
-				json.put("fini_vol", wps.getFini_vol());
-				json.put("fini_vol1", wps.getFini_vol1());
-				json.put("fweld_ele", wps.getFweld_ele());
-				json.put("fweld_vol", wps.getFweld_vol());
-				json.put("fweld_vol1", wps.getFweld_vol1());
-				json.put("farc_ele", wps.getFarc_ele());
-				json.put("farc_vol", wps.getFarc_vol());
-				json.put("farc_vol1", wps.getFarc_vol1());
-				json.put("fweld_tuny_ele", wps.getFweld_tuny_ele());
-				json.put("fweld_tuny_vol", wps.getFweld_tuny_vol());
-				json.put("farc_tuny_ele", wps.getFarc_tuny_ele());
-				json.put("farc_tuny_vol", wps.getFdiameter());
-				json.put("fweldprocess", wps.getFprocessid());
+				json.put("fsolder_layer", wps.getFsolder_layer());
+				json.put("fweld_bead", wps.getFweld_bead());
+				json.put("fwpsnum", wps.getFwpsnum());
+				json.put("fweld_method", wps.getFweld_method());
+				json.put("fmaterial", wps.getFmaterial());
+				json.put("materialname", wps.getMaterialname());
+				json.put("fdiameter", wps.getFdiameter());
+				json.put("dianame", wps.getDianame());
+				json.put("fpreset_ele_bottom", wps.getFpreset_ele_bottom());
+				json.put("fpreset_ele_top", wps.getFpreset_ele_top());
+				json.put("fpreset_vol_bottom", wps.getFpreset_vol_bottom());
+				json.put("fpreset_vol_top", wps.getFpreset_vol_top());
+				json.put("fpower_polarity", wps.getFpower_polarity());
+				json.put("fgas_flow", wps.getFgas_flow());
+				json.put("fweld_speed", wps.getFweld_speed());
+				json.put("fprocessid", wps.getFprocessid());
 				json.put("fprocessname", wps.getFprocessname());
-				json.put("fwarn_ele_up", wps.getFwarn_ele_up());
-				json.put("fwarn_ele_down", wps.getFwarn_ele_down());
-				json.put("fwarn_vol_up", wps.getFwarn_vol_up());
-				json.put("fwarn_vol_down", wps.getFwarn_vol_down());
-				
+				json.put("insid", wps.getInsid());
+				json.put("insname", wps.getInsname());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -1889,6 +1706,42 @@ public class WpsController {
 			e.getMessage();
 		}
 		obj.put("ary", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getDictionaryValue")
+	@ResponseBody
+	public String getDictionaryValue(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		List<Dictionarys> materialList = dm.getDictionaryValue(9);
+		List<Dictionarys> diameterList = dm.getDictionaryValue(13);
+		List<Dictionarys> processList = dm.getDictionaryValue(22);
+		JSONObject json = new JSONObject();
+		JSONArray mary = new JSONArray();
+		JSONArray dary = new JSONArray();
+		JSONArray pary = new JSONArray();
+		try{
+			for(Dictionarys d:materialList){
+				json.put("id", d.getValue());
+				json.put("name", d.getValueName());
+				mary.add(json);
+			}
+			for(Dictionarys d:diameterList){
+				json.put("id", d.getValue());
+				json.put("name", d.getValueName());
+				dary.add(json);
+			}
+			for(Dictionarys d:processList){
+				json.put("id", d.getValue());
+				json.put("name", d.getValueName());
+				pary.add(json);
+			}
+		}catch(Exception e){
+			e.getMessage();
+		}
+		obj.put("mary", mary);
+		obj.put("dary", dary);
+		obj.put("pary", pary);
 		return obj.toString();
 	}
 }

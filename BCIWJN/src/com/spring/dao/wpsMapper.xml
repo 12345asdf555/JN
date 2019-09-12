@@ -170,18 +170,26 @@
 	</update>
 	
 	<select id="getMainwpsList" resultType="Wps">
-		select s.`fid` fid,s.`fspe_num` welderid,s.finitial finitial,s.fcontroller fcontroller,s.fselect insname,s.farc weldername,s.fcharacter fweld_v_max,s.fmode fmode,s.fmaterial updatename,s.fgas fback,s.fdiameter fname,s.ftime,s.fhysteresis,s.fadvance,s.fini_ele ,s.fini_vol,s.fini_vol1,s.fweld_ele,s.fweld_vol,s.fweld_vol1,s.farc_ele,s.farc_vol,s.farc_vol1,s.fweld_tuny_ele,s.fwarn_ele_up,s.fwarn_ele_down,s.fwarn_vol_up,s.fwarn_vol_down,s.fweld_tuny_vol,s.farc_tuny_ele,s.farc_tuny_vol fdiameter,dm.fvaluename materialname,ds.fvaluename selectname,dg.fvaluename gasname,da.fvaluename arcname,dd.fvaluename dianame,s.fwater_cooled_torch ftorch,s.fwelding_process fprocessid,dp.fvaluename fprocessname FROM tb_specification s 
+<!-- 		select s.`fid` fid,s.`fspe_num` welderid,s.finitial finitial,s.fcontroller fcontroller,s.fselect insname,s.farc weldername,s.fcharacter fweld_v_max,s.fmode fmode,s.fmaterial updatename,s.fgas fback,s.fdiameter fname,s.ftime,s.fhysteresis,s.fadvance,s.fini_ele ,s.fini_vol,s.fini_vol1,s.fweld_ele,s.fweld_vol,s.fweld_vol1,s.farc_ele,s.farc_vol,s.farc_vol1,s.fweld_tuny_ele,s.fwarn_ele_up,s.fwarn_ele_down,s.fwarn_vol_up,s.fwarn_vol_down,s.fweld_tuny_vol,s.farc_tuny_ele,s.farc_tuny_vol fdiameter,dm.fvaluename materialname,ds.fvaluename selectname,dg.fvaluename gasname,da.fvaluename arcname,dd.fvaluename dianame,s.fwater_cooled_torch ftorch,s.fwelding_process fprocessid,dp.fvaluename fprocessname FROM tb_specification s 
 		LEFT JOIN tb_dictionary dm ON s.fmaterial=dm.fvalue and dm.ftypeid=9
         LEFT JOIN tb_dictionary ds ON s.fselect=ds.fvalue and ds.ftypeid=10
         LEFT JOIN tb_dictionary da ON s.farc=da.fvalue and da.ftypeid=11
         LEFT JOIN tb_dictionary dg ON s.fgas=dg.fvalue and dg.ftypeid=12
         LEFT JOIN tb_dictionary dd ON s.fdiameter=dd.fvalue and dd.ftypeid=13
         LEFT JOIN tb_dictionary dp ON s.fwelding_process=dp.fvalue AND dp.ftypeid=22
-		where 1=1 
+		where 1=1  -->
+		SELECT s.fid,fspe_num fwpsnum,fsolder_layer,fweld_bead,fweld_method,fmaterial,d.fvaluename materialname,fdiameter,di.fvaluename dianame,fweld_ele+fweld_tuny_ele fpreset_ele_top,fweld_ele-fweld_tuny_ele fpreset_ele_bottom,
+		fweld_vol+fweld_tuny_vol fpreset_vol_top,fweld_vol-fweld_tuny_vol fpreset_vol_bottom,fpower_polarity,fgas_flow,fweld_speed,fwelding_process fprocessid,dic.fvaluename fprocessname,fwpslib_id insid,l.fwps_lib_name insname 
+		FROM `tb_specification` s 
+		LEFT JOIN tb_dictionary d on d.fvalue=s.fmaterial and d.ftypeid=9 
+		LEFT JOIN tb_dictionary di on di.fvalue=s.fdiameter and di.ftypeid=13 
+		LEFT JOIN tb_dictionary dic on dic.fvalue=s.fwelding_process and dic.ftypeid=22 
+		LEFT JOIN tb_wps_library l on l.fid=s.fwpslib_id 
+		WHERE 1=1 
 		<if test="parent!=null and parent!=''">
-			AND s.`fwpslib_id`=#{parent}
+			AND s.`fwpslib_id`=#{parent} 
 		</if>
-		ORDER by s.fspe_num
+		ORDER by s.fweld_bead 
 	</select>
 	
 	<select id="getWpslibNameCount" resultType="java.lang.Integer">
@@ -347,4 +355,18 @@
 		fweld_speed=#{fweld_speed},fgas_flow=#{fgas_flow},fweld_method=#{fweld_method},fwelding_process=#{fprocessid} 
 		where fwpslib_id=#{fwpslib_id} and fsolder_layer=#{fsolder_layer} and fweld_bead=#{fweld_bead};
 	</update>
+	
+	<update id="updateWpsDetailById" parameterType="Wps">
+		update tb_specification set 
+		fspe_num=#{fwpsnum},fmaterial=#{fmaterial},fdiameter=#{fdiameter},fweld_ele=#{fweld_ele},fweld_vol=#{fweld_vol},
+		fweld_tuny_ele=#{fweld_tuny_ele},fweld_tuny_vol=#{fweld_tuny_vol},fpower_polarity=#{fpower_polarity},
+		fweld_speed=#{fweld_speed},fgas_flow=#{fgas_flow},fweld_method=#{fweld_method},fwelding_process=#{fprocessid},fsolder_layer=#{fsolder_layer},fweld_bead=#{fweld_bead} 
+		where fid=#{fid};
+	</update>
+	
+	<select id="getAllWpslib" resultType="Wps">
+		SELECT fid insid,fwps_lib_name insname FROM tb_wps_library WHERE 1=1 AND fid not in (
+		SELECT DISTINCT fwpslib_id FROM tb_welded_junction WHERE 1=1 and fwpslib_id is not NULL 
+		)
+	</select>
 </mapper>

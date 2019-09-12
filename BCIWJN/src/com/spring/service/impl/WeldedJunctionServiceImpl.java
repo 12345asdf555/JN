@@ -123,4 +123,10 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService{
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
 		return wjm.getSwDetail(taskno,time);
 	}
+
+	@Override
+	public boolean updateTaskByFid(WeldedJunction wj) {
+		// TODO Auto-generated method stub
+		return wjm.updateTaskByFid(wj);
+	}
 }

@@ -40,6 +40,8 @@ public interface WeldedJunctionMapper extends Mapper<WeldedJunction>{
 	
 	boolean updateTask(WeldedJunction wj);
 	
+	boolean updateTaskByFid(WeldedJunction wj);
+	
 	List<WeldedJunction> getFreeJunction(@Param("str")String str);
 	
 	List<WeldedJunction> getRealWelder(@Param("taskid")BigInteger taskid);

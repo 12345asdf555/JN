@@ -543,8 +543,8 @@ function CPVEWGET_combobox(){
 					"value" : "121"
 				} ]);
 			}
-			var data = $('#fgas').combobox('getData');
-			$('#fgas').combobox('select',data[0].value);
+			/*var data = $('#fgas').combobox('getData');
+			$('#fgas').combobox('select',data[0].value);*/
 		}
 	})
 	$("#fgas").combobox({//气体

@@ -302,4 +302,16 @@ public class WpsServiceImpl implements WpsService{
 		// TODO Auto-generated method stub
 		mapper.updateWpsDetail(wps);
 	}
+
+	@Override
+	public List<Wps> getAllWpslib() {
+		// TODO Auto-generated method stub
+		return mapper.getAllWpslib();
+	}
+
+	@Override
+	public void updateWpsDetailById(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.updateWpsDetailById(wps);
+	}
 }

@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.dao.InsframeworkMapper;
 import com.spring.dao.WpsMapper;
 import com.spring.model.Dictionarys;
 import com.spring.model.Gather;
@@ -53,6 +54,7 @@ import com.spring.model.WeldingMaintenance;
 import com.spring.model.Wps;
 import com.spring.service.DictionaryService;
 import com.spring.service.GatherService;
+import com.spring.service.InsframeworkService;
 import com.spring.service.MaintainService;
 import com.spring.service.PersonService;
 import com.spring.service.WeldedJunctionService;
@@ -89,6 +91,8 @@ public class ImportExcelController {
 	private WpsMapper wps;
 	@Autowired
 	private WpsService wpss;
+	@Autowired
+	private InsframeworkService im;
 	
 	IsnullUtil iutil = new IsnullUtil();
 	
@@ -583,9 +587,15 @@ public class ImportExcelController {
 				if(!"".equals(w.getFname()) && w.getFname()!=null){
 					String wpslibid = wps.getIdByWpslibname(w.getFname());
 					if("".equals(wpslibid) && wpslibid==null){
-						obj.put("msg","导入失败，工艺库不存在！");
-						obj.put("success",false);
-						return obj.toString();
+						Wps wps = new Wps();
+						wps.setFwpsnum(w.getFname());
+						wps.setFback("171");
+						wps.setFcreater(Long.valueOf(String.valueOf(im.getUserInsframework())));
+						wps.setFstatus(61);
+						wpss.saveWpslib(wps);
+//						obj.put("msg","导入失败，工艺库不存在！");
+//						obj.put("success",false);
+//						return obj.toString();
 					}
 					w.setFwpslib_id(new BigInteger(wpslibid));
 					int count1 = wpss.getCountByWpsidAndLayerroad(wpslibid, w.getFsolder_layer(), w.getFweld_bead());

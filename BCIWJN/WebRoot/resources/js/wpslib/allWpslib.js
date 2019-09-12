@@ -4,6 +4,7 @@
 $(function(){
 	wpslibDatagrid();
 	sxDefault();
+	allCombobox();
 	$("#fselect").combobox({
 		onSelect : function(record) {
 			if (record.value == 102) {
@@ -13,6 +14,15 @@ $(function(){
 //				document.getElementById("trgebie").style.display = "none";
 				$("#trgebie").css('display' ,'none')
 			}
+		}
+	});
+	$('#mwdlg').dialog( {
+		onClose : function() {
+			$('#fwpsnum').combobox('clear');
+			$('#fprocessid').combobox('clear');
+			$('#fmaterial').combobox('clear');
+			$('#fdiameter').combobox('clear');
+			$("#mwfm").form("disableValidation");
 		}
 	});
 })
@@ -91,7 +101,7 @@ function wpslibDatagrid(){
 			align : "left",
 			formatter: function(value,row,index){
 				var str = "";
-				str += '<a id="wpslibgive" class="easyui-linkbutton" href="javascript:selectMainWps('+row.fid+','+row.manu+')"/>';
+//				str += '<a id="wpslibgive" class="easyui-linkbutton" href="javascript:selectMainWps('+row.fid+','+row.manu+')"/>';
 				str += '<a id="wpslibadd" class="easyui-linkbutton" href="javascript:addMainWps()"/>';
 				str += '<a id="wpslibedit" class="easyui-linkbutton" href="javascript:editWpslib()"/>';
 				str += '<a id="wpslibremove" class="easyui-linkbutton" href="javascript:openRemoveWpslib()"/>';
@@ -107,7 +117,7 @@ function wpslibDatagrid(){
             }
         },
 		onLoadSuccess: function(data){
-			$("a[id='wpslibgive']").linkbutton({text:'工艺库下发',plain:true,iconCls:'icon-setwps'});
+//			$("a[id='wpslibgive']").linkbutton({text:'工艺库下发',plain:true,iconCls:'icon-setwps'});
 			$("a[id='wpslibadd']").linkbutton({text:'新增工艺',plain:true,iconCls:'icon-newadd'});
 	        $("a[id='wpslibedit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 	        $("a[id='wpslibremove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
@@ -124,7 +134,7 @@ function wpslibDatagrid(){
 					idField : 'id',
 					pageSize : 10,
 					pageList : [ 10, 20, 30, 40, 50 ],
-					url : "wps/getSxWpsList?fwpslib_id="+row.fid,
+					url : "wps/getMainwpsList?fwpslib_id="+row.fid,
 					rownumbers : true,
 					pagination : true,
 					showPageList : false,
@@ -141,63 +151,18 @@ function wpslibDatagrid(){
 						halign : "center",
 						align : "left"
 					}, {
-						field : 'fpreset_ele_top',
-						title : '预置电流上限',
+						field : 'fsolder_layer',
+						title : '焊层号',
 						halign : "center",
 						align : "left"
 					}, {
-						field : 'fpreset_ele_bottom',
-						title : '预置电流下限',
+						field : 'fweld_bead',
+						title : '焊道号',
 						halign : "center",
 						align : "left"
 					}, {
-						field : 'fpreset_vol_top',
-						title : '预置电压上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fpreset_vol_bottom',
-						title : '预置电压下限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fini_vol1',
-						title : '初期电流上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fweld_tuny_ele',
-						title : '初期电流下限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'farc_vol1',
-						title : '初期电压上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fweld_tuny_vol',
-						title : '初期电压下限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fweld_vol1',
-						title : '收弧电流上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'farc_tuny_ele',
-						title : '收弧电流下限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'farc_vol_top',
-						title : '收弧电压上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'farc_tuny_vol',
-						title : '收弧电压下限',
+						field : 'fweld_method',
+						title : '焊接方法',
 						halign : "center",
 						align : "left"
 					}, {
@@ -223,217 +188,63 @@ function wpslibDatagrid(){
 						halign : "center",
 						align : "left"
 					}, {
-						field : 'fgas',
-						title : '气体',
+						field : 'fpreset_ele_bottom',
+						title : '电流下限',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fpreset_ele_top',
+						title : '电流上限',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fpreset_vol_bottom',
+						title : '电压下限',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fpreset_vol_top',
+						title : '电压上限',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fpower_polarity',
+						title : '电源极性',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fgas_flow',
+						title : '气体流量',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fweld_speed',
+						title : '焊接速度',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fprocessid',
+						title : '脉冲',
 						halign : "center",
 						align : "left",
 						hidden : true
 					}, {
-						field : 'gasname',
-						title : '气体',
+						field : 'fprocessname',
+						title : '脉冲',
 						halign : "center",
 						align : "left"
 					}, {
-						field : 'fcontroller',
-						title : '焊接控制',
+						field : 'insid',
+						title : '工艺库名称',
 						halign : "center",
 						align : "left",
 						hidden : true
 					}, {
-						field : 'fcontrollername',
-						title : '焊接控制',
+						field : 'insname',
+						title : '工艺库名称',
 						halign : "center",
 						align : "left"
 					}, {
-						field : 'farc',
-						title : '脉冲有无',
-						halign : "center",
-						align : "left",
-						hidden : true
-					}, {
-						field : 'farcname',
-						title : '脉冲有无',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'ftime',
-						title : '点焊时间',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'selectname',
-						title : '分别/一元',
-						halign : "center",
-						align : "left"
-					},/* {
-						field : 'ininame',
-						title : '干伸长度',
-						halign : "center",
-						align : "left"
-					},*/ {
-						field : 'fselect',
-						title : '分别/一元',
-						halign : "center",
-						align : "left",
-						hidden : true
-					},/* {
-						field : 'finitial',
-						title : '干伸长度',
-						halign : "center",
-						align : "left",
-						hidden : true
-					}, {
-						field : 'fweld_vol',
-						title : '焊接上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fweld_ele',
-						title : '焊接下限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fini_ele',
-						title : '初期上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fini_vol',
-						title : '初期下限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'farc_ele',
-						title : '收弧上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'farc_vol',
-						title : '收弧下限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fadvance',
-						title : '延时时间',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fhysteresis',
-						title : '修正周期',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fpreset_ele_warn_top',
-						title : '预置电流报警上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fpreset_ele_warn_bottom',
-						title : '预置电流报警下限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fpreset_vol_warn_top',
-						title : '预置电压报警上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fpreset_vol_warn_bottom',
-						title : '预置电压报警下限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fini_ele_warn_top',
-						title : '初期电流报警上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fini_ele_warn_bottom',
-						title : '初期电流报警下限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fini_vol_warn_top',
-						title : '初期电压报警上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fini_vol_warn_bottom',
-						title : '初期电压报警下限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'farc_ele_warn_top',
-						title : '收弧电流报警上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'farc_ele_warn_bottom',
-						title : '收弧电流报警下限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'farc_vol_warn_top',
-						title : '收弧电压报警上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'farc_vol_warn_bottom',
-						title : '收弧电压报警下限',
-						halign : "center",
-						align : "left"
-					}, */{
-						field : 'farc_delay_time',
-						title : '起弧延时时间',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fwarn_delay_time',
-						title : '报警延时时间',
-						halign : "center",
-						align : "left"
-					},/* {
-						field : 'fwarn_stop_time',
-						title : '报警停机时间',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'charactername',
-						title : '超规范报警停机',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'sxfcharacter',
-						title : '超规范报警停机',
-						halign : "center",
-						align : "left",
-						hidden : true
-					}, {
-						field : 'fflow_top',
-						title : '流量上限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fflow_bottom',
-						title : '流量下限',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fdelay_time',
-						title : '延时时间',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'fover_time',
-						title : '超限时间',
-						halign : "center",
-						align : "left"
-					}, {
-						field : 'ffixed_cycle',
-						title : '修正周期',
-						halign : "center",
-						align : "left"
-					},*/ {
 						field : 'edit',
 						title : '编辑',
 						width : 200,
@@ -493,224 +304,103 @@ function wpslibDatagrid(){
 //						width : 30,
 						align : "left",
 						hidden:true
-					},{ 
-						field : 'fchanel',
+					}, {
+						field : 'fwpsnum',
 						title : '通道号',
 						halign : "center",
 						align : "left"
-					},{ 
-						field : 'finitial',
-						title : '初期条件',
-						halign : "center",
-						align : "left"
-					},{ 
-						field : 'initial',
-						title : '初期条件value值',
-						halign : "center",
-						align : "left",
-						hidden : true
-					},{ 
-						field : 'fcontroller',
-						title : '熔深控制',
-						halign : "center",
-						align : "left"
-					},{ 
-						field : 'controller',
-						title : '熔深控制value值',
-						halign : "center",
-						align : "left",
-						hidden : true
-					},{ 
-						field : 'ftorch',
-						title : '水冷焊枪',
-						halign : "center",
-						align : "left"
-					}, { 
-						field : 'torch',
-						title : '水冷焊枪value值',
-						halign : "center",
-						align : "left",
-						hidden : true
-					},{
-						field : 'fselectname',
-						title : '一元/个别',
+					}, {
+						field : 'fsolder_layer',
+						title : '焊层号',
 						halign : "center",
 						align : "left"
 					}, {
-						field : 'fselect',
-						title : '一元/个别id',
-						halign : "center",
-						align : "left",
-						hidden : true
-					}, {
-						field : 'farc',
-						title : '收弧id',
-						halign : "center",
-						align : "left",
-						hidden: true
-					},{
-						field : 'farcname',
-						title : '收弧',
+						field : 'fweld_bead',
+						title : '焊道号',
 						halign : "center",
 						align : "left"
 					}, {
-						field : 'fcharacter',
-						title : '电弧特性',
+						field : 'fweld_method',
+						title : '焊接方法',
 						halign : "center",
 						align : "left"
 					}, {
-						field : 'fmode',
-						title : '柔软电弧模式',
-						halign : "center",
-						align : "left"
-					} ,{
-						field : 'mode',
-						title : '柔软电弧模式value值',
-						halign : "center",
-						align : "left",
-						hidden : true
-					}, {
-						field : 'fmaterialname',
-						title : '焊丝材质',
-						halign : "center",
-						align : "left"
-					},{
 						field : 'fmaterial',
-						title : '焊丝材质id',
+						title : '材质',
 						halign : "center",
 						align : "left",
 						hidden : true
-					},{
-						field : 'fgasname',
-						title : '气体',
+					}, {
+						field : 'materialname',
+						title : '材质',
 						halign : "center",
 						align : "left"
-					},{
-						field : 'fgas',
-						title : '气体id',
-						halign : "center",
-						align : "left",
-						hidden : true
-					},{
-						field : 'fdiametername',
-						title : '焊丝直径',
-						halign : "center",
-						align : "left"
-					},{
+					}, {
 						field : 'fdiameter',
-						title : '焊丝直径id',
+						title : '丝径',
 						halign : "center",
 						align : "left",
 						hidden : true
-					},{
+					}, {
+						field : 'dianame',
+						title : '丝径',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fpreset_ele_bottom',
+						title : '电流下限',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fpreset_ele_top',
+						title : '电流上限',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fpreset_vol_bottom',
+						title : '电压下限',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fpreset_vol_top',
+						title : '电压上限',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fpower_polarity',
+						title : '电源极性',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fgas_flow',
+						title : '气体流量',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fweld_speed',
+						title : '焊接速度',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fprocessid',
+						title : '脉冲',
+						halign : "center",
+						align : "left",
+						hidden : true
+					}, {
 						field : 'fprocessname',
-						title : '焊接过程',
+						title : '脉冲',
 						halign : "center",
 						align : "left"
-					},{
-						field : 'fweldprocess',
-						title : '焊接过程id',
+					}, {
+						field : 'insid',
+						title : '工艺库名称',
 						halign : "center",
 						align : "left",
 						hidden : true
-					},{
-						field : 'ftime',
-						title : '点焊时间',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fadvance',
-						title : '提前送气',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fhysteresis',
-						title : '滞后送气',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fini_ele',
-						title : '初期电流',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fini_vol',
-						title : '初期电压',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fini_vol1',
-						title : '初期电压一元',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fweld_ele',
-						title : '焊接电流',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fweld_vol',
-						title : '焊接电压',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fweld_vol1',
-						title : '焊接电压一元',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'farc_ele',
-						title : '收弧电流',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'farc_vol',
-						title : '收弧电压',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'farc_vol1',
-						title : '收弧电压一元',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fweld_tuny_ele',
-						title : '焊接电流微调',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fweld_tuny_vol',
-						title : '焊接电压微调',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'farc_tuny_ele',
-						title : '收弧电流微调',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'farc_tuny_vol',
-						title : '收弧电压微调',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fwarn_ele_up',
-						title : '报警电流上限',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fwarn_ele_down',
-						title : '报警电流下限',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fwarn_vol_up',
-						title : '报警电压上限',
-						halign : "center",
-						align : "left"
-					},{
-						field : 'fwarn_vol_down',
-						title : '报警电压下限',
+					}, {
+						field : 'insname',
+						title : '工艺库名称',
 						halign : "center",
 						align : "left"
 					},{
@@ -733,11 +423,11 @@ function wpslibDatagrid(){
 					},
 					onLoadSuccess:function(){
 						var wpslibrow = $('#wpslibTable').datagrid("getSelected");
-						if(wpslibrow.model==171||wpslibrow.model==172||wpslibrow.model==173){
+						/*if(wpslibrow.model==171||wpslibrow.model==172||wpslibrow.model==173){
 							$("#ddv-"+index).datagrid('hideColumn', 'ftorch')
 						}else{
 							$("#ddv-"+index).datagrid('hideColumn', 'fmode')
-						}
+						}*/
 						$('#wpslibTable').datagrid("selectRow", index)
 						setTimeout(function(){
 							$('#wpslibTable').datagrid('fixDetailRowHeight',index);
@@ -1075,6 +765,59 @@ function importWpsExcel(){
 		});
 		
 	}
+}
+
+//所有下拉框
+function allCombobox(){
+	$.ajax({  
+		type : "post",  
+		async : false,
+		url : "wps/getDictionaryValue",  
+		data : {},  
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+		    if (result) {
+		        var optionStr = '';  
+		        for (var i = 0; i < result.mary.length; i++) { 
+		            optionStr += "<option value=\"" + result.mary[i].id + "\" >"  
+		                    + result.mary[i].name + "</option>";  
+		        } 
+		        $("#fmaterial").append(optionStr);
+		    }  
+		    if (result) {
+		        var optionStr = '';  
+		        for (var i = 0; i < result.dary.length; i++) { 
+		            optionStr += "<option value=\"" + result.dary[i].id + "\" >"  
+		                    + result.dary[i].name + "</option>";  
+		        } 
+		        $("#fdiameter").append(optionStr);
+		    }  
+		    if (result) {
+		        var optionStr = '';  
+		        for (var i = 0; i < result.pary.length; i++) { 
+		            optionStr += "<option value=\"" + result.pary[i].id + "\" >"  
+		                    + result.pary[i].name + "</option>";  
+		        } 
+		        $("#fprocessid").append(optionStr);
+		    }  
+		    if(result){
+		    	var ary = new Array();
+				for (var i = 1; i < 31; i++) {
+					ary.push({
+						"text" : "通道号"+i,
+						"value" : i+""
+					});
+				}
+				$('#fwpsnum').combobox('loadData', ary);//清空option选项   
+		    }
+		},  
+		error : function(errorMsg) {  
+		    alert("数据请求失败，请联系系统管理员!");  
+		}  
+		}); 
+	$("#fmaterial").combobox();
+	$("#fdiameter").combobox();
+	$("#fprocessid").combobox();
 }
 
 //监听窗口大小变化

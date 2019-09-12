@@ -14,6 +14,7 @@ import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,9 +24,11 @@ import com.spring.dto.WeldDto;
 import com.spring.model.MyUser;
 import com.spring.model.Person;
 import com.spring.model.WeldingMachine;
+import com.spring.model.Wps;
 import com.spring.model.Dictionarys;
 import com.spring.model.Insframework;
 import com.spring.model.WeldedJunction;
+import com.spring.model.Welder;
 import com.spring.page.Page;
 import com.spring.service.InsframeworkService;
 import com.spring.service.LiveDataService;
@@ -34,6 +37,7 @@ import com.spring.service.WeldedJunctionService;
 import com.spring.util.IsnullUtil;
 import com.spring.service.DictionaryService;
 import com.spring.service.WeldingMachineService;
+import com.spring.service.WpsService;
 import com.spring.service.UserService;
 
 import net.sf.json.JSONArray;
@@ -62,6 +66,8 @@ public class WeldingTaskController {
 	private UserService fuser;
 	@Autowired
 	private PersonService ps;
+	@Autowired
+	private WpsService wps;
 	
 	IsnullUtil iutil = new IsnullUtil();
 
@@ -173,32 +179,37 @@ public class WeldingTaskController {
 			for(WeldedJunction w:list){
 				json.put("id", w.getId());
 				json.put("weldedJunctionno", w.getWeldedJunctionno());
-//				json.put("serialNo", w.getSerialNo());
-//				json.put("pipelineNo", w.getPipelineNo());
-//				json.put("roomNo", w.getRoomNo());
-//				json.put("levelid", w.getSystems());
-				json.put("levelid", w.getRoomNo());
-				json.put("levelname", w.getArea());
-//				json.put("realwelder", w.getNext_material());
-				json.put("itemname", w.getIname());
-				json.put("itemid", w.getIid());
-				if(w.getMaterial()==null){
+				json.put("startTime", w.getStartTime());
+				json.put("fengineering_symbol", w.getFengineering_symbol());
+				json.put("fweld_method", w.getFweld_method());
+				json.put("fweld_position", w.getFweld_position());
+				json.put("fbase_material_type", w.getFbase_material_type());
+				json.put("fweld_material_model", w.getFweld_material_model());
+				json.put("ftechnological_design", w.getFtechnological_design());
+				json.put("fwarm_up_requirement", w.getFwarm_up_requirement());
+				json.put("finter_channel_temperature", w.getFinter_channel_temperature());
+				json.put("fcarbon_requirement", w.getFcarbon_requirement());
+				json.put("fpost_heat_requirement", w.getFpost_heat_requirement());
+				json.put("fannealed_weld", w.getFannealed_weld());
+				json.put("fassembly_clearance", w.getFassembly_clearance());
+				json.put("fcarbon_depth", w.getFcarbon_depth());
+				json.put("fcarbon_width", w.getFcarbon_width());
+				json.put("fpost_heat_temperature", w.getFpost_heat_temperature());
+				json.put("fafter_hot_time", w.getFafter_hot_time());
+				json.put("fwps_lib_name", w.getFwps_lib_name());
+				json.put("fwelder_name", w.getFwelder_name());
+				json.put("fwelder_id", w.getFwelder_id());
+				json.put("fwps_lib_name", w.getFwps_lib_name());
+				json.put("fwpslib_id", w.getFwpslib_id());
+				json.put("iname", w.getIname());
+				json.put("iid", w.getIid());
+				if(w.getFstatus()==null){
 					json.put("status", 2);
-				}else if(Integer.valueOf(w.getMaterial())==1){
+				}else if(Integer.valueOf(w.getFstatus())==1){
 					json.put("status", 1);
 				}else{
 					json.put("status", 0);
 				}
-//				json.put("welderid", w.getDyne());
-//				json.put("quali", w.getExternalDiameter());
-				json.put("dtoTime1",w.getStartTime());
-				json.put("dtoTime2", w.getEndTime());
-				json.put("realStartTime", w.getCreatTime());
-				json.put("realEndTime", w.getUpdateTime());
-				json.put("taskResultId", w.getDyne());
-				json.put("resultid", w.getUnit());
-				json.put("result", w.getSystems());
-				json.put("resultName", w.getChildren());
 				ary.add(json);
 			}
 		}catch(Exception e){
@@ -544,26 +555,33 @@ public class WeldingTaskController {
 
 	@RequestMapping("/addWeldTask")
 	@ResponseBody
-	public String addWeldTask(HttpServletRequest request){
+	public String addWeldTask(HttpServletRequest request,@ModelAttribute WeldedJunction wj){
 		JSONObject obj = new JSONObject();
 		try{
+			wj.setWeldedJunctionno(request.getParameter("weldedJunctionno"));
+			wj.setStartTime(request.getParameter("startTime"));
+			wj.setFwpslib_id(new BigInteger(request.getParameter("fwpslib_id")));
+			wj.setFwelder_id(new BigInteger(request.getParameter("fwelder_id")));
+			wj.setIid(new BigInteger(ps.getInsidByFid(new BigInteger(request.getParameter("fwelder_id")))));
+			wjm.addTask(wj);
+			obj.put("success", true);
 			//客户端执行操作
-			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
-			iutil.Authority(client);
-			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"addJunction\"}";
-			String obj2 = "{\"JUNCTIONNO\":\""+request.getParameter("weldedJunctionno")+"\",\"DYNE\":\""+request.getParameter("fwelderid")+"\",\"TASKLEVEL\":\""+request.getParameter("tasklevel")+"\","+
-					"\"INSFID\":\""+request.getParameter("fitemid")+"\",\"STARTTIME\":\""+request.getParameter("dtoTime1")+"\",\"ENDTIME\":\""+request.getParameter("dtoTime2")+"\",\"EXTERNALDIAMETER\":\""+request.getParameter("quali")+"\"}";
-			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
-			if(objects[0].toString().equals("true")){
-				obj.put("success", true);
-			}else if(!objects[0].toString().equals("false")){
-				obj.put("success", true);
-				obj.put("msg", objects[0].toString());
-			}else{
-				obj.put("success", false);
-				obj.put("errorMsg", "操作失败！");
-			}
+//			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+//			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+//			iutil.Authority(client);
+//			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"addJunction\"}";
+//			String obj2 = "{\"JUNCTIONNO\":\""+request.getParameter("weldedJunctionno")+"\",\"DYNE\":\""+request.getParameter("fwelderid")+"\",\"TASKLEVEL\":\""+request.getParameter("tasklevel")+"\","+
+//					"\"INSFID\":\""+request.getParameter("fitemid")+"\",\"STARTTIME\":\""+request.getParameter("dtoTime1")+"\",\"ENDTIME\":\""+request.getParameter("dtoTime2")+"\",\"EXTERNALDIAMETER\":\""+request.getParameter("quali")+"\"}";
+//			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
+//			if(objects[0].toString().equals("true")){
+//				obj.put("success", true);
+//			}else if(!objects[0].toString().equals("false")){
+//				obj.put("success", true);
+//				obj.put("msg", objects[0].toString());
+//			}else{
+//				obj.put("success", false);
+//				obj.put("errorMsg", "操作失败！");
+//			}
 		}catch(Exception e){
 			obj.put("success", false);
 			obj.put("errorMsg", e.getMessage());
@@ -573,26 +591,34 @@ public class WeldingTaskController {
 
 	@RequestMapping("/editWeldTask")
 	@ResponseBody
-	public String editWeldTask(HttpServletRequest request){
+	public String editWeldTask(HttpServletRequest request,@ModelAttribute WeldedJunction wj){
 		JSONObject obj = new JSONObject();
 		try{
+			wj.setId(new BigInteger(request.getParameter("id")));
+			wj.setWeldedJunctionno(request.getParameter("weldedJunctionno"));
+			wj.setStartTime(request.getParameter("startTime"));
+			wj.setFwpslib_id(new BigInteger(request.getParameter("fwpslib_id")));
+			wj.setFwelder_id(new BigInteger(request.getParameter("fwelder_id")));
+			wj.setIid(new BigInteger(ps.getInsidByFid(new BigInteger(request.getParameter("fwelder_id")))));
+			wjm.updateTaskByFid(wj);
+			obj.put("success", true);
 			//客户端执行操作
-			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
-			iutil.Authority(client);
-			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"updateJunction\"}";
-			String obj2 = "{\"ID\":\""+request.getParameter("id")+"\",\"JUNCTIONNO\":\""+request.getParameter("weldedJunctionno")+"\",\"DYNE\":\""+request.getParameter("fwelderid")+"\",\"TASKLEVEL\":\""+request.getParameter("tasklevel")+"\","+
-					"\"INSFID\":\""+request.getParameter("fitemid")+"\",\"STARTTIME\":\""+request.getParameter("dtoTime1")+"\",\"ENDTIME\":\""+request.getParameter("dtoTime2")+"\",\"EXTERNALDIAMETER\":\""+request.getParameter("quali")+"\"}";
-			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
-			if(objects[0].toString().equals("true")){
-				obj.put("success", true);
-			}else if(!objects[0].toString().equals("false")){
-				obj.put("success", true);
-				obj.put("msg", objects[0].toString());
-			}else{
-				obj.put("success", false);
-				obj.put("errorMsg", "操作失败！");
-			}
+//			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+//			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+//			iutil.Authority(client);
+//			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"updateJunction\"}";
+//			String obj2 = "{\"ID\":\""+request.getParameter("id")+"\",\"JUNCTIONNO\":\""+request.getParameter("weldedJunctionno")+"\",\"DYNE\":\""+request.getParameter("fwelderid")+"\",\"TASKLEVEL\":\""+request.getParameter("tasklevel")+"\","+
+//					"\"INSFID\":\""+request.getParameter("fitemid")+"\",\"STARTTIME\":\""+request.getParameter("dtoTime1")+"\",\"ENDTIME\":\""+request.getParameter("dtoTime2")+"\",\"EXTERNALDIAMETER\":\""+request.getParameter("quali")+"\"}";
+//			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
+//			if(objects[0].toString().equals("true")){
+//				obj.put("success", true);
+//			}else if(!objects[0].toString().equals("false")){
+//				obj.put("success", true);
+//				obj.put("msg", objects[0].toString());
+//			}else{
+//				obj.put("success", false);
+//				obj.put("errorMsg", "操作失败！");
+//			}
 		}catch(Exception e){
 			e.printStackTrace();
 			obj.put("success", false);
@@ -606,22 +632,25 @@ public class WeldingTaskController {
 	public String removeWeldTask(HttpServletRequest request){
 		JSONObject obj = new JSONObject();
 		try{
+			String id = request.getParameter("id");
+			wjm.deleteJunction(new BigInteger(id));
+			obj.put("success", true);
 			//客户端执行操作
-			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
-			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
-			iutil.Authority(client);
-			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"deleteJunction\"}";
-			String obj2 = "{\"ID\":\""+request.getParameter("id")+"\",\"INSFID\":\""+request.getParameter("insfid")+"\"}";
-			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
-			if(objects[0].toString().equals("true")){
-				obj.put("success", true);
-			}else if(!objects[0].toString().equals("false")){
-				obj.put("success", true);
-				obj.put("msg", objects[0].toString());
-			}else{
-				obj.put("success", false);
-				obj.put("errorMsg", "操作失败！");
-			}
+//			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+//			Client client = dcf.createClient("http://localhost:8080/CIWJN_Service/cIWJNWebService?wsdl");
+//			iutil.Authority(client);
+//			String obj1 = "{\"CLASSNAME\":\"junctionWebServiceImpl\",\"METHOD\":\"deleteJunction\"}";
+//			String obj2 = "{\"ID\":\""+request.getParameter("id")+"\",\"INSFID\":\""+request.getParameter("insfid")+"\"}";
+//			Object[] objects = client.invoke(new QName("http://webservice.ssmcxf.sshome.com/", "enterTheWS"), new Object[]{obj1,obj2});  
+//			if(objects[0].toString().equals("true")){
+//				obj.put("success", true);
+//			}else if(!objects[0].toString().equals("false")){
+//				obj.put("success", true);
+//				obj.put("msg", objects[0].toString());
+//			}else{
+//				obj.put("success", false);
+//				obj.put("errorMsg", "操作失败！");
+//			}
 		}catch(Exception e){
 			e.printStackTrace();
 			obj.put("success", false);
@@ -793,12 +822,11 @@ public class WeldingTaskController {
 				}
 				String person = String.valueOf(obj.get("personid"));
 				if(person==null||"".equals(person)||"null".equals(person)){
-					wj.setChildren("-");//操作人id
+					wj.setFwelder_id(null);//操作人id
 				}else{
-					wj.setChildren(String.valueOf(obj.get("personid")));//操作人id
+					wj.setFwelder_id(new BigInteger(String.valueOf(obj.get("personid"))));//操作人id
 				}
-				System.out.println(String.valueOf(obj.get("itemid")));
-				wj.setInsfid(new BigInteger(String.valueOf(obj.get("itemid"))));
+				wj.setIid(new BigInteger(String.valueOf(obj.get("itemid"))));
 				String ftd = String.valueOf(obj.get("ftechnological_design"));
 				if(ftd==null||"".equals(ftd)||"null".equals(ftd)){
 					wj.setFtechnological_design("-");//工艺设计
@@ -869,7 +897,7 @@ public class WeldingTaskController {
 				}else{
 					wj.setFafter_hot_time(String.valueOf(obj.get("fafter_hot_time")));//后热时间
 				}
-				wj.setRoomNo(String.valueOf(obj.get("wpsid")));//工艺库id
+				wj.setFwpslib_id(new BigInteger(String.valueOf(obj.get("wpsid"))));//工艺库id
 				if(obj.get("flag").equals("0")){
 					wjm.addTask(wj);
 				}else{
@@ -1138,6 +1166,47 @@ public class WeldingTaskController {
 			for(Insframework insf : ls ){
 				json.put("id", insf.getId());
 				json.put("name", insf.getName());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getWelderAll")
+	@ResponseBody
+	public String getWelderAll(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		try{
+			BigInteger uid = insm.getUserInsframework();
+			List<Person> ls = ps.findAll(uid);
+			for(Person ps : ls ){
+				json.put("id", ps.getId());
+				json.put("name", ps.getName());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getWpslibAll")
+	@ResponseBody
+	public String getWpslibAll(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		try{
+			List<Wps> ls = wps.getAllWpslib();
+			for(Wps wps : ls ){
+				json.put("id", wps.getInsid());
+				json.put("name", wps.getInsname());
 				ary.add(json);
 			}
 		}catch(Exception e){

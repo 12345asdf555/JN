@@ -71,4 +71,8 @@
 			and ${str}
 		</if>
 	</select>
+	
+	<select id="getInsidByFid" parameterType="BigInteger" resultType="java.lang.String">
+		select Fowner from tb_welder where fid=#{id}
+	</select>
 </mapper>

@@ -165,6 +165,8 @@ function addMainWps() {
 	});
 	var wlrow = $('#wpslibTable').datagrid('getSelected');
 	url = "wps/addMainWps?fid=" + wlrow.fid;
+	$('#mwdlg').window('open');
+	return;
 	if (wlrow.model == 174) {
 		EPWINIT();
 		$('#mwdlg').window('open');
@@ -219,6 +221,14 @@ function addMainWps() {
 function editMainWps(indexrow,row) {
 	mflag = 2;
 	$('#mwfm').form('clear');
+	$('#mwdlg').window({
+		title : "修改工艺",
+		modal : true
+	});
+	$('#mwdlg').window('open');
+	$('#mwfm').form('load', indexrow);
+	url = "wps/updateMainWps?fid=" + indexrow.fid;
+	return;
 	if (row) {
 		if (row.model == 174) {
 			EPWINIT();
@@ -280,68 +290,8 @@ function editMainWps(indexrow,row) {
 }
 
 function saveMainWps() {
-	var wlrow = $('#wpslibTable').datagrid('getSelected');
-	if (wlrow.model == 174) {
-		if (EPWCHECK() == false) {
-			return;
-		}
-	} else if (wlrow.model == 175) {
-		if (EPSCHECK() == false) {
-			return;
-		}
-	} else if (wlrow.model == 176) {
-		if (WBMLCHECK() == false) {
-			return;
-		}
-	} else if (wlrow.model == 177) {
-		if (WBPCHECK() == false) {
-			return;
-		}
-	} else if (wlrow.model == 178) {
-		if (WBLCHECK() == false) {
-			return;
-		}
-	} else if (wlrow.model == 171) {
-		if (CPVEWCHECK() == false) {
-			return;
-		}
-	} else if (wlrow.model == 172) {
-		if (CPVESCHECK() == false) {
-			return;
-		}
-	} else if (wlrow.model == 173) {
-		if (CPVETCHECK() == false) {
-			return;
-		}
-	} else if (wlrow.manu == 149) {
-		saveSxWps();
-		return;
-	}
-
 	var wpsLibRow = $('#wpslibTable').datagrid('getSelected');
 	var index = $('#wpslibTable').datagrid('getRowIndex',wpsLibRow);
-	if (parseInt(oldchanel) != $('#fchanel').combobox('getValue')) {
-		var num;
-		$.ajax({
-			type : "post",
-			async : false,
-			url : "wps/getCountByWpslibidChanel?wpslibid=" + wpsLibRow.fid + "&chanel=" + $('#fchanel').combobox('getValue'),
-			data : {},
-			dataType : "json", //返回数据形式为json  
-			success : function(result) {
-				if (result) {
-					num = eval(result.count);
-				}
-			},
-			error : function(errorMsg) {
-				alert("数据请求失败，请联系系统管理员!");
-			}
-		});
-		if (num > 0) {
-			alert("该通道规范已经存在!!!");
-			return;
-		}
-	}
 	var messager = "";
 	if (mflag == 1) {
 		messager = "新增成功！";
@@ -349,91 +299,34 @@ function saveMainWps() {
 		messager = "修改成功！";
 	}
 	var url2 = "";
-	var finitial;
-	var fcontroller;
-	var fmode;
-	var ftorch;
-	if ($("#finitial").is(":checked") == true) {
-		finitial = 1;
-	} else {
-		finitial = 0;
-	}
-	if ($("#fcontroller").is(":checked") == true) {
-		fcontroller = 1;
-	} else {
-		fcontroller = 0;
-	}
-	if ($("#fmode").is(":checked") == true) {
-		fmode = 1;
-	} else {
-		fmode = 0;
-	}
-	if ($("#ftorch").is(":checked") == true) {
-		ftorch = 1;
-	} else {
-		ftorch = 0;
-	}
-	var fselect = $('#fselect').combobox('getValue');
-	var farc = $('#farc').combobox('getValue');
-	var fmaterial = $('#fmaterial').combobox('getValue');
-	var fgas = $('#fgas').combobox('getValue');
-	var fdiameter = $('#fdiameter').combobox('getValue');
-	var chanel = $('#fchanel').combobox('getValue');
-	var ftime = $('#ftime').numberbox('getValue');
-	var fadvance = $('#fadvance').numberbox('getValue');
-	var fini_ele = $('#fini_ele').numberbox('getValue');
-	var fweld_ele = $('#fweld_ele').numberbox('getValue');
-	var farc_ele = $('#farc_ele').numberbox('getValue');
-	var fhysteresis = $('#fhysteresis').numberbox('getValue');
-	var fcharacter = $('#fcharacter').numberbox('getValue');
-	var fweld_tuny_ele = $('#fweld_tuny_ele').numberbox('getValue');
-	var farc_tuny_ele = $('#farc_tuny_ele').numberbox('getValue');
-	var fini_vol = $('#fini_vol').numberbox('getValue');
-	var fweld_vol = $('#fweld_vol').numberbox('getValue');
-	var farc_vol = $('#farc_vol').numberbox('getValue');
-	var fini_vol1 = $('#fini_vol1').numberbox('getValue');
-	var fweld_vol1 = $('#fweld_vol1').numberbox('getValue');
-	var farc_vol1 = $('#farc_vol1').numberbox('getValue');
-	var fweld_tuny_vol = $('#fweld_tuny_vol').numberbox('getValue');
-	var farc_tuny_vol = $('#farc_tuny_vol').numberbox('getValue');
-	var fprocess = $('#fweldprocess').combobox('getValue');
-	var fwarn_ele_up = $('#fwarn_ele_up').numberbox('getValue');
-	var fwarn_ele_down = $('#fwarn_ele_down').numberbox('getValue');
-	var fwarn_vol_up = $('#fwarn_vol_up').numberbox('getValue');
-	var fwarn_vol_down = $('#fwarn_vol_down').numberbox('getValue');
-	url2 = url + "&finitial=" + finitial + "&fcontroller=" + fcontroller + "&fmode=" + fmode + "&fselect=" + fselect 
-	+ "&farc=" + farc + "&fmaterial=" + fmaterial + "&fgas=" + fgas + "&fdiameter=" + fdiameter + "&chanel=" + chanel 
-	+ "&ftime=" + ftime + "&fadvance=" + fadvance + "&fini_ele=" + fini_ele + "&fweld_ele=" + fweld_ele + "&farc_ele=" + farc_ele 
-	+ "&fhysteresis=" + fhysteresis + "&fcharacter=" + fcharacter + "&fweld_tuny_ele=" + fweld_tuny_ele + "&farc_tuny_ele=" + farc_tuny_ele 
-	+ "&fini_vol=" + fini_vol + "&fini_vol1=" + fini_vol1 + "&fweld_vol=" + fweld_vol + "&fweld_vol1=" + fweld_vol1 + "&farc_vol=" + farc_vol 
-	+ "&farc_vol1=" + farc_vol1 + "&fweld_tuny_vol=" + fweld_tuny_vol + "&farc_tuny_vol=" + farc_tuny_vol + "&fprocess=" + fprocess 
-	+ "&ftorch=" + ftorch + "&fwarn_ele_up=" + fwarn_ele_up + "&fwarn_ele_down=" + fwarn_ele_down + "&fwarn_vol_up=" + fwarn_vol_up 
-	+ "&fwarn_vol_down=" + fwarn_vol_down;
-	$.ajax({
-		type : "post",
-		async : false,
+	url2 = url + "&fwpsnum="+$('#fwpsnum').combobox('getValue') + "&fprocessid=" + $('#fprocessid').combobox('getValue') 
+	+ "&fmaterial=" + $('#fmaterial').combobox('getValue') + "&fdiameter=" + $('#fdiameter').combobox('getValue') + "&fwpslib_id=" + wpsLibRow.fid;
+	$('#mwfm').form('submit', {
 		url : url2,
-		data : {},
-		dataType : "json", //返回数据形式为json  
-		success : function(result) {
-			if (!result.success) {
-				$.messager.show({
-					title : 'Error',
-					msg : result.errorMsg
-				});
-				oldchanel = 0;
-			} else {
-				$('#ddv-'+index).datagrid('reload');
-				$.messager.alert("提示", messager);
-				oldchanel = 0;
-				$('#mwdlg').dialog('close');
-		//		$('#wpslibTable').datagrid('reload');
-			}
+		onSubmit : function() {
+			return $(this).form('enableValidation').form('validate');
 		},
-		error : function(errorMsg) {
-			alert("数据请求失败，请联系系统管理员!");
-			oldchanel = 0;
-		}
+		success : function(result) {
+			if(result){
+				var result = eval('(' + result + ')');
+				if (!result.success) {
+					$.messager.show({
+						title : 'Error',
+						msg : result.errorMsg
+					});
+					oldchanel = 0;
+				} else {
+					$.messager.alert("提示", messager);
+					$('#mwdlg').dialog('close');
+					$('#ddv-'+index).datagrid('reload');
+					oldchanel = 0;
+				}
+			}
+			
+		},  
+	    error : function(errorMsg) {  
+	        alert("数据请求失败，请联系系统管理员!");  
+	    } 
 	});
 }
 

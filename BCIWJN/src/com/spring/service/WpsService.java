@@ -164,8 +164,21 @@ public interface WpsService {
 	void addWpsDetail(Wps wps);
 	
 	/**
-	 * 修改工艺（实验室）
+	 * 修改工艺（实验室导入）
 	 * @param wps
 	 */
 	void updateWpsDetail(Wps wps);
+	
+	/**
+	 * 修改工艺（实验室网页）
+	 * @param wps
+	 */
+	void updateWpsDetailById(Wps wps);
+	
+	/**
+	 * 获取所有的工艺库名称
+	 * @param uid
+	 * @return
+	 */
+	List<Wps> getAllWpslib();
 }

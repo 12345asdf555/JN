@@ -56,8 +56,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div class="functiondiv">
 		<div>
 			<a href="javascript:addWpslib();" class="easyui-linkbutton" iconCls="icon-newadd">新增工艺库</a>&nbsp;&nbsp;&nbsp;&nbsp;
-			<a href="javascript:openCondlg();" class="easyui-linkbutton" iconCls="icon-newadd">控制命令下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
-			<a href="javascript:openHistorydlg();" class="easyui-linkbutton" iconCls="icon-newadd"> 下发历史查询</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<!-- 			<a href="javascript:openCondlg();" class="easyui-linkbutton" iconCls="icon-newadd">控制命令下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:openHistorydlg();" class="easyui-linkbutton" iconCls="icon-newadd"> 下发历史查询</a>&nbsp;&nbsp;&nbsp;&nbsp; -->
 			<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-newadd"> 工艺导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 	</div>
@@ -107,189 +107,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		
 		<!-- 添加修改工艺 -->
-		<div id="mwdlg" class="easyui-dialog" style="width: 900px; height: 510px; padding:10px 20px" closed="true" buttons="#mwdlg-buttons">
+		<div id="mwdlg" class="easyui-dialog" style="width: 700px; height: 400px; padding:10px 20px" closed="true" buttons="#mwdlg-buttons">
 			<form id="mwfm" class="easyui-form" method="post" data-options="novalidate:true">
-	        	<div region="left" style="padding-left:20px;">
-	            	<table>
-	            		<tr>
-			  				<td class="leftTd"><lable>通道号：</lable></td>
-			  				<td class="rightTd">
-			  					<select class="easyui-combobox" id="fchanel" name="fchanel" style="width:85px;" id="chanel" data-options="editable:false">
-				                	<option value="1">通道号1</option>
-								    <option value="2">通道号2</option>
-								    <option value="3">通道号3</option>
-								    <option value="4">通道号4</option>
-								    <option value="5">通道号5</option>
-								    <option value="6">通道号6</option>
-								    <option value="7">通道号7</option>
-								    <option value="8">通道号8</option>
-								    <option value="9">通道号9</option>
-								    <option value="10">通道号10</option>
-								    <option value="11">通道号11</option>
-								    <option value="12">通道号12</option>
-								    <option value="13">通道号13</option>
-								    <option value="14">通道号14</option>
-								    <option value="15">通道号15</option>
-								    <option value="16">通道号16</option>
-								    <option value="17">通道号17</option>
-								    <option value="18">通道号18</option>
-								    <option value="19">通道号19</option>
-								    <option value="20">通道号20</option>
-								    <option value="21">通道号21</option>
-								    <option value="22">通道号22</option>
-								    <option value="23">通道号23</option>
-								    <option value="24">通道号24</option>
-								    <option value="25">通道号25</option>
-								    <option value="26">通道号26</option>
-								    <option value="27">通道号27</option>
-								    <option value="28">通道号28</option>
-								    <option value="29">通道号29</option>
-								    <option value="30">通道号30</option>
-				                </select>
-				            </td>
-			  				<td></td>
-			  				<td></td>
-			  			</tr>
-	            	</table>
-	            </div>
-        	    <div style="border:1px solid green;border-radius: 8px;padding:15px;">
-	            	<table>
-	            		<tr>
-			  				<td class="leftTd" width="50"><lable><span class="required">*</span>收弧：</lable></td>
-			  				<td class="rightTd" width="90">
-			  					<select class="easyui-combobox" style="width:85px;" name="farc" id="farc" data-options="editable:false">
-				                	<option value="111">无</option>
-								    <option value="112">有</option>
-								    <option value="113">反复</option>
-								    <option value="114">点焊</option>
-				                </select>
-			  				</td>
-			  				<td class="leftTd" width="90"><lable><span class="required">*</span>一元/个别：</lable></td>
-			  				<td class="rightTd" width="90">
-			  					<select class="easyui-combobox" name="fselect" style="width:85px;" id="fselect" data-options="editable:false" onChange="changeValue(current,old)">
-				                    <option value="102">个别</option>
-								    <option value="101">一元</option>
-				                </select>
-			  				</td>
-			  				<td class="leftTd" width="70"><lable>初期条件：</lable></td>
-			  				<td class="rightTd" width="20"><input name="finitial" id="finitial" type="checkbox" value="1" style="width:30px;"/></td>
-			  				<td class="leftTd" width="70"><lable>熔深控制：</lable></td>
-			  				<td class="rightTd" width="20"><input style="width:30px;" name="fcontroller" id="fcontroller" type="checkbox" value="1"/></td>
-			  				<td id="dmodel" class="leftTd" width="100"><lable>柔软电弧模式：</lable></td>
-			  				<td id="imodel" class="rightTd" width="30"><input style="width:30px;" name="fmode" id="fmode" type="checkbox" value="1"></td>
-			  				<td id="dtorch" class="leftTd" width="100" style="display:none"><lable>水冷焊枪：</lable></td>
-			  				<td id="itorch" class="rightTd" width="30" style="display:none"><input style="width:30px;" name="ftorch" id="ftorch" type="checkbox" value="0"></td>
-			  			</tr>
-	            	</table>
-	            </div>
-	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;">
-	            	<table>
-	            		<tr>
-			  				<td class="leftTd" width="70"><lable><span class="required">*</span>电弧特性：</lable></td>
-			  				<td class="rightTd" width="130"><input style="width:85px;" id="fcharacter" name="fcharacter" class="easyui-numberbox">(±1)</td>
-			  				<td class="leftTd" width="70"><lable><span class="required">*</span>焊丝材质：</lable></td>
-			  				<td class="rightTd">
-			  					<select class="easyui-combobox" style="width:85px;" name="fmaterial" id="fmaterial" data-options="editable:false">
-				                	<option value="91">低碳钢实心</option>
-								    <option value="92">不锈钢实心</option>
-								    <option value="93">低碳钢药芯</option>
-								    <option value="94">不锈钢药芯</option>
-				                </select>
-				            </td>
-				            <td class="leftTd" width="70"><lable><span class="required">*</span>提前送气：</lable></td>
-			  				<td class="rightTd" width="130"><input style="width:85px;" name="fadvance" id="fadvance" class="easyui-numberbox" data-options="precision:1">(0.1s)</td>
-			  				<td class="leftTd" width="50"><lable><span class="required">*</span>气体：</lable></td>
-			  				<td class="rightTd" width="70">
-			  					<select class="easyui-combobox" style="width:85px;" name="fgas" id="fgas" data-options="editable:false">
-				                	<option value="121">CO2</option>
-								    <option value="122">MAG</option>
-								    <option value="123">MIG</option>
-				                </select>
-				            </td>
-			  			</tr>
-	            		<tr>
-			  				<td class="leftTd" width="70"><lable><span class="required">*</span>点焊时间：</lable></td>
-			  				<td class="rightTd" width="130"><input style="width:85px;" name="ftime" id="ftime" class="easyui-numberbox" data-options="precision:1">(0.1s)</td>
-			  				<td class="leftTd" width="70"><lable><span class="required">*</span>焊丝直径：</lable></td>
-			  				<td class="rightTd" width="70">
-			  					<select class="easyui-combobox" style="width:85px;" name="fdiameter" id="fdiameter" data-options="editable:false">
-				                	<option value="131">Φ1.0</option>
-				                	<option value="132">Φ1.2</option>
-				                	<option value="133">Φ1.4</option>
-				                	<option value="134">Φ1.6</option>
-				                </select>
-			  				</td>
-			  				<td class="leftTd" width="70"><lable><span class="required">*</span>滞后送气：</lable></td>
-			  				<td class="rightTd" width="130"><input style="width:85px;" name="fhysteresis" id="fhysteresis" class="easyui-numberbox" data-options="precision:1">(0.1s)</td>
-			  				<td class="leftTd" width="70"><lable><span class="required">*</span>焊接过程：</lable></td>
-			  				<td class="rightTd" width="70"><select class="easyui-combobox" style="width:85px;" name="fweldprocess" id="fweldprocess" data-options="editable:false"></select>
-			  				</td>
-		  				</tr>
-	            	</table>
-	            </div>
-	            
-	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;">
-	            	<div>
-	            		<table>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电流：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_ele" id="fini_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电流：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_ele" id="fweld_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电流：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_ele" id="farc_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol" id="fini_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电压：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_vol" id="fweld_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
-				  			    <td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol" id="farc_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电压（一元）：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_vol1" id="fweld_vol1" class="easyui-numberbox" data-options="required:true">(±1)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压（一元）：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol1" id="farc_vol1" class="easyui-numberbox" data-options="required:true">(±1)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压（一元）：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol1" id="fini_vol1" class="easyui-numberbox" data-options="required:true">(±1)</td>
-				  			</tr>
-			            	<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电流微调：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_tuny_ele" id="fweld_tuny_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电流微调：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_tuny_ele" id="farc_tuny_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  				<!-- <td class="leftTd" width="120"><lable><span class="required">*</span>报警电流微调：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_tuny_ele" id="fwarn_tuny_ele" class="easyui-numberbox" data-options="required:true">(A)</td> -->
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电压微调：</lable></td>
-				  				<td class="rightTd" width="130"><input style="width:85px;" name="fweld_tuny_vol" id="fweld_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压微调：</lable></td>
-				  				<td class="rightTd" width="130"><input style="width:85px;" name="farc_tuny_vol" id="farc_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td>
-				  				<!-- <td class="leftTd" width="120"><lable><span class="required">*</span>报警电压微调：</lable></td>
-				  				<td class="rightTd" width="130"><input style="width:85px;" name="fwarn_tuny_vol" id="fwarn_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td> -->
-				  			</tr>
-				  			<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警电流上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_ele_up" id="fwarn_ele_up" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警电流下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_ele_down" id="fwarn_ele_down" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  				<!-- <td class="leftTd" width="120"><lable><span class="required">*</span>报警电流微调：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_tuny_ele" id="fwarn_tuny_ele" class="easyui-numberbox" data-options="required:true">(A)</td> -->
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警电压上限：</lable></td>
-				  				<td class="rightTd" width="130"><input style="width:85px;" name="fwarn_vol_up" id="fwarn_vol_up" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警电压下限：</lable></td>
-				  				<td class="rightTd" width="130"><input style="width:85px;" name="fwarn_vol_down" id="fwarn_vol_down" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td>
-				  				<!-- <td class="leftTd" width="120"><lable><span class="required">*</span>报警电压微调：</lable></td>
-				  				<td class="rightTd" width="130"><input style="width:85px;" name="fwarn_tuny_vol" id="fwarn_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V/%)</td> -->
-				  			</tr>
-		            	</table>
-		            </div>
-	            </div>
+	        	<div class="fitem">
+					<lable><span class="required">*</span>焊层号</lable>
+					<input class="easyui-numberbox" id="fsolder_layer"  name="fsolder_layer" data-options="required:true" />
+					<lable><span class="required">*</span>焊道号</lable>
+					<input class="easyui-numberbox" name="fweld_bead" id="fweld_bead" data-options="required:true"/>
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>通道号</lable>
+					<select class="easyui-combobox" id="fwpsnum"  name="fwpsnum" data-options="editable:false"></select>
+					<lable><span class="required">*</span>脉冲</lable>
+					<select class="easyui-combobox" id="fprocessid"  name="fprocessid" data-options="editable:false"></select>
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>焊丝材质</lable>
+					<select class="easyui-combobox" id="fmaterial"  name="fmaterial" data-options="editable:false"></select>
+					<lable><span class="required">*</span>焊丝直径</lable>
+					<select class="easyui-combobox" id="fdiameter"  name="fdiameter" data-options="editable:false"></select>
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>电流下限</lable>
+					<input class="easyui-numberbox" id="fpreset_ele_bottom"  name="fpreset_ele_bottom" />
+					<lable><span class="required">*</span>电流上限</lable>
+					<input class="easyui-numberbox" id="fpreset_ele_top"  name="fpreset_ele_top" />
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>电压下限</lable>
+					<input class="easyui-numberbox" id="fpreset_vol_bottom"  name="fpreset_vol_bottom" />
+					<lable><span class="required">*</span>电压上限</lable>
+					<input class="easyui-numberbox" id="fpreset_vol_top"  name="fpreset_vol_top" />
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>气体流量</lable>
+					<input class="easyui-textbox" id="fgas_flow"  name="fgas_flow" />
+					<lable><span class="required">*</span>焊接速度</lable>
+					<input class="easyui-textbox" id="fweld_speed"  name="fweld_speed" />
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>电源极性</lable>
+					<input class="easyui-textbox" id="fpower_polarity"  name="fpower_polarity" />
+					<lable><span class="required">*</span>焊接方法</lable>
+					<input class="easyui-textbox" id="fweld_method"  name="fweld_method" />
+				</div>
 			</form>
 		</div>
 		<div id="mwdlg-buttons">
@@ -299,170 +160,56 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		
 		<!-- 删除工艺 -->
-		<div id="rmmwdlg" class="easyui-dialog" style="width: 900px; height: 510px; padding:10px 20px" closed="true" buttons="#rmmwdlg-buttons">
+		<div id="rmmwdlg" class="easyui-dialog" style="width: 700px; height: 400px; padding:10px 20px" closed="true" buttons="#rmmwdlg-buttons">
 			<form id="rmmwfm" class="easyui-form" method="post" data-options="novalidate:true">
-	        	<div region="left" style="padding-left:20px;">
-	            	<table>
-	            		<tr>
-			  				<td class="leftTd"><lable>通道号：</lable></td>
-			  				<td class="rightTd">
-			  					<select class="easyui-combobox" id="fchanel" name="fchanel" style="width:85px;" id="chanel" data-options="editable:false">
-				                	<option value="1">通道号1</option>
-								    <option value="2">通道号2</option>
-								    <option value="3">通道号3</option>
-								    <option value="4">通道号4</option>
-								    <option value="5">通道号5</option>
-								    <option value="6">通道号6</option>
-								    <option value="7">通道号7</option>
-								    <option value="8">通道号8</option>
-								    <option value="9">通道号9</option>
-								    <option value="10">通道号10</option>
-								    <option value="11">通道号11</option>
-								    <option value="12">通道号12</option>
-								    <option value="13">通道号13</option>
-								    <option value="14">通道号14</option>
-								    <option value="15">通道号15</option>
-								    <option value="16">通道号16</option>
-								    <option value="17">通道号17</option>
-								    <option value="18">通道号18</option>
-								    <option value="19">通道号19</option>
-								    <option value="20">通道号20</option>
-								    <option value="21">通道号21</option>
-								    <option value="22">通道号22</option>
-								    <option value="23">通道号23</option>
-								    <option value="24">通道号24</option>
-								    <option value="25">通道号25</option>
-								    <option value="26">通道号26</option>
-								    <option value="27">通道号27</option>
-								    <option value="28">通道号28</option>
-								    <option value="29">通道号29</option>
-								    <option value="30">通道号30</option>
-				                </select>
-				            </td>
-			  				<td></td>
-			  				<td></td>
-			  			</tr>
-	            	</table>
-	            </div>
-        	    <div style="border:1px solid green;border-radius: 8px;padding:15px;">
-	            	<table>
-	            		<tr>
-			  				<td class="leftTd" width="50"><lable><span class="required">*</span>收弧：</lable></td>
-			  				<td class="rightTd" width="90">
-			  					<select class="easyui-combobox" style="width:85px;" name="farc" id="farc" data-options="editable:false">
-				                	<option value="111">无</option>
-								    <option value="112">有</option>
-								    <option value="113">反复</option>
-								    <option value="114">点焊</option>
-				                </select>
-			  				</td>
-			  				<td class="leftTd" width="90"><lable><span class="required">*</span>一元/个别：</lable></td>
-			  				<td class="rightTd" width="90">
-			  					<select class="easyui-combobox" name="fselect" style="width:85px;" id="fselect" data-options="editable:false" onChange="changeValue(current,old)">
-				                    <option value="102">个别</option>
-								    <option value="101">一元</option>
-				                </select>
-			  				</td>
-			  				<td class="leftTd" width="70"><lable>初期条件：</lable></td>
-			  				<td class="rightTd" width="20"><input name="finitial" id="finitial" type="checkbox" value="1" style="width:30px;"/></td>
-			  				<td class="leftTd" width="70"><lable>熔深控制：</lable></td>
-			  				<td class="rightTd" width="20"><input style="width:30px;" name="fcontroller" id="fcontroller" type="checkbox" value="1"/></td>
-			  				<td class="leftTd" width="100"><lable>柔软电弧模式：</lable></td>
-			  				<td class="rightTd" width="30"><input style="width:30px;" name="fmode" id="fmode" type="checkbox" value="1"></td>
-			  			</tr>
-	            	</table>
-	            </div>
-	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;">
-	            	<table>
-	            		<tr>
-			  				<td class="leftTd" width="70"><lable><span class="required">*</span>电弧特性：</lable></td>
-			  				<td class="rightTd" width="130"><input style="width:85px;" id="fcharacter" name="fcharacter" class="easyui-numberbox">(±1)</td>
-			  				<td class="leftTd" width="70"><lable><span class="required">*</span>焊丝材质：</lable></td>
-			  				<td class="rightTd">
-			  					<select class="easyui-combobox" style="width:85px;" name="fmaterial" id="fmaterial" data-options="editable:false">
-				                	<option value="91">低碳钢实心</option>
-								    <option value="92">不锈钢实心</option>
-								    <option value="93">低碳钢药芯</option>
-								    <option value="94">不锈钢药芯</option>
-				                </select>
-				            </td>
-				            <td class="leftTd" width="70"><lable><span class="required">*</span>提前送气：</lable></td>
-			  				<td class="rightTd" width="130"><input style="width:85px;" name="fadvance" id="fadvance" class="easyui-numberbox" data-options="precision:1">(0.1s)</td>
-			  				<td class="leftTd" width="50"><lable><span class="required">*</span>气体：</lable></td>
-			  				<td class="rightTd" width="70">
-			  					<select class="easyui-combobox" style="width:85px;" name="fgas" id="fgas" data-options="editable:false">
-				                	<option value="121">CO2</option>
-								    <option value="122">MAG</option>
-								    <option value="123">MIG</option>
-				                </select>
-				            </td>
-			  			</tr>
-	            		<tr>
-			  				<td class="leftTd" width="70"><lable><span class="required">*</span>点焊时间：</lable></td>
-			  				<td class="rightTd" width="130"><input style="width:85px;" name="ftime" id="ftime" class="easyui-numberbox" data-options="precision:1">(0.1s)</td>
-			  				<td class="leftTd" width="70"><lable><span class="required">*</span>焊丝直径：</lable></td>
-			  				<td class="rightTd" width="70">
-			  					<select class="easyui-combobox" style="width:85px;" name="fdiameter" id="fdiameter" data-options="editable:false">
-				                	<option value="131">Φ1.0</option>
-				                	<option value="132">Φ1.2</option>
-				                	<option value="133">Φ1.4</option>
-				                	<option value="134">Φ1.6</option>
-				                </select>
-			  				</td>
-			  				<td class="leftTd" width="70"><lable><span class="required">*</span>滞后送气：</lable></td>
-			  				<td class="rightTd" width="130"><input style="width:85px;" name="fhysteresis" id="fhysteresis" class="easyui-numberbox" data-options="precision:1">(0.1s)</td>
-			  				<td></td>
-			  				<td></td>
-		  				</tr>
-	            	</table>
-	            </div>
-	            
-	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;">
-	            	<div>
-	            		<table>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电流：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_ele" id="fini_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  				<td class="leftTd" width="120"><lable><lable><span class="required">*</span>收弧电流：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_ele" id="farc_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电流：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_ele" id="fweld_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  			</tr>
-		            		<tr id="trgebie">
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol" id="fini_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电压：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_vol" id="fweld_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
-				  			    <td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol" id="farc_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
-				  			</tr>
-		            		<tr id="tryiyuan">
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电压（一元）：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_vol1" id="fweld_vol1" class="easyui-numberbox" data-options="required:true">(±1)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压（一元）：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol1" id="farc_vol1" class="easyui-numberbox" data-options="required:true">(±1)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压（一元）：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol1" id="fini_vol1" class="easyui-numberbox" data-options="required:true">(±1)</td>
-				  			</tr>
-			            	<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电流微调：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_tuny_ele" id="fweld_tuny_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电流微调：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_tuny_ele" id="farc_tuny_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警电流微调：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_tuny_ele" id="fwarn_tuny_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接电压微调：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_tuny_vol" id="fweld_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压微调：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_tuny_vol" id="farc_tuny_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警电流微调：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_tuny_ele" id="fwarn_tuny_ele" class="easyui-numberbox" data-options="required:true">(A)</td>
-				  			</tr>
-		            	</table>
-		            </div>
-	            </div>
+	        	<div class="fitem">
+					<lable><span class="required">*</span>焊层号</lable>
+					<input class="easyui-numberbox" id="fsolder_layer"  name="fsolder_layer" data-options="required:true" />
+					<lable><span class="required">*</span>焊道号</lable>
+					<input class="easyui-numberbox" name="fweld_bead" id="fweld_bead" data-options="required:true"/>
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>通道号</lable>
+					<select class="easyui-combobox" id="fchanel"  name="fchanel" data-options="editable:false"></select>
+					<lable><span class="required">*</span>脉冲</lable>
+					<select class="easyui-combobox" id="fprocessid"  name="fprocessid" data-options="editable:false"></select>
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>焊丝材质</lable>
+					<select class="easyui-combobox" id="fmaterial"  name="fmaterial" data-options="editable:false"></select>
+					<lable><span class="required">*</span>焊丝直径</lable>
+					<select class="easyui-combobox" id="fdiameter"  name="fdiameter" data-options="editable:false"></select>
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>焊材型号</lable>
+					<input class="easyui-textbox" id="fweld_material_model"  name="fweld_material_model" />
+					<lable><span class="required">*</span>工艺设计</lable>
+					<input class="easyui-textbox" id="ftechnological_design"  name="ftechnological_design" />
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>电流下限</lable>
+					<input class="easyui-numberbox" id="fpreset_ele_bottom"  name="fpreset_ele_bottom" />
+					<lable><span class="required">*</span>电流上限</lable>
+					<input class="easyui-numberbox" id="fpreset_ele_top"  name="fpreset_ele_top" />
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>电压下限</lable>
+					<input class="easyui-numberbox" id="fpreset_vol_bottom"  name="fpreset_vol_bottom" />
+					<lable><span class="required">*</span>电压上限</lable>
+					<input class="easyui-numberbox" id="fpreset_vol_top"  name="fpreset_vol_top" />
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>气体流量</lable>
+					<input class="easyui-textbox" id="fgas_flow"  name="fgas_flow" />
+					<lable><span class="required">*</span>焊接速度</lable>
+					<input class="easyui-textbox" id="fweld_speed"  name="fweld_speed" />
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>电源极性</lable>
+					<input class="easyui-textbox" id="fpower_polarity"  name="fpower_polarity" />
+					<lable><span class="required">*</span>焊接方法</lable>
+					<input class="easyui-textbox" id="fweld_method"  name="fweld_method" />
+				</div>
 			</form>
 		</div>
 		<div id="rmmwdlg-buttons">
@@ -541,259 +288,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div id="dlg-pwd">
 			<a href="javascript:selectMachineList(2);" class="easyui-linkbutton" iconCls="icon-ok">下一步</a>
-			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
-		</div>
-		
-		<!-- 添加修改松下工艺 -->
-		<div id="editSxDlg" class="easyui-dialog" style="width: 900px; height: 430px; padding:10px 20px" closed="true" buttons="#sxdlg-buttons">
-			<form id="sxfm" class="easyui-form" method="post" data-options="novalidate:true">
-	        	<div region="left" style="padding-left:20px;">
-	            	<table>
-	            		<tr>
-			  				<td class="leftTd"><lable>通道号：</lable></td>
-			  				<td class="rightTd">
-			  					<select class="easyui-combobox" id="sxfwpsnum" name="fwpsnum" style="width:85px;" data-options="editable:false">
-				                	<option value="1">通道号1</option>
-								    <option value="2">通道号2</option>
-								    <option value="3">通道号3</option>
-								    <option value="4">通道号4</option>
-								    <option value="5">通道号5</option>
-								    <option value="6">通道号6</option>
-								    <option value="7">通道号7</option>
-								    <option value="8">通道号8</option>
-								    <option value="9">通道号9</option>
-								    <option value="10">通道号10</option>
-				                </select>
-				            </td>
-			  				<td></td>
-			  				<td><input type="hidden" id="sxchanel"/></td>
-			  			</tr>
-	            	</table>
-	            </div>
-        	    <div style="border:1px solid green;border-radius: 8px;padding:15px;">
-	            	<table>
-	            		<tr>
-			  				<td class="leftTd" width="120"><lable><span class="required">*</span>材质：</lable></td>
-			  				<td class="rightTd" width="120">
-			  					<select class="easyui-combobox" style="width:85px;" name="fmaterial" id="sxfmaterial" data-options="editable:false">
-				                </select>
-			  				</td>
-			  				<td class="leftTd" width="120"><lable><span class="required">*</span>丝径：</lable></td>
-			  				<td class="rightTd" width="120">
-			  					<select class="easyui-combobox" style="width:85px;" name="fdiameter" id="sxfdiameter" data-options="editable:false">
-				                </select>
-			  				</td>
-			  				<td class="leftTd" width="120"><lable><span class="required">*</span>气体：</lable></td>
-			  				<td class="rightTd" width="120">
-			  					<select class="easyui-combobox" style="width:85px;" name="fgas" id="sxfgas" data-options="editable:false">
-				                </select>
-			  				</td>
-			  			</tr>
-	            		<tr>
-			  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接控制：</lable></td>
-			  				<td class="rightTd" width="120">
-			  					<select class="easyui-combobox" style="width:85px;" name="fcontroller" id="sxfcontroller" data-options="editable:false">
-				                </select>
-			  				</td>
-			  				<td class="leftTd" width="120"><lable><span class="required">*</span>脉冲有无：</lable></td>
-			  				<td class="rightTd" width="120">
-			  					<select class="easyui-combobox" style="width:85px;" name="farc" id="sxfarc" data-options="editable:false">
-				                </select>
-			  				</td>
-			  				<td class="leftTd" width="120"><lable><span class="required">*</span>一元/个别：</lable></td>
-			  				<td class="rightTd" width="120">
-			  					<select class="easyui-combobox" name="fselect" style="width:85px;" id="sxfselect" data-options="editable:false">
-				                </select>
-			  				</td>
-			  			</tr>
-			  			<tr>
-			  				<td class="leftTd" width="120"><lable><span class="required">*</span>点焊时间：</lable></td>
-			  				<td class="rightTd" width="120"><input style="width:85px;" name="ftime" id="sxftime" class="easyui-numberbox" data-options="required:true,min:0,max:6553.5,precision:1"></td>
-            				<td class="leftTd" width="120"><lable><span class="required">*</span>起弧延时时间：</lable></td>
-			  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_delay_time" id="sxfarc_delay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:3,precision:1">(A)</td>
-			  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警延时时间：</lable></td>
-			  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_delay_time" id="sxfwarn_delay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
-	            		</tr>
-	            		<tr>
-			  				<td class="leftTd" width="120" ><lable><span class="required">*</span>超规范报警停机：</lable></td>
-			  				<td class="rightTd" colspan="2">
-			  					停机<input type="radio" value="0" style="width:50px;" name="sxfcharacter"/>
-			  					不停机<input type="radio" value="1" style="width:50px;" name="sxfcharacter"/>
-			  				</td>
-			  				<td class="rightTd" width="120"></td>
-			  				<td class="leftTd" width="120"></td>
-			  				<td class="rightTd" width="120"></td>
-			  			</tr> 
-	            	</table>
-	            </div>
-	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;display:none">
-	            	<div>
-	            		<table>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_vol" id="sxfweld_vol" class="easyui-numberbox" data-options="required:true,max:65535">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_ele" id="sxfini_ele" class="easyui-numberbox" data-options="required:true,max:65535">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_ele" id="sxfarc_ele" class="easyui-numberbox" data-options="required:true,max:65535">(A)</td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>焊接下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_ele" id="sxfweld_ele" class="easyui-numberbox" data-options="required:true,max:65535">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol" id="sxfini_vol" class="easyui-numberbox" data-options="required:true,max:65535">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol" id="sxfarc_vol" class="easyui-numberbox" data-options="required:true,max:65535">(A)</td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>延时时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fadvance" id="sxfadvance" class="easyui-numberbox" data-options="required:true,max:255"></td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>修正周期：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fhysteresis" id="sxfhysteresis" class="easyui-numberbox" data-options="required:true,max:255"></td>
-<!-- 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>点焊时间：</lable></td> -->
-<!-- 				  				<td class="rightTd" width="120"><input style="width:85px;" name="ftime" id="sxftime" class="easyui-numberbox" data-options="required:true,min:0,max:6553.5,precision:1"></td> -->
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>干伸长度：</lable></td>
-				  				<td class="rightTd" width="120">
-				  					<select class="easyui-combobox" name="finitial" style="width:85px;" id="sxfinitial" data-options="editable:false">
-					                </select>
-				  				</td>
-				  				<td class="leftTd" width="120"><lable></lable></td>
-				  				<td class="rightTd" width="120"></td>
-				  				<td class="leftTd" width="120"><lable></lable></td>
-				  				<td class="rightTd" width="120"></td>
-				  			</tr>
-		            	</table>
-		            </div>
-	            </div>
-	            
-	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;display:none">
-	            	<div>
-	            		<table>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>流量上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fflow_top" id="sxfflow_top" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>流量下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fflow_bottom" id="sxfflow_bottom" fflow_bottom class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
-				  				<td class="leftTd" width="120"></td>
-				  				<td class="rightTd" width="120"></td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>延时时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fdelay_time" id="sxfdelay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1"></td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>超限时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fover_time" id="sxfover_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>修正周期：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="ffixed_cycle" id="sxffixed_cycle" class="easyui-numberbox" data-options="required:true,min:0.1,max:10,precision:1"></td>
-				  			</tr>
-		            		<tr>
-<!-- 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>起弧延时时间：</lable></td> -->
-<!-- 				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_delay_time" id="sxfarc_delay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:3,precision:1">(A)</td> -->
-<!-- 				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警延时时间：</lable></td> -->
-<!-- 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_delay_time" id="sxfwarn_delay_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td> -->
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>报警停机时间：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fwarn_stop_time" id="sxfwarn_stop_time" class="easyui-numberbox" data-options="required:true,min:0.1,max:25,precision:1">(A)</td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120" ><lable><span class="required">*</span>超规范报警停机：</lable></td>
-				  				<td class="rightTd" colspan="2">
-				  					停机<input type="radio" value="0" style="width:50px;" name="sxfcharacter"/>
-				  					不停机<input type="radio" value="1" style="width:50px;" name="sxfcharacter"/>
-				  				</td>
-				  				<td class="rightTd" width="120"></td>
-				  				<td class="leftTd" width="120"></td>
-				  				<td class="rightTd" width="120"></td>
-				  			</tr>
-		            	</table>
-		            </div>
-	            </div>
-	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;">
-	            	<div>
-	            		<table>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电流上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_ele_top" id="sxfpreset_ele_top" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电压上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_vol_top" id="sxfpreset_vol_top" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电流上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol1" id="sxfini_vol1" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电流下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_ele_bottom" id="sxfpreset_ele_bottom" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电压下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_vol_bottom" id="sxfpreset_vol_bottom" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电流下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_tuny_ele" id="sxfweld_tuny_ele" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电流上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_vol1" id="sxfweld_vol1" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol_top" id="sxfarc_vol_top" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol1" id="sxfarc_vol1" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电流下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_tuny_ele" id="sxfarc_tuny_ele" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_tuny_vol" id="sxfarc_tuny_vol" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_tuny_vol" id="sxfweld_tuny_vol" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
-				  			</tr>
-				  			<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电流报警上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_ele_warn_top" id="sxfpreset_ele_warn_top" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电压报警上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_vol_warn_top" id="sxfpreset_vol_warn_top" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
-				  			</tr>
-				  			<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电流报警下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_ele_warn_bottom" id="sxfpreset_ele_warn_bottom" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>预置电压报警下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fpreset_vol_warn_bottom" id="sxfpreset_vol_warn_bottom" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
-				  			</tr>
-		            	</table>
-		            </div>
-	            </div>
-	            <div style="border:1px solid green;border-radius: 8px;padding:15px;margin-top:5px;display:none">
-	            	<div>
-	            		<table>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电流报警上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_ele_warn_top" id="sxfini_ele_warn_top" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电流报警下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_ele_warn_bottom" id="sxfini_ele_warn_bottom" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电流报警上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_ele_warn_top" id="sxfarc_ele_warn_top" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压报警上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol_warn_top" id="sxfarc_vol_warn_top" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压报警上限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol_warn_top" id="sxfini_vol_warn_top" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
-				  			</tr>
-		            		<tr>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电流下报警限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_ele_warn_bottom" id="sxfarc_ele_warn_bottom" class="easyui-numberbox" data-options="required:true,max:65535,precision:1">(A)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>收弧电压下报警限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol_warn_bottom" id="sxfarc_vol_warn_bottom" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
-				  				<td class="leftTd" width="120"><lable><span class="required">*</span>初期电压报警下限：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol_warn_bottom" id="sxfini_vol_warn_bottom" class="easyui-numberbox" data-options="required:true,max:6553.5,precision:1">(V)</td>
-				  			</tr>
-		            	</table>
-		            </div>
-	            </div>
-			</form>
-		</div>
-		<div id="sxdlg-buttons" id="sxeditDiv">
-			<a href="javascript:selectSxMachineList(0);" class="easyui-linkbutton" iconCls="icon-getwps" id="sxgetWpsBut">索取规范</a>
-			<a href="javascript:saveMainWps();" class="easyui-linkbutton" iconCls="icon-ok" id="sxSaveWpsBut">保存</a>
-			<a href="javascript:removeSxwps();" class="easyui-linkbutton" iconCls="icon-ok" id="sxRemoveWpsBut">删除</a>
 			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		

@@ -1356,16 +1356,30 @@ public class ExportExcelController {
 			}
 			List<WeldedJunction> list = wjm.getWeldedJunctionAll(serach);
 			String dtime = null;
-			String[] titles = new String[]{"任务编号","任务等级","所属班组","计划开始时间","计划结束时间","任务评价","评价等级"};
-			Object[][] data = new Object[list.size()][7];
+			String[] titles = new String[]{"任务编号","计划开始时间","工程符号","焊接方法","焊接位置","母材型号","焊材型号","分配焊工","工艺设计","预热要求",
+					"道间温度","碳刨要求","后热要求","退火焊道","装配间隙","碳刨深度","碳刨宽度","后热温度","后热时间","工艺库名称"};
+			Object[][] data = new Object[list.size()][20];
 			for(int i =0; i<list.size();i++){
 				data[i][0] = list.get(i).getWeldedJunctionno();
-				data[i][1] = list.get(i).getArea();
-				data[i][2] = list.get(i).getIname();
-				data[i][3] = list.get(i).getStartTime();
-				data[i][4] = list.get(i).getEndTime();
-				data[i][5] = list.get(i).getSystems();
-				data[i][6] = list.get(i).getChildren();
+				data[i][1] = list.get(i).getStartTime();
+				data[i][2] = list.get(i).getFengineering_symbol();
+				data[i][3] = list.get(i).getFweld_method();
+				data[i][4] = list.get(i).getFweld_position();
+				data[i][5] = list.get(i).getFbase_material_type();
+				data[i][6] = list.get(i).getFweld_material_model();
+				data[i][7] = list.get(i).getFwelder_name();
+				data[i][8] = list.get(i).getFtechnological_design();
+				data[i][9] = list.get(i).getFwarm_up_requirement();
+				data[i][10] = list.get(i).getFinter_channel_temperature();
+				data[i][11] = list.get(i).getFcarbon_requirement();
+				data[i][12] = list.get(i).getFpost_heat_requirement();
+				data[i][13] = list.get(i).getFannealed_weld();
+				data[i][14] = list.get(i).getFassembly_clearance();
+				data[i][15] = list.get(i).getFcarbon_depth();
+				data[i][16] = list.get(i).getFcarbon_width();
+				data[i][17] = list.get(i).getFpost_heat_temperature();
+				data[i][18] = list.get(i).getFafter_hot_time();
+				data[i][19] = list.get(i).getFwps_lib_name();
 			}
 			filename = "派工任务管理" + sdf.format(new Date()) + ".xls";
 
@@ -1491,6 +1505,7 @@ public class ExportExcelController {
 		String taskno = request.getParameter("taskno");
 		String welderid = request.getParameter("welderid");
 		BigInteger mach = new BigInteger(request.getParameter("mach"));
+		String board = request.getParameter("board");
 		WeldDto dto = new WeldDto();
 		String dtime = "统计日期："+time1+"--"+time2+"\r\n";
 		double avgEle=0,avgVol=0;
@@ -1536,9 +1551,18 @@ public class ExportExcelController {
 				ii++;
 			}
 			DecimalFormat df = new DecimalFormat("0.0");
+			if(board==null || "".equals(board)){
+				board = "0.0";
+			}
+			String weldSpeed = df.format(Double.valueOf(board)/list.size()/60);
+			String lineEnergy = "0.0";
+			if(!weldSpeed.equals("0.0")){
+				lineEnergy = df.format((avgEle/list.size())*(avgVol/list.size())/Double.valueOf(weldSpeed)*60/1000);
+			}
 			if(list.size()!=0) {
 				dtime += "任务编号："+taskno+"；平均电流：" + df.format(avgEle/list.size()) + "A；平均电压：" + df.format(avgVol/list.size()) + "V"
-						+"；最大电流：" + tempMaxEle + "A；最小电流：" + tempMinEle + "A"
+						+"；平均焊接速度：" + weldSpeed + "cm/min；平均线能量：" + lineEnergy + "KJ/cm\r\n"
+						+"最大电流：" + tempMaxEle + "A；最小电流：" + tempMinEle + "A"
 						+"；最大电压：" + tempMaxVol + "V；最小电压：" + tempMinVol + "V";
 			}else {
 				dtime += "任务编号："+taskno+"；平均电流：0A；平均电压：0V；最大电流：0V；最小电流：0V；最大电压：0V；最小电压：0V";
