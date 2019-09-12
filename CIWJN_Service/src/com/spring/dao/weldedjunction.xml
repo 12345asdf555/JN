@@ -50,7 +50,7 @@
         LEFT JOIN tb_welder ww ON r.fwelderid=ww.fid
 		LEFT JOIN tb_welding_machine m ON r.fmachineid=m.fid
 		WHERE 1=1 AND r.foperatetype!=3 AND r.fid IN (SELECT MAX(fid) FROM tb_taskresult GROUP BY ftaskid,fwelderid,fmachineid) OR r.foperatetype IS null
-		ORDER BY r.foperatedate desc
+		ORDER BY r.foperatedate asc
 	</select>
 	
 	<select id="getWeldedJunctionById" resultMap="wjMap" parameterType="java.lang.String">
