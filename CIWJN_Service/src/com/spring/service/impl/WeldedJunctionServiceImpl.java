@@ -422,46 +422,47 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService {
 			wj.setDyne(Integer.valueOf(status));
 			wj.setOperatorid(new BigInteger(operatorid));
 			wj.setId(new BigInteger(json.getString("ID")));
-			client.run();
-			while(!a){
-				time++;
-				int count = 0;
-				while(socketChannel == null){
-					count++;
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					if(count == 2){
-						break;
-					}
-				}
-				if(socketChannel != null){
-					try {
-						socketChannel.writeAndFlush("JN"+","+taskid+","+welderid+","+machineid+","+status+","+machineno).sync();
-						socketChannel.close();
-						wjm.deleteTaskResult(new BigInteger(taskid));
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					a = true;
-				}else{
-					if(time>10){
-						data=false;
-						break;
-					}else{
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
-			}
+			wjm.deleteTaskResult(new BigInteger(taskid));
+//			client.run();
+//			while(!a){
+//				time++;
+//				int count = 0;
+//				while(socketChannel == null){
+//					count++;
+//					try {
+//						Thread.sleep(1000);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					if(count == 2){
+//						break;
+//					}
+//				}
+//				if(socketChannel != null){
+//					try {
+//						socketChannel.writeAndFlush("JN"+","+taskid+","+welderid+","+machineid+","+status+","+machineno).sync();
+//						socketChannel.close();
+//						wjm.deleteTaskResult(new BigInteger(taskid));
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					a = true;
+//				}else{
+//					if(time>10){
+//						data=false;
+//						break;
+//					}else{
+//						try {
+//							Thread.sleep(1000);
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
+//				}
+//			}
 			
 		}else{
 			wj.setTaskid(new BigInteger(taskid));
