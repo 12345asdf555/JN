@@ -1538,13 +1538,13 @@ public class ExportExcelController {
 					if(i.getFstandardele()>tempMaxEle) {
 						tempMaxEle = i.getFstandardele();
 					}
-					if(i.getFstandardele()<tempMinEle) {
+					if(i.getFstandardele()<tempMinEle && i.getFstandardele()!=0) {
 						tempMinEle = i.getFstandardele();
 					}
 					if(i.getFstandardvol()>tempMaxVol) {
 						tempMaxVol = i.getFstandardvol();
 					}
-					if(i.getFstandardvol()<tempMinVol) {
+					if(i.getFstandardvol()<tempMinVol && i.getFstandardvol()!=0) {
 						tempMinVol = i.getFstandardvol();
 					}
 				}
@@ -1554,7 +1554,7 @@ public class ExportExcelController {
 			if(board==null || "".equals(board)){
 				board = "0.0";
 			}
-			String weldSpeed = df.format(Double.valueOf(board)/list.size()/60);
+			String weldSpeed = df.format(Double.valueOf(board)/(list.size()/60.0));
 			String lineEnergy = "0.0";
 			if(!weldSpeed.equals("0.0")){
 				lineEnergy = df.format((avgEle/list.size())*(avgVol/list.size())/Double.valueOf(weldSpeed)*60/1000);

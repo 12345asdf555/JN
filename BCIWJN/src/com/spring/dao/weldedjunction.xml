@@ -246,6 +246,14 @@
 	    <if test="taskno!=null and taskno!=''">
 	    	and fjunction_no=#{taskno} 
 	    </if>
+	    <if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;=#{dto.dtoTime1} 
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;=#{dto.dtoTime2}
+			</if>
+		</if>
 	    UNION ALL 
 	    SELECT fsolder_layer fserial_no,fweld_bead froom_no FROM tb_live_data WHERE 1=1 
 	    <if test="taskno!=null and taskno!=''">

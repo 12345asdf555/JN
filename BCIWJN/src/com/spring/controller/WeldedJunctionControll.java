@@ -428,6 +428,15 @@ public class WeldedJunctionControll {
 	@ResponseBody
 	public String getSwDetail(HttpServletRequest request){
 		String taskno = request.getParameter("taskno");
+		String time1 = request.getParameter("dtoTime1");
+		String time2 = request.getParameter("dtoTime2");
+		WeldDto dto = new WeldDto();
+		if(iutil.isNull(time1)){
+			dto.setDtoTime1(time1);
+		}
+		if(iutil.isNull(time2)){
+			dto.setDtoTime2(time2);
+		}
 		pageIndex = Integer.parseInt(request.getParameter("page"));
 		pageSize = Integer.parseInt(request.getParameter("rows"));
 		
@@ -435,7 +444,8 @@ public class WeldedJunctionControll {
 		
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time = df.format(new Date());
-		List<WeldedJunction> list = wjm.getSwDetail(page,taskno,time);
+		time = time.substring(0, 13) + ":00:00";
+		List<WeldedJunction> list = wjm.getSwDetail(page,taskno,time,dto);
 		long total = 0;
 		
 		if(list != null){

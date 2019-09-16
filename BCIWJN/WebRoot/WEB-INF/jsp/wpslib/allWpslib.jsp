@@ -117,44 +117,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>通道号</lable>
-					<select class="easyui-combobox" id="fwpsnum"  name="fwpsnum" data-options="editable:false"></select>
+					<select class="easyui-combobox" id="fwpsnum"  name="fwpsnum" data-options="editable:false,required:true"></select>
 					<lable><span class="required">*</span>脉冲</lable>
-					<select class="easyui-combobox" id="fprocessid"  name="fprocessid" data-options="editable:false"></select>
+					<select class="easyui-combobox" id="fprocessid"  name="fprocessid" data-options="editable:false,required:true"></select>
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>焊丝材质</lable>
-					<select class="easyui-combobox" id="fmaterial"  name="fmaterial" data-options="editable:false"></select>
+					<select class="easyui-combobox" id="fmaterial"  name="fmaterial" data-options="editable:false,required:true"></select>
 					<lable><span class="required">*</span>焊丝直径</lable>
-					<select class="easyui-combobox" id="fdiameter"  name="fdiameter" data-options="editable:false"></select>
+					<select class="easyui-combobox" id="fdiameter"  name="fdiameter" data-options="editable:false,required:true"></select>
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>电流下限</lable>
-					<input class="easyui-numberbox" id="fpreset_ele_bottom"  name="fpreset_ele_bottom" />
+					<input class="easyui-numberbox" id="fpreset_ele_bottom"  name="fpreset_ele_bottom" data-options="required:true" />
 					<lable><span class="required">*</span>电流上限</lable>
-					<input class="easyui-numberbox" id="fpreset_ele_top"  name="fpreset_ele_top" />
+					<input class="easyui-numberbox" id="fpreset_ele_top"  name="fpreset_ele_top" data-options="required:true" />
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>电压下限</lable>
-					<input class="easyui-numberbox" id="fpreset_vol_bottom"  name="fpreset_vol_bottom" />
+					<input class="easyui-numberbox" id="fpreset_vol_bottom"  name="fpreset_vol_bottom" data-options="required:true" />
 					<lable><span class="required">*</span>电压上限</lable>
-					<input class="easyui-numberbox" id="fpreset_vol_top"  name="fpreset_vol_top" />
+					<input class="easyui-numberbox" id="fpreset_vol_top"  name="fpreset_vol_top" data-options="required:true"/>
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>气体流量</lable>
+					<lable><span class="required"></span>气体流量</lable>
 					<input class="easyui-textbox" id="fgas_flow"  name="fgas_flow" />
-					<lable><span class="required">*</span>焊接速度</lable>
+					<lable><span class="required"></span>焊接速度</lable>
 					<input class="easyui-textbox" id="fweld_speed"  name="fweld_speed" />
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>电源极性</lable>
+					<lable><span class="required"></span>电源极性</lable>
 					<input class="easyui-textbox" id="fpower_polarity"  name="fpower_polarity" />
-					<lable><span class="required">*</span>焊接方法</lable>
+					<lable><span class="required"></span>焊接方法</lable>
 					<input class="easyui-textbox" id="fweld_method"  name="fweld_method" />
 				</div>
 			</form>
 		</div>
 		<div id="mwdlg-buttons">
-			<a href="javascript:selectMachineList(0);" class="easyui-linkbutton" iconCls="icon-getwps" id="otcgetWpsBut">索取规范</a>
+			<!-- <a href="javascript:selectMachineList(0);" class="easyui-linkbutton" iconCls="icon-getwps" id="otcgetWpsBut">索取规范</a> -->
 			<a href="javascript:saveMainWps();" class="easyui-linkbutton" iconCls="icon-ok" id="otcsaveWpsBut">保存</a>
 			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>

@@ -586,7 +586,7 @@ public class ImportExcelController {
 				}
 				if(!"".equals(w.getFname()) && w.getFname()!=null){
 					String wpslibid = wps.getIdByWpslibname(w.getFname());
-					if("".equals(wpslibid) && wpslibid==null){
+					if("".equals(wpslibid) || wpslibid==null){
 						Wps wps = new Wps();
 						wps.setFwpsnum(w.getFname());
 						wps.setFback("171");
@@ -597,6 +597,7 @@ public class ImportExcelController {
 //						obj.put("success",false);
 //						return obj.toString();
 					}
+					wpslibid = wps.getIdByWpslibname(w.getFname());
 					w.setFwpslib_id(new BigInteger(wpslibid));
 					int count1 = wpss.getCountByWpsidAndLayerroad(wpslibid, w.getFsolder_layer(), w.getFweld_bead());
 					if(count1<1){

@@ -231,7 +231,7 @@ function weldedJunctionDatagrid(){
 				var str = '<a id="edit" class="easyui-linkbutton" href="javascript:editWeldedjunction()"/>';
 				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWeldedjunction()"/>';
 				if(row.status==0){
-					str += '<a id="confirm" class="easyui-linkbutton" href="javascript:confirm() disabled="true""/>';
+					str += '<a id="confirm" class="easyui-linkbutton" href="javascript:confirm() disabled="true"/>';
 				}
 				if(row.status==1){
 					str += '<a id="confirm1" class="easyui-linkbutton" href="javascript:confirm()"/>';

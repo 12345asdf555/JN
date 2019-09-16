@@ -88,62 +88,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<lable><span class="required">*</span>任务编号</lable>
 					<input type="hidden" id="oldno" />
 					<input class="easyui-textbox" id="weldedJunctionno"  name="weldedJunctionno" data-options="validType:['wjNoValidate'],required:true" />
-					<lable><span class="required">*</span>计划开始时间</lable>
+					<lable><span class="required"></span>计划开始时间</lable>
 					<input class="easyui-datetimebox" name="startTime" id="startTime"/>
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>工程符号</lable>
+					<lable><span class="required"></span>工程符号</lable>
 					<input class="easyui-textbox" id="fengineering_symbol"  name="fengineering_symbol" />
-					<lable><span class="required">*</span>焊接方法</lable>
+					<lable><span class="required"></span>焊接方法</lable>
 					<input class="easyui-textbox" id="fweld_method"  name="fweld_method" />
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>焊接位置</lable>
+					<lable><span class="required"></span>焊接位置</lable>
 					<input class="easyui-textbox" id="fweld_position"  name="fweld_position" />
-					<lable><span class="required">*</span>母材型号</lable>
+					<lable><span class="required"></span>母材型号</lable>
 					<input class="easyui-textbox" id="fbase_material_type"  name="fbase_material_type" />
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>焊材型号</lable>
+					<lable><span class="required"></span>焊材型号</lable>
 					<input class="easyui-textbox" id="fweld_material_model"  name="fweld_material_model" />
-					<lable><span class="required">*</span>工艺设计</lable>
+					<lable><span class="required"></span>工艺设计</lable>
 					<input class="easyui-textbox" id="ftechnological_design"  name="ftechnological_design" />
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>预热要求</lable>
+					<lable><span class="required"></span>预热要求</lable>
 					<input class="easyui-textbox" id="fwarm_up_requirement"  name="fwarm_up_requirement" />
-					<lable><span class="required">*</span>道间温度</lable>
+					<lable><span class="required"></span>道间温度</lable>
 					<input class="easyui-textbox" id="finter_channel_temperature"  name="finter_channel_temperature" />
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>碳刨要求</lable>
+					<lable><span class="required"></span>碳刨要求</lable>
 					<input class="easyui-textbox" id="fcarbon_requirement"  name="fcarbon_requirement" />
-					<lable><span class="required">*</span>后热要求</lable>
+					<lable><span class="required"></span>后热要求</lable>
 					<input class="easyui-textbox" id="fpost_heat_requirement"  name="fpost_heat_requirement" />
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>退火焊道</lable>
+					<lable><span class="required"></span>退火焊道</lable>
 					<input class="easyui-textbox" id="fannealed_weld"  name="fannealed_weld" />
-					<lable><span class="required">*</span>装配间隙</lable>
+					<lable><span class="required"></span>装配间隙</lable>
 					<input class="easyui-textbox" id="fassembly_clearance"  name="fassembly_clearance" />
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>碳刨深度</lable>
+					<lable><span class="required"></span>碳刨深度</lable>
 					<input class="easyui-textbox" id="fcarbon_depth"  name="fcarbon_depth" />
-					<lable><span class="required">*</span>碳刨宽度</lable>
+					<lable><span class="required"></span>碳刨宽度</lable>
 					<input class="easyui-textbox" id="fcarbon_width"  name="fcarbon_width" />
 				</div>
 				<div class="fitem">
-					<lable><span class="required">*</span>后热温度</lable>
+					<lable><span class="required"></span>后热温度</lable>
 					<input class="easyui-textbox" id="fpost_heat_temperature"  name="fpost_heat_temperature" />
-					<lable><span class="required">*</span>后热时间</lable>
+					<lable><span class="required"></span>后热时间</lable>
 					<input class="easyui-textbox" id="fafter_hot_time"  name="fafter_hot_time" />
 				</div>
 				<div class="fitem">
-					<lable><span class="required"></span>工艺库名称</lable>
-					<select class="easyui-combobox" id="fwpslib_id"  name="fwpslib_id" data-options="editable:false"></select>
-					<lable><span class="required"></span>分配焊工</lable>
-					<select class="easyui-combobox" id="fwelder_id"  name="fwelder_id" data-options="editable:false"></select>
+					<lable><span class="required">*</span>工艺库名称</lable>
+					<select class="easyui-combobox" id="fwpslib_id"  name="fwpslib_id" data-options="editable:false,required:true"></select>
+					<lable><span class="required">*</span>分配焊工</lable>
+					<select class="easyui-combobox" id="fwelder_id"  name="fwelder_id" data-options="editable:false,required:true"></select>
 				</div>
 <!-- 				<div class="fitem">
 					<lable><span class="required"></span>所属班组</lable>

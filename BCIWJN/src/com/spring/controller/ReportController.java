@@ -649,7 +649,7 @@ public class ReportController {
 								json.put("vol", 0);
 								json.put("time", sdf.format(c.getTime()));
 								ary.add(json);
-			                }else{
+			                }else if(cb.getTimeInMillis()-c.getTimeInMillis()==3000){
 								json.put("ele", list.get(i).getFstandardele());
 								json.put("vol", list.get(i).getFstandardvol());
 								json.put("time", list.get(i).getFweldingtime());

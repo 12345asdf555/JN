@@ -118,10 +118,10 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService{
 	}
 	
 	@Override
-	public List<WeldedJunction> getSwDetail(Page page,String taskno,String time) {
+	public List<WeldedJunction> getSwDetail(Page page,String taskno,String time, WeldDto dto) {
 		// TODO Auto-generated method stub
 		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
-		return wjm.getSwDetail(taskno,time);
+		return wjm.getSwDetail(taskno,time,dto);
 	}
 
 	@Override

@@ -84,56 +84,52 @@ function editWeldedjunction(){
 //提交
 function save(){
 	var wtno = $("#weldedJunctionno").textbox('getValue');
-	if(wtno==""){
-		alert("必选项不能为空！！！");
-	}else{
-		document.getElementById("load").style.display="block";
-		var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
-		$("#body").append(sh);
-		document.getElementById("show").style.display="block";
-		var startTime = $("#startTime").datetimebox('getValue');
+	var startTime = $("#startTime").datetimebox('getValue');
 //		var fitemid = $('#iid').combobox('getValue');
-		var operatorId = $('#fwelder_id').combobox('getValue');
-		var wps_lib_id = $('#fwpslib_id').combobox('getValue');
-		var messager = "";
-		var url2 = "";
-		if(flag==1){
-			messager = "新增成功！";
-			url2 = url+"?startTime="+startTime+"&fwelder_id="+operatorId+"&fwpslib_id="+wps_lib_id+"&weldedJunctionno="+encodeURIComponent(wtno);
-		}else{
-			messager = "修改成功！";
-			url2 = url+"&startTime="+startTime+"&fwelder_id="+operatorId+"&fwpslib_id="+wps_lib_id+"&weldedJunctionno="+encodeURIComponent(wtno);
-		}
-		$('#fm').form('submit', {
-			url : url2,
-			onSubmit : function() {
-				return $(this).form('enableValidation').form('validate');
-			},
-			success : function(result) {
-				if(result){
-					var result = eval('(' + result + ')');
-					if (!result.success) {
-			    		document.getElementById("load").style.display ='none';
-			    		document.getElementById("show").style.display ='none';
-						$.messager.show( {
-							title : 'Error',
-							msg : result.errorMsg
-						});
-					}else{
-			    		document.getElementById("load").style.display ='none';
-			    		document.getElementById("show").style.display ='none';
-						$.messager.alert("提示", messager);
-						$('#dlg').dialog('close');
-						$('#weldTaskTable').datagrid('reload');
-					}
-				}
-				
-			},  
-		    error : function(errorMsg) {  
-		        alert("数据请求失败，请联系系统管理员!");  
-		    } 
-		});
+	var operatorId = $('#fwelder_id').combobox('getValue');
+	var wps_lib_id = $('#fwpslib_id').combobox('getValue');
+	var messager = "";
+	var url2 = "";
+	if(flag==1){
+		messager = "新增成功！";
+		url2 = url+"?startTime="+startTime+"&fwelder_id="+operatorId+"&fwpslib_id="+wps_lib_id+"&weldedJunctionno="+encodeURIComponent(wtno);
+	}else{
+		messager = "修改成功！";
+		url2 = url+"&startTime="+startTime+"&fwelder_id="+operatorId+"&fwpslib_id="+wps_lib_id+"&weldedJunctionno="+encodeURIComponent(wtno);
 	}
+	$('#fm').form('submit', {
+		url : url2,
+		onSubmit : function() {
+			return $(this).form('enableValidation').form('validate');
+		},
+		success : function(result) {
+			document.getElementById("load").style.display="block";
+			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
+			$("#body").append(sh);
+			document.getElementById("show").style.display="block";
+			if(result){
+				var result = eval('(' + result + ')');
+				if (!result.success) {
+		    		document.getElementById("load").style.display ='none';
+		    		document.getElementById("show").style.display ='none';
+					$.messager.show( {
+						title : 'Error',
+						msg : result.errorMsg
+					});
+				}else{
+		    		document.getElementById("load").style.display ='none';
+		    		document.getElementById("show").style.display ='none';
+					$.messager.alert("提示", messager);
+					$('#dlg').dialog('close');
+					$('#weldTaskTable').datagrid('reload');
+				}
+			}
+			
+		},  
+	    error : function(errorMsg) {  
+	        alert("数据请求失败，请联系系统管理员!");  
+	    } 
+	});
 }
 
 //所属项目
