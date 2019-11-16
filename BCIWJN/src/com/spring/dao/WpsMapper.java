@@ -64,4 +64,35 @@ public interface WpsMapper {
 	void updateWpsDetailById(Wps wps);
 	
 	List<Wps> getAllWpslib();
+	List<Wps> getGrooveList(@Param("search")String search);
+	List<Wps> getClassificationSociety();
+	List<Wps> getWeldMaterial();
+	List<Wps> getBaseMaterialList(@Param("search")String search);
+	
+	List<Wps> getPwpslibList(@Param("search")String search);
+	List<Wps> getMainpwpsList(@Param("parent")BigInteger parent);
+	void savePwpslib(Wps wps);
+	void updatePwpslib(Wps wps);
+	void deletePwpslib(@Param("fid")BigInteger fid);
+	void deletePwpsBelongLib(@Param("fid")BigInteger fid);
+	void addPwpsDetail(Wps wps);
+	void updatePwpsDetailById(Wps wps);
+	void deleteMainPwps(@Param("fid")BigInteger fid);
+	Wps getBaseMaterialById(@Param("fid")BigInteger fid);
+	Wps getWeldMaterialById(@Param("fid")BigInteger fid);
+	List<Wps> getAllPwpslib();
+	String getCountFromTask(@Param("taskNumber")String taskNumber);
+	void pqrData(@Param("taskno")String taskno,@Param("board")String board);
+	
+	List<Wps> getpqrList(@Param("search")String search);
+	void updatepqrlib(Wps wps);
+	void savepqrlib(Wps wps);
+	void deletepqrlib(@Param("fid")BigInteger fid);
+	List<Wps> getMainpqrList(@Param("parent")BigInteger parent);
+	void addPqrDetail(Wps wps);
+	void updatePqrDetailById(Wps wps);
+	void deleteMainPqr(@Param("fid")BigInteger fid);
+	List<Wps> getMainpwpsByPqrid(@Param("fid")BigInteger fid);
+	List<Wps> generateMainwps(@Param("name")String name);
+	
 }

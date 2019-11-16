@@ -196,10 +196,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            		<tr>
 				  				<td class="leftTd" width="70"><lable><span class="required">*</span>初期电压：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="fini_vol" id="fini_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
-				  				<td class="leftTd" width="70"><lable><span class="required">*</span>焊接电压：</lable></td>
-				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_vol" id="fweld_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
 				  			    <td class="leftTd" width="70"><lable><span class="required">*</span>收弧电压：</lable></td>
 				  				<td class="rightTd" width="120"><input style="width:85px;" name="farc_vol" id="farc_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
+				  				<td class="leftTd" width="70"><lable><span class="required">*</span>焊接电压：</lable></td>
+				  				<td class="rightTd" width="120"><input style="width:85px;" name="fweld_vol" id="fweld_vol" class="easyui-numberbox" data-options="required:true,precision:1">(V)</td>
 				  			</tr>
 		            	</table>
 		            </div>

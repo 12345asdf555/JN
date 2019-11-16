@@ -6,6 +6,16 @@ $(function(){
 	resultCombobox();
 	wpslibCombobox();
 	welderCombobox();
+	baseMaterial();
+	getTaskWeldMaterial();
+	getWeldposition();
+	getWeldmethod();
+	getWeldmanufacture();
+	baseMaterial();
+	groove();
+	//getWeldprocess();
+	getWeldMaterial();
+	
 });
 
 function statusChange(){
@@ -67,24 +77,52 @@ function weldedJunctionDatagrid(){
 			align : "left"
 		}, {
 			field : 'fweld_method',
+			title : '焊接方法id',
+//			width : 150,
+			halign : "center",
+			align : "left",
+			hidden:true
+		}, {
+			field : 'fweld_method_name',
 			title : '焊接方法',
 //			width : 150,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'fweld_position',
+			title : '焊接位置id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		}, {
+			field : 'fweld_position_name',
 			title : '焊接位置',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'fbase_material_type',
+			title : '母材型号id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		}, {
+			field : 'fbase_material_name',
 			title : '母材型号',
 //			width : 90,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'fweld_material_model',
+			title : '焊材型号id',
+//			width : 90,
+			halign : "center",
+			align : "left",
+			hidden:true
+		}, {
+			field : 'fweld_material_name',
 			title : '焊材型号',
 //			width : 90,
 			halign : "center",
@@ -170,7 +208,7 @@ function weldedJunctionDatagrid(){
 			align : "left"
 		},{
 			field : 'fwps_lib_name',
-			title : '工艺库名称',
+			title : 'pwps库名称',
 //			width : 90,
 			halign : "center",
 			align : "left"
@@ -224,20 +262,23 @@ function weldedJunctionDatagrid(){
 		},*/{
 			field : 'edit',
 			title : '编辑',
-			width : 300,
+			width : 350,
 			halign : "center",
 			align : "left",
 			formatter: function(value,row,index){
 				var str = '<a id="edit" class="easyui-linkbutton" href="javascript:editWeldedjunction()"/>';
 				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWeldedjunction()"/>';
 				if(row.status==0){
-					str += '<a id="confirm" class="easyui-linkbutton" href="javascript:confirm() disabled="true"/>';
+					str += '<a id="confirm" class="easyui-linkbutton" href="javascript:confirm()" disabled="true"/>';
+					str += '<a id="generatePqr" class="easyui-linkbutton" href="javascript:taskGeneratePqr()" disabled="true"/>';
 				}
 				if(row.status==1){
 					str += '<a id="confirm1" class="easyui-linkbutton" href="javascript:confirm()"/>';
+					str += '<a id="generatePqr" class="easyui-linkbutton" href="javascript:taskGeneratePqr()" />';
 				}
 				if(row.status==2){
 					str += '<a id="confirm2" class="easyui-linkbutton" href="javascript:confirm()" disabled="true"/>';
+					str += '<a id="generatePqr" class="easyui-linkbutton" href="javascript:taskGeneratePqr()" disabled="true"/>';
 				}
 //				str += '<a id="evaluation" class="easyui-linkbutton" href="javascript:evaluation()"/>';
 				return str;
@@ -263,6 +304,7 @@ function weldedJunctionDatagrid(){
 			if($("#confirm2").length!=0){
 				$("a[id='confirm2']").linkbutton({text:'未领取',plain:true,iconCls:'icon-assign'});
 			};
+			$("a[id='generatePqr']").linkbutton({text:'生成pqr',plain:true,iconCls:'icon-delete'});
 //			$("a[id='evaluation']").linkbutton({text:'评价',plain:true,iconCls:'icon-newadd'});
 		}
 /*		detailFormatter:function(index,row2){//严重注意喔
@@ -585,7 +627,7 @@ function exporttable(){
 			align : "left"
 		}, {
 			field : 'wpsname',
-			title : '工艺库名称',
+			title : 'pwps库名称',
 //			width : 150,
 			halign : "center",
 			align : "left"
@@ -1011,37 +1053,12 @@ function exportDg(){
 	});
 }
 
-//焊工选择下拉框
-function welderCombobox(){
-	$.ajax({  
-    type : "post",  
-    async : false,
-    url : "weldtask/getWelderAll",  
-    data : {},  
-    dataType : "json", //返回数据形式为json  
-    success : function(result) {
-        if (result) {
-            var optionStr = '';  
-            for (var i = 0; i < result.ary.length; i++) { 
-                optionStr += "<option value=\"" + result.ary[i].id + "\" >"  
-                        + result.ary[i].name + "</option>";  
-            } 
-            $("#fwelder_id").append(optionStr);
-        }  
-    },  
-    error : function(errorMsg) {  
-        alert("数据请求失败，请联系系统管理员!");  
-    }  
-}); 
-	$("#fwelder_id").combobox();
-}
-
 //工艺选择选择下拉框
 function wpslibCombobox(){
 	$.ajax({  
   type : "post",  
   async : false,
-  url : "weldtask/getWpslibAll",  
+  url : "weldtask/getPwpslibAll",  
   data : {},  
   dataType : "json", //返回数据形式为json  
   success : function(result) {
@@ -1061,6 +1078,514 @@ function wpslibCombobox(){
 	$("#fwpslib_id").combobox();
 }
 
+function baseMaterial(){
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "Dictionary/getValueByTypeid?type=" + 29,
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if (result.ary.length != 0) {
+					var boptionStr = '';
+					for (var i = 0; i < result.ary.length; i++) {
+						boptionStr += "<option value=\"" + result.ary[i].value + "\" >"
+							+ result.ary[i].name + "</option>";
+					}
+					$("#fbase_material_type").html(boptionStr);
+					$("#fbase_material_type").combobox();
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+}
+
+function getTaskWeldMaterial() {
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "Dictionary/getValueByTypeid?type=" + 33,
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if (result.ary.length != 0) {
+					var boptionStr = '';
+					for (var i = 0; i < result.ary.length; i++) {
+						boptionStr += "<option value=\"" + result.ary[i].value + "\" >"
+							+ result.ary[i].name + "</option>";
+					}
+					$("#fweld_material_model").html(boptionStr);
+					$("#fweld_material_model").combobox();
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+}
+
+function getWeldmethod() {
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "Dictionary/getValueByTypeid?type=" + 25,
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if (result.ary.length != 0) {
+					var boptionStr = '';
+					for (var i = 0; i < result.ary.length; i++) {
+						boptionStr += "<option value=\"" + result.ary[i].value + "\" >"
+							+ result.ary[i].name + "</option>";
+					}
+					$("#fweld_method").html(boptionStr);
+					$("#fweld_method").combobox();
+					$("#sfweld_method").html(boptionStr);
+					$("#sfweld_method").combobox();
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+}
+
+
+
+function taskGeneratePqr(){
+	flag = 1;
+	var row = $('#weldTaskTable').datagrid('getSelected');
+	if(row){
+		$('#wltfm').form('clear');
+		$('#wltdlg').window({
+			title : "新增PQR",
+			modal : true
+		});
+		$('#wltdlg').window('center');
+		$("#fname").textbox("setValue",row.weldedJunctionno);
+		$("#sfweld_method").combobox("setValue",row.fweld_method);
+		$("#sfweld_position").combobox("setValue",row.fweld_position);
+//		$("#fbase_material_id").combogrid("setValue",row.fbase_material_type);
+//		$("#fweld_material_id").combobox("setValue",row.fweld_material_model);
+		$("#welder_id").combobox("setValue",row.fwelder_id);
+		$("#finter_channel_temperature").textbox("setValue",row.finter_channel_temperature);
+		$('#wltdlg').window('open');
+		url = "wps/insertPQRdetail";
+	}
+}
+
+function saveWpslib() {			//pqr
+	//var fstatus = $("input[name='statusId']:checked").val();
+	var fmanufacturer_id = $("#fmanufacturer_id").combobox("getValue");
+	var fbase_material_id = $("#fbase_material_id").combogrid("getValue");
+	var sfweld_method = $("#sfweld_method").combobox("getValue");
+	var fweld_position = $("#sfweld_position").combobox("getValue");
+	var fweld_material_id = $("#fweld_material_id").combobox("getValue");
+	var fwelder_id = $("#welder_id").combobox("getValue");
+	var fgroove_id = $("#fgroove_id").combogrid("getValue");
+	var messager = "";
+	var url2 = "";
+	if (flag == 1) {
+		//var machineModel = $('#model').combobox('getValue');
+		messager = "新增成功！";
+		url2 = url+"?fmanufacturer_id=" + fmanufacturer_id+"&fbase_material_id=" + fbase_material_id+"&sfweld_method=" + sfweld_method+"&fweld_position=" + fweld_position+"&fweld_material_id=" + fweld_material_id+"&fwelder_id=" + fwelder_id+"&fgroove_id=" + fgroove_id;
+	} else {
+		messager = "修改成功！";
+		url2 = url;
+	}
+	$('#wltfm').form('submit', {
+		url : url2,
+		onSubmit : function() {
+			return $(this).form('enableValidation').form('validate');
+		},
+		success : function(result) {
+			if (result) {
+				var result = eval('(' + result + ')');
+				if (!result.success) {
+					$.messager.show({
+						title : 'Error',
+						msg : result.errorMsg
+					});
+				} else {
+					$.messager.alert("提示", messager);
+					$('#wltdlg').dialog('close');
+					$('#wpslibTable').datagrid('reload');
+					$("#validwl").val("");
+				}
+			}
+
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+}
+
+function getWeldmethod() {
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "Dictionary/getValueByTypeid?type=" + 25,
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if (result.ary.length != 0) {
+					var boptionStr = '';
+					for (var i = 0; i < result.ary.length; i++) {
+						boptionStr += "<option value=\"" + result.ary[i].value + "\" >"
+							+ result.ary[i].name + "</option>";
+					}
+					$("#fweld_method").html(boptionStr);
+					$("#fweld_method").combobox();
+//					$("#fweld_method").combobox('select', result.ary[0].value);
+					$("#sfweld_method").html(boptionStr);
+					$("#sfweld_method").combobox();
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+}
+//焊工选择下拉框
+function welderCombobox(){
+		$.ajax({  
+		type : "post",  
+		async : false,
+		url : "weldtask/getWelderAll",  
+		data : {},  
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+		    if (result) {
+		        var optionStr = '';  
+		        for (var i = 0; i < result.ary.length; i++) { 
+		            optionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+		                    + result.ary[i].name + "</option>";  
+		        } 
+		        $("#fwelder_id").append(optionStr);
+		        $("#fwelder_id").combobox();
+		        $("#welder_id").append(optionStr);
+		        $("#welder_id").combobox();
+		    }  
+		},  
+		error : function(errorMsg) {  
+		    alert("数据请求失败，请联系系统管理员!");  
+		}  
+		}); 
+}
+
+
+//获取焊材
+function getWeldMaterial() {
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "Dictionary/getValueByTypeid?type=" + 34,
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if (result.ary.length != 0) {
+					var boptionStr = '';
+					for (var i = 0; i < result.ary.length; i++) {
+						boptionStr += "<option value=\"" + result.ary[i].value + "\" >"
+							+ result.ary[i].name + "</option>";
+					}
+					$("#fweld_material_id").html(boptionStr);
+					$("#fweld_material_id").combobox();
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+}
+
+//获取焊接位置
+function getWeldposition() {
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "Dictionary/getValueByTypeid?type=" + 28,
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if (result.ary.length != 0) {
+					var boptionStr = '';
+					for (var i = 0; i < result.ary.length; i++) {
+						boptionStr += "<option value=\"" + result.ary[i].value + "\" >"
+							+ result.ary[i].name + "</option>";
+					}
+					$("#fweld_position").append(boptionStr);
+					$("#fweld_position").combobox();
+//					$("#fweld_position").combobox('select', result.ary[0].value);
+					$("#sfweld_position").append(boptionStr);
+					$("#sfweld_position").combobox();
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+}
+
+//获取厂商
+function getWeldmanufacture() {
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "Dictionary/getValueByTypeid?type=" +14,
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if (result.ary.length != 0) {
+					var boptionStr = '';
+					for (var i = 0; i < result.ary.length; i++) {
+						boptionStr += "<option value=\"" + result.ary[i].value + "\" >"
+							+ result.ary[i].name + "</option>";
+					}
+					$("#fmanufacturer_id").html(boptionStr);
+					$("#fmanufacturer_id").combobox();
+//					$("#fweld_position").combobox('select', result.ary[0].value);
+					$("#sfmanufacturer_id").html(boptionStr);
+					$("#sfmanufacturer_id").combobox();
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+}
+
+function groove(){
+	$('#fgroove_id').combogrid({
+		panelWidth:500,
+	    idField:'fid',
+	    textField:'fgroove_code',
+	    url:'wps/getGrooveList',
+	    pagination: true,
+		pageSize : 10,
+		pageList : [ 10, 20, 30, 40, 50 ],
+		rownumbers : true,
+		showPageList : false,
+		fitColumns : true,
+	    columns:[[{
+			field : 'fid',
+			title : '坡口id',
+			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fgroove_code',
+			title : '坡口代码',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_method_name',
+			title : '焊接方法',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_method',
+			title : '焊接方法id',
+			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fweld_position_name',
+			title : '焊接位置',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_position',
+			title : '焊接位置id',
+			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fthickness',
+			title : '板厚',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fgroove_map',
+			title : '坡口图',
+			width : 100,
+			halign : "center",
+			align : "left",
+			formatter: function(value,row,index){
+				var str = "";
+				str += '<img src="'+value+'" οnmοuseοver="bigImg(this)" οnmοuseοut="closeImgWin()" style="height: 50px;width: 80px"></img> ';
+				return str;
+			}
+		}
+	    ]],
+		onLoadSuccess: function(data){
+			$("img").mouseover(function (e) {
+				bigImg(this);
+			})
+			$("img").mouseout(function (e) {
+				closeImgWin(this);
+			})
+		}
+	});
+}
+
+function baseMaterial(){
+	$('#fbase_material_id').combogrid({
+		panelWidth:640,
+	    idField:'fid',
+	    textField:'fname',
+	    url:'wps/getBaseMaterialList',
+	    pagination: true,
+		pageSize : 10,
+		pageList : [ 10, 20, 30, 40, 50 ],
+		rownumbers : true,
+		showPageList : false,
+		fitColumns : true,
+	    columns:[[{
+			field : 'fid',
+			title : '母材id',
+			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fname',
+			title : '母材名称',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'ftype_name',
+			title : '母材类型',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'ftype',
+			title : '母材类型id',
+			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fcategory_name',
+			title : '母材类别',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fcategory',
+			title : '母材类别id',
+			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fbase_material_name_one',
+			title : '母材级别①',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fbase_material_id_one',
+			title : '母材级别①id',
+			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fbase_material_name_two',
+			title : '母材级别②',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fbase_material_id_two',
+			title : '母材级别②id',
+			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fouter_diameter',
+			title : '管子外径',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}/*, {
+			field : 'fgroove_map',
+			title : '坡口图',
+			width : 100,
+			halign : "center",
+			align : "left",
+			formatter: function(value,row,index){
+				var str = "";
+				str += '<img src="'+value+'" οnmοuseοver="bigImg(this)" οnmοuseοut="closeImgWin()" style="height: 50px;width: 70px"></img> ';
+				return str;
+			}
+		}*/
+	    ]],
+		onLoadSuccess: function(data){
+			$("img").mouseover(function (e) {
+				bigImg(this);
+			})
+			$("img").mouseout(function (e) {
+				closeImgWin(this);
+			})
+		}
+	});
+}
+
+//焊材
+function getWeldMaterial() {
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "Dictionary/getValueByTypeid?type=" + 34,
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if (result.ary.length != 0) {
+					var boptionStr = '';
+					for (var i = 0; i < result.ary.length; i++) {
+						boptionStr += "<option value=\"" + result.ary[i].value + "\" >"
+							+ result.ary[i].name + "</option>";
+					}
+					$("#fweld_material_id").html(boptionStr);
+					$("#fweld_material_id").combobox();
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+}
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize, 500);

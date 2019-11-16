@@ -31,6 +31,10 @@ public interface WpsService {
 	void updateSpe(Wps wps);
 	List<Wps> getWpslibList(Page page, String search);
 	List<Wps> getMainwpsList(Page page, BigInteger parent);
+	List<Wps> getWpslibList(String search);
+	List<Wps> getMainwpsList(BigInteger parent);
+	List<Wps> getPwpslibList(String search);
+	List<Wps> getMainpwpsList(BigInteger parent);
 	int getWpslibNameCount(String wpsName);
 	void saveWpslib(Wps wps);
 	void updateWpslib(Wps wps);
@@ -39,7 +43,13 @@ public interface WpsService {
 	void deleteWpsBelongLib(BigInteger fid);
 	void deleteMainWps(BigInteger fid);
 	int getCountByWpslibidChanel(BigInteger wpslibid,int chanel);
+	void pqrData(String taskno,String board);
 	
+	void savepqrlib(Wps wps);
+	void deletepqrlib(BigInteger fid);
+	void updatepqrlib(Wps wps);
+	List<Wps> getpqrList(Page page, String search);
+	List<Wps> getpqrList(String search);
 	/**
 	 * 获取松下wps
 	 * @param parent
@@ -181,4 +191,53 @@ public interface WpsService {
 	 * @return
 	 */
 	List<Wps> getAllWpslib();
+	
+	/**
+	 * 获取坡口信息
+	 * @param page
+	 * @param search
+	 * @return
+	 */
+	List<Wps> getGrooveList(Page page, String search);
+	
+	/**
+	 * 获取所有的船级社
+	 * @return
+	 */
+	List<Wps> getClassificationSociety();
+	
+	/**
+	 * 获取焊材
+	 * @return
+	 */
+	List<Wps> getWeldMaterial();
+	
+	/**
+	 * 获取母材列表
+	 * @param page
+	 * @param search
+	 * @return
+	 */
+	List<Wps> getBaseMaterialList(Page page, String search);
+	
+	List<Wps> getPwpslibList(Page page, String search);
+	List<Wps> getMainpwpsList(Page page, BigInteger parent);
+	void savePwpslib(Wps wps);
+	void updatePwpslib(Wps wps);
+	void deletePwpslib(BigInteger fid);
+	void deletePwpsBelongLib(BigInteger fid);
+	void addPwpsDetail(Wps wps);
+	void updatePwpsDetailById(Wps wps);
+	void deleteMainPwps(BigInteger fid);
+	Wps getBaseMaterialById(BigInteger fid);
+	Wps getWeldMaterialById(BigInteger fid);
+	List<Wps> getAllPwpslib();
+	String getCountFromTask(String taskNumber);
+	List<Wps> getMainpqrList(Page page, BigInteger parent);
+	List<Wps> getMainpqrList(BigInteger parent);
+	void addPqrDetail(Wps wps);
+	void updatePqrDetailById(Wps wps);
+	void deleteMainPqr(BigInteger fid);
+	List<Wps> getMainpwpsByPqrid(BigInteger fid);
+	List<Wps> generateMainwps(String name);
 }

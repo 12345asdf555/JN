@@ -88,14 +88,20 @@ function save(){
 //		var fitemid = $('#iid').combobox('getValue');
 	var operatorId = $('#fwelder_id').combobox('getValue');
 	var wps_lib_id = $('#fwpslib_id').combobox('getValue');
+	var fweld_position = $('#fweld_position').combobox('getValue');
+	var fweld_method = $('#fweld_method').combobox('getValue');
+	var fweld_material_id = $('#fweld_material_model').combobox('getValue');
+	var fbase_material_id = $('#fbase_material_type').combobox('getValue');
 	var messager = "";
 	var url2 = "";
 	if(flag==1){
 		messager = "新增成功！";
-		url2 = url+"?startTime="+startTime+"&fwelder_id="+operatorId+"&fwpslib_id="+wps_lib_id+"&weldedJunctionno="+encodeURIComponent(wtno);
+		url2 = url+"?startTime="+startTime+"&fwelder_id="+operatorId+"&fwpslib_id="+wps_lib_id+"&weldedJunctionno="+encodeURIComponent(wtno)
+		+"&fweld_position="+fweld_position+"&fweld_method="+fweld_method+"&fweld_material_id="+fweld_material_id+"&fbase_material_id="+fbase_material_id;
 	}else{
 		messager = "修改成功！";
-		url2 = url+"&startTime="+startTime+"&fwelder_id="+operatorId+"&fwpslib_id="+wps_lib_id+"&weldedJunctionno="+encodeURIComponent(wtno);
+		url2 = url+"&startTime="+startTime+"&fwelder_id="+operatorId+"&fwpslib_id="+wps_lib_id+"&weldedJunctionno="+encodeURIComponent(wtno)
+		+"&fweld_position="+fweld_position+"&fweld_method="+fweld_method+"&fweld_material_id="+fweld_material_id+"&fbase_material_id="+fbase_material_id;
 	}
 	$('#fm').form('submit', {
 		url : url2,

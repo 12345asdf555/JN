@@ -1089,7 +1089,7 @@ function xiafa(){
 					}else{
 						socketfc.close();
 						if(socketfc.readyState!=1){
-							save(1);
+//							save(1);
 							alert("下发成功");
 							}
 					}
@@ -1402,7 +1402,7 @@ function xiafa(){
 					}else{
 						socketfc.close();
 						if(socketfc.readyState!=1){
-							save(1);
+//							save(1);
 							alert("下发成功");
 							}
 					}

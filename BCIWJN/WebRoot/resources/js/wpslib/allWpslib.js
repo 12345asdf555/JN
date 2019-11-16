@@ -3,6 +3,7 @@
  */
 $(function(){
 	wpslibDatagrid();
+	getPowerpolarity();
 	sxDefault();
 	allCombobox();
 	$("#fselect").combobox({
@@ -58,7 +59,7 @@ function wpslibDatagrid(){
 		}, {
 			field : 'wpslibName',
 			title : '工艺库名称',
-			width : 270,
+			width : 150,
 			halign : "center",
 			align : "left"
 		}, {
@@ -71,32 +72,174 @@ function wpslibDatagrid(){
 		}, {
 			field : 'modelname',
 			title : '焊机型号',
+			width : 150,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_method_name',
+			title : '焊接方法',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_method',
+			title : '焊接方法id',
 			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fweld_way_name',
+			title : '焊接方式',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_way',
+			title : '焊接方式id',
+			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fweld_process_name',
+			title : '焊接工艺',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_process',
+			title : '焊接工艺id',
+			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fweld_position_name',
+			title : '焊接位置',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_position',
+			title : '焊接位置id',
+			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fgroove_code',
+			title : '坡口代码',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fgroove_id',
+			title : '坡口id',
+			width : 270,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fbase_material_name_one',
+			title : '母材①名称',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fbase_material_id_one',
+			title : '母材①id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fbase_material_name_two',
+			title : '母材②名称',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fbase_material_id_two',
+			title : '母材②id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fweld_material_name',
+			title : '焊材名称',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fweld_material_id',
+			title : '焊材id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'gasname',
+			title : '气体',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fgas',
+			title : '气体id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fpad',
+			title : '衬垫',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fclassification_society_name',
+			title : '船级社',
+			width : 100,
+			halign : "center",
+			align : "left"
+		}, {
+			field : 'fclassification_society_id',
+			title : '船级社id',
+			width : 100,
+			halign : "center",
+			align : "left",
+			hidden : true
+		}, {
+			field : 'fthickness',
+			title : '板厚',
+			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'createdate',
 			title : '创建日期',
-			width : 270,
+			width : 120,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'status',
 			title : '状态',
-			width : 270,
+			width : 100,
 			halign : "center",
 			align : "left"
 		}, {
 			field : 'statusId',
 			title : '状态id',
-			width : 270,
+			width : 100,
 			halign : "center",
 			align : "left",
 			hidden : true
 		}, {
 			field : 'edit',
 			title : '编辑',
-			width : 400,
+			width : 450,
 			halign : "center",
 			align : "left",
 			formatter: function(value,row,index){
@@ -105,6 +248,8 @@ function wpslibDatagrid(){
 				str += '<a id="wpslibadd" class="easyui-linkbutton" href="javascript:addMainWps()"/>';
 				str += '<a id="wpslibedit" class="easyui-linkbutton" href="javascript:editWpslib()"/>';
 				str += '<a id="wpslibremove" class="easyui-linkbutton" href="javascript:openRemoveWpslib()"/>';
+				str += '<a id="wpsliboutput" class="easyui-linkbutton" href="wps/outputWpslib?id='+row.fid+'"/>';
+				str += '<a id="generatePwps" class="easyui-linkbutton" href="javascript:generatePwps(1)"/>';
 				return str;
 			}
 		}] ],
@@ -121,6 +266,8 @@ function wpslibDatagrid(){
 			$("a[id='wpslibadd']").linkbutton({text:'新增工艺',plain:true,iconCls:'icon-newadd'});
 	        $("a[id='wpslibedit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 	        $("a[id='wpslibremove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
+	        $("a[id='wpsliboutput']").linkbutton({text:'导出WPS',plain:true,iconCls:'icon-update'});
+	        $("a[id='generatePwps']").linkbutton({text:'生成PWPS',plain:true,iconCls:'icon-delete'});
 		},
 		detailFormatter:function(index,row2){
 			return '<div id="div'+index+'"><table id="ddv-' + index + '" style="min-height:80px;"></table></div>';
@@ -211,6 +358,12 @@ function wpslibDatagrid(){
 						field : 'fpower_polarity',
 						title : '电源极性',
 						halign : "center",
+						align : "left",
+						hidden : true
+					}, {
+						field : 'fpower_polarity_name',
+						title : '电源极性',
+						halign : "center",
 						align : "left"
 					}, {
 						field : 'fgas_flow',
@@ -271,7 +424,7 @@ function wpslibDatagrid(){
 							plain : true,
 							iconCls : 'icon-delete'
 						});
-						$("#div"+index).height($("#div"+index).height()+20);
+//						$("#div"+index).height($("#div"+index).height()+20);
 						$("#ddv-"+index).datagrid('resize', {
 							height : $("#div"+index).height(),
 							width : $("#div"+index).width()
@@ -320,7 +473,13 @@ function wpslibDatagrid(){
 						halign : "center",
 						align : "left"
 					}, {
-						field : 'fweld_method',
+						field : 'dfweld_method',
+						title : '焊接方法id',
+						halign : "center",
+						align : "left",
+						hidden:true
+					}, {
+						field : 'dfweld_method_name',
 						title : '焊接方法',
 						halign : "center",
 						align : "left"
@@ -370,6 +529,12 @@ function wpslibDatagrid(){
 						field : 'fpower_polarity',
 						title : '电源极性',
 						halign : "center",
+						align : "left",
+						hidden : true
+					}, {
+						field : 'fpower_polarity_name',
+						title : '电源极性',
+						halign : "center",
 						align : "left"
 					}, {
 						field : 'fgas_flow',
@@ -390,6 +555,26 @@ function wpslibDatagrid(){
 					}, {
 						field : 'fprocessname',
 						title : '脉冲',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'felectric_range',
+						title : '电流范围',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fvoltage_range',
+						title : '电压范围',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fweld_speed_range',
+						title : '焊接速度范围',
+						halign : "center",
+						align : "left"
+					}, {
+						field : 'fline_energy_range',
+						title : '线能量范围',
 						halign : "center",
 						align : "left"
 					}, {
@@ -435,7 +620,7 @@ function wpslibDatagrid(){
 						},0);
 				        $("a[id='mainwpsedit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 				        $("a[id='mainwpsremove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
-						$("#div"+index).height($("#div"+index).height()+20);
+//						$("#div"+index).height($("#div"+index).height()+20);
 						$("#ddv-"+index).datagrid('resize', {
 							height : $("#div"+index).height(),
 							width : $("#div"+index).width()
@@ -818,6 +1003,104 @@ function allCombobox(){
 	$("#fmaterial").combobox();
 	$("#fdiameter").combobox();
 	$("#fprocessid").combobox();
+}
+
+function openSearchDialog() {
+	$('#swldlg').window({
+		title : "查找工艺库",
+		modal : true
+	});
+	$('#swldlg').window('open');
+}
+
+function searchWpslib(){
+	var searchStr = "";
+	var wpslibName = $('#swpslibName').val();
+	var fstatus = $("input[name='sstatusId']:checked").val();
+	var fweld_method = $('#sfweld_method').combobox('getValue');
+	var fweld_way = $('#sfweld_way').combobox('getValue');
+	var fweld_process = $('#sfweld_process').combobox('getValue');
+	var fweld_position = $('#sfweld_position').combobox('getValue');
+	var fclassification_society_id = $('#sfclassification_society_id').combobox('getValue');
+	var fgroove_id = $('#sfgroove_id').combobox('getValue');
+	var fbase_material_id_one = $('#sfbase_material_id_one').combobox('getValue');
+	var fbase_material_id_two = $('#sfbase_material_id_two').combobox('getValue');
+	var fweld_material_id = $('#sfweld_material_id').combobox('getValue');
+	var fgas = $('#sfgas').combobox('getValue');
+	var fpad = $('#sfpad').textbox('getValue');
+	var fthickness = $('#sfthickness').numberbox('getValue');
+	if(wpslibName){
+		searchStr += " AND fwps_lib_name LIKE "+'"%'+wpslibName+'%"';
+	}
+	if(fstatus){
+		searchStr += " AND fstatus="+fstatus;
+	}
+	if(fweld_method){
+		searchStr += " AND wl.fweld_method="+fweld_method;
+	}
+	if(fweld_way){
+		searchStr += " AND wl.fweld_way="+fweld_way;
+	}
+	if(fweld_process){
+		searchStr += " AND wl.fweld_process="+fweld_process;
+	}
+	if(fweld_position){
+		searchStr += " AND wl.fweld_position="+fweld_position;
+	}
+	if(fclassification_society_id){
+		searchStr += " AND wl.fclassification_society_id="+fclassification_society_id;
+	}
+	if(fgroove_id){
+		searchStr += " AND wl.fgroove_id="+fgroove_id;
+	}
+	if(fbase_material_id_one){
+		searchStr += " AND wl.fbase_material_id_one="+fbase_material_id_one;
+	}
+	if(fbase_material_id_two){
+		searchStr += " AND wl.fbase_material_id_two="+fbase_material_id_two;
+	}
+	if(fweld_material_id){
+		searchStr += " AND wl.fweld_material_id="+fweld_material_id;
+	}
+	if(fgas){
+		searchStr += " AND wl.fgas="+fgas;
+	}
+	if(fpad){
+		searchStr += " AND wl.fpad LIKE "+'"%'+fpad+'%"';
+	}
+	if(fthickness){
+		searchStr += " AND wl.fthickness="+fthickness;
+	}
+	console.log(searchStr);
+	$("#wpslibTable").datagrid('load',{
+		"searchStr" : searchStr
+	})
+}
+
+function getPowerpolarity() {
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "Dictionary/getValueByTypeid?type=" + 36,
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if (result.ary.length != 0) {
+					var boptionStr = '';
+					for (var i = 0; i < result.ary.length; i++) {
+						boptionStr += "<option value=\"" + result.ary[i].value + "\" >"
+							+ result.ary[i].name + "</option>";
+					}
+					$("#fpower_polarity").append(boptionStr);
+					$("#fpower_polarity").combobox();
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
 }
 
 //监听窗口大小变化

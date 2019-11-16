@@ -150,23 +150,44 @@
 	</delete>
 	
 	<select id="getWpslibList" resultType="Wps">
-		SELECT wl.fid,`fwps_lib_name` fwpsnum,`fmachinemodel` macid,di.fvaluename fname,`fcreatedate` fcreatedate,`fstatus` fstatus,d.fvaluename insname,em.ftype conname FROM tb_wps_library wl
+		SELECT wl.fid,`fwps_lib_name` fwpsnum,`fmachinemodel` macid,di.fvaluename fname,`fcreatedate` fcreatedate,`fstatus` fstatus,d.fvaluename insname,em.ftype conname,dic.fvaluename gasname, 
+		wl.fweld_method,wl.fweld_way,wl.fweld_process,wl.fweld_position,wl.fgroove_id,wl.fbase_material_id_one,wl.fbase_material_id_two,wl.fweld_material_id,wl.fgas,wl.fpad,wl.fclassification_society_id,wl.fthickness,
+		d1.fvaluename fweld_method_name,d2.fvaluename fweld_way_name,d3.fvaluename fweld_process_name,d4.fvaluename fweld_position_name,bm.fname fbase_material_name_one,tbm.fname fbase_material_name_two,
+		gr.fgroove_code,wm.fname fweld_material_name,cs.fname fclassification_society_name
+		FROM tb_wps_library wl	
 		LEFT JOIN tb_dictionary d ON wl.fstatus=d.fvalue and d.ftypeid=6
-        LEFT JOIN tb_dictionary di ON wl.fmachinemodel=di.fvalue AND di.ftypeid=17
-        LEFT JOIN tb_equipment_manufacturer em ON wl.fmachinemodel = em.ftype_value
+    	LEFT JOIN tb_dictionary di ON wl.fmachinemodel=di.fvalue AND di.ftypeid=17
+		LEFT JOIN tb_dictionary dic on wl.fgas=dic.fvalue AND dic.ftypeid=12
+		LEFT JOIN tb_dictionary d1 on wl.fweld_method=d1.fvalue AND d1.ftypeid=25
+		LEFT JOIN tb_dictionary d2 on wl.fweld_way=d2.fvalue AND d2.ftypeid=26
+		LEFT JOIN tb_dictionary d3 on wl.fweld_process=d3.fvalue AND d3.ftypeid=27
+		LEFT JOIN tb_dictionary d4 on wl.fweld_position=d4.fvalue AND d4.ftypeid=28
+		LEFT JOIN tb_base_material bm on wl.fbase_material_id_one=bm.fid
+		LEFT JOIN tb_base_material tbm on wl.fbase_material_id_two=tbm.fid
+		LEFT JOIN tb_groove gr on wl.fgroove_id=gr.fid
+		LEFT JOIN tb_weld_material wm on wl.fweld_material_id=wm.fid
+		LEFT JOIN tb_classification_society cs on wl.fclassification_society_id=cs.fid
+    	LEFT JOIN tb_equipment_manufacturer em ON wl.fmachinemodel = em.ftype_value
 		where 1=1
 		<if test="search!=null and search!=''">
-			AND s.`fwps_lib_name`=#{search}
+			${search}
 		</if>
-		ORDER by fid
+		ORDER by fid  desc
 	</select>
 	
-	<insert id="saveWpslib">
-		INSERT INTO `tb_wps_library`(`fwps_lib_name`,`fmachinemodel`, `fcreater`, `fcreatedate`, `fstatus`) VALUES (#{fwpsnum},#{fback},#{fcreater},now(),#{fstatus})
+	<insert id="saveWpslib" useGeneratedKeys="true" keyProperty="fid">
+		<!-- INSERT INTO `tb_wps_library`(`fwps_lib_name`,`fmachinemodel`, `fcreater`, `fcreatedate`, `fstatus`) VALUES (#{fwpsnum},#{fback},#{fcreater},now(),#{fstatus}) -->
+		INSERT INTO tb_wps_library(fwps_lib_name, fmachinemodel, fcreater, fcreatedate, fstatus, fweld_method, fweld_way, fweld_process, fweld_position, fgroove_id, fbase_material_id_one, fbase_material_id_two, 
+		fweld_material_id, fgas, fpad, fclassification_society_id, fthickness) 
+		VALUES (#{fwpsnum},#{fback},#{fcreater},now(),#{fstatus},#{fweld_method},#{fweld_way},#{fweld_process},#{fweld_position},#{fgroove_id},#{fbase_material_id_one},#{fbase_material_id_two},
+		#{fweld_material_id},#{fgas},#{fpad},#{fclassification_society_id},#{fthickness})
 	</insert>
 	
 	<update id="updateWpslib">
-		UPDATE `tb_wps_library` SET `fwps_lib_name`=#{fwpsnum},`fstatus`=#{fstatus} WHERE 1=1 and fid=#{fid}
+		UPDATE tb_wps_library SET fwps_lib_name=#{fwpsnum},fstatus=#{fstatus},fweld_method=#{fweld_method},fweld_way=#{fweld_way},fweld_process=#{fweld_process},fweld_position=#{fweld_position},
+		fgroove_id=#{fgroove_id},fbase_material_id_one=#{fbase_material_id_one},fbase_material_id_two=#{fbase_material_id_two},fweld_material_id=#{fweld_material_id},fgas=#{fgas},
+		fpad=#{fpad},fclassification_society_id=#{fclassification_society_id},fthickness=#{fthickness} 
+		WHERE 1=1 and fid=#{fid}
 	</update>
 	
 	<select id="getMainwpsList" resultType="Wps">
@@ -178,12 +199,15 @@
         LEFT JOIN tb_dictionary dd ON s.fdiameter=dd.fvalue and dd.ftypeid=13
         LEFT JOIN tb_dictionary dp ON s.fwelding_process=dp.fvalue AND dp.ftypeid=22
 		where 1=1  -->
-		SELECT s.fid,fspe_num fwpsnum,fsolder_layer,fweld_bead,fweld_method,fmaterial,d.fvaluename materialname,fdiameter,di.fvaluename dianame,fweld_ele+fweld_tuny_ele fpreset_ele_top,fweld_ele-fweld_tuny_ele fpreset_ele_bottom,
-		fweld_vol+fweld_tuny_vol fpreset_vol_top,fweld_vol-fweld_tuny_vol fpreset_vol_bottom,fpower_polarity,fgas_flow,fweld_speed,fwelding_process fprocessid,dic.fvaluename fprocessname,fwpslib_id insid,l.fwps_lib_name insname 
+		SELECT s.fid,s.fspe_num fwpsnum,s.fsolder_layer,s.fweld_bead,s.fweld_method,fmaterial,d.fvaluename materialname,fdiameter,di.fvaluename dianame,fweld_ele+fweld_tuny_ele fpreset_ele_top,fweld_ele-fweld_tuny_ele fpreset_ele_bottom,
+		fweld_vol+fweld_tuny_vol fpreset_vol_top,fweld_vol-fweld_tuny_vol fpreset_vol_bottom,fpower_polarity,fgas_flow,fweld_speed,fwelding_process fprocessid,dic.fvaluename fprocessname,fwpslib_id insid,l.fwps_lib_name insname,
+		s.felectric_range,s.fvoltage_range,s.fweld_speed_range,s.fline_energy_range,dict.fvaluename fpower_polarity_name,dd.fvaluename fweld_method_name 
 		FROM `tb_specification` s 
 		LEFT JOIN tb_dictionary d on d.fvalue=s.fmaterial and d.ftypeid=9 
 		LEFT JOIN tb_dictionary di on di.fvalue=s.fdiameter and di.ftypeid=13 
 		LEFT JOIN tb_dictionary dic on dic.fvalue=s.fwelding_process and dic.ftypeid=22 
+		LEFT JOIN tb_dictionary dd on dd.fvalue=s.fweld_method and dd.ftypeid=25 
+		LEFT JOIN tb_dictionary dict on dict.fvalue=s.fpower_polarity and dict.ftypeid=36 
 		LEFT JOIN tb_wps_library l on l.fid=s.fwpslib_id 
 		WHERE 1=1 
 		<if test="parent!=null and parent!=''">
@@ -343,16 +367,19 @@
 	
 	<insert id="addWpsDetail" parameterType="Wps">
 		INSERT INTO tb_specification (fspe_num, fmaterial, fdiameter, fweld_ele, fweld_vol, fweld_tuny_ele, fweld_tuny_vol,
-		 fwpslib_id, fsolder_layer, fweld_bead, fpower_polarity, fweld_speed, fgas_flow ,fweld_method ,fwelding_process) VALUES 
+		 fwpslib_id, fsolder_layer, fweld_bead, fpower_polarity, fweld_speed, fgas_flow ,fweld_method ,fwelding_process,
+		 felectric_range,fvoltage_range,fweld_speed_range,fline_energy_range) VALUES 
 		(#{fwpsnum}, #{fmaterial}, #{fdiameter}, #{fweld_ele}, #{fweld_vol}, #{fweld_tuny_ele}, #{fweld_tuny_vol}, 
-		#{fwpslib_id}, #{fsolder_layer}, #{fweld_bead}, #{fpower_polarity}, #{fweld_speed}, #{fgas_flow}, #{fweld_method}, #{fprocessid})
+		#{fwpslib_id}, #{fsolder_layer}, #{fweld_bead}, #{fpower_polarity}, #{fweld_speed}, #{fgas_flow}, #{fweld_method}, #{fprocessid}
+		, #{felectric_range}, #{fvoltage_range}, #{fweld_speed_range}, #{fline_energy_range})
 	</insert>
 	
 	<update id="updateWpsDetail" parameterType="Wps">
 		update tb_specification set 
 		fspe_num=#{fwpsnum},fmaterial=#{fmaterial},fdiameter=#{fdiameter},fweld_ele=#{fweld_ele},fweld_vol=#{fweld_vol},
 		fweld_tuny_ele=#{fweld_tuny_ele},fweld_tuny_vol=#{fweld_tuny_vol},fpower_polarity=#{fpower_polarity},
-		fweld_speed=#{fweld_speed},fgas_flow=#{fgas_flow},fweld_method=#{fweld_method},fwelding_process=#{fprocessid} 
+		fweld_speed=#{fweld_speed},fgas_flow=#{fgas_flow},fweld_method=#{fweld_method},fwelding_process=#{fprocessid}
+		, felectric_range=#{felectric_range}, fvoltage_range=#{fvoltage_range}, fweld_speed_range=#{fweld_speed_range}, fline_energy_range=#{fline_energy_range} 
 		where fwpslib_id=#{fwpslib_id} and fsolder_layer=#{fsolder_layer} and fweld_bead=#{fweld_bead};
 	</update>
 	
@@ -360,7 +387,8 @@
 		update tb_specification set 
 		fspe_num=#{fwpsnum},fmaterial=#{fmaterial},fdiameter=#{fdiameter},fweld_ele=#{fweld_ele},fweld_vol=#{fweld_vol},
 		fweld_tuny_ele=#{fweld_tuny_ele},fweld_tuny_vol=#{fweld_tuny_vol},fpower_polarity=#{fpower_polarity},
-		fweld_speed=#{fweld_speed},fgas_flow=#{fgas_flow},fweld_method=#{fweld_method},fwelding_process=#{fprocessid},fsolder_layer=#{fsolder_layer},fweld_bead=#{fweld_bead} 
+		fweld_speed=#{fweld_speed},fgas_flow=#{fgas_flow},fweld_method=#{fweld_method},fwelding_process=#{fprocessid},fsolder_layer=#{fsolder_layer},fweld_bead=#{fweld_bead}
+		, felectric_range=#{felectric_range}, fvoltage_range=#{fvoltage_range}, fweld_speed_range=#{fweld_speed_range}, fline_energy_range=#{fline_energy_range} 
 		where fid=#{fid};
 	</update>
 	
@@ -368,5 +396,293 @@
 		SELECT fid insid,fwps_lib_name insname FROM tb_wps_library WHERE 1=1 AND fid not in (
 		SELECT DISTINCT fwpslib_id FROM tb_welded_junction WHERE 1=1 and fwpslib_id is not NULL 
 		)
+	</select>
+	
+	<select id="getAllPwpslib" resultType="Wps">
+		SELECT fid insid,fwps_lib_name insname FROM tb_pwps_lib WHERE 1=1
+	</select>
+	
+	<select id="getGrooveList" resultType="Wps">
+		SELECT g.*,d.fvaluename fweld_method_name,di.fvaluename fweld_position_name from tb_groove g 
+		LEFT JOIN tb_dictionary d on g.fweld_method=d.fvalue and d.ftypeid=25
+		LEFT JOIN tb_dictionary di on g.fweld_position=di.fvalue and di.ftypeid=28
+		WHERE 1=1 
+		<if test="search!=null and search!=''">
+			and ${search}
+		</if>
+		ORDER by g.fid
+	</select>
+	
+	<select id="getClassificationSociety" resultType="Wps">
+		SELECT DISTINCT(fname),fid FROM tb_classification_society where 1=1 ORDER BY fid
+	</select>
+	
+	<select id="getWeldMaterial" resultType="Wps">
+		SELECT DISTINCT(fname),fid FROM tb_weld_material where 1=1 ORDER BY fid
+	</select>
+	
+	<select id="getBaseMaterialList" resultType="Wps">
+		SELECT bm.fid,bm.ftype,d.fvaluename ftype_name,bm.fcategory,di.fvaluename fcategory_name,bm.fleve_one fbase_material_id_one,bm.fgroove_map,
+		bm.fleve_two fbase_material_id_two,dic.fvaluename fbase_material_name_one,dict.fvaluename fbase_material_name_two,bm.fouter_diameter,bm.fname 
+		FROM tb_base_material bm 
+		LEFT JOIN tb_dictionary d on bm.ftype=d.fvalue and d.ftypeid=29
+		LEFT JOIN tb_dictionary di on bm.fcategory=di.fvalue AND di.ftypeid=30
+		LEFT JOIN tb_dictionary dic on bm.fleve_one=dic.fvalue AND dic.ftypeid=31
+		LEFT JOIN tb_dictionary dict on bm.fleve_two=dict.fvalue AND dict.ftypeid=32
+		WHERE 1=1 
+		<if test="search!=null and search!=''">
+			and ${search}
+		</if>
+		ORDER by bm.fid
+	</select>
+	
+	<select id="getBaseMaterialById" resultType="Wps">
+		SELECT bm.fid,bm.ftype,d.fvaluename ftype_name,bm.fcategory,di.fvaluename fcategory_name,bm.fleve_one fbase_material_id_one,bm.fgroove_map,
+		bm.fleve_two fbase_material_id_two,dic.fvaluename fbase_material_name_one,dict.fvaluename fbase_material_name_two,bm.fouter_diameter,bm.fname 
+		FROM tb_base_material bm 
+		LEFT JOIN tb_dictionary d on bm.ftype=d.fvalue and d.ftypeid=29
+		LEFT JOIN tb_dictionary di on bm.fcategory=di.fvalue AND di.ftypeid=30
+		LEFT JOIN tb_dictionary dic on bm.fleve_one=dic.fvalue AND dic.ftypeid=31
+		LEFT JOIN tb_dictionary dict on bm.fleve_two=dict.fvalue AND dict.ftypeid=32
+		WHERE 1=1 
+		<if test="fid!=null and fid!=''">
+			and bm.fid=#{fid}
+		</if>
+		ORDER by bm.fid
+	</select>
+	
+	<select id="getWeldMaterialById" resultType="Wps">
+		SELECT wm.fid,wm.fname,wm.fcategory,wm.fsize fdiameter,wm.fgraininess,wm.ftype,d.fvaluename fcategory_name,d1.fvaluename ftype_name,d2.fvaluename fgraininess_name,d3.fvaluename dianame FROM tb_weld_material wm 
+		LEFT JOIN tb_dictionary d on wm.fcategory=d.fvalue and d.ftypeid=34
+		LEFT JOIN tb_dictionary d1 on wm.ftype=d1.fvalue and d1.ftypeid=33
+		LEFT JOIN tb_dictionary d2 on wm.fgraininess=d2.fvalue and d2.ftypeid=35
+		LEFT JOIN tb_dictionary d3 on wm.fsize=d3.fvalue and d3.ftypeid=13
+		WHERE 1=1 
+		<if test="fid!=null and fid!=''">
+			and wm.fid=#{fid}
+		</if>
+		ORDER by wm.fid
+	</select>
+	
+	<select id="getPwpslibList" resultType="Wps">
+		SELECT wl.fid,`fwps_lib_name` fwpsnum,`fmachinemodel` macid,di.fvaluename fname,`fcreatedate` fcreatedate,`fstatus` fstatus,d.fvaluename insname,em.ftype conname,dic.fvaluename gasname, 
+		wl.fweld_method,wl.fweld_way,wl.fweld_process,wl.fweld_position,wl.fgroove_id,wl.fbase_material_id_one,wl.fbase_material_id_two,wl.fweld_material_id,wl.fgas,wl.fpad,wl.fclassification_society_id,wl.fthickness,
+		d1.fvaluename fweld_method_name,d2.fvaluename fweld_way_name,d3.fvaluename fweld_process_name,d4.fvaluename fweld_position_name,bm.fname fbase_material_name_one,tbm.fname fbase_material_name_two,
+		gr.fgroove_code,wm.fname fweld_material_name,cs.fname fclassification_society_name
+		FROM tb_pwps_lib wl	
+		LEFT JOIN tb_dictionary d ON wl.fstatus=d.fvalue and d.ftypeid=6
+    	LEFT JOIN tb_dictionary di ON wl.fmachinemodel=di.fvalue AND di.ftypeid=17
+		LEFT JOIN tb_dictionary dic on wl.fgas=dic.fvalue AND dic.ftypeid=12
+		LEFT JOIN tb_dictionary d1 on wl.fweld_method=d1.fvalue AND d1.ftypeid=25
+		LEFT JOIN tb_dictionary d2 on wl.fweld_way=d2.fvalue AND d2.ftypeid=26
+		LEFT JOIN tb_dictionary d3 on wl.fweld_process=d3.fvalue AND d3.ftypeid=27
+		LEFT JOIN tb_dictionary d4 on wl.fweld_position=d4.fvalue AND d4.ftypeid=28
+		LEFT JOIN tb_base_material bm on wl.fbase_material_id_one=bm.fid
+		LEFT JOIN tb_base_material tbm on wl.fbase_material_id_two=tbm.fid
+		LEFT JOIN tb_groove gr on wl.fgroove_id=gr.fid
+		LEFT JOIN tb_weld_material wm on wl.fweld_material_id=wm.fid
+		LEFT JOIN tb_classification_society cs on wl.fclassification_society_id=cs.fid
+    	LEFT JOIN tb_equipment_manufacturer em ON wl.fmachinemodel = em.ftype_value
+		where 1=1
+		<if test="search!=null and search!=''">
+			${search} 
+		</if>
+		ORDER by fid desc
+	</select>
+	
+	<insert id="savePwpslib"  useGeneratedKeys="true" keyProperty="fid">
+		<!-- INSERT INTO `tb_wps_library`(`fwps_lib_name`,`fmachinemodel`, `fcreater`, `fcreatedate`, `fstatus`) VALUES (#{fwpsnum},#{fback},#{fcreater},now(),#{fstatus}) -->
+		INSERT INTO tb_pwps_lib(fwps_lib_name, fmachinemodel, fcreater, fcreatedate, fstatus, fweld_method, fweld_way, fweld_process, fweld_position, fgroove_id, fbase_material_id_one, fbase_material_id_two, 
+		fweld_material_id, fgas, fpad, fclassification_society_id, fthickness) 
+		VALUES (#{fwpsnum},#{fback},#{fcreater},now(),#{fstatus},#{fweld_method},#{fweld_way},#{fweld_process},#{fweld_position},#{fgroove_id},#{fbase_material_id_one},#{fbase_material_id_two},
+		#{fweld_material_id},#{fgas},#{fpad},#{fclassification_society_id},#{fthickness})
+	</insert>
+	
+	<update id="updatePwpslib">
+		UPDATE tb_pwps_lib SET fwps_lib_name=#{fwpsnum},fstatus=#{fstatus},fweld_method=#{fweld_method},fweld_way=#{fweld_way},fweld_process=#{fweld_process},fweld_position=#{fweld_position},
+		fgroove_id=#{fgroove_id},fbase_material_id_one=#{fbase_material_id_one},fbase_material_id_two=#{fbase_material_id_two},fweld_material_id=#{fweld_material_id},fgas=#{fgas},
+		fpad=#{fpad},fclassification_society_id=#{fclassification_society_id},fthickness=#{fthickness} 
+		WHERE 1=1 and fid=#{fid}
+	</update>
+	
+	<select id="getMainpwpsList" resultType="Wps">
+<!-- 		select s.`fid` fid,s.`fspe_num` welderid,s.finitial finitial,s.fcontroller fcontroller,s.fselect insname,s.farc weldername,s.fcharacter fweld_v_max,s.fmode fmode,s.fmaterial updatename,s.fgas fback,s.fdiameter fname,s.ftime,s.fhysteresis,s.fadvance,s.fini_ele ,s.fini_vol,s.fini_vol1,s.fweld_ele,s.fweld_vol,s.fweld_vol1,s.farc_ele,s.farc_vol,s.farc_vol1,s.fweld_tuny_ele,s.fwarn_ele_up,s.fwarn_ele_down,s.fwarn_vol_up,s.fwarn_vol_down,s.fweld_tuny_vol,s.farc_tuny_ele,s.farc_tuny_vol fdiameter,dm.fvaluename materialname,ds.fvaluename selectname,dg.fvaluename gasname,da.fvaluename arcname,dd.fvaluename dianame,s.fwater_cooled_torch ftorch,s.fwelding_process fprocessid,dp.fvaluename fprocessname FROM tb_specification s 
+		LEFT JOIN tb_dictionary dm ON s.fmaterial=dm.fvalue and dm.ftypeid=9
+        LEFT JOIN tb_dictionary ds ON s.fselect=ds.fvalue and ds.ftypeid=10
+        LEFT JOIN tb_dictionary da ON s.farc=da.fvalue and da.ftypeid=11
+        LEFT JOIN tb_dictionary dg ON s.fgas=dg.fvalue and dg.ftypeid=12
+        LEFT JOIN tb_dictionary dd ON s.fdiameter=dd.fvalue and dd.ftypeid=13
+        LEFT JOIN tb_dictionary dp ON s.fwelding_process=dp.fvalue AND dp.ftypeid=22
+		where 1=1  -->
+		SELECT s.fid,s.fspe_num fwpsnum,s.fsolder_layer,s.fweld_bead,s.fweld_method,fmaterial,d.fvaluename materialname,fdiameter,di.fvaluename dianame,fweld_ele+fweld_tuny_ele fpreset_ele_top,fweld_ele-fweld_tuny_ele fpreset_ele_bottom,
+		fweld_vol+fweld_tuny_vol fpreset_vol_top,fweld_vol-fweld_tuny_vol fpreset_vol_bottom,fpower_polarity,fgas_flow,fweld_speed,fwelding_process fprocessid,dic.fvaluename fprocessname,fwpslib_id insid,l.fwps_lib_name insname,
+		s.felectric_range,s.fvoltage_range,s.fweld_speed_range,s.fline_energy_range,dict.fvaluename fpower_polarity_name,dd.fvaluename fweld_method_name  
+		FROM `tb_pwps_details` s 
+		LEFT JOIN tb_dictionary d on d.fvalue=s.fmaterial and d.ftypeid=9 
+		LEFT JOIN tb_dictionary di on di.fvalue=s.fdiameter and di.ftypeid=13 
+		LEFT JOIN tb_dictionary dic on dic.fvalue=s.fwelding_process and dic.ftypeid=22
+		LEFT JOIN tb_dictionary dd on dd.fvalue=s.fweld_method and dd.ftypeid=25 
+		LEFT JOIN tb_dictionary dict on dict.fvalue=s.fpower_polarity and dict.ftypeid=36 
+		LEFT JOIN tb_pwps_lib l on l.fid=s.fwpslib_id 
+		WHERE 1=1 
+		<if test="parent!=null and parent!=''">
+			AND s.`fwpslib_id`=#{parent} 
+		</if>
+		ORDER by s.fweld_bead 
+	</select>
+	
+	<delete id="deletePwpslib">
+		DELETE FROM tb_pwps_lib WHERE fid=#{fid}
+	</delete>
+	
+	<delete id="deletePwpsBelongLib">
+		DELETE FROM tb_pwps_details WHERE fwpslib_id=#{fid}
+	</delete>
+	
+	<insert id="addPwpsDetail" parameterType="Wps">
+		INSERT INTO tb_pwps_details (fspe_num, fmaterial, fdiameter, fweld_ele, fweld_vol, fweld_tuny_ele, fweld_tuny_vol,
+		 fwpslib_id, fsolder_layer, fweld_bead, fpower_polarity, fweld_speed, fgas_flow ,fweld_method ,fwelding_process,
+		 felectric_range,fvoltage_range,fweld_speed_range,fline_energy_range) VALUES 
+		(#{fwpsnum}, #{fmaterial}, #{fdiameter}, #{fweld_ele}, #{fweld_vol}, #{fweld_tuny_ele}, #{fweld_tuny_vol}, 
+		#{fwpslib_id}, #{fsolder_layer}, #{fweld_bead}, #{fpower_polarity}, #{fweld_speed}, #{fgas_flow}, #{fweld_method}, #{fprocessid}
+		, #{felectric_range}, #{fvoltage_range}, #{fweld_speed_range}, #{fline_energy_range})
+	</insert>
+	
+	<update id="updatePwpsDetailById" parameterType="Wps">
+		update tb_pwps_details set 
+		fspe_num=#{fwpsnum},fmaterial=#{fmaterial},fdiameter=#{fdiameter},fweld_ele=#{fweld_ele},fweld_vol=#{fweld_vol},
+		fweld_tuny_ele=#{fweld_tuny_ele},fweld_tuny_vol=#{fweld_tuny_vol},fpower_polarity=#{fpower_polarity},
+		fweld_speed=#{fweld_speed},fgas_flow=#{fgas_flow},fweld_method=#{fweld_method},fwelding_process=#{fprocessid},fsolder_layer=#{fsolder_layer},fweld_bead=#{fweld_bead}
+		, felectric_range=#{felectric_range}, fvoltage_range=#{fvoltage_range}, fweld_speed_range=#{fweld_speed_range}, fline_energy_range=#{fline_energy_range} 
+		where fid=#{fid};
+	</update>
+	
+	<delete id="deleteMainPwps">
+		DELETE FROM tb_pwps_details WHERE fid=#{fid}
+	</delete>
+	
+	<select id="getCountFromTask" parameterType="String" resultType="String">
+		SELECT fid FROM tb_welded_junction  WHERE fwelded_junction_no=#{taskNumber}
+	</select>
+	
+	<insert id="pqrData">
+		INSERT INTO tb_pqr_details(tb_pqr_details.fsolder_layer,tb_pqr_details.fweld_bead,tb_pqr_details.favg_ele,tb_pqr_details.favg_vol,tb_pqr_details.favg_weldspeed,tb_pqr_details.favg_line_energy
+		,tb_pqr_details.fpqr_id) SELECT fsolder_layer,fweld_bead,avg(felectricity),avg(fvoltage),(${board}/count(tb_live_data.fid)/60),
+		((avg(felectricity)/count(tb_live_data.fid))*(avg(fvoltage)/count(tb_live_data.fid))/((${board}/count(tb_live_data.fid)/60)*60/1000)),
+		tb_pqr.fid FROM `tb_live_data` INNER JOIN tb_pqr ON tb_live_data.fjunction_no = tb_pqr.fname WHERE (fstatus='3' or fstatus='5' or fstatus='7' or fstatus='99') AND fjunction_no = '${taskno}' GROUP BY fsolder_layer,fweld_bead
+	</insert>
+	
+	<select id="getpqrList" resultType="Wps">
+    SELECT p.fid,p.fname,p.fcreatedate newdate,fweld_place,fmanufacturer_id,fmanufacturer_address,
+    fbase_material_id ,p.fweld_position, p.fweld_method, p.fthickness ,p.fouter_diameter , 
+    fjoint_form , fprotective_gas, fflow, fingredient, p.fweld_material_id, 
+    fmanufacturer_diameter, finter_channel_temperature,  fwarm_up_temperature ,
+    fother_information, fgroove_id,  fwelddate ,fwelder_id, p.fnondestructive_test ,
+    p.fdamage_test, p.fhardness_test, fextra_information, fedit_user, fsurveyor ,
+    feditdate , ftestdate,  fexpotdate,d.fvaluename fweld_method_name,di.fvaluename dianame,w.fname conname,w.fwelder_no arcname,dv.fvaluename selectname,b.fname fbase_material_name,dl.fvaluename fprocessname,g.fgroove_code fweld_bead  FROM tb_pqr p
+    LEFT JOIN tb_dictionary d on p.fweld_method=d.fvalue and d.ftypeid=25
+    LEFT JOIN tb_dictionary dv on p.fweld_material_id=dv.fvalue and dv.ftypeid=34
+    LEFT JOIN tb_dictionary di on p.fmanufacturer_id=di.fvalue and di.ftypeid=14
+    LEFT JOIN tb_dictionary dl on p.fweld_position=dl.fvalue and dl.ftypeid=28
+    LEFT JOIN tb_groove g on p.fgroove_id=g.fid
+    LEFT JOIN tb_base_material b on p.fbase_material_id=b.fid
+    LEFT JOIN tb_welder w on p.fwelder_id=w.fid
+    where 1=1
+    <if test="search!=null and search!=''">
+      ${search}
+    </if>
+    ORDER by fid
+  </select>
+  <insert id="savepqrlib">
+  INSERT INTO tb_pqr (fname,fcreatedate,fweld_place,fmanufacturer_id,fmanufacturer_address,fbase_material_id ,fweld_position, fweld_method, fthickness ,fouter_diameter , 
+    fjoint_form , fprotective_gas, fflow, fingredient, fweld_material_id,fmanufacturer_diameter, finter_channel_temperature,  fwarm_up_temperature ,
+    fother_information, fgroove_id,  fwelddate ,fwelder_id , fnondestructive_test,fdamage_test , fhardness_test , fextra_information , fedit_user , fsurveyor ,
+    feditdate , ftestdate,  fexpotdate) 
+    VALUES (#{fname},#{newdate},#{fweld_place},#{fmanufacturer_id},#{fmanufacturer_address},#{fbase_material_id},#{fweld_position},#{fweld_method},#{fthickness},#{fouter_diameter},
+      #{fjoint_form},#{fprotective_gas},#{fflow},#{fingredient},#{fweld_material_id},#{fmanufacturer_diameter},#{finter_channel_temperature},#{fwarm_up_temperature},
+      #{fother_information},#{fgroove_id},#{fwelddate},#{fwelder_id},#{fnondestructive_test},#{fdamage_test},#{fhardness_test},#{fextra_information},#{fedit_user},#{fsurveyor},
+      #{feditdate},#{ftestdate},#{fexpotdate})
+  </insert>
+  
+  <update id="updatepqrlib">
+  UPDATE tb_pqr SET fname=#{fname},fcreatedate=#{newdate},fweld_place=#{fweld_place},
+    fmanufacturer_id=#{fmanufacturer_id},fmanufacturer_address=#{fmanufacturer_address},
+    fbase_material_id=#{fbase_material_id},  fweld_position=#{fweld_position},
+    fweld_method=#{fweld_method},fthickness=#{fthickness},fouter_diameter=#{fouter_diameter},
+    fjoint_form=#{fjoint_form},  fprotective_gas=#{fprotective_gas},fflow=#{fflow},fingredient=#{fingredient}
+    ,fweld_material_id=#{fweld_material_id},fmanufacturer_diameter=#{fmanufacturer_diameter},
+    finter_channel_temperature=#{finter_channel_temperature},fweld_material_id=#{fweld_material_id},
+    fwarm_up_temperature=#{fwarm_up_temperature},fother_information=#{fother_information},fgroove_id=#{fgroove_id},
+    fwelddate=#{fwelddate},fwelder_id=#{fwelder_id},fnondestructive_test=#{fnondestructive_test},
+    fdamage_test=#{fdamage_test},fhardness_test=#{fhardness_test},fextra_information=#{fextra_information},fedit_user=#{fedit_user}
+    ,fsurveyor=#{fsurveyor},feditdate=#{feditdate},ftestdate=#{ftestdate},fexpotdate=#{fexpotdate}
+    WHERE 1=1 and fid=#{fid}
+  </update>
+	<delete id="deletepqrlib">
+		DELETE FROM tb_pqr WHERE fid=#{fid}
+	</delete>
+	
+	<select id="getMainpqrList" resultType="Wps">
+		SELECT d.*,q.fname fpqr_name from tb_pqr_details d 
+		LEFT JOIN tb_pqr q on d.fpqr_id=q.fid 
+		WHERE 1=1 
+		<if test="parent!=null and parent!=''">
+			AND d.fpqr_id=#{parent} 
+		</if>
+		ORDER BY d.fweld_bead ASC
+	</select>
+	
+	<insert id="addPqrDetail" parameterType="Wps">
+		INSERT INTO tb_pqr_details (fsolder_layer, fweld_bead, favg_ele, favg_vol, favg_weldspeed,favg_line_energy,fpqr_id) VALUES 
+		(#{fsolder_layer}, #{fweld_bead}, #{favg_ele}, #{favg_vol}, #{favg_weldspeed}, #{favg_line_energy}, #{fpqr_id})
+	</insert>
+	
+	<update id="updatePqrDetailById" parameterType="Wps">
+		update tb_pqr_details set 
+		fsolder_layer=#{fsolder_layer},fweld_bead=#{fweld_bead},favg_ele=#{favg_ele},favg_vol=#{favg_vol},favg_weldspeed=#{favg_weldspeed},
+		favg_line_energy=#{favg_line_energy} 
+		where fid=#{fid};
+	</update>
+	
+	<delete id="deleteMainPqr">
+		DELETE FROM tb_pqr_details WHERE fid=#{fid}
+	</delete>
+	
+	<select id="getMainpwpsByPqrid" resultType="Wps">
+		SELECT s.fid,s.fspe_num fwpsnum,s.fsolder_layer,s.fweld_bead,s.fweld_method,fmaterial,d.fvaluename materialname,fdiameter,di.fvaluename dianame,fweld_ele+fweld_tuny_ele fpreset_ele_top,fweld_ele-fweld_tuny_ele fpreset_ele_bottom,
+		fweld_vol+fweld_tuny_vol fpreset_vol_top,fweld_vol-fweld_tuny_vol fpreset_vol_bottom,fpower_polarity,fgas_flow,fweld_speed,fwelding_process fprocessid,dic.fvaluename fprocessname,fwpslib_id insid,l.fwps_lib_name insname,
+		s.felectric_range,s.fvoltage_range,s.fweld_speed_range,s.fline_energy_range,dict.fvaluename fpower_polarity_name,dd.fvaluename fweld_method_name  
+		FROM `tb_pwps_details` s 
+		LEFT JOIN tb_dictionary d on d.fvalue=s.fmaterial and d.ftypeid=9 
+		LEFT JOIN tb_dictionary di on di.fvalue=s.fdiameter and di.ftypeid=13 
+		LEFT JOIN tb_dictionary dic on dic.fvalue=s.fwelding_process and dic.ftypeid=22
+		LEFT JOIN tb_dictionary dd on dd.fvalue=s.fweld_method and dd.ftypeid=25 
+		LEFT JOIN tb_dictionary dict on dict.fvalue=s.fpower_polarity and dict.ftypeid=36 
+		LEFT JOIN tb_pwps_lib l on l.fid=s.fwpslib_id 
+		LEFT JOIN tb_pqr q on q.fname=l.fwps_lib_name 
+		WHERE 1=1 
+		<if test="fid!=null and fid!=''">
+			AND q.fid=#{fid} 
+		</if>
+		ORDER by s.fweld_bead 
+	</select>
+	
+	<select id="generateMainwps" resultType="Wps">
+		SELECT s.fid,s.fspe_num fwpsnum,s.fsolder_layer,s.fweld_bead,s.fweld_method,fmaterial,d.fvaluename materialname,fdiameter,di.fvaluename dianame,fweld_ele+fweld_tuny_ele fpreset_ele_top,fweld_ele-fweld_tuny_ele fpreset_ele_bottom,
+		fweld_vol+fweld_tuny_vol fpreset_vol_top,fweld_vol-fweld_tuny_vol fpreset_vol_bottom,fpower_polarity,fgas_flow,fweld_speed,fwelding_process fprocessid,dic.fvaluename fprocessname,fwpslib_id insid,l.fwps_lib_name insname,
+		q.favg_ele,q.favg_vol,q.favg_weldspeed,q.favg_line_energy,dict.fvaluename fpower_polarity_name,dd.fvaluename fweld_method_name  
+		FROM `tb_pwps_details` s 
+		LEFT JOIN tb_dictionary d on d.fvalue=s.fmaterial and d.ftypeid=9 
+		LEFT JOIN tb_dictionary di on di.fvalue=s.fdiameter and di.ftypeid=13 
+		LEFT JOIN tb_dictionary dic on dic.fvalue=s.fwelding_process and dic.ftypeid=22
+		LEFT JOIN tb_dictionary dd on dd.fvalue=s.fweld_method and dd.ftypeid=25 
+		LEFT JOIN tb_dictionary dict on dict.fvalue=s.fpower_polarity and dict.ftypeid=36 
+		LEFT JOIN tb_pwps_lib l on l.fid=s.fwpslib_id 
+		LEFT JOIN tb_pqr_details q on s.fweld_bead=q.fweld_bead
+		WHERE 1=1 
+		<if test="name!=null and name!=''">
+			AND l.`fwps_lib_name`=#{name} 
+		</if>
+		ORDER by s.fweld_bead 
 	</select>
 </mapper>

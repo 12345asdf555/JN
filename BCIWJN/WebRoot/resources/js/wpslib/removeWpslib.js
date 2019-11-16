@@ -70,6 +70,8 @@ function openRemoveMainWps(row){
 }
 
 function removeMainwps(){
+	var wpsLibRow = $('#wpslibTable').datagrid('getSelected');
+	var index = $('#wpslibTable').datagrid('getRowIndex',wpsLibRow);
 	$.messager.confirm('提示', '此操作不可撤销，是否确认删除?', function(flag) {
 		if (flag) {
 			$.ajax({  
@@ -88,7 +90,7 @@ function removeMainwps(){
 						} else {
 							$.messager.alert("提示", "删除成功！");
 							$('#rmmwdlg').dialog('close');
-							$('#wpslibTable').datagrid('reload');
+							$('#ddv-'+index).datagrid('reload');
 						}
 		            }  
 		        },  

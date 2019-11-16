@@ -116,6 +116,12 @@ public interface WeldedJunctionService {
 	boolean updateTaskByFid(WeldedJunction wj);
 	
 	/**
+	 * 根据任务编号修改任务
+	 * @param wj
+	 */
+	void updateTaskByNumber(WeldedJunction wj);
+	
+	/**
 	 * 查询空闲任务
 	 * @param str
 	 * @return

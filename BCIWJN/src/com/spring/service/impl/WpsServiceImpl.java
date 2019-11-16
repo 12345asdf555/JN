@@ -314,4 +314,206 @@ public class WpsServiceImpl implements WpsService{
 		// TODO Auto-generated method stub
 		mapper.updateWpsDetailById(wps);
 	}
+
+	@Override
+	public List<Wps> getGrooveList(Page page, String search) {
+		// TODO Auto-generated method stub
+		return mapper.getGrooveList(search);
+	}
+
+	@Override
+	public List<Wps> getClassificationSociety() {
+		// TODO Auto-generated method stub
+		return mapper.getClassificationSociety();
+	}
+
+	@Override
+	public List<Wps> getWeldMaterial() {
+		// TODO Auto-generated method stub
+		return mapper.getWeldMaterial();
+	}
+
+	@Override
+	public List<Wps> getBaseMaterialList(Page page, String search) {
+		// TODO Auto-generated method stub
+		return mapper.getBaseMaterialList(search);
+	}
+
+	@Override
+	public List<Wps> getWpslibList(String search) {
+		// TODO Auto-generated method stub
+		return mapper.getWpslibList(search);
+	}
+
+	@Override
+	public List<Wps> getMainwpsList(BigInteger parent) {
+		// TODO Auto-generated method stub
+		return mapper.getMainwpsList(parent);
+	}
+
+	@Override
+	public List<Wps> getPwpslibList(String search) {
+		// TODO Auto-generated method stub
+		return mapper.getPwpslibList(search);
+	}
+
+	@Override
+	public List<Wps> getMainpwpsList(BigInteger parent) {
+		// TODO Auto-generated method stub
+		return mapper.getMainpwpsList(parent);
+	}
+
+	@Override
+	public List<Wps> getPwpslibList(Page page, String search) {
+		// TODO Auto-generated method stub
+		return mapper.getPwpslibList(search);
+	}
+
+	@Override
+	public List<Wps> getMainpwpsList(Page page, BigInteger parent) {
+		// TODO Auto-generated method stub
+		return mapper.getMainpwpsList(parent);
+	}
+
+	@Override
+	public void savePwpslib(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.savePwpslib(wps);
+	}
+
+	@Override
+	public void updatePwpslib(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.updatePwpslib(wps);
+	}
+
+	@Override
+	public void deletePwpslib(BigInteger fid) {
+		// TODO Auto-generated method stub
+		mapper.deletePwpslib(fid);
+	}
+
+	@Override
+	public void deletePwpsBelongLib(BigInteger fid) {
+		// TODO Auto-generated method stub
+		mapper.deletePwpsBelongLib(fid);
+	}
+
+	@Override
+	public void addPwpsDetail(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.addPwpsDetail(wps);
+	}
+
+	@Override
+	public void updatePwpsDetailById(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.updatePwpsDetailById(wps);
+	}
+
+	@Override
+	public void deleteMainPwps(BigInteger fid) {
+		// TODO Auto-generated method stub
+		mapper.deleteMainPwps(fid);
+	}
+
+	@Override
+	public Wps getBaseMaterialById(BigInteger fid) {
+		// TODO Auto-generated method stub
+		return mapper.getBaseMaterialById(fid);
+	}
+
+	@Override
+	public Wps getWeldMaterialById(BigInteger fid) {
+		// TODO Auto-generated method stub
+		return mapper.getWeldMaterialById(fid);
+	}
+
+	@Override
+	public List<Wps> getAllPwpslib() {
+		// TODO Auto-generated method stub
+		return mapper.getAllPwpslib();
+	}
+
+	@Override
+	public String getCountFromTask(String taskNumber) {
+		// TODO Auto-generated method stub
+		return mapper.getCountFromTask(taskNumber);
+	}
+	
+	@Override
+	public void pqrData(String taskno,String board) {
+		// TODO Auto-generated method stub
+		mapper.pqrData(taskno, board);
+	}
+	
+	public void updatepqrlib(Wps wps){
+		mapper.updatepqrlib(wps);
+	}
+
+@Override
+	public List<Wps> getpqrList(Page page, String search) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return mapper.getpqrList(search);
+	}
+
+@Override
+	public void savepqrlib(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.savepqrlib(wps);
+	}
+
+@Override
+	public void deletepqrlib(BigInteger fid) {
+		// TODO Auto-generated method stub
+		mapper.deletepqrlib(fid);
+	}
+
+	@Override
+	public List<Wps> getMainpqrList(Page page, BigInteger parent) {
+		// TODO Auto-generated method stub
+		return mapper.getMainpqrList(parent);
+	}
+	
+	@Override
+	public void addPqrDetail(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.addPqrDetail(wps);
+	}
+	
+	@Override
+	public void updatePqrDetailById(Wps wps) {
+		// TODO Auto-generated method stub
+		mapper.updatePqrDetailById(wps);
+	}
+	
+	@Override
+	public void deleteMainPqr(BigInteger fid) {
+		// TODO Auto-generated method stub
+		mapper.deleteMainPqr(fid);
+	}
+
+	@Override
+	public List<Wps> getpqrList(String search) {
+		// TODO Auto-generated method stub
+		return mapper.getpqrList(search);
+	}
+
+	@Override
+	public List<Wps> getMainpqrList(BigInteger parent) {
+		// TODO Auto-generated method stub
+		return mapper.getMainpqrList(parent);
+	}
+
+	@Override
+	public List<Wps> getMainpwpsByPqrid(BigInteger fid) {
+		// TODO Auto-generated method stub
+		return mapper.getMainpwpsByPqrid(fid);
+	}
+
+	@Override
+	public List<Wps> generateMainwps(String name) {
+		// TODO Auto-generated method stub
+		return mapper.generateMainwps(name);
+	}
 }

@@ -129,4 +129,10 @@ public class WeldedJunctionServiceImpl implements WeldedJunctionService{
 		// TODO Auto-generated method stub
 		return wjm.updateTaskByFid(wj);
 	}
+
+	@Override
+	public void updateTaskByNumber(WeldedJunction wj) {
+		// TODO Auto-generated method stub
+		wjm.updateTaskByNumber(wj);
+	}
 }

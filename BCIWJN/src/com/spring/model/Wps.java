@@ -100,9 +100,42 @@ public class Wps {
 	private String fsolder_layer;
 	private String fweld_bead;
 	private String fweld_method;
+	private String fweld_method_name;
 	private String fpower_polarity;
+	private String fpower_polarity_name;
 	private String fgas_flow;
 	private String fweld_speed;
+
+	private int fweld_way;
+	private String fweld_way_name;
+	private int fweld_process;
+	private String fweld_process_name;
+	private int fweld_position;
+	private String fweld_position_name;
+	private BigInteger fgroove_id;
+	private String fgroove_code;
+	private String fgroove_map;
+	private int fbase_material_id_one;
+	private String fbase_material_name_one;
+	private int fbase_material_id_two;
+	private String fbase_material_name_two;
+	private int fweld_material_id;
+	private String fweld_material_name;
+	private String fpad;
+	private int fclassification_society_id;
+	private String fclassification_society_name;
+	private double fthickness;
+	private int ftype;
+	private String ftype_name;
+	private int fcategory;
+	private String fcategory_name;
+	private String fouter_diameter;
+	private String felectric_range;
+	private String fvoltage_range;
+	private String fweld_speed_range;
+	private String fline_energy_range;
+	private int fgraininess;
+	private String fgraininess_name;
 	
 	private String f001;
 	private String f002;
@@ -154,6 +187,43 @@ public class Wps {
 	private String f048;
 	private String f049;
 	private String f050;
+	
+	private String fweld_place ;        //焊接地点
+	  private int fmanufacturer_id ;        //焊接厂商名称（下拉框）
+	  private String fmanufacturer_address ;    //厂商地址
+	  private int fbase_material_id ;        //母材id（下拉框）
+
+	  private String fjoint_form ;        //接头形式
+	  private String fprotective_gas ;      //保护气体
+	  private String fflow ;            //流量
+	  private String fingredient ;        //气体成分
+	  
+	  
+	  private String fmanufacturer_diameter ;    //焊材厂商和直径
+	  private String finter_channel_temperature ; //道间温度
+	  private String fwarm_up_temperature ;    //预热要求
+	  private String fother_information ;      //其他信息
+	  
+	  private String fwelddate ;          //焊接日期
+	  private long fwelder_id ;          //焊工id（下拉框）
+	  private String fnondestructive_test ;    //无损检测
+	  
+	  private String fdamage_test ;        //破坏性检测
+	  private String fhardness_test ;        //硬度检测
+	  private String fextra_information ;      //额外信息
+	  private String fedit_user ;          //编辑人
+	  private String fsurveyor ;          //验船师
+	  private String feditdate ;          //编辑日期
+	  private String ftestdate ;          //验证日期
+	  private String fexpotdate ;          //导出日期
+	  private String newdate;
+	  private String fbase_material_name;
+		private double favg_ele;
+		private double favg_vol;
+		private double favg_weldspeed;
+		private double favg_line_energy;
+		private BigInteger fpqr_id;
+		private String fpqr_name;
 	
 	public int getFini() {
 		return fini;
@@ -1157,5 +1227,382 @@ public class Wps {
 	public void setFweld_speed(String fweld_speed) {
 		this.fweld_speed = fweld_speed;
 	}
-	
+	public int getFweld_way() {
+		return fweld_way;
+	}
+	public void setFweld_way(int fweld_way) {
+		this.fweld_way = fweld_way;
+	}
+	public String getFweld_way_name() {
+		return fweld_way_name;
+	}
+	public void setFweld_way_name(String fweld_way_name) {
+		this.fweld_way_name = fweld_way_name;
+	}
+	public int getFweld_process() {
+		return fweld_process;
+	}
+	public void setFweld_process(int fweld_process) {
+		this.fweld_process = fweld_process;
+	}
+	public String getFweld_process_name() {
+		return fweld_process_name;
+	}
+	public void setFweld_process_name(String fweld_process_name) {
+		this.fweld_process_name = fweld_process_name;
+	}
+	public int getFweld_position() {
+		return fweld_position;
+	}
+	public void setFweld_position(int fweld_position) {
+		this.fweld_position = fweld_position;
+	}
+	public String getFweld_position_name() {
+		return fweld_position_name;
+	}
+	public void setFweld_position_name(String fweld_position_name) {
+		this.fweld_position_name = fweld_position_name;
+	}
+	public BigInteger getFgroove_id() {
+		return fgroove_id;
+	}
+	public void setFgroove_id(BigInteger fgroove_id) {
+		this.fgroove_id = fgroove_id;
+	}
+	public String getFgroove_code() {
+		return fgroove_code;
+	}
+	public void setFgroove_code(String fgroove_code) {
+		this.fgroove_code = fgroove_code;
+	}
+	public int getFbase_material_id_one() {
+		return fbase_material_id_one;
+	}
+	public void setFbase_material_id_one(int fbase_material_id_one) {
+		this.fbase_material_id_one = fbase_material_id_one;
+	}
+	public String getFbase_material_name_one() {
+		return fbase_material_name_one;
+	}
+	public void setFbase_material_name_one(String fbase_material_name_one) {
+		this.fbase_material_name_one = fbase_material_name_one;
+	}
+	public int getFbase_material_id_two() {
+		return fbase_material_id_two;
+	}
+	public void setFbase_material_id_two(int fbase_material_id_two) {
+		this.fbase_material_id_two = fbase_material_id_two;
+	}
+	public String getFbase_material_name_two() {
+		return fbase_material_name_two;
+	}
+	public void setFbase_material_name_two(String fbase_material_name_two) {
+		this.fbase_material_name_two = fbase_material_name_two;
+	}
+	public int getFweld_material_id() {
+		return fweld_material_id;
+	}
+	public void setFweld_material_id(int fweld_material_id) {
+		this.fweld_material_id = fweld_material_id;
+	}
+	public String getFweld_material_name() {
+		return fweld_material_name;
+	}
+	public void setFweld_material_name(String fweld_material_name) {
+		this.fweld_material_name = fweld_material_name;
+	}
+	public String getFpad() {
+		return fpad;
+	}
+	public void setFpad(String fpad) {
+		this.fpad = fpad;
+	}
+	public int getFclassification_society_id() {
+		return fclassification_society_id;
+	}
+	public void setFclassification_society_id(int fclassification_society_id) {
+		this.fclassification_society_id = fclassification_society_id;
+	}
+	public String getFclassification_society_name() {
+		return fclassification_society_name;
+	}
+	public void setFclassification_society_name(String fclassification_society_name) {
+		this.fclassification_society_name = fclassification_society_name;
+	}
+	public double getFthickness() {
+		return fthickness;
+	}
+	public void setFthickness(double fthickness) {
+		this.fthickness = fthickness;
+	}
+	public String getFweld_method_name() {
+		return fweld_method_name;
+	}
+	public void setFweld_method_name(String fweld_method_name) {
+		this.fweld_method_name = fweld_method_name;
+	}
+	public String getFgroove_map() {
+		return fgroove_map;
+	}
+	public void setFgroove_map(String fgroove_map) {
+		this.fgroove_map = fgroove_map;
+	}
+	public int getFtype() {
+		return ftype;
+	}
+	public void setFtype(int ftype) {
+		this.ftype = ftype;
+	}
+	public int getFcategory() {
+		return fcategory;
+	}
+	public void setFcategory(int fcategory) {
+		this.fcategory = fcategory;
+	}
+	public String getFouter_diameter() {
+		return fouter_diameter;
+	}
+	public void setFouter_diameter(String fouter_diameter) {
+		this.fouter_diameter = fouter_diameter;
+	}
+	public String getFtype_name() {
+		return ftype_name;
+	}
+	public void setFtype_name(String ftype_name) {
+		this.ftype_name = ftype_name;
+	}
+	public String getFcategory_name() {
+		return fcategory_name;
+	}
+	public void setFcategory_name(String fcategory_name) {
+		this.fcategory_name = fcategory_name;
+	}
+	public String getFelectric_range() {
+		return felectric_range;
+	}
+	public void setFelectric_range(String felectric_range) {
+		this.felectric_range = felectric_range;
+	}
+	public String getFvoltage_range() {
+		return fvoltage_range;
+	}
+	public void setFvoltage_range(String fvoltage_range) {
+		this.fvoltage_range = fvoltage_range;
+	}
+	public String getFline_energy_range() {
+		return fline_energy_range;
+	}
+	public void setFline_energy_range(String fline_energy_range) {
+		this.fline_energy_range = fline_energy_range;
+	}
+	public String getFweld_speed_range() {
+		return fweld_speed_range;
+	}
+	public void setFweld_speed_range(String fweld_speed_range) {
+		this.fweld_speed_range = fweld_speed_range;
+	}
+	public int getFgraininess() {
+		return fgraininess;
+	}
+	public void setFgraininess(int fgraininess) {
+		this.fgraininess = fgraininess;
+	}
+	public String getFgraininess_name() {
+		return fgraininess_name;
+	}
+	public void setFgraininess_name(String fgraininess_name) {
+		this.fgraininess_name = fgraininess_name;
+	}
+	public String getFpower_polarity_name() {
+		return fpower_polarity_name;
+	}
+	public void setFpower_polarity_name(String fpower_polarity_name) {
+		this.fpower_polarity_name = fpower_polarity_name;
+	}
+	public String getFweld_place() {
+		return fweld_place;
+	}
+	public void setFweld_place(String fweld_place) {
+		this.fweld_place = fweld_place;
+	}
+	public int getFmanufacturer_id() {
+		return fmanufacturer_id;
+	}
+	public void setFmanufacturer_id(int fmanufacturer_id) {
+		this.fmanufacturer_id = fmanufacturer_id;
+	}
+	public String getFmanufacturer_address() {
+		return fmanufacturer_address;
+	}
+	public void setFmanufacturer_address(String fmanufacturer_address) {
+		this.fmanufacturer_address = fmanufacturer_address;
+	}
+	public int getFbase_material_id() {
+		return fbase_material_id;
+	}
+	public void setFbase_material_id(int fbase_material_id) {
+		this.fbase_material_id = fbase_material_id;
+	}
+	public String getFjoint_form() {
+		return fjoint_form;
+	}
+	public void setFjoint_form(String fjoint_form) {
+		this.fjoint_form = fjoint_form;
+	}
+	public String getFprotective_gas() {
+		return fprotective_gas;
+	}
+	public void setFprotective_gas(String fprotective_gas) {
+		this.fprotective_gas = fprotective_gas;
+	}
+	public String getFflow() {
+		return fflow;
+	}
+	public void setFflow(String fflow) {
+		this.fflow = fflow;
+	}
+	public String getFingredient() {
+		return fingredient;
+	}
+	public void setFingredient(String fingredient) {
+		this.fingredient = fingredient;
+	}
+	public String getFmanufacturer_diameter() {
+		return fmanufacturer_diameter;
+	}
+	public void setFmanufacturer_diameter(String fmanufacturer_diameter) {
+		this.fmanufacturer_diameter = fmanufacturer_diameter;
+	}
+	public String getFinter_channel_temperature() {
+		return finter_channel_temperature;
+	}
+	public void setFinter_channel_temperature(String finter_channel_temperature) {
+		this.finter_channel_temperature = finter_channel_temperature;
+	}
+	public String getFwarm_up_temperature() {
+		return fwarm_up_temperature;
+	}
+	public void setFwarm_up_temperature(String fwarm_up_temperature) {
+		this.fwarm_up_temperature = fwarm_up_temperature;
+	}
+	public String getFother_information() {
+		return fother_information;
+	}
+	public void setFother_information(String fother_information) {
+		this.fother_information = fother_information;
+	}
+	public String getFwelddate() {
+		return fwelddate;
+	}
+	public void setFwelddate(String fwelddate) {
+		this.fwelddate = fwelddate;
+	}
+	public long getFwelder_id() {
+		return fwelder_id;
+	}
+	public void setFwelder_id(long fwelder_id) {
+		this.fwelder_id = fwelder_id;
+	}
+	public String getFnondestructive_test() {
+		return fnondestructive_test;
+	}
+	public void setFnondestructive_test(String fnondestructive_test) {
+		this.fnondestructive_test = fnondestructive_test;
+	}
+	public String getFdamage_test() {
+		return fdamage_test;
+	}
+	public void setFdamage_test(String fdamage_test) {
+		this.fdamage_test = fdamage_test;
+	}
+	public String getFhardness_test() {
+		return fhardness_test;
+	}
+	public void setFhardness_test(String fhardness_test) {
+		this.fhardness_test = fhardness_test;
+	}
+	public String getFextra_information() {
+		return fextra_information;
+	}
+	public void setFextra_information(String fextra_information) {
+		this.fextra_information = fextra_information;
+	}
+	public String getFedit_user() {
+		return fedit_user;
+	}
+	public void setFedit_user(String fedit_user) {
+		this.fedit_user = fedit_user;
+	}
+	public String getFsurveyor() {
+		return fsurveyor;
+	}
+	public void setFsurveyor(String fsurveyor) {
+		this.fsurveyor = fsurveyor;
+	}
+	public String getFeditdate() {
+		return feditdate;
+	}
+	public void setFeditdate(String feditdate) {
+		this.feditdate = feditdate;
+	}
+	public String getFtestdate() {
+		return ftestdate;
+	}
+	public void setFtestdate(String ftestdate) {
+		this.ftestdate = ftestdate;
+	}
+	public String getFexpotdate() {
+		return fexpotdate;
+	}
+	public void setFexpotdate(String fexpotdate) {
+		this.fexpotdate = fexpotdate;
+	}
+	public String getFbase_material_name() {
+		return fbase_material_name;
+	}
+	public void setFbase_material_name(String fbase_material_name) {
+		this.fbase_material_name = fbase_material_name;
+	}
+	public double getFavg_ele() {
+		return favg_ele;
+	}
+	public void setFavg_ele(double favg_ele) {
+		this.favg_ele = favg_ele;
+	}
+	public double getFavg_vol() {
+		return favg_vol;
+	}
+	public void setFavg_vol(double favg_vol) {
+		this.favg_vol = favg_vol;
+	}
+	public double getFavg_weldspeed() {
+		return favg_weldspeed;
+	}
+	public void setFavg_weldspeed(double favg_weldspeed) {
+		this.favg_weldspeed = favg_weldspeed;
+	}
+	public double getFavg_line_energy() {
+		return favg_line_energy;
+	}
+	public void setFavg_line_energy(double favg_line_energy) {
+		this.favg_line_energy = favg_line_energy;
+	}
+	public BigInteger getFpqr_id() {
+		return fpqr_id;
+	}
+	public void setFpqr_id(BigInteger fpqr_id) {
+		this.fpqr_id = fpqr_id;
+	}
+	public String getFpqr_name() {
+		return fpqr_name;
+	}
+	public void setFpqr_name(String fpqr_name) {
+		this.fpqr_name = fpqr_name;
+	}
+	public String getNewdate() {
+	    return newdate;
+	  }
+	  public void setNewdate(String newdate) {
+	    this.newdate = newdate;
+	  }
 }

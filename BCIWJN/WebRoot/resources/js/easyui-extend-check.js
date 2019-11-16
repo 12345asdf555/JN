@@ -319,8 +319,10 @@ $(function(){
 								success : function(data){
 									result = data;
 									if(result==false){
-							    		document.getElementById("load").style.display ='none';
-							    		document.getElementById("show").style.display ='none';
+										if($("#load").length!=0){
+								    		document.getElementById("load").style.display ='none';
+								    		document.getElementById("show").style.display ='none';
+										}
 									}
 								}
 							});

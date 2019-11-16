@@ -203,6 +203,10 @@ public class WeldingTaskController {
 				json.put("fwpslib_id", w.getFwpslib_id());
 				json.put("iname", w.getIname());
 				json.put("iid", w.getIid());
+				json.put("fweld_method_name", w.getFweld_method_name());
+				json.put("fweld_position_name", w.getFweld_position_name());
+				json.put("fbase_material_name", w.getFbase_material_name());
+				json.put("fweld_material_name", w.getFweld_material_name());
 				if(w.getFstatus()==null){
 					json.put("status", 2);
 				}else if(Integer.valueOf(w.getFstatus())==1){
@@ -563,6 +567,10 @@ public class WeldingTaskController {
 			wj.setFwpslib_id(new BigInteger(request.getParameter("fwpslib_id")));
 			wj.setFwelder_id(new BigInteger(request.getParameter("fwelder_id")));
 			wj.setIid(new BigInteger(ps.getInsidByFid(new BigInteger(request.getParameter("fwelder_id")))));
+			wj.setFweld_method(request.getParameter("fweld_method"));
+			wj.setFweld_position(request.getParameter("fweld_position"));
+			wj.setFweld_material_model(request.getParameter("fweld_material_id"));
+			wj.setFbase_material_type(request.getParameter("fbase_material_id"));
 			wjm.addTask(wj);
 			obj.put("success", true);
 			//客户端执行操作
@@ -600,6 +608,10 @@ public class WeldingTaskController {
 			wj.setFwpslib_id(new BigInteger(request.getParameter("fwpslib_id")));
 			wj.setFwelder_id(new BigInteger(request.getParameter("fwelder_id")));
 			wj.setIid(new BigInteger(ps.getInsidByFid(new BigInteger(request.getParameter("fwelder_id")))));
+			wj.setFweld_method(request.getParameter("fweld_method"));
+			wj.setFweld_position(request.getParameter("fweld_position"));
+			wj.setFweld_material_model(request.getParameter("fweld_material_id"));
+			wj.setFbase_material_type(request.getParameter("fbase_material_id"));
 			wjm.updateTaskByFid(wj);
 			obj.put("success", true);
 			//客户端执行操作
@@ -658,6 +670,34 @@ public class WeldingTaskController {
 		}
 		return obj.toString();
 }
+	
+	@RequestMapping("/generateWeldTask")
+	@ResponseBody
+	public String generateWeldTask(HttpServletRequest request,@ModelAttribute WeldedJunction wj){
+		JSONObject obj = new JSONObject();
+		try{
+			wj.setWeldedJunctionno(request.getParameter("weldedJunctionno"));
+			wj.setStartTime(request.getParameter("startTime"));
+			wj.setFwpslib_id(new BigInteger(request.getParameter("fwpslib_id")));
+			wj.setFwelder_id(new BigInteger(request.getParameter("fwelder_id")));
+			wj.setIid(new BigInteger(ps.getInsidByFid(new BigInteger(request.getParameter("fwelder_id")))));
+			wj.setFweld_method(request.getParameter("fweld_method"));
+			wj.setFweld_position(request.getParameter("fweld_position"));
+			wj.setFweld_material_model(request.getParameter("fweld_material_id"));
+			wj.setFbase_material_type(request.getParameter("fbase_material_id"));
+			String flag = request.getParameter("flag");
+			if(flag.equals("0")){
+				wjm.addTask(wj);
+			}else{
+				wjm.updateTaskByNumber(wj);
+			}
+			obj.put("success", true);
+		}catch(Exception e){
+			obj.put("success", false);
+			obj.put("errorMsg", e.getMessage());
+		}
+		return obj.toString();
+	}
 	
 	@RequestMapping("/wjNoValidate")
 	@ResponseBody
@@ -1204,6 +1244,26 @@ public class WeldingTaskController {
 		JSONArray ary = new JSONArray();
 		try{
 			List<Wps> ls = wps.getAllWpslib();
+			for(Wps wps : ls ){
+				json.put("id", wps.getInsid());
+				json.put("name", wps.getInsname());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
+	
+	@RequestMapping("/getPwpslibAll")
+	@ResponseBody
+	public String getPwpslibAll(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		try{
+			List<Wps> ls = wps.getAllPwpslib();
 			for(Wps wps : ls ){
 				json.put("id", wps.getInsid());
 				json.put("name", wps.getInsname());

@@ -59,22 +59,57 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 			<a href="javascript:openCondlg();" class="easyui-linkbutton" iconCls="icon-newadd">控制命令下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:openHistorydlg();" class="easyui-linkbutton" iconCls="icon-newadd"> 下发历史查询</a>&nbsp;&nbsp;&nbsp;&nbsp; -->
 			<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-newadd"> 工艺导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:openSearchDialog();" class="easyui-linkbutton" iconCls="icon-select"> 查找</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 	</div>
   	<div id="body" >
 	    <table id="wpslibTable" style="table-layout: fixed; width:100%;"></table>
 
 	    <!-- 添加修改工艺库 -->
-		<div id="wltdlg" class="easyui-dialog" style="width: 400px; height: 225px; padding:10px 20px" closed="true" buttons="#wltdlg-buttons">
+		<div id="wltdlg" class="easyui-dialog" style="width: 700px; height: 400px; padding:10px 20px" closed="true" buttons="#wltdlg-buttons">
 			<form id="wltfm" class="easyui-form" method="post" data-options="novalidate:true">
 				<div class="fitem">
 					<lable><span class="required">*</span>工艺库名称</lable>
 					<input type="hidden" id="validwl">
 					<input class="easyui-textbox" name="wpslibName" id="wpslibName"  data-options="validType:['wpslibValidate'],required:true"/>
-				</div>
-				<div class="fitem">
 					<lable><span class="required">*</span>焊机型号</lable>
 					<select class="easyui-combobox" name="model" id="model" data-options="required:true,editable:false""></select>
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>船级社</lable>
+					<select class="easyui-combobox" name="fclassification_society_id" id="fclassification_society_id" data-options="required:true,editable:false""></select>
+					<lable><span class="required">*</span>坡口</lable>
+					<select class="easyui-combogrid" name="fgroove_id" id="fgroove_id" data-options="required:true,editable:false""></select>
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>焊接方法</lable>
+					<select class="easyui-combobox" name="fweld_method" id="fweld_method" data-options="required:true,editable:false""></select>
+					<lable><span class="required">*</span>焊接方式</lable>
+					<select class="easyui-combobox" name="fweld_way" id="fweld_way" data-options="required:true,editable:false""></select>
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>焊接工艺</lable>
+					<select class="easyui-combobox" name="fweld_process" id="fweld_process" data-options="required:true,editable:false""></select>
+					<lable><span class="required">*</span>焊接位置</lable>
+					<select class="easyui-combobox" name="fweld_position" id="fweld_position" data-options="required:true,editable:false""></select>
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>板厚</lable>
+					<input class="easyui-numberbox" name="fthickness" id="fthickness" data-options="required:true"/>
+					<lable><span class="required">*</span>母材①</lable>
+					<select class="easyui-combogrid" name="fbase_material_id_one" id="fbase_material_id_one" data-options="required:true,editable:false""></select>
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>焊材</lable>
+					<select class="easyui-combobox" name="fweld_material_id" id="fweld_material_id" data-options="required:true,editable:false""></select>
+					<lable><span class="required">*</span>母材②</lable>
+					<select class="easyui-combogrid" name="fbase_material_id_two" id="fbase_material_id_two" data-options="required:true,editable:false""></select>
+				</div>
+				<div class="fitem">
+					<lable><span class="required">*</span>气体</lable>
+					<select class="easyui-combobox" name="fgas" id="fgas" data-options="required:true,editable:false""></select>
+					<lable><span class="required"></span>衬垫</lable>
+					<input class="easyui-textbox" id="fpad"  name="fpad" />
 				</div>
 				<div class="fitem">
 					<lable>状态</lable>
@@ -92,7 +127,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<form id="rmwltfm" class="easyui-form" method="post" data-options="novalidate:true">
 				<div class="fitem">
 					<lable><span class="required">*</span>工艺库名称</lable>
-					<input type="hidden" id="validwl">
 					<input class="easyui-textbox" name="wpslibName" id="wpslibName"/>
 				</div>
 				<div class="fitem">
@@ -106,8 +140,65 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		
+		<!-- 查找工艺库 -->
+		<div id="swldlg" class="easyui-dialog" style="width: 700px; height: 400px; padding:10px 20px" closed="true" buttons="#wltdlg-buttons">
+			<form id="swlfm" class="easyui-form" method="post" data-options="novalidate:true">
+				<div class="fitem">
+					<lable>工艺库名称</lable>
+					<input class="easyui-textbox" name="swpslibName" id="swpslibName"  data-options="validType:['wpslibValidate']"/>
+					<lable>焊机型号</lable>
+					<select class="easyui-combobox" name="smodel" id="smodel" data-options="editable:false""></select>
+				</div>
+				<div class="fitem">
+					<lable>船级社</lable>
+					<select class="easyui-combobox" name="sfclassification_society_id" id="sfclassification_society_id" data-options="editable:false""></select>
+					<lable>坡口</lable>
+					<select class="easyui-combogrid" name="sfgroove_id" id="sfgroove_id" data-options="editable:false""></select>
+				</div>
+				<div class="fitem">
+					<lable>焊接方法</lable>
+					<select class="easyui-combobox" name="sfweld_method" id="sfweld_method" data-options="editable:false""></select>
+					<lable>焊接方式</lable>
+					<select class="easyui-combobox" name="sfweld_way" id="sfweld_way" data-options="editable:false""></select>
+				</div>
+				<div class="fitem">
+					<lable>焊接工艺</lable>
+					<select class="easyui-combobox" name="sfweld_process" id="sfweld_process" data-options="editable:false""></select>
+					<lable>焊接位置</lable>
+					<select class="easyui-combobox" name="sfweld_position" id="sfweld_position" data-options="editable:false""></select>
+				</div>
+				<div class="fitem">
+					<lable>板厚</lable>
+					<input class="easyui-numberbox" name="sfthickness" id="sfthickness" />
+					<lable>母材①</lable>
+					<select class="easyui-combogrid" name="sfbase_material_id_one" id="sfbase_material_id_one" data-options="editable:false""></select>
+				</div>
+				<div class="fitem">
+					<lable>焊材</lable>
+					<select class="easyui-combobox" name="sfweld_material_id" id="sfweld_material_id" data-options="editable:false""></select>
+					<lable>母材②</lable>
+					<select class="easyui-combogrid" name="sfbase_material_id_two" id="sfbase_material_id_two" data-options="editable:false""></select>
+				</div>
+				<div class="fitem">
+					<lable>气体</lable>
+					<select class="easyui-combobox" name="sfgas" id="sfgas" data-options="editable:false""></select>
+					<lable>衬垫</lable>
+					<input class="easyui-textbox" id="sfpad"  name="sfpad" />
+				</div>
+				<div class="fitem">
+					<lable>状态</lable>
+	   				<span id="sradios"></span>
+				</div>
+			</form>
+		</div>
+		<div id="wltdlg-buttons">
+			<a href="javascript:generatePwps(0);" class="easyui-linkbutton" iconCls="icon-ok">生成pwps</a>
+			<a href="javascript:searchWpslib();" class="easyui-linkbutton" iconCls="icon-ok">查找</a>
+			<a href="javascript:closeDialog('swldlg');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+		</div>
+		
 		<!-- 添加修改工艺 -->
-		<div id="mwdlg" class="easyui-dialog" style="width: 700px; height: 400px; padding:10px 20px" closed="true" buttons="#mwdlg-buttons">
+		<div id="mwdlg" class="easyui-dialog" style="width: 700px; height: 450px; padding:10px 20px" closed="true" buttons="#mwdlg-buttons">
 			<form id="mwfm" class="easyui-form" method="post" data-options="novalidate:true">
 	        	<div class="fitem">
 					<lable><span class="required">*</span>焊层号</lable>
@@ -147,9 +238,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="fitem">
 					<lable><span class="required"></span>电源极性</lable>
-					<input class="easyui-textbox" id="fpower_polarity"  name="fpower_polarity" />
+					<select class="easyui-combobox" id="fpower_polarity"  name="fpower_polarity" ></select>
 					<lable><span class="required"></span>焊接方法</lable>
-					<input class="easyui-textbox" id="fweld_method"  name="fweld_method" />
+					<select class="easyui-combobox" id="dfweld_method"  name="dfweld_method" ></select>
+				</div>
+				<div class="fitem">
+					<lable><span class="required"></span>电流范围</lable>
+					<input class="easyui-textbox" id="felectric_range"  name="felectric_range" />
+					<lable><span class="required"></span>电压范围</lable>
+					<input class="easyui-textbox" id="fvoltage_range"  name="fvoltage_range" />
+				</div>
+				<div class="fitem">
+					<lable><span class="required"></span>焊接速度范围</lable>
+					<input class="easyui-textbox" id="fweld_speed_range"  name="fweld_speed_range" />
+					<lable><span class="required"></span>线能量范围</lable>
+					<input class="easyui-textbox" id="fline_energy_range"  name=fline_energy_range />
 				</div>
 			</form>
 		</div>
@@ -160,7 +263,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		
 		<!-- 删除工艺 -->
-		<div id="rmmwdlg" class="easyui-dialog" style="width: 700px; height: 400px; padding:10px 20px" closed="true" buttons="#rmmwdlg-buttons">
+		<div id="rmmwdlg" class="easyui-dialog" style="width: 700px; height: 450px; padding:10px 20px" closed="true" buttons="#rmmwdlg-buttons">
 			<form id="rmmwfm" class="easyui-form" method="post" data-options="novalidate:true">
 	        	<div class="fitem">
 					<lable><span class="required">*</span>焊层号</lable>
@@ -206,9 +309,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="fitem">
 					<lable><span class="required">*</span>电源极性</lable>
-					<input class="easyui-textbox" id="fpower_polarity"  name="fpower_polarity" />
+					<select class="easyui-combobox" id="fpower_polarity"  name="fpower_polarity" ></select>
 					<lable><span class="required">*</span>焊接方法</lable>
-					<input class="easyui-textbox" id="fweld_method"  name="fweld_method" />
+					<select class="easyui-combobox" id="dfweld_method"  name="dfweld_method" ></select>
+				</div>
+				<div class="fitem">
+					<lable><span class="required"></span>电流范围</lable>
+					<input class="easyui-textbox" id="felectric_range"  name="felectric_range" />
+					<lable><span class="required"></span>电压范围</lable>
+					<input class="easyui-textbox" id="fvoltage_range"  name="fvoltage_range" />
+				</div>
+				<div class="fitem">
+					<lable><span class="required"></span>焊接速度范围</lable>
+					<input class="easyui-textbox" id="fweld_speed_range"  name="fweld_speed_range" />
+					<lable><span class="required"></span>线能量范围</lable>
+					<input class="easyui-textbox" id="fline_energy_range"  name=fline_energy_range />
 				</div>
 			</form>
 		</div>
@@ -342,6 +457,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="load" style="width:100%;height:100%;"></div>
 	</div>
+	
+	<div id="dialog" class="easyui-dialog" title="图片预览" data-options="resizable:true,modal:false,closed:true,closeOnEscape:false" >
+	   <img id="img_id" alt="">
+	</div>
+	
 	<style type="text/css">
 	    #load{ display: none; position: absolute; left:0; top:0;width: 100%; height: 40%; background-color: #555753; z-index:10001; -moz-opacity: 0.4; opacity:0.5; filter: alpha(opacity=70);}
 		#show{display: none; position: absolute; top: 45%; left: 45%; width: 180px; height: 5%; padding: 8px; border: 8px solid #E8E9F7; background-color: white; z-index:10002; overflow: auto;}

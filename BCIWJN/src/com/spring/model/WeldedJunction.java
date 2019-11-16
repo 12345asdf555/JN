@@ -52,8 +52,12 @@ public class WeldedJunction {
 	private String fengineering_symbol;
 	private String fweld_method;
 	private String fweld_position;
+	private String fweld_method_name;
+	private String fweld_position_name;
 	private String fbase_material_type;
+	private String fbase_material_name;
 	private String fweld_material_model;
+	private String fweld_material_name;
 	private String ftechnological_design;
 	private String fwarm_up_requirement;
 	private String finter_channel_temperature;
@@ -412,6 +416,30 @@ public class WeldedJunction {
 	}
 	public void setFstatus(String fstatus) {
 		this.fstatus = fstatus;
+	}
+	public String getFweld_method_name() {
+		return fweld_method_name;
+	}
+	public void setFweld_method_name(String fweld_method_name) {
+		this.fweld_method_name = fweld_method_name;
+	}
+	public String getFweld_position_name() {
+		return fweld_position_name;
+	}
+	public void setFweld_position_name(String fweld_position_name) {
+		this.fweld_position_name = fweld_position_name;
+	}
+	public String getFbase_material_name() {
+		return fbase_material_name;
+	}
+	public void setFbase_material_name(String fbase_material_name) {
+		this.fbase_material_name = fbase_material_name;
+	}
+	public String getFweld_material_name() {
+		return fweld_material_name;
+	}
+	public void setFweld_material_name(String fweld_material_name) {
+		this.fweld_material_name = fweld_material_name;
 	}
 	
 }

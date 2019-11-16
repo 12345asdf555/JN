@@ -1509,6 +1509,7 @@ public class ExportExcelController {
 		WeldDto dto = new WeldDto();
 		String dtime = "统计日期："+time1+"--"+time2+"\r\n";
 		double avgEle=0,avgVol=0;
+		double avgEleall=0,avgVolall=0;
 		try{
 			if(iutil.isNull(time1)){
 				dto.setDtoTime1(time1);
@@ -1517,38 +1518,129 @@ public class ExportExcelController {
 				dto.setDtoTime2(time2);
 			}
 			List<Report> list = reportService.historyData(dto,taskno,mach,welderid,solder_layer,weld_bead);
-//			dtime += "平均电流：" + String.valueOf(list.get(0).getFrealele()) + "；平均电压：" + String.valueOf(list.get(0).getFrealvol());
-			String[] titles = new String[]{"焊层号","焊道号","电流","电压","时间"};
-			Object[][] data = new Object[list.size()][5];
+			//			dtime += "平均电流：" + String.valueOf(list.get(0).getFrealele()) + "；平均电压：" + String.valueOf(list.get(0).getFrealvol());
+			String[] titles = new String[]{"焊层号","焊道号","电流","电压","时间","平均电流","平均电压"};
+			Object[][] data = new Object[list.size()][7];
 			int ii = 0;
 			double tempMaxEle=0,tempMinEle=0,tempMaxVol=0,tempMinVol=0;
+			boolean first = true;
+			BigInteger pastdata = null;
+			BigInteger nowdata;
+			int count = 0;
 			for (Report i : list) {
-				if (ii < list.size()) {
-					data[ii][0] = i.getId();// 焊层号
-					data[ii][1] = i.getInsid();// 焊道号
-					data[ii][2] = i.getFstandardele();//电流
-					data[ii][3] = i.getFstandardvol();// 电压
-					data[ii][4] = i.getFweldingtime();//时间
-					avgEle+=i.getFstandardele();
-					avgVol+=i.getFstandardvol();
-					if(ii==0) {
-						tempMinEle = i.getFstandardele();
-						tempMinVol = i.getFstandardvol();
+				if(first) {
+					pastdata = i.getInsid();
+					nowdata = i.getInsid();
+					
+					if (ii < list.size()) {
+						data[ii][0] = i.getId();// 焊层号
+						data[ii][1] = i.getInsid();// 焊道号
+						data[ii][2] = i.getFstandardele();//电流
+						data[ii][3] = i.getFstandardvol();// 电压
+						data[ii][4] = i.getFweldingtime();//时间
+						avgEle+=i.getFstandardele();
+						avgVol+=i.getFstandardvol();
+						avgEleall+=i.getFstandardele();
+						avgVolall+=i.getFstandardvol();
+						data[ii-count][5] = (float)avgEle/(count+1);
+						data[ii-count][6] = (float)avgVol/(count+1);
+						if(ii==0) {
+							tempMinEle = i.getFstandardele();
+							tempMinVol = i.getFstandardvol();
+						}
+						if(i.getFstandardele()>tempMaxEle) {
+							tempMaxEle = i.getFstandardele();
+						}
+						if(i.getFstandardele()<tempMinEle && i.getFstandardele()!=0) {
+							tempMinEle = i.getFstandardele();
+						}
+						if(i.getFstandardvol()>tempMaxVol) {
+							tempMaxVol = i.getFstandardvol();
+						}
+						if(i.getFstandardvol()<tempMinVol && i.getFstandardvol()!=0) {
+							tempMinVol = i.getFstandardvol();
+						}
 					}
-					if(i.getFstandardele()>tempMaxEle) {
-						tempMaxEle = i.getFstandardele();
-					}
-					if(i.getFstandardele()<tempMinEle && i.getFstandardele()!=0) {
-						tempMinEle = i.getFstandardele();
-					}
-					if(i.getFstandardvol()>tempMaxVol) {
-						tempMaxVol = i.getFstandardvol();
-					}
-					if(i.getFstandardvol()<tempMinVol && i.getFstandardvol()!=0) {
-						tempMinVol = i.getFstandardvol();
+					
+					ii++;
+					count++;
+					first = false;
+				}else {
+					nowdata = i.getInsid();
+					
+					if(pastdata == nowdata) {
+						if (ii < list.size()) {
+							data[ii][0] = i.getId();// 焊层号
+							data[ii][1] = i.getInsid();// 焊道号
+							data[ii][2] = i.getFstandardele();//电流
+							data[ii][3] = i.getFstandardvol();// 电压
+							data[ii][4] = i.getFweldingtime();//时间
+							avgEle+=i.getFstandardele();
+							avgVol+=i.getFstandardvol();
+							avgEleall+=i.getFstandardele();
+							avgVolall+=i.getFstandardvol();
+							data[ii-count][5] = (float)avgEle/(count+1);
+							data[ii-count][6] = (float)avgVol/(count+1);
+							if(ii==0) {
+								tempMinEle = i.getFstandardele();
+								tempMinVol = i.getFstandardvol();
+							}
+							if(i.getFstandardele()>tempMaxEle) {
+								tempMaxEle = i.getFstandardele();
+							}
+							if(i.getFstandardele()<tempMinEle && i.getFstandardele()!=0) {
+								tempMinEle = i.getFstandardele();
+							}
+							if(i.getFstandardvol()>tempMaxVol) {
+								tempMaxVol = i.getFstandardvol();
+							}
+							if(i.getFstandardvol()<tempMinVol && i.getFstandardvol()!=0) {
+								tempMinVol = i.getFstandardvol();
+							}
+						}
+						
+						ii++;
+						count++;
+					}else {
+						pastdata = i.getInsid();
+						nowdata = i.getInsid();
+						avgEle = 0;
+						avgVol = 0;
+						count = 0;
+						
+						if (ii < list.size()) {
+							data[ii][0] = i.getId();// 焊层号
+							data[ii][1] = i.getInsid();// 焊道号
+							data[ii][2] = i.getFstandardele();//电流
+							data[ii][3] = i.getFstandardvol();// 电压
+							data[ii][4] = i.getFweldingtime();//时间
+							avgEle+=i.getFstandardele();
+							avgVol+=i.getFstandardvol();
+							avgEleall+=i.getFstandardele();
+							avgVolall+=i.getFstandardvol();
+							data[ii-count][5] = (float)avgEle/(count+1);
+							data[ii-count][6] = (float)avgVol/(count+1);
+							if(ii==0) {
+								tempMinEle = i.getFstandardele();
+								tempMinVol = i.getFstandardvol();
+							}
+							if(i.getFstandardele()>tempMaxEle) {
+								tempMaxEle = i.getFstandardele();
+							}
+							if(i.getFstandardele()<tempMinEle && i.getFstandardele()!=0) {
+								tempMinEle = i.getFstandardele();
+							}
+							if(i.getFstandardvol()>tempMaxVol) {
+								tempMaxVol = i.getFstandardvol();
+							}
+							if(i.getFstandardvol()<tempMinVol && i.getFstandardvol()!=0) {
+								tempMinVol = i.getFstandardvol();
+							}
+						}
+						ii++;
+						count++;
 					}
 				}
-				ii++;
 			}
 			DecimalFormat df = new DecimalFormat("0.0");
 			if(board==null || "".equals(board)){
@@ -1557,10 +1649,10 @@ public class ExportExcelController {
 			String weldSpeed = df.format(Double.valueOf(board)/(list.size()/60.0));
 			String lineEnergy = "0.0";
 			if(!weldSpeed.equals("0.0")){
-				lineEnergy = df.format((avgEle/list.size())*(avgVol/list.size())/Double.valueOf(weldSpeed)*60/1000);
+				lineEnergy = df.format((avgEleall/list.size())*(avgVolall/list.size())/Double.valueOf(weldSpeed)*60/1000);
 			}
 			if(list.size()!=0) {
-				dtime += "任务编号："+taskno+"；平均电流：" + df.format(avgEle/list.size()) + "A；平均电压：" + df.format(avgVol/list.size()) + "V"
+				dtime += "任务编号："+taskno+"；平均电流：" + df.format(avgEleall/list.size()) + "A；平均电压：" + df.format(avgVolall/list.size()) + "V"
 						+"；平均焊接速度：" + weldSpeed + "cm/min；平均线能量：" + lineEnergy + "KJ/cm\r\n"
 						+"最大电流：" + tempMaxEle + "A；最小电流：" + tempMinEle + "A"
 						+"；最大电压：" + tempMaxVol + "V；最小电压：" + tempMinVol + "V";
@@ -1573,30 +1665,30 @@ public class ExportExcelController {
 			//获取绝对路径
 			String abpath=scontext.getRealPath("");
 			//String contextpath=scontext. getContextPath() ; 获取虚拟路径
-			
+
 			String path = abpath+"excelfiles/" + filename;
-			
+
 			new CommonExcelUtil(dtime, titles, data, path, "历史焊接数据详情");
 			file = new File(path);
 			HttpHeaders headers = new HttpHeaders();
 			String fileName = "";
 			fileName = new String(filename.getBytes("gb2312"),"iso-8859-1");
-		
+
 			headers.setContentDispositionFormData("attachment", fileName);
 			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-			
+
 			//处理ie无法下载的问题
 			response.setContentType("application/octet-stream;charset=utf-8");
 			response.setHeader( "Content-Disposition", 
 					"attachment;filename=\""+ fileName); 
 			ServletOutputStream o = response.getOutputStream();
 			o.flush();
-			
+
 			return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return null;
 		} finally {
 			file.delete();
 		}
-	}	
+	}
 }
