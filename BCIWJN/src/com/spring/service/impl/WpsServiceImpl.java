@@ -516,4 +516,28 @@ public class WpsServiceImpl implements WpsService{
 		// TODO Auto-generated method stub
 		return mapper.generateMainwps(name);
 	}
+
+	@Override
+	public List<Wps> getAllPqrlib() {
+		// TODO Auto-generated method stub
+		return mapper.getAllPqrlib();
+	}
+
+	@Override
+	public int getCountFromWps(String search) {
+		// TODO Auto-generated method stub
+		return mapper.getCountFromWps(search);
+	}
+
+	@Override
+	public int getCountFromPwpsByName(String name) {
+		// TODO Auto-generated method stub
+		return mapper.getCountFromPwpsByName(name);
+	}
+
+	@Override
+	public String getCountFromPqr(String taskid) {
+		// TODO Auto-generated method stub
+		return mapper.getCountFromPqr(taskid);
+	}
 }

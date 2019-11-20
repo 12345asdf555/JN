@@ -262,11 +262,11 @@ function wpslibDatagrid(){
         },
 		onLoadSuccess: function(data){
 //			$("a[id='wpslibgive']").linkbutton({text:'工艺库下发',plain:true,iconCls:'icon-setwps'});
-			$("a[id='wpslibadd']").linkbutton({text:'新增工艺',plain:true,iconCls:'icon-newadd'});
+			$("a[id='wpslibadd']").linkbutton({text:'新增子工艺',plain:true,iconCls:'icon-newadd'});
 	        $("a[id='wpslibedit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 	        $("a[id='wpslibremove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
 	        $("a[id='wpsliboutputpwps']").linkbutton({text:'导出PWPS',plain:true,iconCls:'icon-update'});
-	        $("a[id='generatePwps']").linkbutton({text:'生成任务',plain:true,iconCls:'icon-delete'});
+	        $("a[id='generatePwps']").linkbutton({text:'生成任务',plain:true,iconCls:'icon-newadd'});
 		},
 		detailFormatter:function(index,row2){
 			return '<div id="div'+index+'"><table id="ddv-' + index + '" style="min-height:80px;"></table></div>';
@@ -423,7 +423,7 @@ function wpslibDatagrid(){
 							plain : true,
 							iconCls : 'icon-delete'
 						});
-//						$("#div"+index).height($("#div"+index).height()+20);
+						$("#div"+index).height($("#div"+index).height());
 						$("#ddv-"+index).datagrid('resize', {
 							height : $("#div"+index).height(),
 							width : $("#div"+index).width()
@@ -619,7 +619,7 @@ function wpslibDatagrid(){
 						},0);
 				        $("a[id='mainwpsedit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 				        $("a[id='mainwpsremove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
-//						$("#div"+index).height($("#div"+index).height()+20);
+						$("#div"+index).height($("#div"+index).height());
 						$("#ddv-"+index).datagrid('resize', {
 							height : $("#div"+index).height(),
 							width : $("#div"+index).width()
@@ -630,6 +630,13 @@ function wpslibDatagrid(){
 			$('#wpslibTable').datagrid('fixDetailRowHeight',index);
 		}
 	});
+	
+	if($("#pwpsLibName").val()){
+		var pwpsLibName = " AND fwps_lib_name='"+$("#pwpsLibName").val()+"'";
+		$("#wpslibTable").datagrid('load',{
+			"searchStr" : pwpsLibName
+		})
+	}
 }
 
 function closedlg(){
@@ -1074,6 +1081,14 @@ function searchWpslib(){
 	$("#wpslibTable").datagrid('load',{
 		"searchStr" : searchStr
 	})
+}
+
+function turnPage(){
+	if($("#turnFlag").val()==0){
+		window.location.href = 'wps/goTurnWpslib';
+	}else{
+		window.location.href = 'wps/goWpslib';
+	}
 }
 
 //监听窗口大小变化

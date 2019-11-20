@@ -93,7 +93,7 @@ function editWpslib() {		//pqr
 		});
 		$('#wltdlg').window('open');
 		$('#wltfm').form('load', row);
-		url = "wps/updatepqrWps?fid=" + row.fid+"&fweld_material_id="+row.fweld_material_id+"&fwelder_id="+row.fwelder_id+"&fmanufacturer_id=" + row.fmanufacturer_id+"&fbase_material_id=" + row.fbase_material_id+"&fweld_method=" + row.fweld_method+"&fweld_position=" + row.fweld_position;
+		url = "wps/updatepqrWps?fid=" + row.fid;
 	}
 }
 
@@ -114,7 +114,7 @@ function saveWpslib() {			//pqr
 		url2 = url+"?fmanufacturer_id=" + fmanufacturer_id+"&fbase_material_id=" + fbase_material_id+"&sfweld_method=" + sfweld_method+"&fweld_position=" + fweld_position+"&fweld_material_id=" + fweld_material_id+"&fwelder_id=" + fwelder_id+"&fgroove_id=" + fgroove_id;
 	} else {
 		messager = "修改成功！";
-		url2 = url;
+		url2 = url+"&fmanufacturer_id=" + fmanufacturer_id+"&fbase_material_id=" + fbase_material_id+"&sfweld_method=" + sfweld_method+"&fweld_position=" + fweld_position+"&fweld_material_id=" + fweld_material_id+"&fwelder_id=" + fwelder_id+"&fgroove_id=" + fgroove_id;
 	}
 	$('#wltfm').form('submit', {
 		url : url2,
@@ -243,7 +243,7 @@ function wpslibCombobox(){
 	$.ajax({  
 type : "post",  
 async : false,
-url : "weldtask/getPwpslibAll",  
+url : "weldtask/getPqrlibAll",  
 data : {},  
 dataType : "json", //返回数据形式为json  
 success : function(result) {

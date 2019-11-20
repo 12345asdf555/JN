@@ -176,7 +176,7 @@ function statusRadio() {
 				}
 				$("#radios").html(str);
 				$("input[name='statusId']").eq(0).attr("checked", true);
-				$("#sradios").html(str);
+				$("#sradios").html(sstr);
 				$("input[name='sstatusId']").eq(0).attr("checked", true);
 			}
 		},
@@ -1498,10 +1498,40 @@ function closeImgWin(){
 }
 
 function generatePwps(value){
+	var row = $('#wpslibTable').datagrid('getSelected');
+	var goOnFlag = true;
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "wps/getCountFromPwps?name=" + encodeURIComponent(row.wpslibName),
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if (result.success==true) {
+					goOnFlag = false;
+					var con = confirm("该工艺在pwps库中已经存在，继续将前往查看！！！");
+					if(con == true){
+						if($("#turnFlag").length!=0){
+							window.location.href = 'wps/goTurnPwpslib?turnFlag=0&pwpsLibName='+encodeURIComponent(row.wpslibName);
+						}else{
+							window.location.href = 'wps/goTurnPwpslib?turnFlag=1&pwpsLibName='+encodeURIComponent(row.wpslibName);
+						}
+						
+					}
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+	if(goOnFlag == false){
+		return;
+	}
 	if(value==1){
 		var c = confirm("生成pwps时，电流范围、电压范围、焊接速度范围、线能量范围等需要进行手工录入");
 		if(c == true){
-			var row = $('#wpslibTable').datagrid('getSelected');
 			$.ajax({
 				type : "post",
 				async : false,
@@ -1513,6 +1543,11 @@ function generatePwps(value){
 						alert("生成失败！");
 					}else{
 						alert("生成完成！");
+						if($("#turnFlag").length!=0){
+							window.location.href = 'wps/goTurnPwpslib?turnFlag=0&pwpsLibName='+encodeURIComponent(row.wpslibName);
+						}else{
+							window.location.href = 'wps/goTurnPwpslib?turnFlag=1&pwpsLibName='+encodeURIComponent(row.wpslibName);
+						}
 					}
 				},
 				error : function(errorMsg) {
@@ -1535,15 +1570,15 @@ function generatePwps(value){
 		var fgas = $('#sfgas').combobox('getValue');
 		var fpad = $('#sfpad').textbox('getValue');
 		var fthickness = $('#sfthickness').numberbox('getValue');
-		var machineModel = $('#model').combobox('getValue');
+		var machineModel = $('#smodel').combobox('getValue');
 		var messager = "";
 		var url2 = "";
 		messager = "生成成功！";
 		url2 = "wps/addPwpslib" + "?fstatus=" + fstatus + "&wpslibName=" + encodeURI(wpslibName) + "&machineModel=" + encodeURI(machineModel) + "&fweld_method=" + fweld_method
-		+ "&fweld_way=" + fweld_way + "&fweld_process" + fweld_process + "&fweld_position=" + fweld_position + "&fclassification_society_id=" + fclassification_society_id
-		+ "&fgroove_id=" + fgroove_id + "&fbase_material_id_one=" + fbase_material_id_one + "&fbase_material_id_two=" + fbase_material_id_two + "&fweld_material_id"
+		+ "&fweld_way=" + fweld_way + "&fweld_process=" + fweld_process + "&fweld_position=" + fweld_position + "&fclassification_society_id=" + fclassification_society_id
+		+ "&fgroove_id=" + fgroove_id + "&fbase_material_id_one=" + fbase_material_id_one + "&fbase_material_id_two=" + fbase_material_id_two + "&fweld_material_id="
 		+ fweld_material_id + "&fgas=" + fgas + "&fthickness=" + fthickness + "&fpad=" + encodeURI(fpad);
-		$('#wltfm').form('submit', {
+		$('#swlfm').form('submit', {
 			url : url2,
 			onSubmit : function() {
 				return $(this).form('enableValidation').form('validate');

@@ -1632,6 +1632,41 @@ function closeImgWin(){
 
 function openTaskDialog(){
 	var row = $('#wpslibTable').datagrid('getSelected');
+	
+	var goOnFlag = true;
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "wps/getCountFromTask?taskNumber="+row.fid,
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result.count && result.count!="" && result.count!=null) {
+				goOnFlag = false;
+				var con = confirm("该工艺在任务库中已经存在，继续将前往查看！！！");
+				if(con == true){
+					if($("#turnFlag").length!=0){
+						window.location.href = 'wps/goTurnTask?turnFlag=0&pwpsid='+row.fid;
+					}else{
+						window.location.href = 'wps/goTurnTask?turnFlag=1&pwpsid='+row.fid;
+					}
+				}
+//				var r = confirm("该任务已经存在，是否要进行覆盖并更新任务状态？");
+//				if(r==true){
+//					flag = 1;
+//				}else{
+//					return;
+//				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+	if(goOnFlag == false){
+		return;
+	}
+	
 	$('#swlfm').form('clear');
 	$('#swldlg').window({
 		title : "生成任务",
@@ -1688,26 +1723,7 @@ function generateTask(){
 	var messager = "";
 	var url2 = "";
 	messager = "生成成功！";
-	$.ajax({
-		type : "post",
-		async : false,
-		url : "wps/getCountFromTask?taskNumber="+wtno,
-		data : {},
-		dataType : "json", //返回数据形式为json  
-		success : function(result) {
-			if (result.count && result.count!="" && result.count!=null) {
-				var r = confirm("该任务已经存在，是否要进行覆盖并更新任务状态？");
-				if(r==true){
-					flag = 1;
-				}else{
-					return;
-				}
-			}
-		},
-		error : function(errorMsg) {
-			alert("数据请求失败，请联系系统管理员!");
-		}
-	});
+
 	url2 = "weldtask/generateWeldTask"+"?startTime="+startTime+"&fwelder_id="+operatorId+"&fwpslib_id="+wps_lib_id+"&weldedJunctionno="+encodeURIComponent(wtno)
 	+"&fweld_position="+fweld_position+"&fweld_method="+fweld_method+"&fweld_material_id="+fweld_material_id+"&fbase_material_id="+fbase_material_id+"&flag="+flag;
 	$('#swlfm').form('submit', {
@@ -1726,6 +1742,11 @@ function generateTask(){
 				}else{
 					$.messager.alert("提示", messager);
 					$('#swldlg').window('close');
+					if($("#turnFlag").length!=0){
+						window.location.href = 'wps/goTurnTask?turnFlag=0&pwpsid='+wps_lib_id;
+					}else{
+						window.location.href = 'wps/goTurnTask?turnFlag=1&pwpsid='+wps_lib_id;
+					}
 				}
 			}
 			

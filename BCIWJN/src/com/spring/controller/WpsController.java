@@ -113,6 +113,42 @@ public class WpsController {
 	public String goPqrlib(HttpServletRequest request){
 		return "pqr/allPqrlib";
 	}
+	
+	@RequestMapping("/goTurnWpslib")
+	public String goTurnWpslib(HttpServletRequest request){
+		String turnFlag = request.getParameter("turnFlag");
+		request.setAttribute("turnFlag", turnFlag);
+		String wpsname = request.getParameter("wpsname");
+		request.setAttribute("pwpsLibName", wpsname);
+		return "wpslib/turnWpslib";
+	}
+	
+	@RequestMapping("/goTurnPwpslib")
+	public String goTurnPwpslib(HttpServletRequest request){
+		String turnFlag = request.getParameter("turnFlag");
+		request.setAttribute("turnFlag", turnFlag);
+		String pwpsLibName = request.getParameter("pwpsLibName");
+		request.setAttribute("pwpsLibName", pwpsLibName);
+		return "pwpslib/turnPwpslib";
+	}
+	
+	@RequestMapping("/goTurnTask")
+	public String goTurnTask(HttpServletRequest request){
+		String turnFlag = request.getParameter("turnFlag");
+		request.setAttribute("turnFlag", turnFlag);
+		String pwpsid = request.getParameter("pwpsid");
+		request.setAttribute("pwpsLibName", pwpsid);
+		return "weldingtask/turnTask";
+	}
+	
+	@RequestMapping("/goTurnPqrlib")
+	public String goTurnPqrlib(HttpServletRequest request){
+		String turnFlag = request.getParameter("turnFlag");
+		request.setAttribute("turnFlag", turnFlag);
+		String taskid = request.getParameter("taskid");
+		request.setAttribute("pwpsLibName", taskid);
+		return "pqr/turnPqrlib";
+	}
 
 	
 	@RequestMapping("/getAllWps")
@@ -2551,6 +2587,21 @@ public class WpsController {
 			return obj.toString();
 	}
 	
+	@RequestMapping("/getCountFromPqr")
+	@ResponseBody
+	public String getCountFromPqr(HttpServletRequest request){
+			String taskid = request.getParameter("taskid");
+			JSONObject obj = new JSONObject();
+			String count = "";
+			try{
+				count = wpsService.getCountFromPqr(taskid);
+				obj.put("count", count);
+			}catch(Exception e){
+				obj.put("errorMsg", e.getMessage());
+			}
+			return obj.toString();
+	}
+	
 	/**************************添加工艺库**********************************/	
 	@RequestMapping("/addpqrWps")
 	@ResponseBody
@@ -2651,7 +2702,7 @@ public class WpsController {
 		int fmanufacturer_id = Integer.valueOf(request.getParameter("fmanufacturer_id"));
 		String fmanufacturer_address = request.getParameter("fmanufacturer_address");
 		int fbase_material_id = Integer.valueOf(request.getParameter("fbase_material_id"));
-		String fweld_method = request.getParameter("fweld_method");
+		String fweld_method = request.getParameter("sfweld_method");
 		
 		int fweld_position = Integer.valueOf(request.getParameter("fweld_position"));		
 		String fthickness = request.getParameter("fthickness");
@@ -2773,7 +2824,7 @@ public class WpsController {
 				json.put("fweld_positionname", wps.getFprocessname());
 				
 				json.put("fweld_method_name", wps.getFweld_method_name());
-				json.put("fweld_method",wps.getFweld_method());
+				json.put("sfweld_method",wps.getFweld_method());
 				json.put("fweld_material_name",wps.getSelectname());
 				json.put("fthickness", wps.getFthickness());
 				json.put("fouter_diameter", wps.getFouter_diameter());
@@ -2826,6 +2877,7 @@ public class WpsController {
 		Wps wps = new Wps();
 		JSONObject obj = new JSONObject();
 		//long fid = new Long(request.getParameter("fid"));
+		String taskid = request.getParameter("taskid");
 		String fweld_method = request.getParameter("sfweld_method");
 		String fname = request.getParameter("fname");
 		taskno = fname;
@@ -2863,7 +2915,7 @@ public class WpsController {
 		String fexpotdate = request.getParameter("fexpotdate");
 		String fcreatedate = request.getParameter("fcreatedate");
 		try{
-			//wps.setFid(fid);
+			wps.setFid(Long.parseLong(taskid));
 			wps.setFname(fname);
 			wps.setNewdate(fcreatedate);
 			wps.setFweld_place(fweld_place);
@@ -3118,6 +3170,44 @@ public class WpsController {
 					wpsService.addWpsDetail(wps);
 				}
 				 obj.put("success", true);
+			}catch(Exception e){
+				obj.put("success", false);
+				obj.put("errorMsg", e.getMessage());
+			}
+			return obj.toString();
+	}
+	
+	@RequestMapping("/getCountFromWps")
+	@ResponseBody
+	public String getCountFromWps(HttpServletRequest request){
+			String search = request.getParameter("searchStr");
+			JSONObject obj = new JSONObject();
+			try{
+				int count = wpsService.getCountFromWps(search);
+				if(count>0){
+					obj.put("success", true);
+				}else{
+					obj.put("success", false);
+				}
+			}catch(Exception e){
+				obj.put("success", false);
+				obj.put("errorMsg", e.getMessage());
+			}
+			return obj.toString();
+	}
+	
+	@RequestMapping("/getCountFromPwps")
+	@ResponseBody
+	public String getCountFromPwps(HttpServletRequest request){
+			String name = request.getParameter("name");
+			JSONObject obj = new JSONObject();
+			try{
+				int count = wpsService.getCountFromPwpsByName(name);
+				if(count>0){
+					obj.put("success", true);
+				}else{
+					obj.put("success", false);
+				}
 			}catch(Exception e){
 				obj.put("success", false);
 				obj.put("errorMsg", e.getMessage());

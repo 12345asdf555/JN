@@ -402,6 +402,10 @@
 		SELECT fid insid,fwps_lib_name insname FROM tb_pwps_lib WHERE 1=1
 	</select>
 	
+	<select id="getAllPqrlib" resultType="Wps">
+		SELECT fid insid,fname insname FROM tb_pqr WHERE 1=1
+	</select>
+	
 	<select id="getGrooveList" resultType="Wps">
 		SELECT g.*,d.fvaluename fweld_method_name,di.fvaluename fweld_position_name from tb_groove g 
 		LEFT JOIN tb_dictionary d on g.fweld_method=d.fvalue and d.ftypeid=25
@@ -562,7 +566,7 @@
 	</delete>
 	
 	<select id="getCountFromTask" parameterType="String" resultType="String">
-		SELECT fid FROM tb_welded_junction  WHERE fwelded_junction_no=#{taskNumber}
+		SELECT fid FROM tb_welded_junction  WHERE fwpslib_id=#{taskNumber}
 	</select>
 	
 	<insert id="pqrData">
@@ -597,11 +601,11 @@
   INSERT INTO tb_pqr (fname,fcreatedate,fweld_place,fmanufacturer_id,fmanufacturer_address,fbase_material_id ,fweld_position, fweld_method, fthickness ,fouter_diameter , 
     fjoint_form , fprotective_gas, fflow, fingredient, fweld_material_id,fmanufacturer_diameter, finter_channel_temperature,  fwarm_up_temperature ,
     fother_information, fgroove_id,  fwelddate ,fwelder_id , fnondestructive_test,fdamage_test , fhardness_test , fextra_information , fedit_user , fsurveyor ,
-    feditdate , ftestdate,  fexpotdate) 
+    feditdate , ftestdate,  fexpotdate, ftaskid) 
     VALUES (#{fname},#{newdate},#{fweld_place},#{fmanufacturer_id},#{fmanufacturer_address},#{fbase_material_id},#{fweld_position},#{fweld_method},#{fthickness},#{fouter_diameter},
       #{fjoint_form},#{fprotective_gas},#{fflow},#{fingredient},#{fweld_material_id},#{fmanufacturer_diameter},#{finter_channel_temperature},#{fwarm_up_temperature},
       #{fother_information},#{fgroove_id},#{fwelddate},#{fwelder_id},#{fnondestructive_test},#{fdamage_test},#{fhardness_test},#{fextra_information},#{fedit_user},#{fsurveyor},
-      #{feditdate},#{ftestdate},#{fexpotdate})
+      #{feditdate},#{ftestdate},#{fexpotdate},#{fid})
   </insert>
   
   <update id="updatepqrlib">
@@ -684,5 +688,39 @@
 			AND l.`fwps_lib_name`=#{name} 
 		</if>
 		ORDER by s.fweld_bead 
+	</select>
+	
+	<select id="getCountFromWps" resultType="java.lang.Integer">
+		SELECT count(wl.fid) 
+		FROM tb_wps_library wl	
+		LEFT JOIN tb_dictionary d ON wl.fstatus=d.fvalue and d.ftypeid=6
+    	LEFT JOIN tb_dictionary di ON wl.fmachinemodel=di.fvalue AND di.ftypeid=17
+		LEFT JOIN tb_dictionary dic on wl.fgas=dic.fvalue AND dic.ftypeid=12
+		LEFT JOIN tb_dictionary d1 on wl.fweld_method=d1.fvalue AND d1.ftypeid=25
+		LEFT JOIN tb_dictionary d2 on wl.fweld_way=d2.fvalue AND d2.ftypeid=26
+		LEFT JOIN tb_dictionary d3 on wl.fweld_process=d3.fvalue AND d3.ftypeid=27
+		LEFT JOIN tb_dictionary d4 on wl.fweld_position=d4.fvalue AND d4.ftypeid=28
+		LEFT JOIN tb_base_material bm on wl.fbase_material_id_one=bm.fid
+		LEFT JOIN tb_base_material tbm on wl.fbase_material_id_two=tbm.fid
+		LEFT JOIN tb_groove gr on wl.fgroove_id=gr.fid
+		LEFT JOIN tb_weld_material wm on wl.fweld_material_id=wm.fid
+		LEFT JOIN tb_classification_society cs on wl.fclassification_society_id=cs.fid
+    	LEFT JOIN tb_equipment_manufacturer em ON wl.fmachinemodel = em.ftype_value
+		where 1=1
+		<if test="search!=null and search!=''">
+			${search}
+		</if>
+	</select>
+	
+	<select id="getCountFromPqr" parameterType="String" resultType="String">
+		SELECT fid FROM tb_pqr  WHERE ftaskid=#{taskid}
+	</select>
+	
+	<select id="getCountFromPwpsByName" resultType="java.lang.Integer">
+		SELECT count(wl.fid) FROM tb_pwps_lib wl 
+		where 1=1 
+		<if test="name!=null and name!=''">
+			AND wl.fwps_lib_name=#{name}
+		</if>
 	</select>
 </mapper>

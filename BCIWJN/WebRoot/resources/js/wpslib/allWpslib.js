@@ -263,11 +263,11 @@ function wpslibDatagrid(){
         },
 		onLoadSuccess: function(data){
 //			$("a[id='wpslibgive']").linkbutton({text:'工艺库下发',plain:true,iconCls:'icon-setwps'});
-			$("a[id='wpslibadd']").linkbutton({text:'新增工艺',plain:true,iconCls:'icon-newadd'});
+			$("a[id='wpslibadd']").linkbutton({text:'新增子工艺',plain:true,iconCls:'icon-newadd'});
 	        $("a[id='wpslibedit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 	        $("a[id='wpslibremove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
 	        $("a[id='wpsliboutput']").linkbutton({text:'导出WPS',plain:true,iconCls:'icon-update'});
-	        $("a[id='generatePwps']").linkbutton({text:'生成PWPS',plain:true,iconCls:'icon-delete'});
+	        $("a[id='generatePwps']").linkbutton({text:'生成PWPS',plain:true,iconCls:'icon-newadd'});
 		},
 		detailFormatter:function(index,row2){
 			return '<div id="div'+index+'"><table id="ddv-' + index + '" style="min-height:80px;"></table></div>';
@@ -424,7 +424,7 @@ function wpslibDatagrid(){
 							plain : true,
 							iconCls : 'icon-delete'
 						});
-//						$("#div"+index).height($("#div"+index).height()+20);
+						$("#div"+index).height($("#div"+index).height()+20);
 						$("#ddv-"+index).datagrid('resize', {
 							height : $("#div"+index).height(),
 							width : $("#div"+index).width()
@@ -620,7 +620,7 @@ function wpslibDatagrid(){
 						},0);
 				        $("a[id='mainwpsedit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 				        $("a[id='mainwpsremove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
-//						$("#div"+index).height($("#div"+index).height()+20);
+						$("#div"+index).height($("#div"+index).height());
 						$("#ddv-"+index).datagrid('resize', {
 							height : $("#div"+index).height(),
 							width : $("#div"+index).width()
@@ -631,6 +631,13 @@ function wpslibDatagrid(){
 			$('#wpslibTable').datagrid('fixDetailRowHeight',index);
 		}
 	});
+	
+	if($("#pwpsLibName").val()){
+		var pwpsLibName = " AND fwps_lib_name='"+$("#pwpsLibName").val()+"'";
+		$("#wpslibTable").datagrid('load',{
+			"searchStr" : pwpsLibName
+		})
+	}
 }
 
 function closedlg(){
@@ -1072,9 +1079,30 @@ function searchWpslib(){
 		searchStr += " AND wl.fthickness="+fthickness;
 	}
 	console.log(searchStr);
-	$("#wpslibTable").datagrid('load',{
-		"searchStr" : searchStr
-	})
+	
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "wps/getCountFromWps?searchStr=" + encodeURI(searchStr),
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if (result.success==false) {
+					$("#wpslibTable").datagrid('reload');
+					alert("未匹配到相关的记录！！！");
+				}else{
+					$('#swldlg').window('close');
+					$("#wpslibTable").datagrid('load',{
+						"searchStr" : searchStr
+					})
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
 }
 
 function getPowerpolarity() {
@@ -1101,6 +1129,14 @@ function getPowerpolarity() {
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	});
+}
+
+function turnPage(){
+	if($("#turnFlag").val()==0){
+		window.location.href = 'wps/goTurnPqrlib';
+	}else{
+		window.location.href = 'wps/goPqrlib';
+	}
 }
 
 //监听窗口大小变化

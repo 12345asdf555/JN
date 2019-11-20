@@ -54,8 +54,7 @@ function wpslibDatagrid(){
 			title : '名称',
 			width : 80,
 			halign : "center",
-			align : "left",
-			hidden:false
+			align : "left"
 		},{
 			field : 'fcreatedate',
 			title : '日期',
@@ -122,7 +121,7 @@ function wpslibDatagrid(){
 			align : "left"
 			
 		}, {
-			field : 'fweld_method',
+			field : 'sfweld_method',
 			title : '焊接方法',
 			width : 100,
 			halign : "center",
@@ -324,7 +323,7 @@ function wpslibDatagrid(){
 	        $("a[id='wpslibedit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 	        $("a[id='wpslibremove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
 	        $("a[id='wpsliboutput']").linkbutton({text:'导出pqr',plain:true,iconCls:'icon-update'});
-	        $("a[id='generateWps']").linkbutton({text:'生成WPS',plain:true,iconCls:'icon-delete'});
+	        $("a[id='generateWps']").linkbutton({text:'生成WPS',plain:true,iconCls:'icon-newadd'});
 		},
 		detailFormatter:function(index,row2){
 			return '<div id="div'+index+'"><table id="ddv-' + index + '" style="min-height:80px;"></table></div>';
@@ -332,7 +331,7 @@ function wpslibDatagrid(){
 		onExpandRow: function(index,row){
 			var ddv = $(this).datagrid('getRowDetail',index).find('#ddv-'+index);
 			ddv.datagrid({
-				fitColumns : true,
+//				fitColumns : true,
 				width: $("#div"+index).width,
 				height: $("#div"+index).height,
 				idField : 'id',
@@ -392,7 +391,7 @@ function wpslibDatagrid(){
 				},{
 					field : 'edit',
 					title : '编辑',
-					width : 100,
+					width : 200,
 					halign : "center",
 					align : "left",
 					formatter: function(value,indexrow,index){
@@ -409,11 +408,11 @@ function wpslibDatagrid(){
 				},
 				onLoadSuccess:function(){
 					var wpslibrow = $('#wpslibTable').datagrid("getSelected");
-					if(wpslibrow.model==171||wpslibrow.model==172||wpslibrow.model==173){
-						$("#ddv-"+index).datagrid('hideColumn', 'ftorch')
-					}else{
-						$("#ddv-"+index).datagrid('hideColumn', 'fmode')
-					}
+//					if(wpslibrow.model==171||wpslibrow.model==172||wpslibrow.model==173){
+//						$("#ddv-"+index).datagrid('hideColumn', 'ftorch')
+//					}else{
+//						$("#ddv-"+index).datagrid('hideColumn', 'fmode')
+//					}
 					$('#wpslibTable').datagrid("selectRow", index)
 					setTimeout(function(){
 						$('#wpslibTable').datagrid('fixDetailRowHeight',index);
@@ -421,10 +420,10 @@ function wpslibDatagrid(){
 					},0);
 			        $("a[id='mainwpsedit']").linkbutton({text:'修改',plain:true,iconCls:'icon-update'});
 			        $("a[id='mainwpsremove']").linkbutton({text:'删除',plain:true,iconCls:'icon-delete'});
-			        if(otcTableFlag==0){
-						$("#div"+index).height($("#div"+index).height()+20);
-						otcTableFlag++;
-					}
+//			        if(otcTableFlag==0){
+//						$("#div"+index).height($("#div"+index).height()+20);
+//						otcTableFlag++;
+//					}
 					$("#ddv-"+index).datagrid('resize', {
 						height : $("#div"+index).height(),
 						width : $("#div"+index).width()
@@ -434,6 +433,13 @@ function wpslibDatagrid(){
 			$('#wpslibTable').datagrid('fixDetailRowHeight',index);
 		}
 	});
+	
+	if($("#pwpsLibName").val()){ 
+		var pwpsLibName = " AND ftaskid='"+$("#pwpsLibName").val()+"'";
+		$("#wpslibTable").datagrid('load',{
+			"searchStr" : pwpsLibName
+		})
+	}
 }
 
 var url = "";
@@ -897,10 +903,42 @@ function searchWpslib(){
 
 function generateWps(){
 	var row = $('#wpslibTable').datagrid("getSelected");
+	var searchStr = " AND fwps_lib_name='"+row.fname+"'";
+	var goOnFlag = true;
+	var apFlag = 0;
 	$.ajax({
 		type : "post",
 		async : false,
-		url : "wps/qprGenerateWps?name="+row.fname,
+		url : "wps/getCountFromWps?searchStr=" + encodeURI(searchStr),
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result) {
+				if (result.success==true) {
+					apFlag = 1;
+					goOnFlag = false;
+					var con = confirm("该pqr已经生成过wps，继续将前往查看！！！");
+					if(con == true){
+						if($("#turnFlag").length!=0){
+							window.location.href = 'wps/goTurnWpslib?turnFlag=0&wpsname='+encodeURI(row.fname);
+						}else{
+							window.location.href = 'wps/goTurnWpslib?turnFlag=1&wpsname='+encodeURI(row.fname);
+						}
+					}
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+	if(goOnFlag == false){
+		return;
+	}
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "wps/qprGenerateWps?name="+row.fname+"&apflag="+apFlag,
 		data : {},
 		dataType : "json", //返回数据形式为json  
 		success : function(result) {
@@ -909,6 +947,11 @@ function generateWps(){
 					alert("生成失败！");
 				}else{
 					alert("生成完成！");
+					if($("#turnFlag").length!=0){
+						window.location.href = 'wps/goTurnWpslib?turnFlag=0&wpsname='+encodeURI(row.fname);
+					}else{
+						window.location.href = 'wps/goTurnWpslib?turnFlag=1&wpsname='+encodeURI(row.fname);
+					}
 				}
 			}
 		},
@@ -916,6 +959,14 @@ function generateWps(){
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	});
+}
+
+function turnPage(){
+	if($("#turnFlag").val()==0){
+		window.location.href = 'wps/goTurnTask';
+	}else{
+		window.location.href = 'weldtask/goWeldTask';
+	}
 }
 
 //监听窗口大小变化

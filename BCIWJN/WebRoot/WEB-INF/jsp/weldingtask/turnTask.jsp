@@ -37,6 +37,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+  <input type="hidden" id="turnFlag" value="${turnFlag }"/>
+  <input type="hidden" id="pwpsLibName" value="${pwpsLibName }"/>
   	<div class="functiondiv">
 		<div>
 			任务状态：
@@ -51,6 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:exportDg();" class="easyui-linkbutton" iconCls="icon-export">导出</a>&nbsp;&nbsp;&nbsp;&nbsp;	
 <!-- 			<a href="javascript:openDayin();" class="easyui-linkbutton" iconCls="icon-print">打印</a>&nbsp;&nbsp;&nbsp;&nbsp; -->
 			<a href="javascript:insertsearchWT();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:turnPage();" class="easyui-linkbutton" iconCls="icon-back">返回</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<!-- <a href="javascript:complete();" class="easyui-linkbutton" iconCls="icon-ok">批量完成</a> -->
 		</div>
 	</div>

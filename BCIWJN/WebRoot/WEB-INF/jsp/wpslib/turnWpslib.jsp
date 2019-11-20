@@ -53,6 +53,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+   	<input type="hidden" id="turnFlag" value="${turnFlag }"/>
+   	<input type="hidden" id="pwpsLibName" value="${pwpsLibName }"/>
   	<div class="functiondiv">
 		<div>
 			<a href="javascript:addWpslib();" class="easyui-linkbutton" iconCls="icon-newadd">新增工艺库</a>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -60,6 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:openHistorydlg();" class="easyui-linkbutton" iconCls="icon-newadd"> 下发历史查询</a>&nbsp;&nbsp;&nbsp;&nbsp; -->
 			<!-- <a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-newadd"> 工艺导入</a>&nbsp;&nbsp;&nbsp;&nbsp; -->
 			<a href="javascript:openSearchDialog();" class="easyui-linkbutton" iconCls="icon-select"> 查找</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="javascript:turnPage();" class="easyui-linkbutton" iconCls="icon-back">返回</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 	</div>
   	<div id="body" >
@@ -147,7 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<lable>工艺库名称</lable>
 					<input class="easyui-textbox" name="swpslibName" id="swpslibName" />
 					<lable>焊机型号</lable>
-					<select class="easyui-combobox" name="smodel" id="smodel" data-options="editable:false""></select>
+					<select class="easyui-combobox" name="smodel" id="smodel" data-options="editable:false"></select>
 				</div>
 				<div class="fitem">
 					<lable>船级社</lable>

@@ -232,7 +232,9 @@ public interface WpsService {
 	Wps getBaseMaterialById(BigInteger fid);
 	Wps getWeldMaterialById(BigInteger fid);
 	List<Wps> getAllPwpslib();
+	List<Wps> getAllPqrlib();
 	String getCountFromTask(String taskNumber);
+	String getCountFromPqr(String taskid);
 	List<Wps> getMainpqrList(Page page, BigInteger parent);
 	List<Wps> getMainpqrList(BigInteger parent);
 	void addPqrDetail(Wps wps);
@@ -240,4 +242,6 @@ public interface WpsService {
 	void deleteMainPqr(BigInteger fid);
 	List<Wps> getMainpwpsByPqrid(BigInteger fid);
 	List<Wps> generateMainwps(String name);
+	int getCountFromWps(String search);
+	int getCountFromPwpsByName(String name);
 }

@@ -1275,4 +1275,24 @@ public class WeldingTaskController {
 		obj.put("ary", ary);
 		return obj.toString();
 	}
+	
+	@RequestMapping("/getPqrlibAll")
+	@ResponseBody
+	public String getPqrlibAll(HttpServletRequest request){
+		JSONObject json = new JSONObject();
+		JSONObject obj = new JSONObject();
+		JSONArray ary = new JSONArray();
+		try{
+			List<Wps> ls = wps.getAllPqrlib();
+			for(Wps wps : ls ){
+				json.put("id", wps.getInsid());
+				json.put("name", wps.getInsname());
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		obj.put("ary", ary);
+		return obj.toString();
+	}
 }

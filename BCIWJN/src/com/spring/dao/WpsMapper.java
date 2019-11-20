@@ -81,7 +81,9 @@ public interface WpsMapper {
 	Wps getBaseMaterialById(@Param("fid")BigInteger fid);
 	Wps getWeldMaterialById(@Param("fid")BigInteger fid);
 	List<Wps> getAllPwpslib();
+	List<Wps> getAllPqrlib();
 	String getCountFromTask(@Param("taskNumber")String taskNumber);
+	String getCountFromPqr(@Param("taskid")String taskid);
 	void pqrData(@Param("taskno")String taskno,@Param("board")String board);
 	
 	List<Wps> getpqrList(@Param("search")String search);
@@ -94,5 +96,7 @@ public interface WpsMapper {
 	void deleteMainPqr(@Param("fid")BigInteger fid);
 	List<Wps> getMainpwpsByPqrid(@Param("fid")BigInteger fid);
 	List<Wps> generateMainwps(@Param("name")String name);
+	int getCountFromWps(@Param("search")String search);
+	int getCountFromPwpsByName(@Param("name")String name);
 	
 }

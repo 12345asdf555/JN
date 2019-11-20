@@ -269,15 +269,15 @@ function weldedJunctionDatagrid(){
 				var str = '<a id="edit" class="easyui-linkbutton" href="javascript:editWeldedjunction()"/>';
 				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWeldedjunction()"/>';
 				if(row.status==0){
-					str += '<a id="confirm" class="easyui-linkbutton" href="javascript:confirm()" disabled="true"/>';
+					str += '<a id="confirm" class="easyui-linkbutton" href="javascript:confirmTask()" disabled="true"/>';
 					str += '<a id="generatePqr" class="easyui-linkbutton" href="javascript:taskGeneratePqr()" disabled="true"/>';
 				}
 				if(row.status==1){
-					str += '<a id="confirm1" class="easyui-linkbutton" href="javascript:confirm()"/>';
+					str += '<a id="confirm1" class="easyui-linkbutton" href="javascript:confirmTask()"/>';
 					str += '<a id="generatePqr" class="easyui-linkbutton" href="javascript:taskGeneratePqr()" />';
 				}
 				if(row.status==2){
-					str += '<a id="confirm2" class="easyui-linkbutton" href="javascript:confirm()" disabled="true"/>';
+					str += '<a id="confirm2" class="easyui-linkbutton" href="javascript:confirmTask()" disabled="true"/>';
 					str += '<a id="generatePqr" class="easyui-linkbutton" href="javascript:taskGeneratePqr()" disabled="true"/>';
 				}
 //				str += '<a id="evaluation" class="easyui-linkbutton" href="javascript:evaluation()"/>';
@@ -304,7 +304,7 @@ function weldedJunctionDatagrid(){
 			if($("#confirm2").length!=0){
 				$("a[id='confirm2']").linkbutton({text:'未领取',plain:true,iconCls:'icon-assign'});
 			};
-			$("a[id='generatePqr']").linkbutton({text:'生成pqr',plain:true,iconCls:'icon-delete'});
+			$("a[id='generatePqr']").linkbutton({text:'生成pqr',plain:true,iconCls:'icon-newadd'});
 //			$("a[id='evaluation']").linkbutton({text:'评价',plain:true,iconCls:'icon-newadd'});
 		}
 /*		detailFormatter:function(index,row2){//严重注意喔
@@ -356,6 +356,13 @@ function weldedJunctionDatagrid(){
 			$('#weldTaskTable').datagrid('fixDetailRowHeight',index);
 		}*/
 	});
+	
+	if($("#pwpsLibName").val()){
+		var pwpsLibName = " j.fwpslib_id='"+$("#pwpsLibName").val()+"'";
+		$("#weldTaskTable").datagrid('load',{
+			"searchStr" : pwpsLibName
+		})
+	}
 }
 
 function dayinDatagrid(){
@@ -715,7 +722,7 @@ function importWeldingMachine(){
 }
 
 //确认完成
-function confirm(){
+function confirmTask(){
 	var url2="";
 	var temp=3;
 	$.messager.confirm('提示', '此操作将使任务完成状态变更为未领取状态，且部分数据会变为脏数据，是否确认?', function(flag) {
@@ -1162,7 +1169,34 @@ function getWeldmethod() {
 
 function taskGeneratePqr(){
 	flag = 1;
+	var goOnFlag = true;
 	var row = $('#weldTaskTable').datagrid('getSelected');
+	$.ajax({
+		type : "post",
+		async : false,
+		url : "wps/getCountFromPqr?taskid="+row.id,
+		data : {},
+		dataType : "json", //返回数据形式为json  
+		success : function(result) {
+			if (result.count && result.count!="" && result.count!=null) {
+				goOnFlag = false;
+				var conf = confirm("该任务已经生成过pqr，继续将前往查看！！！");
+				if(conf == true){
+					if($("#turnFlag").length!=0){
+						window.location.href = 'wps/goTurnPqrlib?turnFlag=0&taskid='+row.id;
+					}else{
+						window.location.href = 'wps/goTurnPqrlib?turnFlag=1&taskid='+row.id;
+					}
+				}
+			}
+		},
+		error : function(errorMsg) {
+			alert("数据请求失败，请联系系统管理员!");
+		}
+	});
+	if(goOnFlag == false){
+		return;
+	}
 	if(row){
 		$('#wltfm').form('clear');
 		$('#wltdlg').window({
@@ -1178,11 +1212,12 @@ function taskGeneratePqr(){
 		$("#welder_id").combobox("setValue",row.fwelder_id);
 		$("#finter_channel_temperature").textbox("setValue",row.finter_channel_temperature);
 		$('#wltdlg').window('open');
-		url = "wps/insertPQRdetail";
+		url = "wps/insertPQRdetail?taskid="+row.id;
 	}
 }
 
 function saveWpslib() {			//pqr
+	var row = $('#weldTaskTable').datagrid('getSelected');
 	//var fstatus = $("input[name='statusId']:checked").val();
 	var fmanufacturer_id = $("#fmanufacturer_id").combobox("getValue");
 	var fbase_material_id = $("#fbase_material_id").combogrid("getValue");
@@ -1195,8 +1230,8 @@ function saveWpslib() {			//pqr
 	var url2 = "";
 	if (flag == 1) {
 		//var machineModel = $('#model').combobox('getValue');
-		messager = "新增成功！";
-		url2 = url+"?fmanufacturer_id=" + fmanufacturer_id+"&fbase_material_id=" + fbase_material_id+"&sfweld_method=" + sfweld_method+"&fweld_position=" + fweld_position+"&fweld_material_id=" + fweld_material_id+"&fwelder_id=" + fwelder_id+"&fgroove_id=" + fgroove_id;
+		messager = "生成成功！";
+		url2 = url+"&fmanufacturer_id=" + fmanufacturer_id+"&fbase_material_id=" + fbase_material_id+"&sfweld_method=" + sfweld_method+"&fweld_position=" + fweld_position+"&fweld_material_id=" + fweld_material_id+"&fwelder_id=" + fwelder_id+"&fgroove_id=" + fgroove_id;
 	} else {
 		messager = "修改成功！";
 		url2 = url;
@@ -1215,10 +1250,15 @@ function saveWpslib() {			//pqr
 						msg : result.errorMsg
 					});
 				} else {
-					$.messager.alert("提示", messager);
+					alert(messager);
 					$('#wltdlg').dialog('close');
 					$('#wpslibTable').datagrid('reload');
 					$("#validwl").val("");
+					if($("#turnFlag").length!=0){
+						window.location.href = 'wps/goTurnPqrlib?turnFlag=0&taskid='+row.id;
+					}else{
+						window.location.href = 'wps/goTurnPqrlib?turnFlag=1&taskid='+row.id;
+					}
 				}
 			}
 
@@ -1586,6 +1626,15 @@ function getWeldMaterial() {
 		}
 	});
 }
+
+function turnPage(){
+	if($("#turnFlag").val()==0){
+		window.location.href = 'wps/goTurnPwpslib';
+	}else{
+		window.location.href = 'wps/goPwpslib';
+	}
+}
+
 //监听窗口大小变化
 window.onresize = function() {
 	setTimeout(domresize, 500);

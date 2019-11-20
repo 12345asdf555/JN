@@ -58,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:addWpslib();" class="easyui-linkbutton" iconCls="icon-newadd">新增工艺库</a>&nbsp;&nbsp;&nbsp;&nbsp;
 <!-- 			<a href="javascript:openCondlg();" class="easyui-linkbutton" iconCls="icon-newadd">控制命令下发</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:openHistorydlg();" class="easyui-linkbutton" iconCls="icon-newadd"> 下发历史查询</a>&nbsp;&nbsp;&nbsp;&nbsp; -->
-			<a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-newadd"> 工艺导入</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<!-- <a href="javascript:importclick();" class="easyui-linkbutton" iconCls="icon-newadd"> 工艺导入</a>&nbsp;&nbsp;&nbsp;&nbsp; -->
 			<a href="wps/outputWpslibwuliao" class="easyui-linkbutton" iconCls="icon-newadd"> 导出物料</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<!-- <a href="javascript:openSearchDialog();" class="easyui-linkbutton" iconCls="icon-select"> 查找</a>&nbsp;&nbsp;&nbsp;&nbsp; -->
 		</div>
@@ -146,7 +146,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<form id="swlfm" class="easyui-form" method="post" data-options="novalidate:true">
 				<div class="fitem">
 					<lable><span class="required">*</span>任务编号</lable>
-					<input class="easyui-textbox" id="tweldedJunctionno"  name="tweldedJunctionno" data-options="required:true" />
+					<input class="easyui-textbox" id="tweldedJunctionno"  name="tweldedJunctionno" data-options="required:true,editable:false" />
 					<lable><span class="required">*</span>计划开始时间</lable>
 					<input class="easyui-datetimebox" name="tstartTime" id="tstartTime" data-options="required:true" />
 				</div>
