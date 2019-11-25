@@ -6,7 +6,7 @@ $(function(){
 	resultCombobox();
 	wpslibCombobox();
 	welderCombobox();
-	baseMaterial();
+	baseMaterialType();
 	getTaskWeldMaterial();
 	getWeldposition();
 	getWeldmethod();
@@ -1085,7 +1085,7 @@ function wpslibCombobox(){
 	$("#fwpslib_id").combobox();
 }
 
-function baseMaterial(){
+function baseMaterialType(){
 	$.ajax({
 		type : "post",
 		async : false,
@@ -1100,7 +1100,7 @@ function baseMaterial(){
 						boptionStr += "<option value=\"" + result.ary[i].value + "\" >"
 							+ result.ary[i].name + "</option>";
 					}
-					$("#fbase_material_type").html(boptionStr);
+					$("#fbase_material_type").append(boptionStr);
 					$("#fbase_material_type").combobox();
 				}
 			}
