@@ -1,4 +1,5 @@
 var work = new Array();
+var off = new Array(), on = new Array(), stand = new Array(), cleardata = new Array();
 var wait = new Array();
 var weld = new Array();
 var mall = new Array();
@@ -63,6 +64,7 @@ function machine() {
 				machine = eval(result.rows);
 				for (var i = 0; i < machine.length; i++) {
 					machineary.push(machine[i].fid);
+					off.push(machine[i].fid);
 				}
 			}
 		},
@@ -102,25 +104,26 @@ function webclient() {
 	try {
 		socket = new WebSocket(websocketURL);
 	} catch (err) {
-		alert("地址请求错误，请清除缓存重新连接！！！")
+//		alert("地址请求错误，请清除缓存重新连接！！！")
 	}
 	setTimeout(function() {
 		if (socket.readyState != 1) {
-			alert("与服务器连接失败,请检查网络设置!");
+//			alert("与服务器连接失败,请检查网络设置!");
 		}
 	}, 10000);
 	socket.onopen = function() {
+		clearDataFun();
 	};
 	socket.onmessage = function(msg) {
 		var xxx = msg.data;
 		if (xxx.length == 333 || xxx.length == 111) {
-			if (xxx.substring(0, 2) != "7E") {
+//			if (xxx.substring(0, 2) != "7E") {
 				redata = msg.data;
 				if (symbol == 0) {
 					window.setTimeout(function() {
 						showWelderChart();
 						showPersonChart();
-					}, 3000)
+					}, 5000)
 					symbol = 1;
 				}
 
@@ -137,23 +140,122 @@ function webclient() {
 							}
 						}
 					}
-					if ($.inArray(parseInt(redata.substring(4 + i, 8 + i), 10), machineary) != -1) {
-						if(mall.length == 0){
-							mallary.length = 0;
+//					if ($.inArray(parseInt(redata.substring(4 + i, 8 + i), 10), machineary) != -1) {
+//						if(mall.length == 0){
+//							mallary.length = 0;
+//						}
+//						if ($.inArray(redata.substring(4 + i, 8 + i), mallary) == -1) {
+//							var arr = {
+//								"fid" : redata.substring(4 + i, 8 + i),
+//								"fstatus" : redata.substring(36 + i, 38 + i)
+//							}
+//							mall.push(arr);
+//							mallary.push(redata.substring(4 + i, 8 + i));
+//						} else {
+//							break;
+//						}
+//					}
+					if(parseInt(redata.substring(4+i, 8+i),10)!=0){
+						var cleardataIndex = $.inArray(parseInt(redata.substring(4+i, 8+i),10), cleardata);
+						if(cleardataIndex==(-1)){
+							cleardata.push(parseInt(redata.substring(4+i, 8+i),10));
+							cleardata.push(new Date().getTime());
+						}else{
+							cleardata.splice(cleardataIndex+1, 1, new Date().getTime());
 						}
-						if ($.inArray(redata.substring(4 + i, 8 + i), mallary) == -1) {
-							var arr = {
-								"fid" : redata.substring(4 + i, 8 + i),
-								"fstatus" : redata.substring(36 + i, 38 + i)
+						var mstatus = redata.substring(36 + i, 38 + i);
+						var livestatus,livestatusid,liveimg;
+						if(mstatus=="00"){
+							var num;
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), stand);
+							if(num==(-1)){
+								stand.push(parseInt(redata.substring(4+i, 8+i),10));
 							}
-							mall.push(arr);
-							mallary.push(redata.substring(4 + i, 8 + i));
-						} else {
-							break;
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), warn);
+							if(num!=(-1)){
+								warn.splice(num, 1);
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), off);
+							if(num!=(-1)){
+								off.splice(num, 1);
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), on);
+							if(num!=(-1)){
+								on.splice(num, 1);
+							}
+						}else if(mstatus=="03"||mstatus=="05"||mstatus=="07"){
+							var num;
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), on);
+							if(num==(-1)){
+								on.push(parseInt(redata.substring(4+i, 8+i),10));
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), warn);
+							if(num!=(-1)){
+								warn.splice(num, 1);
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), off);
+							if(num!=(-1)){
+								off.splice(num, 1);
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), stand);
+							if(num!=(-1)){
+								stand.splice(num, 1);
+							}
+						}else{
+							var num;
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), warn);
+							if(num==(-1)){
+								warn.push(parseInt(redata.substring(4+i, 8+i),10));
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), on);
+							if(num!=(-1)){
+								on.splice(num, 1);
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), off);
+							if(num!=(-1)){
+								off.splice(num, 1);
+							}
+							num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), stand);
+							if(num!=(-1)){
+								stand.splice(num, 1);
+							}
 						}
 					}
+					
 				}
-			}
+//			}
+//				var option = weldercharts.getOption();
+//				option.series[0].data = [
+//		            {value:on.length,
+//						name : '工作',
+//						itemStyle : {
+//							normal : {
+//								color : '#66b731'
+//							}
+//						}},
+//		            {value:stand.length,
+//						name : '待机',
+//						itemStyle : {
+//							normal : {
+//								color : '#2da2f1'
+//							}
+//						}},
+//		            {value:warn.length,
+//						name : '故障',
+//						itemStyle : {
+//							normal : {
+//								color : '#dc0201'
+//							}
+//						}},
+//		            {value:off.length,
+//						name : '关机',
+//						itemStyle : {
+//							normal : {
+//								color : '#ebebeb'
+//							}
+//						}}
+//		        ];
+//				weldercharts.setOption(option);
 		}
 		;
 		//关闭事件
@@ -309,20 +411,22 @@ function showPersonChart() {
 	personcharts.setOption(option);
 	//隐藏动画加载效果
 	personcharts.hideLoading();
-	weld.length = 0;
+//	weld.length = 0;
 }
 
 var weldercharts,flagnum = 0;
 function showWelderChart() {
-	for (var m = 0; m < mall.length; m++) {
-		if (mall[m].fstatus == "00") {
-			wait.push(mall[m]);
-		} else if(mall[m].fstatus == "03" || mall[m].fstatus == "05" || mall[m].fstatus == "07") {
-			work.push(mall[m]);
-		}  else{
-			warn.push(mall[m]);
-		}
-	}
+//	for (var m = 0; m < mall.length; m++) {
+//		if (mall[m].fstatus == "00") {
+//			wait.push(mall[m]);
+//		} else if(mall[m].fstatus == "03" || mall[m].fstatus == "05" || mall[m].fstatus == "07") {
+//			work.push(mall[m]);
+//		}  else{
+//			warn.push(mall[m]);
+//		}
+//	}
+	work = on;
+	wait = stand;
 	if(flagnum == 0){
 		flagnum = 1;
 		//初始化echart实例
@@ -355,7 +459,7 @@ function showWelderChart() {
 			formatter : function(name) {
 				var index = 0;
 				var clientlabels = [ '工作', '待机', '故障', '关机' ];
-				var clientcounts = [ work.length, wait.length, warn.length,  machine.length - work.length - wait.length - warn.length ];
+				var clientcounts = [ on.length, stand.length, warn.length,  off.length ];
 				$.each(clientlabels, function(i, value) {
 					if (value == name) {
 						index = i;
@@ -372,7 +476,7 @@ function showWelderChart() {
 				center : [ '40%', '50%' ],
 				data : [
 					{
-						value : work.length,
+						value : on.length,
 						name : '工作',
 						itemStyle : {
 							normal : {
@@ -381,7 +485,7 @@ function showWelderChart() {
 						}
 					},
 					{
-						value : wait.length,
+						value : stand.length,
 						name : '待机',
 						itemStyle : {
 							normal : {
@@ -399,7 +503,7 @@ function showWelderChart() {
 						}
 					},
 					{
-						value : machine.length - work.length - wait.length - warn.length,
+						value : off.length,
 						name : '关机',
 						itemStyle : {
 							normal : {
@@ -434,13 +538,78 @@ function showWelderChart() {
 	weldercharts.setOption(option);
 	//隐藏动画加载效果
 	weldercharts.hideLoading();
-	work.length = 0;
-	wait.length = 0;
-	warn.length = 0;
-	mall.length = 0;
+//	work.length = 0;
+//	wait.length = 0;
+//	warn.length = 0;
+//	mall.length = 0;
 }
 
-window.setInterval(function() {
-	showWelderChart();
-	showPersonChart();
-}, 30000);
+function clearDataFun(){
+	window.setInterval(function() {
+		var timeflag = new Date().getTime();
+		for(var i=0;i<cleardata.length;i=i+2){
+			if(timeflag-cleardata[i+1]>=30000){
+				cleardata.splice(i+1, 1);
+				var num;
+				num = $.inArray(cleardata[i], stand);
+				if(num!=(-1)){
+					stand.splice(num, 1);
+				}
+				num = $.inArray(cleardata[i], warn);
+				if(num!=(-1)){
+					warn.splice(num, 1);
+				}
+				num = $.inArray(cleardata[i], on);
+				if(num!=(-1)){
+					on.splice(num, 1);
+				}
+				num = $.inArray(cleardata[i], off);
+				if(num==(-1)){
+					off.push(cleardata[i]);
+				}
+				cleardata.splice(i, 1);
+			}
+		}
+		var option = weldercharts.getOption();
+		option.series[0].data = [
+            {value:on.length,
+				name : '工作',
+				itemStyle : {
+					normal : {
+						color : '#66b731'
+					}
+				}},
+            {value:stand.length,
+				name : '待机',
+				itemStyle : {
+					normal : {
+						color : '#2da2f1'
+					}
+				}},
+            {value:warn.length,
+				name : '故障',
+				itemStyle : {
+					normal : {
+						color : '#dc0201'
+					}
+				}},
+            {value:off.length,
+				name : '关机',
+				itemStyle : {
+					normal : {
+						color : '#ebebeb'
+					}
+				}}
+        ];
+		weldercharts.setOption(option);
+	}, 30000)
+}
+
+//window.setInterval(function() {
+//	showWelderChart();
+//	showPersonChart();
+////	off.length=0;
+////	on.length=0;
+////	stand.length=0;
+////	warn.length=0;
+//}, 30000);

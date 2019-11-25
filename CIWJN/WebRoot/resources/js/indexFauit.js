@@ -68,11 +68,11 @@ function webclient(){
 	try{
 		socket = new WebSocket(websocketURL);
 	}catch(err){
-		alert("地址请求错误，请清除缓存重新连接！！！")
+//		alert("地址请求错误，请清除缓存重新连接！！！")
 	}
 	setTimeout(function(){
 		if(socket.readyState!=1){
-			alert("与服务器连接失败,请检查网络设置!");
+//			alert("与服务器连接失败,请检查网络设置!");
 		}
 	},10000);
 	socket.onopen = function() {
