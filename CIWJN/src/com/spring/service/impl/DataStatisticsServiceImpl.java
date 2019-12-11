@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -333,5 +334,30 @@ public class DataStatisticsServiceImpl implements DataStatisticsService {
 	public List<DataStatistics> getMachineNoTask(BigInteger insid, String time1, String totime, String time2) {
 		// TODO Auto-generated method stub
 		return ds.getMachineNoTask(insid,time1,totime,time2);
+	}
+
+	@Override
+	public List<DataStatistics> getItemData(Page page, BigInteger insid, WeldDto dto) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return ds.getItemData(insid, dto);
+	}
+
+	@Override
+	public List<DataStatistics> getMachineData(Page page, BigInteger insid, WeldDto dto) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return ds.getMachineData(insid, dto);
+	}
+
+	@Override
+	public List<DataStatistics> getWelderData(Page page, BigInteger insid, WeldDto dto) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return ds.getWelderData(insid, dto);
+	}
+
+	@Override
+	public List<DataStatistics> getJunctionData(Page page, BigInteger insid, WeldDto dto) {
+		PageHelper.startPage(page.getPageIndex(), page.getPageSize());
+		return ds.getJunctionData(insid, dto);
 	}
 }

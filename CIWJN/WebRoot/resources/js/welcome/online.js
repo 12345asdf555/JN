@@ -11,7 +11,7 @@ var socket;
 var redata;
 var symbol = 0;
 var machine;
-var namex;
+var namex = new Array(),welderId = new Array();
 var worknum = 0,
 	waitnum = 0,
 	warnnum = 0,
@@ -128,7 +128,7 @@ function webclient() {
 				}
 
 				for (var i = 0; i < redata.length; i += 111) {
-					if (redata.substring(0 + i, 4 + i) != "0000") {
+					if (redata.substring(0 + i, 4 + i) != "0000" && $.inArray(parseInt(redata.substring(0+i, 4+i),10),namex)) {
 						//组织机构与焊工编号都与数据库中一致则录入
 						if (weld.length == 0) {
 							weld.push(redata.substring(0 + i, 4 + i));
@@ -155,7 +155,7 @@ function webclient() {
 //							break;
 //						}
 //					}
-					if(parseInt(redata.substring(4+i, 8+i),10)!=0){
+					if(parseInt(redata.substring(4+i, 8+i),10)!=0 && $.inArray(parseInt(redata.substring(4+i, 8+i),10),machineary)){
 						var cleardataIndex = $.inArray(parseInt(redata.substring(4+i, 8+i),10), cleardata);
 						if(cleardataIndex==(-1)){
 							cleardata.push(parseInt(redata.substring(4+i, 8+i),10));
@@ -425,8 +425,8 @@ function showWelderChart() {
 //			warn.push(mall[m]);
 //		}
 //	}
-	work = on;
-	wait = stand;
+//	work = on;
+//	wait = stand;
 	if(flagnum == 0){
 		flagnum = 1;
 		//初始化echart实例

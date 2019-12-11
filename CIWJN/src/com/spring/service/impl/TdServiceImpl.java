@@ -63,8 +63,8 @@ public class TdServiceImpl implements TdService {
 		return mapper.findPosition(equip);
 	}
 
-	public List<Td> allWeldname() {
-		return mapper.allWeldname();
+	public List<Td> allWeldname(String str) {
+		return mapper.allWeldname(str);
 	}
 
 	public List<Td> getAllMachine(String position) {

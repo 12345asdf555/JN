@@ -39,6 +39,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
   	<div class="functiondiv">
 		<div>
+		 	所属作业区：
+			<select class="easyui-combobox" name="zitem" id="zitem" data-options="editable:false"></select>
+			所属班组：
+			<select class="easyui-combobox" name="bitem" id="bitem" data-options="editable:false"></select>
 			任务状态：
 			<select class="easyui-combobox" name="status" id="status" data-options="editable:false">
 				<option value="999">请选择</option>
@@ -52,6 +56,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:openDayin();" class="easyui-linkbutton" iconCls="icon-print">打印</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:insertsearchWT();" class="easyui-linkbutton" iconCls="icon-select" >查找</a>&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="javascript:complete();" class="easyui-linkbutton" iconCls="icon-ok">批量完成</a>
+			<a href="javascript:openDeleteDialog();" class="easyui-linkbutton" iconCls="icon-ok">批量删除</a>
+			<!-- <label><input name="hideFinished" id="hideFinished" type="checkbox" style="width: 20px" checked="true"/>隐藏已完成任务</label> -->
 		</div>
 	</div>
   	<div id="body">
@@ -217,6 +223,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:saveWeldingnumber();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
 			<a href="javascript:dlgclose('sdlg');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
+		
+		<!-- 批量删除 -->
+	    <div id="bdt" class="easyui-dialog" style="width: 920px; height: 530px;" title="批量删除" closed="true" buttons="#cdt-buttons">
+	    	<table id="batchDeleteTable" style="table-layout: fixed; width:100%;"></table>
+	    </div>
+	    <div id="cdt-buttons">
+	      <a href="javascript:batchDelete();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
+	      <a href="javascript:" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+	    </div>
 		
 		<div id="load" style="width:100%;height:100%;"></div>
 	</div>

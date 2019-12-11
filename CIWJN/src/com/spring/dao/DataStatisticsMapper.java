@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.spring.dto.WeldDto;
 import com.spring.model.DataStatistics;
+import com.spring.page.Page;
 
 import tk.mybatis.mapper.common.Mapper;
 
@@ -85,4 +86,12 @@ public interface DataStatisticsMapper  extends Mapper<DataStatistics>{
 	List<DataStatistics> getMachineTask(@Param("parent")BigInteger parent,@Param("sql")String sql,@Param("type")int type);
 	
 	List<DataStatistics> getMachineNoTask(@Param("itemid")BigInteger itemid,@Param("time1")String time1, @Param("totime")String totime, @Param("time2")String time2);
+	
+	List<DataStatistics> getItemData(@Param("itemid")BigInteger insid, @Param("dto") WeldDto dto);
+	
+	List<DataStatistics> getMachineData(@Param("itemid")BigInteger insid, @Param("dto") WeldDto dto);
+	
+	List<DataStatistics> getWelderData(@Param("itemid")BigInteger insid, @Param("dto") WeldDto dto);
+	
+	List<DataStatistics> getJunctionData(@Param("itemid")BigInteger insid, @Param("dto") WeldDto dto);
 }

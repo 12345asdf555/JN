@@ -45,6 +45,8 @@
 		,dic.fvaluename mname,fisnetworking,fposition,d.fvaluename statusname,di.fvaluename typename
 		FROM tb_welding_machine w
 		LEFT JOIN tb_insframework i ON w.finsframework_id = i.fid
+		LEFT JOIN tb_insframework ins on ins.fid = i.fparent
+		LEFT JOIN tb_insframework insf on insf.fid = ins.fparent
         INNER JOIN tb_dictionary d ON d.fvalue = w.fstatus_id
         INNER JOIN tb_dictionary di ON di.fvalue = w.ftype_id
         INNER JOIN tb_dictionary dic ON dic.fvalue = w.fmanufacturer_id
@@ -52,12 +54,12 @@
         left JOIN tb_dictionary dict ON dict.fvalue = w.fmodel
 		where (d.ftypeid=3 and di.ftypeid=4 and dic.ftypeid=14 and dict.ftypeid=17)
 		<if test="parent!=null and parent!=''">
-			and i.fid=#{parent}
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
 		</if>
 		<if test="str!=null and str!=''">
 			and ${str}
 		</if>
-		ORDER BY w.fid
+		ORDER BY w.fequipment_no
 	</select>
 	
 	<select id="getAllMachine" resultMap="wmMap">

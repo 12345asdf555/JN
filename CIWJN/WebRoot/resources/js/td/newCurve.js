@@ -68,6 +68,7 @@ function loadtree() {
 			var nownodes = $('#myTree').tree('find', node.id);
 			insfid = nownodes.id;
 			$("#bodydiv").html("");
+			off.length = 0;
 			getMachine(insfid);
 		}
 	});
@@ -186,11 +187,11 @@ function webclient() {
 	try {
 		socket = new WebSocket(websocketURL);
 	} catch (err) {
-		alert("地址请求错误，请清除缓存重新连接！！！")
+//		alert("地址请求错误，请清除缓存重新连接！！！")
 	}
 	setTimeout(function() {
 		if (socket.readyState != 1) {
-			alert("与服务器连接失败,请检查网络设置!");
+//			alert("与服务器连接失败,请检查网络设置!");
 		}
 	}, 10000);
 	socket.onopen = function() {
@@ -251,7 +252,8 @@ function webclient() {
 	};
 	//发生了错误事件
 	socket.onerror = function(e) {
-		alert("发生异常，正在尝试重新连接服务器！！！");
+		socket = new WebSocket(websocketURL);
+//		alert("发生异常，正在尝试重新连接服务器！！！");
 	}
 }
 

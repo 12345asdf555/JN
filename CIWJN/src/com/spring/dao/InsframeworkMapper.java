@@ -33,7 +33,11 @@ public interface InsframeworkMapper extends Mapper<Insframework>{
 	
 	List<Insframework> getConmpany();
 	
+	List<Insframework> getConmpany1(@Param("value1")BigInteger value1);
+	
 	List<Insframework> getCause(@Param("id")BigInteger id);
+	
+	List<Insframework> getCause1(@Param("id")BigInteger id,@Param("value2")BigInteger value2);
 	
 	Insframework getParent(@Param("id")BigInteger id);
 	

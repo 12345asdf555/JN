@@ -364,4 +364,36 @@ public interface DataStatisticsService {
 	 * @return
 	 */
 	List<DataStatistics> getMachineNoTask(BigInteger insid, String time1, String totime, String time2);
+	
+	/**
+	 * 班组生产数据报表
+	 * @param bigInteger 组织机构id
+	 * @param dto 时间
+	 * @return
+	 */
+	List<DataStatistics> getItemData(Page page, BigInteger insid, WeldDto dto);
+	
+	/**
+	 * 班组生产数据报表
+	 * @param bigInteger 组织机构id
+	 * @param dto 时间
+	 * @return
+	 */
+	List<DataStatistics> getMachineData(Page page, BigInteger insid, WeldDto dto);
+	
+	/**
+	 * 班组生产数据报表
+	 * @param bigInteger 组织机构id
+	 * @param dto 时间
+	 * @return
+	 */
+	List<DataStatistics> getWelderData(Page page, BigInteger insid, WeldDto dto);
+	
+	/**
+	 * 班组生产数据报表
+	 * @param bigInteger 组织机构id
+	 * @param dto 时间
+	 * @return
+	 */
+	List<DataStatistics> getJunctionData(Page page, BigInteger insid, WeldDto dto);
 }

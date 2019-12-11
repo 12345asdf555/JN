@@ -121,5 +121,11 @@ public class WeldingMachineServiceImpl implements WeldingMachineService {
 	public void deletefactory(BigInteger statusId) {
 		wmm.deletefactory(statusId);
 	}
+
+	@Override
+	public List<WeldingMachine> getWeldingMachineAllNoPage(BigInteger parent, String searchStr) {
+		// TODO Auto-generated method stub
+		return wmm.getWeldingMachineAll(parent,searchStr);
+	}
 	
 }

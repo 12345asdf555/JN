@@ -152,6 +152,8 @@ public class WeldingMachineController {
 		BigInteger parent = null;
 		if(iutil.isNull(parentId)){
 			parent = new BigInteger(parentId);
+		}else {
+			parent = im.getUserInsframework();
 		}
 		request.getSession().setAttribute("searchStr", searchStr);
 		page = new Page(pageIndex,pageSize,total);
@@ -210,6 +212,77 @@ public class WeldingMachineController {
 			e.printStackTrace();
 		}
 		obj.put("total", total);
+		obj.put("rows", ary);
+		return obj.toString();
+	}
+	
+	/**
+	 * 显示焊机列表
+	 * @return
+	 */
+	@RequestMapping("/getWedlingMachineListNoPage")
+	@ResponseBody
+	public String getWedlingMachineListNoPage(HttpServletRequest request){
+		String searchStr = request.getParameter("searchStr");
+		String str = request.getParameter("str");
+		String parentId = request.getParameter("parent");
+		BigInteger parent = null;
+		parent = im.getUserInsframework();
+		if(iutil.isNull(parentId)){
+			parent = new BigInteger(parentId);
+		}
+		if(str!=null && !"".equals(str)) {
+			searchStr+=str;
+		}
+		request.getSession().setAttribute("searchStr", searchStr);
+		List<WeldingMachine> list = wmm.getWeldingMachineAllNoPage(parent,searchStr);
+		
+		JSONObject json = new JSONObject();
+		JSONArray ary = new JSONArray();
+		JSONObject obj = new JSONObject();
+		try{
+			for(WeldingMachine wm:list){
+				json.put("id", wm.getId());
+				json.put("ip", wm.getIp());
+				json.put("equipmentNo", wm.getEquipmentNo());
+				json.put("position", wm.getPosition());
+				json.put("gatherId", wm.getGatherId());
+				if(wm.getIsnetworking()==0){
+					json.put("isnetworking", "是");
+				}else{
+					json.put("isnetworking", "否");
+				}
+				json.put("isnetworkingId", wm.getIsnetworking());
+				json.put("joinTime", wm.getJoinTime());
+				json.put("typeName",wm.getTypename());
+				json.put("typeId", wm.getTypeId());
+				json.put("statusName", wm.getStatusname());
+				json.put("statusId", wm.getStatusId());
+				json.put("manufacturerName", wm.getMvaluename());
+				json.put("manuno", wm.getMvalueid());
+				if( wm.getInsframeworkId()!=null && !"".equals(wm.getInsframeworkId())){
+					json.put("insframeworkName", wm.getInsframeworkId().getName());
+					json.put("iId", wm.getInsframeworkId().getId());
+				}
+				if(wm.getModel()!=null && !("").equals(wm.getModelname())){
+					json.put("model",wm.getModel());
+					json.put("modelname",wm.getModelname());
+				}else{
+					json.put("model",null);
+					json.put("modelname",null);
+				}
+				if(wm.getGatherId()!=null && !("").equals(wm.getGatherId())){
+					json.put("gatherId", wm.getGatherId().getGatherNo());
+					json.put("gid", wm.getGatherId().getId());
+				}else{
+					json.put("gatherId", null);
+					json.put("gid", null);
+				}
+				ary.add(json);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		obj.put("rows", ary);
 		return obj.toString();
 	}

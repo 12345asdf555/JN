@@ -74,10 +74,22 @@ public interface InsframeworkService {
 	List<Insframework> getConmpany();
 	
 	/**
+	 * 查看公司级
+	 * @return
+	 */
+	List<Insframework> getConmpany(BigInteger value1);
+	
+	/**
 	 * 查看公司级子级
 	 * @return
 	 */
 	List<Insframework> getCause(BigInteger id);
+	
+	/**
+	 * 查看公司级子级
+	 * @return
+	 */
+	List<Insframework> getCause(BigInteger id,BigInteger value2);
 	
 	/**
 	 * 焊机获取项目

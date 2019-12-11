@@ -145,8 +145,18 @@ function save(){
 		return;
 	}
     var insframework = $('#owner').combobox('getValue');
-    var leve = $('#leveid').combobox('getValue');
-    var qua = $('#quali').combobox('getValue');
+    var leve;
+    var qua;
+    if($('#leveid').val()){
+    	leve = $('#leveid').combobox('getValue');
+    }else{
+    	leve = 0;
+    }
+    if($('#quali').val()){
+    	qua = $('#quali').combobox('getValue');
+    }else{
+    	qua = 0;
+    }
 	var url2 = "";
 	if(flag==1){
 		messager = "新增成功！";

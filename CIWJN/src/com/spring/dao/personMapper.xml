@@ -9,6 +9,7 @@
 <mapper namespace="com.spring.dao.PersonMapper">
 	
 	<select id="findAll" resultType="Person">
+		select * from (
 		select tb_welder.fid id,tb_welder.fwelder_no welderno,tb_welder.fname name,tb_welder.FCellPhone cellphone,tb_welder.FLeveID leveid,tb_welder.FCardNUm cardnum,tb_welder.Fqualification quali,tb_welder.FCReateDate createdate,tb_welder.FUpdateDate updatedate,tb_welder.Fowner owner,tb_welder.Fback back,i.fid insid,i.fname insname,d.fvaluename valuename,di.fvaluename valuenamex from tb_welder INNER JOIN tb_dictionary d on d.fvalue = tb_welder.FLeveID
 		INNER JOIN tb_dictionary di on di.fvalue = tb_welder.Fqualification INNER JOIN tb_insframework i on tb_welder.Fowner=i.fid
 		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
@@ -16,10 +17,20 @@
 		<if test="parent!=null and parent!=''">
 			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
 		</if>
+		UNION ALL 
+		select tb_welder.fid id,tb_welder.fwelder_no welderno,tb_welder.fname name,tb_welder.FCellPhone cellphone,tb_welder.FLeveID leveid,tb_welder.FCardNUm cardnum,tb_welder.Fqualification quali,tb_welder.FCReateDate createdate,tb_welder.FUpdateDate updatedate,tb_welder.Fowner owner,tb_welder.Fback back,i.fid insid,i.fname insname,NULL valuename,NULL valuenamex from tb_welder 
+		INNER JOIN tb_insframework i on tb_welder.Fowner=i.fid
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent 
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent 
+		where tb_welder.FLeveID=0 or tb_welder.Fqualification=0
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
+		) t where 1=1 
 		<if test="str!=null and str!=''">
 			and ${str}
 		</if>
-		ORDER by tb_welder.fid
+		ORDER by t.id
 	</select>
 	
 	<select id="findLeve" resultType="Person">

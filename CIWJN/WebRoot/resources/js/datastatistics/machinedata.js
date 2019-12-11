@@ -22,53 +22,141 @@ function setParam(){
 function dgDatagrid(){
 	setParam();
 	var column = new Array();
-	$.ajax({  
-        type : "post",  
-        async : false,
-        url : "datastatistics/getMachineData"+chartStr,
-        data : {},  
-        dataType : "json", //返回数据形式为json  
-        success : function(result) {
-            if (result) {
-            	 for(var i=0;i<result.ary.length;i++){
-            		 column.push({field:"t"+i,title:result.ary[i].title,width:100,halign : "center",align : "left",sortable : true,
-            				sorter : function(a,b){
-            					return (a>b?1:-1);
-            				}});
-             	 }
-            	 var grid = {
-            			 fitColumns : true,
-        				 height : $("#body").height(),
-        				 width : $("#body").width(),
-        				 url : "datastatistics/getMachineData"+chartStr,
-        				 pageSize : 10,
-        				 pageList : [ 10, 20, 30, 40, 50 ],
-        				 singleSelect : true,
-        				 rownumbers : true,
-        				 showPageList : false,
-        				 pagination : true,
-        				 remoteSort : false,
-        				 nowrap : false,
-        				 columns : [column],
-        				 rowStyler: function(index,row){
-        					 if ((index % 2)!=0){
-        		            	 //处理行代背景色后无法选中
-        		            	 var color=new Object();
-        		                 return color;
-        		             }
-        		         },
-        		         onBeforeLoad : function(param){
-     		        		$("#chartLoading").hide();
-        		         }
-                 };
-            	 $('#dg').datagrid(grid);  
-            	 $('#dg').datagrid('loadData', result.rows);
-            }  
-        },  
-        error : function(errorMsg) {  
-            alert("数据请求失败，请联系系统管理员!");  
-        }  
-   }); 
+	$('#dg').datagrid({
+		 fitColumns : true,
+		 height : $("#body").height(),
+		 width : $("#body").width(),
+		 url : "datastatistics/getMachineData"+chartStr,
+		 pageSize : 10,
+		 pageList : [ 10, 20, 30, 40, 50 ],
+		 singleSelect : true,
+		 rownumbers : true,
+		 showPageList : false,
+		 pagination : true,
+		 remoteSort : false,
+		 nowrap : false,
+		 columns : [[
+			 {
+				field : 't1',
+				title : '设备编号',
+				width : 100,
+				halign : "center",
+				align : "left",
+				sortable : true,
+				sorter : function(a,b){
+					return (a>b?1:-1);
+				}
+			 }, {
+				field : 't0',
+				title : '班组',
+				width : 100,
+				halign : "center",
+				align : "left",
+				sortable : true,
+				sorter : function(a,b){
+					return (a>b?1:-1);
+				}
+			 }, {
+				field : 't2',
+				title : '焊接任务数',
+				width : 100,
+				halign : "center",
+				align : "left",
+				sortable : true,
+				sorter : function(a,b){
+					return (a>b?1:-1);
+				}
+			 }, {
+				field : 't3',
+				title : '焊接时间',
+				width : 100,
+				halign : "center",
+				align : "left",
+				sortable : true,
+				sorter : function(a,b){
+					return (a>b?1:-1);
+				}
+			 }, {
+				field : 't4',
+				title : '工作时间',
+				width : 100,
+				halign : "center",
+				align : "left",
+				sortable : true,
+				sorter : function(a,b){
+					return (a>b?1:-1);
+				}
+			 }, {
+				field : 't5',
+				title : '焊接效率',
+				width : 100,
+				halign : "center",
+				align : "left",
+				sortable : true,
+				sorter : function(a,b){
+					return (a>b?1:-1);
+				}
+			 } 
+		 ]],
+		 rowStyler: function(index,row){
+			 if ((index % 2)!=0){
+           	 //处理行代背景色后无法选中
+           	 var color=new Object();
+                return color;
+            }
+        },
+        onBeforeLoad : function(param){
+    		$("#chartLoading").hide();
+        }
+}); 
+	return;
+//	$.ajax({  
+//        type : "post",  
+//        async : false,
+//        url : "datastatistics/getMachineData"+chartStr,
+//        data : {},  
+//        dataType : "json", //返回数据形式为json  
+//        success : function(result) {
+//            if (result) {
+//            	 for(var i=0;i<result.ary.length;i++){
+//            		 column.push({field:"t"+i,title:result.ary[i].title,width:100,halign : "center",align : "left",sortable : true,
+//            				sorter : function(a,b){
+//            					return (a>b?1:-1);
+//            				}});
+//             	 }
+//            	 var grid = {
+//            			 fitColumns : true,
+//        				 height : $("#body").height(),
+//        				 width : $("#body").width(),
+//        				 url : "datastatistics/getMachineData"+chartStr,
+//        				 pageSize : 10,
+//        				 pageList : [ 10, 20, 30, 40, 50 ],
+//        				 singleSelect : true,
+//        				 rownumbers : true,
+//        				 showPageList : false,
+//        				 pagination : true,
+//        				 remoteSort : false,
+//        				 nowrap : false,
+//        				 columns : [column],
+//        				 rowStyler: function(index,row){
+//        					 if ((index % 2)!=0){
+//        		            	 //处理行代背景色后无法选中
+//        		            	 var color=new Object();
+//        		                 return color;
+//        		             }
+//        		         },
+//        		         onBeforeLoad : function(param){
+//     		        		$("#chartLoading").hide();
+//        		         }
+//                 };
+//            	 $('#dg').datagrid(grid);  
+//            	 $('#dg').datagrid('loadData', result.rows);
+//            }  
+//        },  
+//        error : function(errorMsg) {  
+//            alert("数据请求失败，请联系系统管理员!");  
+//        }  
+//   }); 
 }
 
 function itemcombobox(){

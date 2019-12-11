@@ -4,25 +4,129 @@ $(function(){
 //	exporttable();
 	statusChange();
 	resultCombobox();
+	itemcombobox();
 });
 
 function statusChange(){
-	$("#status").combobox({
+//	$("#status").combobox({
+//		onChange : function(newValue,oldValue){
+//			var searchStr = "";
+//			if(newValue==1){
+//				searchStr = " foperatetype=1";
+//			}else if(newValue==0){
+//				searchStr = " (foperatetype=0 or foperatetype=2)";
+//			}else if(newValue==3){
+//				searchStr = " foperatetype is null"
+//			}
+//			$("#weldTaskTable").datagrid('reload',{
+//				"searchStr" : searchStr
+//			})
+//		}
+//	})
+	
+	$("#zitem").combobox({
 		onChange : function(newValue,oldValue){
-			var searchStr = "";
-			if(newValue==1){
+			if(oldValue!=""){
+				$.ajax({  
+				    type : "post",  
+				    async : false,
+				    url : "weldtask/getTeam?searchStr="+" and i.fparent="+newValue,  
+				    data : {},  
+				    dataType : "json", //返回数据形式为json  
+				    success : function(result) {  
+				        if (result) {
+				        		var boptionStr = '<option value="0">请选择</option>';
+				                for (var i = 0; i < result.ary.length; i++) {  
+				                    boptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+				                            + result.ary[i].name + "</option>";
+				                }
+				                $("#bitem").html(boptionStr);
+					        	$("#bitem").combobox();
+					        	$("#bitem").combobox({disabled: false});
+					        	$("#bitem").combobox('select',0);
+				        }  
+				    },  
+				    error : function(errorMsg) {  
+				        alert("数据请求失败，请联系系统管理员!");  
+				    }  
+					}); 
+			}
+		}
+	})
+	var searchStr = "",parent = "";
+	$("#bitem").combobox({
+		onChange : function(newValue,oldValue){
+			searchStr = "";
+			parent = "";
+			var itemid = $("#bitem").combobox("getValue");
+			var status = $("#status").combobox("getValue");
+			if(itemid!=0){
+				parent = "i.fid = "+itemid;
+			}
+			if(status==1){
 				searchStr = " foperatetype=1";
-			}else if(newValue==0){
+			}else if(status==0){
 				searchStr = " (foperatetype=0 or foperatetype=2)";
-			}else if(newValue==3){
+			}else if(status==3){
 				searchStr = " foperatetype is null"
 			}
 			$("#weldTaskTable").datagrid('reload',{
-				"searchStr" : searchStr
+				"searchStr" : searchStr,
+				"parent" : parent
 			})
 		}
 	})
 	
+	$("#status").combobox({
+		onChange : function(newValue,oldValue){
+			searchStr = "";
+			parent = "";
+			var itemid = $("#bitem").combobox("getValue");
+			var status = $("#status").combobox("getValue");
+			if(itemid!=0){
+				parent = "i.fid = "+itemid;
+			};
+			if(status==1){
+				searchStr = " foperatetype=1";
+			}else if(status==0){
+				searchStr = " (foperatetype=0 or foperatetype=2)";
+			}else if(status==3){
+				searchStr = " foperatetype is null"
+			};
+			$("#weldTaskTable").datagrid('reload',{
+				"searchStr" : searchStr,
+				"parent" : parent
+			});
+		}
+	})
+	
+//	$("#hideFinished").click(function(){
+//		searchStr = "";
+//		parent = "";
+//		var itemid = $("#bitem").combobox("getValue");
+//		var status = $("#status").combobox("getValue");
+//		if(itemid!=0){
+//			parent = "i.fid = "+itemid;
+//		};
+//		if(this.checked==true){
+//			if(parent==""){
+//				parent = " r.foperatetype!=1"
+//			}else{
+//				parent += " and r.foperatetype!=1"
+//			}
+//		}
+//		if(status==1){
+//			searchStr = " foperatetype=1";
+//		}else if(status==0){
+//			searchStr = " (foperatetype=0 or foperatetype=2)";
+//		}else if(status==3){
+//			searchStr = " foperatetype is null"
+//		};
+//		$("#weldTaskTable").datagrid('reload',{
+//			"searchStr" : searchStr,
+//			"parent" : parent
+//		});
+//	})
 }
 
 function weldedJunctionDatagrid(){
@@ -909,6 +1013,95 @@ function exportDg(){
 			window.location.href = encodeURI(url);
 		}
 	});
+}
+
+function itemcombobox(){
+/*	$.ajax({  
+      type : "post",  
+      async : false,
+      url : "weldingMachine/getInsframeworkAll",  
+      data : {},  
+      dataType : "json", //返回数据形式为json  
+      success : function(result) {  
+          if (result) {
+              var optionStr = '<option value="0">请选择</option>';
+              for (var i = 0; i < result.ary.length; i++) { 
+                  optionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+                          + result.ary[i].name + "</option>";
+              }
+              $("#item").html(optionStr);
+          }  
+      },  
+      error : function(errorMsg) {  
+          alert("数据请求失败，请联系系统管理员!");  
+      }  
+	}); 
+	$("#item").combobox();
+	$("#item").combobox('select',0);*/
+	
+	$.ajax({  
+	    type : "post",  
+	    async : false,
+	    url : "weldtask/getOperateArea",  
+	    data : {},  
+	    dataType : "json", //返回数据形式为json  
+	    success : function(result) {  
+	        if (result) {
+	        	if(result.type==23){
+	        		var zoptionStr = "";
+	        		var boptionStr = "";
+	                for (var i = 0; i < result.ary.length; i++) {  
+	                    zoptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+	                            + result.ary[i].name + "</option>";
+	                }
+	                for (var j = 0; j < result.banzu.length; j++) {  
+	                    boptionStr += "<option value=\"" + result.banzu[j].id + "\" >"  
+	                            + result.banzu[j].name + "</option>";
+	                }
+	                $("#zitem").html(zoptionStr);
+	                $("#bitem").html(boptionStr);
+		        	$("#zitem").combobox();
+		        	$("#zitem").combobox('select',result.ary[0].id);
+		        	$("#bitem").combobox();
+		        	$("#bitem").combobox('select',result.banzu[0].id);
+//		        	$("#zitem").combobox({disabled: true});
+//		        	$("#bitem").combobox({disabled: true});
+	        	}else if(result.type==22){
+	        		var zoptionStr = "";
+	        		var boptionStr = '<option value="0">请选择</option>';
+	                for (var i = 0; i < result.ary.length; i++) {  
+	                    zoptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+	                            + result.ary[i].name + "</option>";
+	                }
+	                for (var j = 0; j < result.banzu.length; j++) {  
+	                    boptionStr += "<option value=\"" + result.banzu[j].id + "\" >"  
+	                            + result.banzu[j].name + "</option>";
+	                }
+	                $("#zitem").html(zoptionStr);
+	                $("#bitem").html(boptionStr);
+		        	$("#zitem").combobox();
+		        	$("#zitem").combobox('select',result.ary[0].id);
+		        	$("#bitem").combobox();
+		        	$("#bitem").combobox('select',0);
+//		        	$("#zitem").combobox({disabled: true});
+	        	}else{
+	        		$("#bitem").combobox({disabled: true});
+	        		var zoptionStr = '<option value="0">请选择</option>';
+	                for (var i = 0; i < result.ary.length; i++) {  
+	                    zoptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+	                            + result.ary[i].name + "</option>";
+	                }
+	                $("#zitem").html(zoptionStr);
+		        	$("#zitem").combobox();
+		        	$("#zitem").combobox('select',0);
+	        	}
+	        	
+	        }  
+	    },  
+	    error : function(errorMsg) {  
+	        alert("数据请求失败，请联系系统管理员!");  
+	    }  
+		});
 }
 
 //监听窗口大小变化

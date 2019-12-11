@@ -103,5 +103,6 @@ public interface WeldingMachineService {
 	 * @return
 	 */
 	List<WeldingMachine> getMachineGather();
+	List<WeldingMachine> getWeldingMachineAllNoPage(BigInteger parent, String searchStr);
 	
 }

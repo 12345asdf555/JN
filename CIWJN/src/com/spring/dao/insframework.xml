@@ -77,6 +77,25 @@
 		SELECT fid,fname FROM tb_insframework WHERE ftype=21
 	</select>
 	
+	<!-- 查看公司级 -->
+	<select id="getConmpany1" resultMap="insMap">
+		SELECT fid,fname FROM tb_insframework WHERE ftype=21
+		<if test="value1!=null and value1!=''">
+			and fid=#{value1}
+		</if>
+	</select>
+	
+	<!-- 查看事业部级 -->
+	<select id="getCause1" resultMap="insMap">
+		SELECT fid,fname FROM tb_insframework WHERE 1=1 
+		<if test="id!=null and id!=''">
+			and fparent=#{id} 
+		</if>
+		<if test="value2!=null and value2!=''">
+			and fid=#{value2}
+		</if>
+	</select>
+	
 	<!-- 查看事业部级 -->
 	<select id="getCause" resultMap="insMap">
 		SELECT fid,fname FROM tb_insframework WHERE fparent = #{id}

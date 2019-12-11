@@ -101,6 +101,12 @@ public class WeldedJunctionControll {
 		String serach = request.getParameter("searchStr");
 		
 		page = new Page(pageIndex,pageSize,total);
+		BigInteger parent = insm.getUserInsframework();
+		if(serach == null || "".equals(serach)) {
+			serach = "(i.fid="+parent+" or ins.fid="+parent+" or insf.fid="+parent+" or insf.fparent="+parent+")";
+		}else {
+			serach = serach + "and (i.fid="+parent+" or ins.fid="+parent+" or insf.fid="+parent+" or insf.fparent="+parent+")";
+		}
 		List<WeldedJunction> list = wjm.getWeldedJunctionAll(page, serach);
 		long total = 0;
 		

@@ -88,12 +88,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                <input name="cardnum" class="easyui-textbox">
 	            </div>
 	            <div class="fitem">
-					<lable><span class="required">*</span>级别</lable>
-					<select class="easyui-combobox" name="leveid" id="leveid" data-options="required:true,editable:false"></select>
+					<lable>级别</lable>
+					<select class="easyui-combobox" name="leveid" id="leveid" data-options="editable:false"></select>
 	        	</div>
 	        	<div class="fitem">
-					<lable><span class="required">*</span>资质</lable>
-					<select class="easyui-combobox" name="quali" id="quali" data-options="required:true,editable:false"></select>
+					<lable>资质</lable>
+					<select class="easyui-combobox" name="quali" id="quali" data-options="editable:false"></select>
 	        	</div>
 	            <div class="fitem">
 					<lable><span class="required">*</span>部门</lable>

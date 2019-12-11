@@ -18,10 +18,13 @@
 	</resultMap>
 	
 	<select id="getGatherAll" resultMap="gatherMap">
-		SELECT g.*,i.fname itemname FROM tb_gather g LEFT join tb_insframework i on i.fid=g.fitemId 
+		SELECT g.*,i.fname itemname FROM tb_gather g 
+		LEFT join tb_insframework i on i.fid=g.fitemId 
+		LEFT JOIN tb_insframework ins on ins.fid = i.fparent
+		LEFT JOIN tb_insframework insf on insf.fid = ins.fparent
 		where 1=1
 		<if test="parent!=null and parent!=''">
-			and i.fid=#{parent}
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
 		</if>
 		<if test="str!=null and str!=''">
 			and ${str}

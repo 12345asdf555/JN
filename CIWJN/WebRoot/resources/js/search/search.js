@@ -337,15 +337,15 @@ function newSearchResource(){
 //焊工信息下拉框
 function searchWelderCombobox(){
 	var optionFields = 
-  		"<option value='tb_welder.fname'>姓名</option>" +
-  		"<option value='fwelder_no'>编号</option>" +
-  		"<option value='FCellPhone'>手机</option>" +
-  		"<option value='FCardNUm'>卡号</option>" +
-  		"<option value='di.fvaluename'>资质</option>" +
-  		"<option value='d.fvaluename'>级别</option>" +
+  		"<option value='t.name'>姓名</option>" +
+  		"<option value='t.welderno'>编号</option>" +
+  		"<option value='t.cellphone'>手机</option>" +
+  		"<option value='t.cardnum'>卡号</option>" +
+  		"<option value='t.valuenamex'>资质</option>" +
+  		"<option value='t.valuename'>级别</option>" +
 //  		"<option value='FCReateDate'>创建时间</option>" +
 //  		"<option value='FUpdateDate'>修改时间</option>" +
-  		"<option value='i.fname'>所属项目</option>";
+  		"<option value='t.insname'>所属项目</option>";
 	$(".fields").html(optionFields);
 	createSearchCombobox();
 }

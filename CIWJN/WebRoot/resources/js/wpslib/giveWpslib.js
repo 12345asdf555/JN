@@ -6,6 +6,7 @@ var selectflag;
 var wpslibindex;
 var wpslibId;
 $(function() {
+	itemcombobox();
 	$.ajax({
 		type : "post",
 		async : false,
@@ -464,11 +465,11 @@ function selectMachineList(value){
 		}
 	}
 	var url = "";
-	if(value==0&&value==1){
+	if(value==0||value==1){
 		var wpslibrow = $('#wpslibTable').datagrid('getSelected');
-		url = "weldingMachine/getWedlingMachineList?searchStr="+"w.fmodel="+wpslibrow.model;
+		url = "weldingMachine/getWedlingMachineListNoPage?searchStr="+"w.fmodel="+wpslibrow.model;
 	}else if(value==2){
-		url = "weldingMachine/getWedlingMachineList?searchStr="+"w.fmanufacturer_id="+147;
+		url = "weldingMachine/getWedlingMachineListNoPage?searchStr="+"w.fmanufacturer_id="+147;
 		if(!$('#passwd').numberbox('getValue')){
 			alert("密码不能为空");
 			return;
@@ -478,11 +479,11 @@ function selectMachineList(value){
 			return;
 		}
 	}else if(value==3){
-		url = "weldingMachine/getWedlingMachineList?searchStr="+"w.fmanufacturer_id="+147;
+		url = "weldingMachine/getWedlingMachineListNoPage?searchStr="+"w.fmanufacturer_id="+147;
 	}else if(value==4){
-		url = "weldingMachine/getWedlingMachineList?searchStr="+"w.fmanufacturer_id="+149;
+		url = "weldingMachine/getWedlingMachineListNoPage?searchStr="+"w.fmanufacturer_id="+149;
 	}else if(value==5){
-		url = "weldingMachine/getWedlingMachineList?searchStr="+"w.fmanufacturer_id="+149;
+		url = "weldingMachine/getWedlingMachineListNoPage?searchStr="+"w.fmanufacturer_id="+149;
 	}
 	$('#smfm').form('clear');
 	$('#smdlg').window( {
@@ -490,15 +491,15 @@ function selectMachineList(value){
 		modal : true
 	});
 	$("#weldingmachineTable").datagrid( {
-		height : $("#smdlg").height(),
+		height : $("#smdlg").height()-40,
 		width : $("#smdlg").width(),
 		idField : 'id',
 		pageSize : 10,
 		pageList : [ 10, 20, 30, 40, 50 ],
 		url : url,
 		singleSelect : true,
-		rownumbers : true,
-		showPageList : false, 
+//		rownumbers : true,
+//		showPageList : false, 
         columns : [ [ {
 		    field:'ck',
 			checkbox:true
@@ -527,13 +528,13 @@ function selectMachineList(value){
 //				width : 150,
 				halign : "center",
 				align : "left"
-			}, {
+			}, */{
 				field : 'insframeworkName',
 				title : '所属项目',
 //				width : 80,
 				halign : "center",
 				align : "left"
-			},*/ {
+			}, {
 			field : 'statusName',
 			title : '状态',
 //				width : 80,
@@ -619,7 +620,7 @@ function selectMachineList(value){
 			hidden: true
 		}
 		] ],
-		pagination : true,
+//		pagination : true,
 //			fitColumns : true,
 		rowStyler: function(index,row){
             if ((index % 2)!=0){
@@ -897,112 +898,216 @@ function selectSxMachineList(status){
 		title : "选择焊机",
 		modal : true
 	});
-	$("#sxMachineTable").datagrid( {
-		height : $("#sxMachinedlg").height(),
-		width : $("#sxMachinedlg").width(),
-		idField : 'id',
-		pageSize : 10,
-		pageList : [ 10, 20, 30, 40, 50 ],
-		url : "weldingMachine/getWedlingMachineList?searchStr=w.fmanufacturer_id=149",
-		singleSelect : true,
-		rownumbers : true,
-		showPageList : false, 
-        columns : [ [ {
-		    field:'ck',
-			checkbox:true
-		},{
-			field : 'id',
-			title : '序号',
-			width : 50,
-			halign : "center",
-			align : "left",
-			hidden:true
-		}, {
-			field : 'equipmentNo',
-			title : '固定资产编号',
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'typeName',
-			title : '设备类型',
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'statusName',
-			title : '状态',
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'manufacturerName',
-			title : '厂家',
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'gatherId',
-			title : '采集序号',
-			halign : "center",
-			align : "left"
-		}, {
-			field : 'statusId',
-			title : '状态id',
-			width : 100,
-			halign : "center",
-			align : "left",
-			hidden: true
-		}, {
-			field : 'isnetworkingId',
-			title : '是否联网id',
-			width : 100,
-			halign : "center",
-			align : "left",
-			hidden: true
-		}, {
-			field : 'manuno',
-			title : '厂商id',
-			width : 100,
-			halign : "center",
-			align : "left",
-			hidden: true
-		}, {
-			field : 'typeId',
-			title : '类型id',
-			width : 100,
-			halign : "center",
-			align : "left",
-			hidden: true
-		}, {
-			field : 'iId',
-			title : '项目id',
-			width : 100,
-			halign : "center",
-			align : "left",
-			hidden: true
-		}, {
-			field : 'gid',
-			title : '采集id',
-			width : 100,
-			halign : "center",
-			align : "left",
-			hidden: true
-		}
-		] ],
-		pagination : true,
-		rowStyler: function(index,row){
-            if ((index % 2)!=0){
-            	//处理行代背景色后无法选中
-            	var color=new Object();
-                return color;
-            }
-        }
-	});
 	if(status==1){
-		$("#sxMachineTable").datagrid({
-			singleSelect: false
+		$("#sxMachineTable").datagrid( {
+			height : $("#sxMachinedlg").height()-40,
+			width : $("#sxMachinedlg").width(),
+			idField : 'id',
+//			pageSize : 10,
+//			pageList : [ 10, 20, 30, 40, 50 ],
+			url : "weldingMachine/getWedlingMachineListNoPage?searchStr=w.fmanufacturer_id=149",
+			singleSelect : false,
+//			rownumbers : true,
+//			showPageList : false, 
+	        columns : [ [ {
+			    field:'ck',
+				checkbox:true
+			},{
+				field : 'id',
+				title : '序号',
+				width : 50,
+				halign : "center",
+				align : "left",
+				hidden:true
+			}, {
+				field : 'equipmentNo',
+				title : '固定资产编号',
+				halign : "center",
+				align : "left"
+			}, {
+				field : 'typeName',
+				title : '设备类型',
+				halign : "center",
+				align : "left"
+			}, {
+				field : 'statusName',
+				title : '状态',
+				halign : "center",
+				align : "left"
+			}, {
+				field : 'manufacturerName',
+				title : '厂家',
+				halign : "center",
+				align : "left"
+			}, {
+				field : 'gatherId',
+				title : '采集序号',
+				halign : "center",
+				align : "left"
+			}, {
+				field : 'insframeworkName',
+				title : '所属项目',
+//				width : 80,
+				halign : "center",
+				align : "left"
+			}, {
+				field : 'statusId',
+				title : '状态id',
+				width : 100,
+				halign : "center",
+				align : "left",
+				hidden: true
+			}, {
+				field : 'isnetworkingId',
+				title : '是否联网id',
+				width : 100,
+				halign : "center",
+				align : "left",
+				hidden: true
+			}, {
+				field : 'manuno',
+				title : '厂商id',
+				width : 100,
+				halign : "center",
+				align : "left",
+				hidden: true
+			}, {
+				field : 'typeId',
+				title : '类型id',
+				width : 100,
+				halign : "center",
+				align : "left",
+				hidden: true
+			}, {
+				field : 'iId',
+				title : '项目id',
+				width : 100,
+				halign : "center",
+				align : "left",
+				hidden: true
+			}, {
+				field : 'gid',
+				title : '采集id',
+				width : 100,
+				halign : "center",
+				align : "left",
+				hidden: true
+			}
+			] ],
+//			pagination : true,
+			rowStyler: function(index,row){
+	            if ((index % 2)!=0){
+	            	//处理行代背景色后无法选中
+	            	var color=new Object();
+	                return color;
+	            }
+	        }
 		});
 		selectflag=1;
 	}else{
-		$("#sxMachineTable").datagrid({
-			singleSelect: true
+		$("#sxMachineTable").datagrid( {
+			height : $("#sxMachinedlg").height()-40,
+			width : $("#sxMachinedlg").width(),
+			idField : 'id',
+//			pageSize : 10,
+//			pageList : [ 10, 20, 30, 40, 50 ],
+			url : "weldingMachine/getWedlingMachineListNoPage?searchStr=w.fmanufacturer_id=149",
+			singleSelect : true,
+//			rownumbers : true,
+//			showPageList : false, 
+	        columns : [ [ {
+			    field:'ck',
+				checkbox:true
+			},{
+				field : 'id',
+				title : '序号',
+				width : 50,
+				halign : "center",
+				align : "left",
+				hidden:true
+			}, {
+				field : 'equipmentNo',
+				title : '固定资产编号',
+				halign : "center",
+				align : "left"
+			}, {
+				field : 'typeName',
+				title : '设备类型',
+				halign : "center",
+				align : "left"
+			}, {
+				field : 'statusName',
+				title : '状态',
+				halign : "center",
+				align : "left"
+			}, {
+				field : 'manufacturerName',
+				title : '厂家',
+				halign : "center",
+				align : "left"
+			}, {
+				field : 'gatherId',
+				title : '采集序号',
+				halign : "center",
+				align : "left"
+			}, {
+				field : 'insframeworkName',
+				title : '所属项目',
+//				width : 80,
+				halign : "center",
+				align : "left"
+			}, {
+				field : 'statusId',
+				title : '状态id',
+				width : 100,
+				halign : "center",
+				align : "left",
+				hidden: true
+			}, {
+				field : 'isnetworkingId',
+				title : '是否联网id',
+				width : 100,
+				halign : "center",
+				align : "left",
+				hidden: true
+			}, {
+				field : 'manuno',
+				title : '厂商id',
+				width : 100,
+				halign : "center",
+				align : "left",
+				hidden: true
+			}, {
+				field : 'typeId',
+				title : '类型id',
+				width : 100,
+				halign : "center",
+				align : "left",
+				hidden: true
+			}, {
+				field : 'iId',
+				title : '项目id',
+				width : 100,
+				halign : "center",
+				align : "left",
+				hidden: true
+			}, {
+				field : 'gid',
+				title : '采集id',
+				width : 100,
+				halign : "center",
+				align : "left",
+				hidden: true
+			}
+			] ],
+//			pagination : true,
+			rowStyler: function(index,row){
+	            if ((index % 2)!=0){
+	            	//处理行代背景色后无法选中
+	            	var color=new Object();
+	                return color;
+	            }
+	        }
 		});
 		selectflag=0;
 	}
@@ -1868,4 +1973,239 @@ function getSxMainWps() {
 			}
 		}
 	}
+}
+
+function itemcombobox(){
+	$.ajax({  
+	    type : "post",  
+	    async : false,
+	    url : "weldtask/getOperateArea",  
+	    data : {},  
+	    dataType : "json", //返回数据形式为json  
+	    success : function(result) {  
+	        if (result) {
+	        	if(result.type==23){
+	        		var zoptionStr = "";
+	        		var boptionStr = "";
+	                for (var i = 0; i < result.ary.length; i++) {  
+	                    zoptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+	                            + result.ary[i].name + "</option>";
+	                }
+	                for (var j = 0; j < result.banzu.length; j++) {  
+	                    boptionStr += "<option value=\"" + result.banzu[j].id + "\" >"  
+	                            + result.banzu[j].name + "</option>";
+	                }
+	                $("#zitem").html(zoptionStr);
+	                $("#bitem").html(boptionStr);
+		        	$("#zitem").combobox();
+		        	$("#zitem").combobox('select',result.ary[0].id);
+		        	$("#bitem").combobox();
+		        	$("#bitem").combobox('select',result.banzu[0].id);
+	                $("#szitem").html(zoptionStr);
+	                $("#sbitem").html(boptionStr);
+		        	$("#szitem").combobox();
+		        	$("#szitem").combobox('select',result.ary[0].id);
+		        	$("#sbitem").combobox();
+		        	$("#sbitem").combobox('select',result.banzu[0].id);
+//		        	$("#zitem").combobox({disabled: true});
+//		        	$("#bitem").combobox({disabled: true});
+	        	}else if(result.type==22){
+	        		var zoptionStr = "";
+	        		var boptionStr = '<option value="0">请选择</option>';
+	                for (var i = 0; i < result.ary.length; i++) {  
+	                    zoptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+	                            + result.ary[i].name + "</option>";
+	                }
+	                for (var j = 0; j < result.banzu.length; j++) {  
+	                    boptionStr += "<option value=\"" + result.banzu[j].id + "\" >"  
+	                            + result.banzu[j].name + "</option>";
+	                }
+	                $("#zitem").html(zoptionStr);
+	                $("#bitem").html(boptionStr);
+		        	$("#zitem").combobox();
+		        	$("#zitem").combobox('select',result.ary[0].id);
+		        	$("#bitem").combobox();
+		        	$("#bitem").combobox('select',0);
+	                $("#szitem").html(zoptionStr);
+	                $("#sbitem").html(boptionStr);
+		        	$("#szitem").combobox();
+		        	$("#szitem").combobox('select',result.ary[0].id);
+		        	$("#sbitem").combobox();
+		        	$("#sbitem").combobox('select',0);
+//		        	$("#zitem").combobox({disabled: true});
+	        	}else{
+	        		$("#bitem").combobox({disabled: true});
+	        		$("#sbitem").combobox({disabled: true});
+	        		var zoptionStr = '<option value="0">请选择</option>';
+	                for (var i = 0; i < result.ary.length; i++) {  
+	                    zoptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+	                            + result.ary[i].name + "</option>";
+	                }
+	                $("#zitem").html(zoptionStr);
+		        	$("#zitem").combobox();
+		        	$("#zitem").combobox('select',0);
+	                $("#szitem").html(zoptionStr);
+		        	$("#szitem").combobox();
+		        	$("#szitem").combobox('select',0);
+	        	}
+	        	
+	        }  
+	    },  
+	    error : function(errorMsg) {  
+	        alert("数据请求失败，请联系系统管理员!");  
+	    }  
+		});
+	
+	$("#zitem").combobox({
+		onSelect : function(newValue,oldValue){
+			if(oldValue!=""){
+				$.ajax({  
+				    type : "post",  
+				    async : false,
+				    url : "weldtask/getTeam?searchStr="+" and i.fparent="+newValue.value,  
+				    data : {},  
+				    dataType : "json", //返回数据形式为json  
+				    success : function(result) {  
+				        if (result) {
+				        		var boptionStr = '<option value="0">请选择</option>';
+				                for (var i = 0; i < result.ary.length; i++) {  
+				                    boptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+				                            + result.ary[i].name + "</option>";
+				                }
+				                $("#bitem").html(boptionStr);
+					        	$("#bitem").combobox();
+					        	$("#bitem").combobox({disabled: false});
+					        	$("#bitem").combobox('select',0);
+				        }  
+				    },  
+				    error : function(errorMsg) {  
+				        alert("数据请求失败，请联系系统管理员!");  
+				    }  
+					}); 
+			}
+		}
+	})
+	
+		$("#szitem").combobox({
+		onSelect : function(newValue,oldValue){
+			if(oldValue!=""){
+				$.ajax({  
+				    type : "post",  
+				    async : false,
+				    url : "weldtask/getTeam?searchStr="+" and i.fparent="+newValue.value,  
+				    data : {},  
+				    dataType : "json", //返回数据形式为json  
+				    success : function(result) {  
+				        if (result) {
+				        		var boptionStr = '<option value="0">请选择</option>';
+				                for (var i = 0; i < result.ary.length; i++) {  
+				                    boptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+				                            + result.ary[i].name + "</option>";
+				                }
+				                $("#sbitem").html(boptionStr);
+					        	$("#sbitem").combobox();
+					        	$("#sbitem").combobox({disabled: false});
+					        	$("#sbitem").combobox('select',0);
+				        }  
+				    },  
+				    error : function(errorMsg) {  
+				        alert("数据请求失败，请联系系统管理员!");  
+				    }  
+					}); 
+			}
+		}
+	})
+	
+	var searchStr = "",parent = "";
+	$("#bitem").combobox({
+		onChange : function(newValue,oldValue){
+			searchStr = "";
+			parent = "";
+			var itemid = $("#bitem").combobox("getValue");
+//			var status = $("#status").combobox("getValue");
+			if(itemid!=0){
+				parent = itemid;
+			}
+//			if(status==1){
+//				searchStr = " foperatetype=1";
+//			}else if(status==0){
+//				searchStr = " (foperatetype=0 or foperatetype=2)";
+//			}else if(status==3){
+//				searchStr = " foperatetype is null"
+//			}
+			$("#weldingmachineTable").datagrid('reload',{
+//				"searchStr" : searchStr,
+				"parent" : parent
+			})
+		}
+	})
+	
+	$("#sbitem").combobox({
+		onChange : function(newValue,oldValue){
+			searchStr = "";
+			parent = "";
+			var itemid = $("#sbitem").combobox("getValue");
+//			var status = $("#status").combobox("getValue");
+			if(itemid!=0){
+				parent = itemid;
+			}
+//			if(status==1){
+//				searchStr = " foperatetype=1";
+//			}else if(status==0){
+//				searchStr = " (foperatetype=0 or foperatetype=2)";
+//			}else if(status==3){
+//				searchStr = " foperatetype is null"
+//			}
+			$("#sxMachineTable").datagrid('reload',{
+//				"searchStr" : searchStr,
+				"parent" : parent
+			})
+		}
+	})
+	
+	$("#sxMachineSearch").click(function(){
+	　　　　if($("#machineId").val()){
+				searchStr = "";
+				parent = "";
+				if($("#sbitem").val()){
+					var itemid = $("#sbitem").combobox("getValue");
+					if(itemid!=0){
+						parent = itemid;
+					}
+				}
+				searchStr = " and w.fequipment_no='"+$("#machineId").val()+"'";
+				$("#sxMachineTable").datagrid('reload',{
+					"str" : searchStr,
+					"parent" : parent
+				})
+	　　　　}else{
+			$("#sxMachineTable").datagrid('reload',{
+				"str" : "",
+				"parent" : ""
+			})
+	　　　　}
+	});
+	
+	$("#otcMachineSearch").click(function(){
+	　　　　if($("#otcMachineId").val()){
+				searchStr = "";
+				parent = "";
+				if($("#bitem").val()){
+					var itemid = $("#bitem").combobox("getValue");
+					if(itemid!=0){
+						parent = itemid;
+					}
+				}
+				searchStr = " and w.fequipment_no='"+$("#otcMachineId").val()+"'";
+				$("#weldingmachineTable").datagrid('reload',{
+					"str" : searchStr,
+					"parent" : parent
+				})
+	　　　　}else{
+			$("#weldingmachineTable").datagrid('reload',{
+				"str" : "",
+				"parent" : ""
+			})
+	　　　　}
+	});
 }

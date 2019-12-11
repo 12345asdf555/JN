@@ -11,6 +11,8 @@ function back() {
 }
 ;
 
+var historytime;
+
 var machine = new Array();
 var time = new Array();
 var ele = new Array();
@@ -133,6 +135,19 @@ $(function() {
 			      }  
 			 });*/
 	websocket();
+
+	function serach(){
+		var timebuf = historytime;
+		if(null != timebuf){
+			var date = new Date().getTime();
+			if(date - timebuf > 60000){
+				$("#l5").val("关机");
+				$("#l5").css("background-color", "#818181");
+				$("#mrjpg").attr("src", "resources/images/welder_03.png");
+			}
+		}
+	}
+	setInterval(serach,60000);// 注意函数名没有引号和括弧！
 })
 
 function websocket() {
@@ -418,6 +433,9 @@ function iview() {
 		//				if(redata.substring(8+i, 12+i)!="0000"){
 		if (parseInt(redata.substring(4 + i, 8 + i),10) == $("#machineid").val()) {
 			if(time2!=0){
+				
+				historytime = new Date().getTime();
+				
 				time1++;
 			    var t1 = secondToDate(time1);
 			    $("#r3").textbox('setValue',t1);
@@ -460,7 +478,7 @@ function iview() {
 			}
 			for (var k = 0; k < welderName.length; k++) {
 				if (welderName[k].fid == parseInt(redata.substring(0 + i, 4 + i),10)) {
-					$("#l4").html(welderName[k].fwelder_no);
+					$("#l4").html(welderName[k].fname);
 				}
 			}
 			for (var t = 0; t < taskNum.length; t++) {

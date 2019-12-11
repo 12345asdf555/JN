@@ -19,6 +19,7 @@ import com.spring.model.Gather;
 import com.spring.model.MyUser;
 import com.spring.page.Page;
 import com.spring.service.GatherService;
+import com.spring.service.InsframeworkService;
 import com.spring.util.IsnullUtil;
 
 import net.sf.json.JSONArray;
@@ -34,6 +35,9 @@ public class GatherController {
 	
 	@Autowired
 	private GatherService gm;
+	
+	@Autowired
+	private InsframeworkService im;
 	
 	IsnullUtil iutil = new IsnullUtil();
 	
@@ -86,6 +90,7 @@ public class GatherController {
 		String parentid = request.getParameter("parent");
 		request.getSession().setAttribute("searchStr", searchStr);
 		BigInteger parent = null;
+		parent = im.getUserInsframework();
 		if(iutil.isNull(parentid)){
 			parent = new BigInteger(parentid);
 		}

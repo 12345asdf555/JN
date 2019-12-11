@@ -67,8 +67,15 @@
 		</if>
 	</select>
 	
-	<select id="allWeldname" resultType="Td">
-		select fid fname,fwelder_no fwelder_no from tb_welder
+	<select id="allWeldname" parameterType="String" resultType="Td">
+		select w.fid id,w.fname,fwelder_no fwelder_no from tb_welder w 
+		LEFT JOIN tb_insframework i ON w.Fowner = i.fid
+		LEFT JOIN tb_insframework ins on ins.fid = i.fparent
+		LEFT JOIN tb_insframework insf on insf.fid = ins.fparent
+		where 1=1
+		<if test="parent!=null and parent!=''">
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
+		</if>
 	</select>
 	
 	<select id="getLiveTime" resultType="Td">

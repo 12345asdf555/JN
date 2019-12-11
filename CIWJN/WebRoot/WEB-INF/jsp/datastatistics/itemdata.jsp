@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="resources/themes/default/easyui.css" />
 
 	<script type="text/javascript" src="resources/js/weldingtask/json2.js"></script>
-	<script type="text/javascript" src="resources/js/load.js"></script>
+<!-- 	<script type="text/javascript" src="resources/js/load.js"></script> -->
 	<script type="text/javascript" src="resources/js/jquery.min.js"></script>
 	<script type="text/javascript" src="resources/js/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="resources/js/easyui-lang-zh_CN.js"></script>

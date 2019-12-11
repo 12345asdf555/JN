@@ -264,8 +264,20 @@ public class ImportExcelController {
 						w.setWelderno("0"+w.getWelderno());
 					}
 				}
-				w.setLeveid(dm.getvaluebyname(8,w.getLevename()));
-				w.setQuali(dm.getvaluebyname(7, w.getQualiname()));
+				try {
+					if(w.getLevename() != null && !"".equals(w.getLevename())) {
+						w.setLeveid(dm.getvaluebyname(8,w.getLevename()));
+					}
+					if(w.getQualiname() != null && !"".equals(w.getQualiname())) {
+						w.setQuali(dm.getvaluebyname(7, w.getQualiname()));
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					obj.put("msg","导入失败，焊工资质或者等级是否填写正确！");
+					obj.put("success",false);
+					return obj.toString();
+				}
 				w.setOwner(wmm.getInsframeworkByName(w.getInsname()));
 				MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				w.setCreater(new BigInteger(user.getId()+""));

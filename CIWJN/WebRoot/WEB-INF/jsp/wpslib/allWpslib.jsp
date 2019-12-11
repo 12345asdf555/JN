@@ -483,8 +483,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		
 		<!-- 选择焊机 -->
-		<div id="smdlg" class="easyui-dialog" style="width: 600px; height: 400px; padding:10px 20px" closed="true" buttons="#smdlg-buttons">
+		<div id="smdlg" class="easyui-dialog" style="width: 600px; height: 600px; padding:10px 20px" closed="true" buttons="#smdlg-buttons">
 			<form id="smfm" class="easyui-form" method="post" data-options="novalidate:true">
+				作业区：
+				<select class="easyui-combobox" name="zitem" id="zitem" data-options="editable:false"></select>
+				班组：
+				<select class="easyui-combobox" name="bitem" id="bitem" data-options="editable:false"></select>
+				<label>焊机编号：<input style="width:50px;" id="otcMachineId" name="otcMachineId" class="easyui-textbox"></label>
+				<button id="otcMachineSearch">搜索</button>
 				<table id="weldingmachineTable" style="table-layout: fixed; width:100%;"></table>
 			</form>
 		</div>
@@ -810,8 +816,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		
 		<!-- 选择松下焊机 -->
-		<div id="sxMachinedlg" class="easyui-dialog" style="width: 600px; height: 400px; padding:10px 20px" closed="true" buttons="#sxmachinedlg-buttons">
+		<div id="sxMachinedlg" class="easyui-dialog" style="width: 600px; height: 600px; padding:10px 20px" closed="true" buttons="#sxmachinedlg-buttons">
 			<form id="sxmachinefm" class="easyui-form" method="post" data-options="novalidate:true">
+				作业区：
+				<select class="easyui-combobox" name="szitem" id="szitem" data-options="editable:false"></select>
+				班组：
+				<select class="easyui-combobox" name="sbitem" id="sbitem" data-options="editable:false"></select>
+				<label>焊机编号：<input style="width:50px;" id="machineId" name="machineId" class="easyui-textbox"></label>
+				<button id="sxMachineSearch">搜索</button>
 				<table id="sxMachineTable" style="table-layout: fixed; width:100%;"></table>
 			</form>
 		</div> 

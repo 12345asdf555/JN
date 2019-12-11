@@ -203,4 +203,16 @@ public class InsframeworkServiceImpl implements InsframeworkService {
 		}
 	}
 
+	@Override
+	public List<Insframework> getConmpany(BigInteger value1) {
+		// TODO Auto-generated method stub
+		return im.getConmpany1(value1);
+	}
+
+	@Override
+	public List<Insframework> getCause(BigInteger id, BigInteger value2) {
+		// TODO Auto-generated method stub
+		return im.getCause1(id, value2);
+	}
+
 }

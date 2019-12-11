@@ -97,6 +97,7 @@ public class UserController {
 		String search = request.getParameter("searchStr");
 		String parentId = request.getParameter("parent");
 		BigInteger parent = null;
+		parent = im.getUserInsframework();
 		if(iutil.isNull(parentId)){
 			parent = new BigInteger(parentId);
 		}

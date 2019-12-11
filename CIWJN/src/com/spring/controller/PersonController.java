@@ -19,6 +19,7 @@ import com.spring.model.MyUser;
 import com.spring.model.Person;
 import com.spring.model.WeldingMachine;
 import com.spring.page.Page;
+import com.spring.service.InsframeworkService;
 import com.spring.service.PersonService;
 import com.spring.service.WeldingMachineService;
 import com.spring.util.IsnullUtil;
@@ -39,6 +40,9 @@ public class PersonController {
 
 	@Autowired
 	private WeldingMachineService  machineService;
+	
+	@Autowired
+	private InsframeworkService insm;
 	
 	IsnullUtil iutil = new IsnullUtil();
 	
@@ -74,6 +78,7 @@ public class PersonController {
 		}
 		}*/
 		String parentId = request.getParameter("parent");
+		parentId = String.valueOf(insm.getUserInsframework());
 		BigInteger parent = null;
 		if(iutil.isNull(parentId)){
 			parent = new BigInteger(parentId);

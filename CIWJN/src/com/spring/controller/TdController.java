@@ -402,36 +402,12 @@ public class TdController {
 	@ResponseBody
 	public String getAllPosition(HttpServletRequest request){
 		String parentId = request.getParameter("parent");
-		String str = request.getParameter("str");
-		String[] ssr = null;
-		if(str!=null&&""!=str){
-			ssr = str.split(",");
-		}
-		str="";
-		int bz=0;
-		if(ssr!=null){
-			if(Integer.valueOf(ssr[1])==1){
-				
-			}else if(Integer.valueOf(ssr[1])==4){
-				str = "finsframework_id="+ssr[0];
-			}else{
-				List<Insframework> ls = insm.getInsIdByParent(new BigInteger(ssr[0]),24);
-				for(Insframework inns : ls ){
-					if(bz==0){
-						str=str+"(finsframework_id="+inns.getId();
-					}else{
-						str=str+" or finsframework_id="+inns.getId();
-					}
-					bz++;
-				}
-				str=str+" or finsframework_id="+ssr[0]+")";
-			}
-		}
+		parentId = String.valueOf(insm.getUserInsframework());
 		BigInteger parent = null;
 		if(iutil.isNull(parentId)){
 			parent = new BigInteger(parentId);
 		}
-		List<Td> getAP = tdService.getAllPosition(parent,str);
+		List<Td> getAP = tdService.getAllPosition(parent,null);
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
@@ -598,15 +574,17 @@ public class TdController {
 	@ResponseBody
 	public String allWeldname(HttpServletRequest request){
 		
-		List<Td> fwn = tdService.allWeldname();	
+		String parentId = String.valueOf(insm.getUserInsframework());
+		List<Td> fwn = tdService.allWeldname(parentId);	
 		JSONObject obj = new JSONObject();
 		JSONObject json = new JSONObject();
 		JSONArray ary = new JSONArray();
 		try{
 			for(Td td:fwn){
-				json.put("fname",td.getFname());
-				json.put("fwelder_no", td.getFwelder_no());
-				ary.add(json);
+//				json.put("id", td.getId());
+//				json.put("fname",td.getFname());
+//				json.put("fwelder_no", td.getFwelder_no());
+				ary.add(td.getId());
 			}
 		}catch(Exception e){
 			e.getMessage();

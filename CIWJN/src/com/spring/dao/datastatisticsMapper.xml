@@ -1336,4 +1336,261 @@
 		</if>
 		)
 	</select>
+	
+	<select id="getItemData" resultMap="dataMap">
+		SELECT t.time,t.name,count(DISTINCT t.machineid) machineid,count(DISTINCT t.welderid) welderid,count(DISTINCT t.taskid) taskid,sum(t.id) id,sum(t.insid) insid from (
+		select i.fid time,i.fname name,fmachine_id machineid,NULL welderid,if(fjunction_id=0,NULL,fjunction_id) as taskid,sum(fworktime) id,0 insid from tb_work w
+		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid 
+		left JOIN tb_insframework ins on ins.fid = i.fparent
+    	left JOIN tb_insframework insf on insf.fid = ins.fparent
+		where fmachine_id!=0
+		<if test="itemid!=null and itemid!=''">
+			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY i.fname,fmachine_id,fjunction_id
+		UNION 
+		select i.fid time,i.fname name,NULL machineid,fmachine_id welderid,if(fjunction_id=0,NULL,fjunction_id) as taskid,0 id,sum(fstandbytime) insid from tb_standby  w
+		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid 
+		left JOIN tb_insframework ins on ins.fid = i.fparent
+   		left JOIN tb_insframework insf on insf.fid = ins.fparent
+		where fmachine_id!=0 and fmachine_id not in (
+		SELECT DISTINCT tt.fmachine_id FROM (
+		SELECT fmachine_id FROM tb_work WHERE fmachine_id!=0
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		UNION ALL
+		SELECT fmachine_id FROM tb_warn WHERE fmachine_id!=0
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		) tt
+		)
+		<if test="itemid!=null and itemid!=''">
+			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY i.fname,fmachine_id,fjunction_id
+		UNION
+		select i.fid time,i.fname name,fmachine_id machineid,NULL welderid,if(fjunction_id=0,NULL,fjunction_id) as taskid,sum(fwarntime) id,0 insid from tb_warn  w
+		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid 
+		left JOIN tb_insframework ins on ins.fid = i.fparent
+    	left JOIN tb_insframework insf on insf.fid = ins.fparent
+		where fmachine_id!=0 AND w.fstatus!=99
+		<if test="itemid!=null and itemid!=''">
+			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY i.fname,fmachine_id,fjunction_id
+		) t GROUP BY t.name
+	</select>
+	
+	<select id="getMachineData" resultMap="dataMap">
+		SELECT t.name,t.machineno machineno,count(DISTINCT t.taskid) taskid,sum(t.id) id,sum(t.insid) insid from (
+		select i.fname name,w.fweld_no machineno,if(fjunction_id=0,NULL,fjunction_id) as taskid,sum(fworktime) id,0 insid from tb_work w
+		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid 
+		left JOIN tb_insframework ins on ins.fid = i.fparent
+    	left JOIN tb_insframework insf on insf.fid = ins.fparent
+		where fmachine_id!=0
+		<if test="itemid!=null and itemid!=''">
+			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY fmachine_id,fjunction_id
+		UNION 
+		select i.fname name,w.fweld_no machineno,if(fjunction_id=0,NULL,fjunction_id) as taskid,0 id,sum(fstandbytime) insid from tb_standby  w
+		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid 
+		left JOIN tb_insframework ins on ins.fid = i.fparent
+   		left JOIN tb_insframework insf on insf.fid = ins.fparent
+		where fmachine_id!=0 
+		<if test="itemid!=null and itemid!=''">
+			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY fmachine_id,fjunction_id
+		UNION
+		select i.fname name,w.fweld_no machineno,if(fjunction_id=0,NULL,fjunction_id) as taskid,sum(fwarntime) id,0 insid from tb_warn  w
+		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid 
+		left JOIN tb_insframework ins on ins.fid = i.fparent
+    	left JOIN tb_insframework insf on insf.fid = ins.fparent
+		where fmachine_id!=0 AND w.fstatus!=99
+		<if test="itemid!=null and itemid!=''">
+			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY fmachine_id,fjunction_id
+		) t GROUP BY t.machineno
+	</select>
+	
+	<select id="getWelderData" resultMap="dataMap">
+		SELECT t.name,t.fwelder_no welderno,count(DISTINCT t.taskid) taskid,sum(t.id) id,sum(t.insid) insid from (
+		select r.fname name,w.fwelder_no fwelder_no,if(fjunction_id=0,NULL,fjunction_id) as taskid,sum(fworktime) id,0 insid from tb_work w
+		INNER JOIN tb_insframework i on i.fid  = w.fwelder_itemid 
+		left JOIN tb_insframework ins on ins.fid = i.fparent
+    	left JOIN tb_insframework insf on insf.fid = ins.fparent
+    	LEFT JOIN tb_welder r on r.fid=w.fwelder_id
+		where fwelder_id!=0
+		<if test="itemid!=null and itemid!=''">
+			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY fwelder_id,fjunction_id
+		UNION 
+		select r.fname name,w.fwelder_no fwelder_no,if(fjunction_id=0,NULL,fjunction_id) as taskid,0 id,sum(fstandbytime) insid from tb_standby  w
+		INNER JOIN tb_insframework i on i.fid  = w.fwelder_itemid 
+		left JOIN tb_insframework ins on ins.fid = i.fparent
+   		left JOIN tb_insframework insf on insf.fid = ins.fparent
+   		LEFT JOIN tb_welder r on r.fid=w.fwelder_id
+		where fwelder_id!=0 
+		<if test="itemid!=null and itemid!=''">
+			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY fwelder_id,fjunction_id
+		UNION
+		select r.fname name,w.fwelder_no fwelder_no,if(fjunction_id=0,NULL,fjunction_id) as taskid,sum(fwarntime) id,0 insid from tb_warn  w
+		INNER JOIN tb_insframework i on i.fid  = w.fwelder_itemid 
+		left JOIN tb_insframework ins on ins.fid = i.fparent
+    	left JOIN tb_insframework insf on insf.fid = ins.fparent
+    	LEFT JOIN tb_welder r on r.fid=w.fwelder_id
+		where fwelder_id!=0 AND w.fstatus!=99
+		<if test="itemid!=null and itemid!=''">
+			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY fwelder_id,fjunction_id
+		) t GROUP BY t.fwelder_no
+	</select>
+	
+	<select id="getJunctionData" resultMap="dataMap">
+		SELECT t.fwelder_no taskno,sum(t.id) id,sum(t.insid) insid from (
+		select w.fjunction_no fwelder_no,sum(fworktime) id,0 insid from tb_work w
+		INNER JOIN tb_insframework i on i.fid  = w.fjunction_itemid 
+		left JOIN tb_insframework ins on ins.fid = i.fparent
+    	left JOIN tb_insframework insf on insf.fid = ins.fparent
+		where fjunction_id!=0
+		<if test="itemid!=null and itemid!=''">
+			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY fjunction_no
+		UNION 
+		select w.fjunction_no fwelder_no,0 id,sum(fstandbytime) insid from tb_standby  w
+		INNER JOIN tb_insframework i on i.fid  = w.fjunction_itemid 
+		left JOIN tb_insframework ins on ins.fid = i.fparent
+   		left JOIN tb_insframework insf on insf.fid = ins.fparent
+		where fjunction_id!=0 
+		<if test="itemid!=null and itemid!=''">
+			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY fjunction_no
+		UNION
+		select w.fjunction_no fwelder_no,sum(fwarntime) id,0 insid from tb_warn  w
+		INNER JOIN tb_insframework i on i.fid  = w.fjunction_itemid 
+		left JOIN tb_insframework ins on ins.fid = i.fparent
+    	left JOIN tb_insframework insf on insf.fid = ins.fparent
+		where fjunction_id!=0 AND w.fstatus!=99
+		<if test="itemid!=null and itemid!=''">
+			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
+		</if>
+		<if test="dto!=null and dto!=''">
+			<if test="dto.dtoTime1!=null and dto.dtoTime1!=''">
+				and fstarttime &gt;= #{dto.dtoTime1}
+			</if>
+			<if test="dto.dtoTime2!=null and dto.dtoTime2!=''">
+				and fendtime &lt;= #{dto.dtoTime2}
+			</if>
+		</if>
+		GROUP BY fjunction_no
+		) t GROUP BY t.fwelder_no
+	</select>
 </mapper>

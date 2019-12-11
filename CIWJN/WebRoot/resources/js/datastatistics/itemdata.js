@@ -12,72 +12,335 @@ function setParam(){
 function dgDatagrid(){
 	setParam();
 	var column = new Array();
-	$.ajax({  
-        type : "post",  
-        async : false,
-        url : "datastatistics/getItemData"+chartStr,
-        data : {},  
-        dataType : "json", //返回数据形式为json  
-        success : function(result) {
-            if (result) {
-            	 for(var i=0;i<result.ary.length;i++){
-            		 if(i==4){
-                		 column.push({field:"t"+i,title:result.ary[i].title,width:200,halign : "center",align : "left",sortable : true,
-             				sorter : function(a,b){
-             					return (a>b?1:-1);
-             				},formatter:function(value,row,index){
-             					var str = "";
-             					str += '<a id="mnt" class="easyui-linkbutton" href="javascript:alertDetail('+encodeURI(JSON.stringify(row))+')">&nbsp;&nbsp;&nbsp;&nbsp;'+row.t4+'&nbsp;&nbsp;&nbsp;&nbsp;</a>';
-             					return str; 
-             				}});
-            		 }else if(i==13){
-            			 column.push({field:"t"+i,title:result.ary[i].title,width:100,halign : "center",align : "left",sortable : true,
-              				sorter : function(a,b){
-              					return (a>b?1:-1);
-              				},hidden: true});
-            		 }else{
-                		 column.push({field:"t"+i,title:result.ary[i].title,width:100,halign : "center",align : "left",sortable : true,
-             				sorter : function(a,b){
-             					return (a>b?1:-1);
-             				}});
-            		 }
-             	 }
-            	 var grid = {
-            			 fitColumns : true,
-        				 height : $("#body").height(),
-        				 width : $("#body").width(),
-        				 url : "/",
-        				 pageSize : 10,
-        				 pageList : [ 10, 20, 30, 40, 50 ],
-        				 singleSelect : true,
-        				 rownumbers : true,
-        				 showPageList : false,
-        				 pagination : true,
-        				 remoteSort : false,
-        				 nowrap : false,
-        				 columns : [column],
-        				 rowStyler: function(index,row){
-        					 if ((index % 2)!=0){
-        		            	 //处理行代背景色后无法选中
-        		            	 var color=new Object();
-        		                 return color;
-        		             }
-        		         },
-        		         onBeforeLoad : function(param){
-     		        		$("#chartLoading").hide();
-        		         },
-        		         onLoadSuccess:function(data){
-        			        $("a[id='mnt']").linkbutton({plain:true});
-        			     }
-                 };
-            	 $('#dg').datagrid(grid);  
-            	 $('#dg').datagrid('loadData', result.rows);
-            }  
-        },  
-        error : function(errorMsg) {  
-            alert("数据请求失败，请联系系统管理员!");  
-        }  
-   }); 
+	$('#dg').datagrid({
+		 fitColumns : true,
+		 height : $("#body").height(),
+		 width : $("#body").width(),
+		 url : "datastatistics/getItemData"+chartStr,
+		 pageSize : 10,
+		 pageList : [ 10, 20, 30, 40, 50 ],
+		 singleSelect : true,
+		 rownumbers : true,
+		 showPageList : false,
+		 pagination : true,
+		 remoteSort : false,
+		 nowrap : false,
+		 columns : [
+		 [ {
+			field : 't0',
+			title : '班组',
+			width : 200,
+			halign : "center",
+			align : "left",
+			sortable : true,
+			sorter : function(a,b){
+				return (a>b?1:-1);
+			}
+		 }, {
+			field : 't1',
+			title : '设备总数',
+			width : 200,
+			halign : "center",
+			align : "left",
+			sortable : true,
+			sorter : function(a,b){
+				return (a>b?1:-1);
+			}
+		 }, {
+			field : 't2',
+			title : '开机设备数',
+			width : 200,
+			halign : "center",
+			align : "left",
+			sortable : true,
+			sorter : function(a,b){
+				return (a>b?1:-1);
+			}
+		 }, {
+			field : 't3',
+			title : '实焊设备数',
+			width : 200,
+			halign : "center",
+			align : "left",
+			sortable : true,
+			sorter : function(a,b){
+				return (a>b?1:-1);
+			}
+		 }, {
+			field : 't4',
+			title : '未绑定设备数',
+			width : 200,
+			halign : "center",
+			align : "left",
+			sortable : true,
+			sorter : function(a,b){
+				return (a>b?1:-1);
+			},
+			formatter:function(value,row,index){
+				var str = "";
+				str += '<a id="mnt" class="easyui-linkbutton" href="javascript:alertDetail('+encodeURI(JSON.stringify(row))+')">&nbsp;&nbsp;&nbsp;&nbsp;'+row.t4+'&nbsp;&nbsp;&nbsp;&nbsp;</a>';
+				return str; 
+			}
+		 }, {
+			field : 't5',
+			title : '设备利用率(%)',
+			width : 200,
+			halign : "center",
+			align : "left",
+			sortable : true,
+			sorter : function(a,b){
+				return (a>b?1:-1);
+			}
+		 }, {
+			field : 't6',
+			title : '焊接任务数',
+			width : 200,
+			halign : "center",
+			align : "left",
+			sortable : true,
+			sorter : function(a,b){
+				return (a>b?1:-1);
+			}
+		 }, {
+			field : 't7',
+			title : '焊接时间',
+			width : 200,
+			halign : "center",
+			align : "left",
+			sortable : true,
+			sorter : function(a,b){
+				return (a>b?1:-1);
+			}
+		 }, {
+			field : 't8',
+			title : '工作时间',
+			width : 200,
+			halign : "center",
+			align : "left",
+			sortable : true,
+			sorter : function(a,b){
+				return (a>b?1:-1);
+			}
+		 }, {
+			field : 't9',
+			title : '焊接效率(%)',
+			width : 200,
+			halign : "center",
+			align : "left",
+			sortable : true,
+			sorter : function(a,b){
+				return (a>b?1:-1);
+			}
+		 }, {
+			field : 't13',
+			title : '采集模块编号',
+			width : 200,
+			halign : "center",
+			align : "left",
+			sortable : true,
+			sorter : function(a,b){
+				return (a>b?1:-1);
+			},
+				hidden: true
+		 }]],
+		 rowStyler: function(index,row){
+			 if ((index % 2)!=0){
+           	 //处理行代背景色后无法选中
+           	 var color=new Object();
+                return color;
+            }
+        },
+        onBeforeLoad : function(param){
+    		$("#chartLoading").hide();
+        },
+        onLoadSuccess:function(data){
+	        $("a[id='mnt']").linkbutton({plain:true,iconCls:'icon-search'});
+	     }
+	}); 
+	return;
+//	$.ajax({  
+//        type : "post",  
+//        async : false,
+//        url : "datastatistics/getItemData"+chartStr,
+//        data : {},  
+//        dataType : "json", //返回数据形式为json  
+//        success : function(result) {
+//            if (result) {
+//            	 for(var i=0;i<result.ary.length;i++){
+//            		 if(i==4){
+//                		 column.push({field:"t"+i,title:result.ary[i].title,width:200,halign : "center",align : "left",sortable : true,
+//             				sorter : function(a,b){
+//             					return (a>b?1:-1);
+//             				},formatter:function(value,row,index){
+//             					var str = "";
+//             					str += '<a id="mnt" class="easyui-linkbutton" href="javascript:alertDetail('+encodeURI(JSON.stringify(row))+')">&nbsp;&nbsp;&nbsp;&nbsp;'+row.t4+'&nbsp;&nbsp;&nbsp;&nbsp;</a>';
+//             					return str; 
+//             				}});
+//            		 }else if(i==13){
+//            			 column.push({field:"t"+i,title:result.ary[i].title,width:100,halign : "center",align : "left",sortable : true,
+//              				sorter : function(a,b){
+//              					return (a>b?1:-1);
+//              				},hidden: true});
+//            		 }else{
+//                		 column.push({field:"t"+i,title:result.ary[i].title,width:100,halign : "center",align : "left",sortable : true,
+//             				sorter : function(a,b){
+//             					return (a>b?1:-1);
+//             				}});
+//            		 }
+//             	 }
+//            	 var grid = {
+//            			 fitColumns : true,
+//        				 height : $("#body").height(),
+//        				 width : $("#body").width(),
+//        				 url : "datastatistics/getItemData"+chartStr,
+//        				 pageSize : 10,
+//        				 pageList : [ 10, 20, 30, 40, 50 ],
+//        				 singleSelect : true,
+//        				 rownumbers : true,
+//        				 showPageList : false,
+//        				 pagination : true,
+//        				 remoteSort : false,
+//        				 nowrap : false,
+//        				 columns : [
+//    					 [ {
+//							field : 't0',
+//							title : '班组',
+//							width : 200,
+//							halign : "center",
+//							align : "left",
+//							sortable : true,
+//             				sorter : function(a,b){
+//             					return (a>b?1:-1);
+//             				}
+//						 }, {
+//							field : 't1',
+//							title : '设备总数',
+//							width : 200,
+//							halign : "center",
+//							align : "left",
+//							sortable : true,
+//             				sorter : function(a,b){
+//             					return (a>b?1:-1);
+//             				}
+//						 }, {
+//							field : 't2',
+//							title : '开机设备数',
+//							width : 200,
+//							halign : "center",
+//							align : "left",
+//							sortable : true,
+//             				sorter : function(a,b){
+//             					return (a>b?1:-1);
+//             				}
+//						 }, {
+//							field : 't3',
+//							title : '实焊设备数',
+//							width : 200,
+//							halign : "center",
+//							align : "left",
+//							sortable : true,
+//             				sorter : function(a,b){
+//             					return (a>b?1:-1);
+//             				}
+//						 }, {
+//							field : 't4',
+//							title : '未绑定设备数',
+//							width : 200,
+//							halign : "center",
+//							align : "left",
+//							sortable : true,
+//							sorter : function(a,b){
+//             					return (a>b?1:-1);
+//             				},
+//             				formatter:function(value,row,index){
+//             					var str = "";
+//             					str += '<a id="mnt" class="easyui-linkbutton" href="javascript:alertDetail('+encodeURI(JSON.stringify(row))+')">&nbsp;&nbsp;&nbsp;&nbsp;'+row.t4+'&nbsp;&nbsp;&nbsp;&nbsp;</a>';
+//             					return str; 
+//             				}
+//						 }, {
+//							field : 't5',
+//							title : '设备利用率',
+//							width : 200,
+//							halign : "center",
+//							align : "left",
+//							sortable : true,
+//             				sorter : function(a,b){
+//             					return (a>b?1:-1);
+//             				}
+//						 }, {
+//							field : 't6',
+//							title : '焊接任务数',
+//							width : 200,
+//							halign : "center",
+//							align : "left",
+//							sortable : true,
+//             				sorter : function(a,b){
+//             					return (a>b?1:-1);
+//             				}
+//						 }, {
+//							field : 't7',
+//							title : '焊接时间',
+//							width : 200,
+//							halign : "center",
+//							align : "left",
+//							sortable : true,
+//             				sorter : function(a,b){
+//             					return (a>b?1:-1);
+//             				}
+//						 }, {
+//							field : 't8',
+//							title : '工作时间',
+//							width : 200,
+//							halign : "center",
+//							align : "left",
+//							sortable : true,
+//             				sorter : function(a,b){
+//             					return (a>b?1:-1);
+//             				}
+//						 }, {
+//							field : 't9',
+//							title : '焊接效率',
+//							width : 200,
+//							halign : "center",
+//							align : "left",
+//							sortable : true,
+//             				sorter : function(a,b){
+//             					return (a>b?1:-1);
+//             				}
+//						 }, {
+//							field : 't13',
+//							title : '采集模块编号',
+//							width : 200,
+//							halign : "center",
+//							align : "left",
+//							sortable : true,
+//             				sorter : function(a,b){
+//             					return (a>b?1:-1);
+//             				},
+//              				hidden: true
+//						 }]],
+//        				 rowStyler: function(index,row){
+//        					 if ((index % 2)!=0){
+//        		            	 //处理行代背景色后无法选中
+//        		            	 var color=new Object();
+//        		                 return color;
+//        		             }
+//        		         },
+//        		         onBeforeLoad : function(param){
+//     		        		$("#chartLoading").hide();
+//        		         },
+//        		         onLoadSuccess:function(data){
+//        			        $("a[id='mnt']").linkbutton({plain:true});
+//        			     }
+//                 };
+//            	 $('#dg').datagrid(grid);  
+//            	 $('#dg').datagrid('loadData', result.rows);
+//            }  
+//        },  
+//        error : function(errorMsg) {  
+//            alert("数据请求失败，请联系系统管理员!");  
+//        }  
+//   }); 
 }
 
 function serach(){

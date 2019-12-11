@@ -50,11 +50,14 @@
 	</select>
 	
 	<select id="findAll" resultType="User">
-		select tb_users.id id,tb_users.users_name userName,users_password userPassword,tb_users.users_login_name userLoginName,tb_users.users_phone userPhone,tb_users.users_email userEmail,tb_users.users_insframework userInsframework,tb_users.users_position userPosition,tb_users.status status,tb_insframework.fid insid,tb_insframework.fname insname,d.fvaluename statusname from tb_users 
+		select tb_users.id id,tb_users.users_name userName,users_password userPassword,tb_users.users_login_name userLoginName,tb_users.users_phone userPhone,tb_users.users_email userEmail,tb_users.users_insframework userInsframework,tb_users.users_position userPosition,tb_users.status status,i.fid insid,i.fname insname,d.fvaluename statusname from tb_users 
 		INNER JOIN tb_dictionary d on d.fvalue = tb_users.status
-		left join tb_insframework on tb_users.users_insframework=tb_insframework.fid  where d.ftypeid=6
+		left join tb_insframework i on tb_users.users_insframework=i.fid  
+		LEFT JOIN tb_insframework ins on ins.fid = i.fparent
+		LEFT JOIN tb_insframework insf on insf.fid = ins.fparent
+		where d.ftypeid=6
 		<if test="parent!=null and parent!=''">
-			and tb_insframework.fid = #{parent}
+			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
 		</if>
 		<if test="str!=null and str!=''">
 			and ${str}
