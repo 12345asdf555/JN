@@ -312,13 +312,13 @@ function weldedJunctionDatagrid(){
 				var str = '<a id="edit" class="easyui-linkbutton" href="javascript:editWeldedjunction()"/>';
 				str += '<a id="remove" class="easyui-linkbutton" href="javascript:removeWeldedjunction()"/>';
 				if(row.status==0){
-					str += '<a id="confirm" class="easyui-linkbutton" href="javascript:confirm()"/>';
+					str += '<a id="confirm" class="easyui-linkbutton" href="javascript:confirmComplete()"/>';
 				}
 				if(row.status==1){
-					str += '<a id="confirm1" class="easyui-linkbutton" href="javascript:confirm()" disabled="true"/>';
+					str += '<a id="confirm1" class="easyui-linkbutton" href="javascript:confirmComplete()" disabled="true"/>';
 				}
 				if(row.status==2){
-					str += '<a id="confirm2" class="easyui-linkbutton" href="javascript:confirm()" disabled="true"/>';
+					str += '<a id="confirm2" class="easyui-linkbutton" href="javascript:confirmComplete()" disabled="true"/>';
 				}
 				str += '<a id="evaluation" class="easyui-linkbutton" href="javascript:evaluation()"/>';
 				return str;
@@ -677,7 +677,7 @@ function importWeldingMachine(){
 }
 
 //确认完成
-function confirm(){
+function confirmComplete(){
 	var url2="";
 	var temp=1;
 	$.messager.confirm('提示', '此操作不可撤销，是否确认?', function(flag) {
@@ -959,12 +959,12 @@ function WeldingMachineDatagrid() {
 function saveWeldingnumber(){
 	var url2="";
 	var temp=1;
-	$.messager.confirm('提示', '此操作不可撤销，是否确认?', function(flag) {
-		if(flag){
-//			document.getElementById("load").style.display="block";
-//			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
-//			$("#body").append(sh);
-//			document.getElementById("show").style.display="block";
+	var con = window.confirm("此操作不可撤销，是否确认?");
+		if(con==true){
+			document.getElementById("load").style.display="block";
+			var sh = '<div id="show" style="align="center""><img src="resources/images/load.gif"/>正在加载，请稍等...</div>';
+			$("#body").append(sh);
+			document.getElementById("show").style.display="block";
 			var row = $('#weg').datagrid('getSelections');
 			var jsonStr = JSON.stringify(row)
 			$.ajax({  
@@ -977,27 +977,30 @@ function saveWeldingnumber(){
 			          if (result) {
 							var result = eval(result);
 							if (!result.success) {
-//								document.getElementById("load").style.display ='none';
-//					    		document.getElementById("show").style.display ='none';
+								document.getElementById("load").style.display ='none';
+					    		document.getElementById("show").style.display ='none';
 								$.messager.show( {
 									title : 'Error',
 									msg : result.errorMsg
 								});
 							} else {
-//								document.getElementById("load").style.display ='none';
-//					    		document.getElementById("show").style.display ='none';
+								document.getElementById("load").style.display ='none';
+					    		document.getElementById("show").style.display ='none';
 								$('#weldTaskTable').datagrid('reload');
 							}
 						
 			          }  
 			      },  
 			      error : function(errorMsg) {  
+						document.getElementById("load").style.display ='none';
+			    		document.getElementById("show").style.display ='none';
 			          alert("数据请求失败，请联系系统管理员!");  
 			      }  
 			 }); 
 
+		}else{
+			return;
 		}
-	});
 	$('#sdlg').dialog('close');
 }
 
