@@ -30,7 +30,7 @@ function dgDatagrid(){
 			{
 				field : 't0',
 				title : '任务编号',
-				width : 100,
+				width : 400,
 				halign : "center",
 				align : "left",
 				sortable : true,

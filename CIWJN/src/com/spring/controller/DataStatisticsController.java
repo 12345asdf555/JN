@@ -200,7 +200,7 @@ public class DataStatisticsController {
 				dto.setDtoTime2(time2);
 			}
 			List<DataStatistics> list = dss.getItemData(page,im.getUserInsframework(),dto);
-			List<DataStatistics> listMachineCount = dss.getItemMachineCount(page,im.getUserInsframework());
+			List<DataStatistics> listMachineCount = dss.getItemMachineCount(im.getUserInsframework());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(sdf.parse(time2));
@@ -219,7 +219,7 @@ public class DataStatisticsController {
 						break;
 					}
 				}
-				json.put("t2", i.getMachineid().add(i.getWelderid()));//开机设备数
+				json.put("t2", i.getWelderid());//开机设备数
 				json.put("t3", i.getMachineid());//实焊设备数
 				String machineStr = "";
 				int macNum = 0;

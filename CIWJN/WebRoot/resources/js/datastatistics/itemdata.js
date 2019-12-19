@@ -29,7 +29,7 @@ function dgDatagrid(){
 		 [ {
 			field : 't0',
 			title : '班组',
-			width : 200,
+			width : 100,
 			halign : "center",
 			align : "left",
 			sortable : true,
@@ -39,7 +39,7 @@ function dgDatagrid(){
 		 }, {
 			field : 't1',
 			title : '设备总数',
-			width : 200,
+			width : 100,
 			halign : "center",
 			align : "left",
 			sortable : true,
@@ -49,7 +49,7 @@ function dgDatagrid(){
 		 }, {
 			field : 't2',
 			title : '开机设备数',
-			width : 200,
+			width : 100,
 			halign : "center",
 			align : "left",
 			sortable : true,
@@ -59,7 +59,7 @@ function dgDatagrid(){
 		 }, {
 			field : 't3',
 			title : '实焊设备数',
-			width : 200,
+			width : 100,
 			halign : "center",
 			align : "left",
 			sortable : true,
@@ -69,7 +69,7 @@ function dgDatagrid(){
 		 }, {
 			field : 't4',
 			title : '未绑定设备数',
-			width : 200,
+			width : 100,
 			halign : "center",
 			align : "left",
 			sortable : true,
@@ -84,7 +84,7 @@ function dgDatagrid(){
 		 }, {
 			field : 't5',
 			title : '设备利用率(%)',
-			width : 200,
+			width : 100,
 			halign : "center",
 			align : "left",
 			sortable : true,
@@ -94,7 +94,7 @@ function dgDatagrid(){
 		 }, {
 			field : 't6',
 			title : '焊接任务数',
-			width : 200,
+			width : 100,
 			halign : "center",
 			align : "left",
 			sortable : true,
@@ -104,7 +104,7 @@ function dgDatagrid(){
 		 }, {
 			field : 't7',
 			title : '焊接时间',
-			width : 200,
+			width : 100,
 			halign : "center",
 			align : "left",
 			sortable : true,
@@ -114,7 +114,7 @@ function dgDatagrid(){
 		 }, {
 			field : 't8',
 			title : '工作时间',
-			width : 200,
+			width : 100,
 			halign : "center",
 			align : "left",
 			sortable : true,
@@ -124,7 +124,7 @@ function dgDatagrid(){
 		 }, {
 			field : 't9',
 			title : '焊接效率(%)',
-			width : 200,
+			width : 100,
 			halign : "center",
 			align : "left",
 			sortable : true,
@@ -134,7 +134,7 @@ function dgDatagrid(){
 		 }, {
 			field : 't13',
 			title : '采集模块编号',
-			width : 200,
+			width : 100,
 			halign : "center",
 			align : "left",
 			sortable : true,

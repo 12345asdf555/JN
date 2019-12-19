@@ -45,7 +45,7 @@
 		left JOIN tb_work tw on tw.fwelder_id = t.fwelderid and tw.fmachine_id = t.fmachineid and tw.fjunction_id = t.ftaskid
 		left JOIN tb_welded_junction j on j.fid= t.ftaskid 
 		LEFT JOIN tb_insframework i on i.fid = tw.fjunction_itemid left JOIN tb_insframework ins on ins.fid = i.fparent 
-		left JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1
+		left JOIN tb_insframework insf on insf.fid = ins.fparent where 1=1 and tw.fstatus!=99 
 		<if test="parent!=null and parent!=''">
 			and (i.fid=#{parent} or ins.fid=#{parent} or insf.fid=#{parent} or insf.fparent=#{parent})
 		</if>
@@ -1361,7 +1361,7 @@
 		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid 
 		left JOIN tb_insframework ins on ins.fid = i.fparent
    		left JOIN tb_insframework insf on insf.fid = ins.fparent
-		where fmachine_id!=0 and fmachine_id not in (
+		where fmachine_id!=0 <!-- and fmachine_id not in (
 		SELECT DISTINCT tt.fmachine_id FROM (
 		SELECT fmachine_id FROM tb_work WHERE fmachine_id!=0
 		<if test="dto!=null and dto!=''">
@@ -1383,7 +1383,7 @@
 			</if>
 		</if>
 		) tt
-		)
+		) -->
 		<if test="itemid!=null and itemid!=''">
 			and (i.fid=#{itemid} or ins.fid=#{itemid} or insf.fid=#{itemid} or insf.fparent=#{itemid})
 		</if>
@@ -1396,7 +1396,7 @@
 			</if>
 		</if>
 		GROUP BY i.fname,fmachine_id,fjunction_id
-		UNION
+		UNION ALL
 		select i.fid time,i.fname name,fmachine_id machineid,NULL welderid,if(fjunction_id=0,NULL,fjunction_id) as taskid,sum(fwarntime) id,0 insid from tb_warn  w
 		INNER JOIN tb_insframework i on i.fid  = w.fmachine_itemid 
 		left JOIN tb_insframework ins on ins.fid = i.fparent
