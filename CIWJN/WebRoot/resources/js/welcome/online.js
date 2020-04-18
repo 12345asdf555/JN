@@ -20,7 +20,7 @@ var worknum = 0,
 	personnum = 0,
 	machineflag = 0,
 	personfalg = 0;
-
+var lockReconnect = false;//避免重复连接
 $(function() {
 	welder();
 	machine();
@@ -97,20 +97,30 @@ function websocket() {
 		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
 		WEB_SOCKET_DEBUG = true;
 	}
-	webclient();
+	createWebSocket();
 }
-;
+
+function createWebSocket() {
+    try {
+    	socket = new WebSocket(websocketURL);
+    	webclient();
+    } catch(e) {
+    	console.log('catch');
+    	reconnect();
+    }
+  }
+
 function webclient() {
-	try {
-		socket = new WebSocket(websocketURL);
-	} catch (err) {
-//		alert("地址请求错误，请清除缓存重新连接！！！")
-	}
-	setTimeout(function() {
-		if (socket.readyState != 1) {
-//			alert("与服务器连接失败,请检查网络设置!");
-		}
-	}, 10000);
+//	try {
+//		socket = new WebSocket(websocketURL);
+//	} catch (err) {
+////		alert("地址请求错误，请清除缓存重新连接！！！")
+//	}
+//	setTimeout(function() {
+//		if (socket.readyState != 1) {
+////			alert("与服务器连接失败,请检查网络设置!");
+//		}
+//	}, 10000);
 	socket.onopen = function() {
 		clearDataFun();
 	};
@@ -259,35 +269,37 @@ function webclient() {
 		}
 		;
 		//关闭事件
-		socket.onclose = function(e) {
-			if (e.code == 4001 || e.code == 4002 || e.code == 4003 || e.code == 4005 || e.code == 4006) {
-				//如果断开原因为4001 , 4002 , 4003 不进行重连.
-				return;
-			} else {
-				return;
-			}
-			// 重试3次，每次之间间隔5秒
-			if (tryTime < 3) {
-				setTimeout(function() {
-					socket = null;
-					tryTime++;
-					var _PageHeight = document.documentElement.clientHeight,
-						_PageWidth = document.documentElement.clientWidth;
-					var _LoadingTop = _PageHeight > 61 ? (_PageHeight - 61) / 2 : 0,
-						_LoadingLeft = _PageWidth > 215 ? (_PageWidth - 215) / 2 : 0;
-					var _LoadingHtml = '<div id="loadingDiv" style="position:absolute;left:0;width:100%;height:' + _PageHeight + 'px;top:0;background:#f3f8ff;opacity:0.8;filter:alpha(opacity=80);z-index:10000;"><div style="position: absolute; cursor1: wait; left: ' + _LoadingLeft + 'px; top:' + _LoadingTop + 'px; width: auto; height: 57px; line-height: 57px; padding-left: 50px; padding-right: 5px; background: #fff url(resources/images/load.gif) no-repeat scroll 5px 10px; border: 2px solid #95B8E7; color: #696969;">""正在尝试第"' + tryTime + '"次重连，请稍候..."</div></div>';
-					document.write(_LoadingHtml);
-					ws();
-				}, 5000);
-			} else {
-				tryTime = 0;
-			}
-		};
-		//发生了错误事件
-		socket.onerror = function() {
-			aler("发生异常，正在尝试重新连接服务器！！！");
-		}
+				socket.onclose = function(e) {
+					if(lockReconnect == true){
+						return;
+					};
+					reconnect();
+				};
+				//发生了错误事件
+				socket.onerror = function(e) {
+					if(lockReconnect == true){
+						return;
+					};
+					reconnect();
+				}
 	}
+}
+
+function reconnect(){
+	if(lockReconnect == true){
+		return;
+	};
+	lockReconnect = true;
+    var tt = window.setInterval(function () {
+    	if(lockReconnect == false){
+    		window.clearInterval(tt);
+    	}
+    	try {
+    		createWebSocket();
+		} catch (e) {
+			console.log(e.message);
+		}
+    }, 10000);
 }
 
 var personcharts;

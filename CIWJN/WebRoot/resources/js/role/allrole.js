@@ -49,7 +49,7 @@ $(function(){
         }, {
 			field : 'authority',
 			title : '权限列表',
-			width : 100,
+			width : 150,
 			halign : "center",
 			align : "left",
 			formatter:function(value,row,index){
@@ -60,7 +60,7 @@ $(function(){
         }, {
 			field : 'user',
 			title : '分配用户',
-			width : 100,
+			width : 150,
 			halign : "center",
 			align : "left",
 			formatter:function(value,row,index){

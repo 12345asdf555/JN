@@ -92,7 +92,7 @@ $(function(){
         }, {
 			field : 'role',
 			title : '角色',
-			width : 100,
+			width : 150,
 			halign : "center",
 			align : "left",
 			formatter:function(value,row,index){
