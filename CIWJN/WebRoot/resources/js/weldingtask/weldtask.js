@@ -758,7 +758,7 @@ function evaluation(){
 				$('#resultid').combobox('select',data[0].value);
 			}
 			//$('#resultid').combobox('select', row.resultName);
-			url = "weldtask/getEvaluate?id="+row.taskResultId+"&taskid="+row.id+"&welderid="+null+"&machineid="+null+"&starttime="+row.realStartTime+"&endtime="+row.realEndTime;
+			url = "weldtask/getEvaluate?id="+row.taskResultId+"&taskid="+row.id+"&welderid="+""+"&machineid="+""+"&starttime="+row.realStartTime+"&endtime="+row.realEndTime;
 		}
 	}
 }

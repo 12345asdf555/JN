@@ -212,7 +212,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="mdlg-buttons">
 			<a href="javascript:saveconment();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-			<a href="javascript:dlgclose('mdlg');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:closeDialog('mdlg');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		
 		<!-- 批量完成 -->

@@ -98,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="fitem">
 					<lable>状态</lable>
-	   				<span id="radios"></span>
+					<input name="status" class="easyui-textbox" readonly="true" />
 				</div>
 			</form>
 		</div>
@@ -511,7 +511,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		
 		<!-- 控制命令下发 -->
-		<div id="condlg" class="easyui-dialog" style="width: 600px; height: 300px; padding:10px 20px" closed="true" buttons="#condlg-buttons">
+		<div id="condlg" class="easyui-dialog" style="width: 600px; height: 300px; padding:10px 20px" closed="true" buttons="#condlg-buttonss">
 			<form id="confm" class="easyui-form" method="post" data-options="novalidate:true">
 				<table width="100%" height="94%" border="1" style="text-align: center;">
 					  <tr height="30px">
@@ -535,9 +535,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</table>
 			</form>
 		</div>
-		<div id="condlg-buttons">
-			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-ok">确认</a>
-			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+		<div id="condlg-buttonss">
+<!-- 			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-ok">确认</a>  -->
+			<a href="javascript:closeDialog('condlg');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		
 		<!-- 密码框 -->
@@ -548,7 +548,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
         <div id="dlg-pwd">
 			<a href="javascript:selectMachineList(2);" class="easyui-linkbutton" iconCls="icon-ok">下一步</a>
-			<a href="javascript:closedlg();" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:closeDialog('pwd');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		
 		<!-- 添加修改松下工艺 -->
