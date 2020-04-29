@@ -361,14 +361,14 @@ function CPVEW(wpslibId) {
 			}
 		}
 	}
-	var symbol = 0;
-	var websocket = null;
-	if (typeof (WebSocket) == "undefined") {
-		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
-		WEB_SOCKET_DEBUG = true;
-	}
-	websocket = new WebSocket(websocketUrl);
-	websocket.onopen = function() {
+//	var symbol = 0;
+//	var websocket = null;
+//	if (typeof (WebSocket) == "undefined") {
+//		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+//		WEB_SOCKET_DEBUG = true;
+//	}
+//	websocket = new WebSocket(websocketUrl);
+//	websocket.onopen = function() {
 		var oneMinuteTimer = window.setTimeout(function() {
 			alert("部分焊机下发超时");
 			$('#smdlg').window('close');
@@ -388,13 +388,24 @@ function CPVEW(wpslibId) {
 		var timer = window.setInterval(function() {
 			if (sochet_send_data.length != 0) {
 				var popdata = sochet_send_data.pop();
-				websocket.send(popdata);
+				var message = new Paho.MQTT.Message(popdata);
+				message.destinationName = "weldmes/downparams";
+				client.send(message);
 			} else {
 				window.clearInterval(timer);
 			}
 		}, 300)
-		websocket.onmessage = function(msg) {
-			var fan = msg.data;
+		client.subscribe("weldmes/upparams", {
+			qos: 0,
+			onSuccess:function(e){  
+	            console.log("订阅成功");  
+	        },
+	        onFailure: function(e){  
+	            console.log(e);  
+	        }
+		})
+		client.onMessageArrived = function(e){
+			var fan = e.payloadString;
 			if (fan.substring(0, 2) == "7E" && fan.substring(10, 12) == "52") {
 				var rows = $('#giveResultTable').datagrid("getRows");
 				if (parseInt(fan.substring(18, 20), 16) == 1) {
@@ -427,8 +438,15 @@ function CPVEW(wpslibId) {
 						$('#giveResultTable').datagrid('refreshRow', (indexNum - 1) / 5);
 					}
 					if (realLength == checkLength) {
-						websocket.close();
-						if (websocket.readyState != 1) {
+						client.unsubscribe("weldmes/upparams", {
+							onSuccess : function(e) {
+								console.log("取消订阅成功");
+							},
+							onFailure : function(e) {
+								console.log(e);
+							}
+						})
+//						if (websocket.readyState != 1) {
 							window.clearTimeout(oneMinuteTimer);
 							$.ajax({  
 							      type : "post",  
@@ -458,7 +476,7 @@ function CPVEW(wpslibId) {
 							          alert("数据请求失败，请联系系统管理员!");  
 							      }  
 							 }); 
-						}
+//						}
 					}
 				} else {
 					realLength++;
@@ -490,8 +508,15 @@ function CPVEW(wpslibId) {
 						$('#giveResultTable').datagrid('refreshRow', (indexNum - 1) / 5);
 					}
 					if (realLength == checkLength) {
-						websocket.close();
-						if (websocket.readyState != 1) {
+						client.unsubscribe("weldmes/upparams", {
+							onSuccess : function(e) {
+								console.log("取消订阅成功");
+							},
+							onFailure : function(e) {
+								console.log(e);
+							}
+						})
+//						if (websocket.readyState != 1) {
 							window.clearTimeout(oneMinuteTimer);
 							$.ajax({  
 							      type : "post",  
@@ -521,12 +546,12 @@ function CPVEW(wpslibId) {
 							          alert("数据请求失败，请联系系统管理员!");  
 							      }  
 							 }); 
-						}
+//						}
 					}
 				}
 			}
 		}
-	}
+//	}
 }
 function CPVEWGET(data) {
 	$('#fchanel').combobox('select', parseInt(data.substring(18, 20), 16));

@@ -1,41 +1,43 @@
 /**
  * 
  */
-var WebSocket_Url;
+//var websocketURL;
+var client;
 $(function(){
-	$.ajax({
-	      type : "post",  
-	      async : false,
-	      url : "td/AllTdbf",  
-	      data : {},  
-	      dataType : "json", //返回数据形式为json  
-	      success : function(result) {
-	          if (result) {
-	        	  WebSocket_Url = eval(result.web_socket);
-	          }  
-	      },
-	      error : function(errorMsg) {  
-	          alert("数据请求失败，请联系系统管理员!");  
-	      }  
-	});
+//	$.ajax({
+//	      type : "post",  
+//	      async : false,
+//	      url : "td/AllTdbf",  
+//	      data : {},  
+//	      dataType : "json", //返回数据形式为json  
+//	      success : function(result) {
+//	          if (result) {
+//	        	  websocketURL = eval(result.web_socket);
+//	          }  
+//	      },
+//	      error : function(errorMsg) {  
+//	          alert("数据请求失败，请联系系统管理员!");  
+//	      }  
+//	});
+//	mqttTest();
 })
 
 function controlfun(){
-	var pwdflag=0;
- 	if(typeof(WebSocket) == "undefined") {
-    	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
-    	WEB_SOCKET_DEBUG = true;
-	}
-	var websocket = new WebSocket(WebSocket_Url);
-	websocket.onopen = function() {
-		window.setTimeout(function() {
-			if(pwdflag==0){
-				alert("下发失败");
-				websocket.close();
-				$('#smdlg').window("close")
-				$('#condlg').window("close");
-			}
-		}, 5000)
+	var symbol = 0;
+// 	if(typeof(WebSocket) == "undefined") {
+//    	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+//    	WEB_SOCKET_DEBUG = true;
+//	}
+//	var websocket = new WebSocket(WebSocket_Url);
+//	websocket.onopen = function() {
+//		window.setTimeout(function() {
+//			if(pwdflag==0){
+//				alert("下发失败");
+//				websocket.close();
+//				$('#smdlg').window("close")
+//				$('#condlg').window("close");
+//			}
+//		}, 10000)
 		var con = $("input[name='free']:checked").val();
 		if(con.length<2){
 			var length = 2 - con.length;
@@ -80,27 +82,55 @@ function controlfun(){
 		checksend = checksend.substring(a2-2,a2);
 		checksend = checksend.toUpperCase();
 		var xiafasend2 = (xxx+checksend).substring(2);
-		websocket.send("7E"+xiafasend2+"7D");
-		websocket.onmessage = function(msg) {
-			var fan = msg.data;
-			if(fan.substring(0,2)=="7E"&&fan.substring(10,12)=="54"){
-				pwdflag++;
-				if(parseInt(fan.substring(16,18),16)==1){
-					websocket.close();
-					if(websocket.readyState!=1){
-						alert("下发失败");
-						$('#smdlg').window("close")
-						$('#condlg').window("close");
-						}
-				}else{
-					websocket.close();
-					if(websocket.readyState!=1){
-						alert("下发成功");
-						$('#smdlg').window("close")
-						$('#condlg').window("close");
-						}
-				}
+		var message = new Paho.MQTT.Message("7E"+xiafasend2+"7D");
+		message.destinationName = "weldmes/downparams";
+		client.send(message);
+//		websocket.send("7E"+xiafasend2+"7D");
+//		websocket.onmessage = function(msg) {
+		var oneMinuteTimer = window.setTimeout(function() {
+			if (symbol == 0) {
+				client.unsubscribe("weldmes/upparams", {
+					onSuccess : function(e) {
+						console.log("取消订阅成功");
+					},
+					onFailure : function(e) {
+						console.log(e);
+					}
+				})
+				alert("下发超时");
 			}
+		}, 5000);
+		client.subscribe("weldmes/upparams", {
+			qos: 0,
+			onSuccess:function(e){  
+	            console.log("订阅成功");  
+	        },
+	        onFailure: function(e){  
+	            console.log(e);  
+	        }
+		})
+		client.onMessageArrived = function(e){
+			var fan = e.payloadString;
+			if(fan.substring(0,2)=="7E"&&fan.substring(10,12)=="54"){
+				client.unsubscribe("weldmes/upparams", {
+					onSuccess : function(e) {
+						console.log("取消订阅成功");
+					},
+					onFailure : function(e) {
+						console.log(e);
+					}
+				});
+				window.clearTimeout(oneMinuteTimer);
+				symbol = 1;
+				if(parseInt(fan.substring(16,18),16)==1){
+					alert("下发失败");
+					$('#smdlg').window("close")
+					$('#condlg').window("close");
+				}else{
+					alert("下发成功");
+					$('#smdlg').window("close")
+					$('#condlg').window("close");
+				}
 		};
 	}
 }
@@ -110,22 +140,22 @@ function passfun(){
 		if(parseInt($('#passwd').numberbox('getValue'))<1||parseInt($('#passwd').numberbox('getValue'))>999){
 			alert("密码范围是1~999");
 		}else{
-			var pwdflag=0;
-		 	if(typeof(WebSocket) == "undefined") {
-		    	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
-		    	WEB_SOCKET_DEBUG = true;
-			}
-			var websocket = new WebSocket(WebSocket_Url);
-			websocket.onopen = function() {
-				window.setTimeout(function() {
-					if(pwdflag==0){
-						alert("下发失败");
-						websocket.close();
-						$('#smdlg').window("close")
-						$('#pwd').window('close');
-						$('#condlg').window("close");
-					}
-				}, 5000)
+//			var pwdflag=0;
+//		 	if(typeof(WebSocket) == "undefined") {
+//		    	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+//		    	WEB_SOCKET_DEBUG = true;
+//			}
+//			var websocket = new WebSocket(WebSocket_Url);
+//			websocket.onopen = function() {
+//				window.setTimeout(function() {
+//					if(pwdflag==0){
+//						alert("下发失败");
+//						websocket.close();
+//						$('#smdlg').window("close")
+//						$('#pwd').window('close');
+//						$('#condlg').window("close");
+//					}
+//				}, 5000)
 				var con = parseInt($('#passwd').numberbox('getValue')).toString(16);
 				if(con.length<4){
 					var length = 4 - con.length;
@@ -170,29 +200,58 @@ function passfun(){
 				checksend = checksend.substring(a2-2,a2);
 				checksend = checksend.toUpperCase();
 				var xiafasend2 = (xxx+checksend).substring(2);
-				websocket.send("7E"+xiafasend2+"7D");
-				websocket.onmessage = function(msg) {
-					var fan = msg.data;
-					if(fan.substring(0,2)=="7E"&&fan.substring(10,12)=="53"){
-						pwdflag++;
-						if(parseInt(fan.substring(16,18),16)==1){
-							websocket.close();
-							if(websocket.readyState!=1){
-								alert("下发失败");
-								$('#smdlg').window("close")
-								$('#pwd').window('close');
-								$('#condlg').window("close");
-								}
-						}else{
-							websocket.close();
-							if(websocket.readyState!=1){
-								alert("下发成功");
-								$('#smdlg').window("close")
-								$('#pwd').window('close');
-								$('#condlg').window("close");
-								}
-						}
+				var symbol = 0;
+				var message = new Paho.MQTT.Message("7E"+xiafasend2+"7D");
+				message.destinationName = "weldmes/downparams";
+				client.send(message);
+				var oneMinuteTimer = window.setTimeout(function() {
+					if (symbol == 0) {
+						client.unsubscribe("weldmes/upparams", {
+							onSuccess : function(e) {
+								console.log("取消订阅成功");
+							},
+							onFailure : function(e) {
+								console.log(e);
+							}
+						})
+						alert("下发超时");
 					}
+				}, 5000);
+				client.subscribe("weldmes/upparams", {
+					qos: 0,
+					onSuccess:function(e){  
+			            console.log("订阅成功");  
+			        },
+			        onFailure: function(e){  
+			            console.log(e);  
+			        }
+				})
+//				websocket.send("7E"+xiafasend2+"7D");
+//				websocket.onmessage = function(msg) {
+				client.onMessageArrived = function(e){
+					var fan = e.payloadString;
+					if(fan.substring(0,2)=="7E"&&fan.substring(10,12)=="53"){
+						client.unsubscribe("weldmes/upparams", {
+							onSuccess : function(e) {
+								console.log("取消订阅成功");
+							},
+							onFailure : function(e) {
+								console.log(e);
+							}
+						});
+						window.clearTimeout(oneMinuteTimer);
+						symbol = 1;
+						if(parseInt(fan.substring(16,18),16)==1){
+							alert("下发失败");
+							$('#smdlg').window("close")
+							$('#pwd').window('close');
+							$('#condlg').window("close");
+						}else{
+							alert("下发成功");
+							$('#smdlg').window("close")
+							$('#pwd').window('close');
+							$('#condlg').window("close");
+						}
 				};
 			}
 
@@ -223,14 +282,8 @@ function sxMachineIsLock(value){
 		}
 	}
 	var flag = 0;
-	var websocket = null;
 	var sochet_send_data = new Array();
-	if (typeof (WebSocket) == "undefined") {
-		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
-		WEB_SOCKET_DEBUG = true;
-	}
-	websocket = new WebSocket(websocketUrl);
-	websocket.onopen = function() {
+//	websocket.onopen = function() {
 		for(var s=0;s<selectMachine.length;s++){
 			var mach = (parseInt(selectMachine[s].gatherId,10)).toString(16);
 			if (mach.length < 4) {
@@ -241,28 +294,77 @@ function sxMachineIsLock(value){
 			}
 			sochet_send_data.push("FE5AA5001A"+mach+"000000000000000000000000000212020"+value+"0000");
 		}
+		var symbol = 0;
 		var timer = window.setInterval(function() {
 			if (sochet_send_data.length != 0) {
-				var popdata = sochet_send_data.pop();
-				websocket.send(popdata);//下发
+//				var popdata = sochet_send_data.pop();
+				var message = new Paho.MQTT.Message(sochet_send_data.pop());
+				message.destinationName = "weldmes/downparams";
+				client.send(message);
+//				websocket.send(popdata);//下发
 			} else {
 				window.clearInterval(timer);
 			}
 		}, 1000)
-		websocket.onmessage = function(msg) {
-			if(msg.data.substring(0,6)=="FE5AA5" && msg.data.substring(40,44)=="0212"){
-				if(msg.data.substring(msg.data.length-2)=="01"){
+		client.subscribe("weldmes/upparams", {
+			qos: 0,
+			onSuccess:function(e){  
+	            console.log("订阅成功");  
+	        },
+	        onFailure: function(e){  
+	            console.log(e);  
+	        }
+		})
+		client.onMessageArrived = function(e){
+//		websocket.onmessage = function(msg) {
+			if(e.payloadString.substring(0,6)=="FE5AA5" && e.payloadString.substring(40,44)=="0212"){
+				if(e.payloadString.substring(e.payloadString.length-2)=="01"){
 					alert("操作成功");
 					$('#weldingmachineTable').datagrid('clearSelections');
 					$('#smdlg').window("close");
-					websocket.close();
+//					websocket.close();
 				}else{
 					alert("操作失败");
 					$('#weldingmachineTable').datagrid('clearSelections');
 					$('#smdlg').window("close");
-					websocket.close();
+//					websocket.close();
 				}
-			}
 		}
 	}
 }
+
+//function mqttTest(){
+//	var clientId = Math.random().toString().substr(3,8) + Date.now().toString(36);
+//	client = new Paho.MQTT.Client(websocketURL.split(":")[0], parseInt(websocketURL.split(":")[1]), clientId);
+//	var options = {
+//        timeout: 5,  
+//        keepAliveInterval: 60,  
+//        cleanSession: false,  
+//        useSSL: false,  
+//        onSuccess: onConnect,  
+//        onFailure: function(e){  
+//            console.log(e);  
+//        },
+//        reconnect : true
+//	}
+//	
+//	//set callback handlers
+//	client.onConnectionLost = onConnectionLost;
+////	client.onMessageArrived = onMessageArrived;
+//
+//	//connect the client
+//	client.connect(options);
+//}
+//
+////called when the client connects
+//function onConnect() {
+//	// Once a connection has been made, make a subscription and send a message.
+//	console.log("onConnect");
+//}
+//
+////called when the client loses its connection
+//function onConnectionLost(responseObject) {
+//	if (responseObject.errorCode !== 0) {
+//		console.log("onConnectionLost:"+responseObject.errorMessage);
+//	}
+//}

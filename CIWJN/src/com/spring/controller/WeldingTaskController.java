@@ -306,32 +306,32 @@ public class WeldingTaskController {
 	@ResponseBody
 	public String getWeldTask(HttpServletRequest request){
 		String serach="";
-		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
-		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
-		int bz=0;
-		if(instype==20){
-			
-		}else if(instype==23){
-			serach = "j.fitemId="+userinsid;
-		}else{
-			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
-			for(Insframework inns : ls ){
-				if(bz==0){
-					serach=serach+"(j.fitemId="+inns.getId();
-				}else{
-					serach=serach+" or j.fitemId="+inns.getId();
-				}
-				bz++;
-			}
-			serach=serach+" or j.fitemId="+userinsid+")";
-		}
-		if(request.getParameter("searchStr")!=null&&serach!=null&&serach!=""){
-			serach=serach+" and "+request.getParameter("searchStr");
-		}
-		if(request.getParameter("searchStr")!=null&&(serach==null||serach=="")){
-			serach=serach+request.getParameter("searchStr");
-		}
+//		MyUser user = (MyUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		int instype = insm.getUserInsfType(new BigInteger(String.valueOf(user.getId())));
+//		BigInteger userinsid = insm.getUserInsfId(new BigInteger(String.valueOf(user.getId())));
+//		int bz=0;
+//		if(instype==20){
+//			
+//		}else if(instype==23){
+//			serach = "j.fitemId="+userinsid;
+//		}else{
+//			List<Insframework> ls = insm.getInsIdByParent(userinsid,24);
+//			for(Insframework inns : ls ){
+//				if(bz==0){
+//					serach=serach+"(j.fitemId="+inns.getId();
+//				}else{
+//					serach=serach+" or j.fitemId="+inns.getId();
+//				}
+//				bz++;
+//			}
+//			serach=serach+" or j.fitemId="+userinsid+")";
+//		}
+//		if(request.getParameter("searchStr")!=null&&serach!=null&&serach!=""){
+//			serach=serach+" and "+request.getParameter("searchStr");
+//		}
+//		if(request.getParameter("searchStr")!=null&&(serach==null||serach=="")){
+//			serach=serach+request.getParameter("searchStr");
+//		}
 		List<WeldedJunction> list = wjm.getWeldedJunction(serach);
 		long total = 0;
 		

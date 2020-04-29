@@ -56,7 +56,11 @@ public class TdController {
 	public String Alltdbf(HttpServletRequest request){
 		String websocket = request.getSession().getServletContext().getInitParameter("websocket");
 //		request.setAttribute("web_socket", websocket);
+		MyUser myuser = (MyUser) SecurityContextHolder.getContext()  
+			    .getAuthentication()  
+			    .getPrincipal();
 		JSONObject obj = new JSONObject();
+		obj.put("userName", myuser.getUsername());
 		obj.put("web_socket", websocket);
 		return obj.toString();
 	}

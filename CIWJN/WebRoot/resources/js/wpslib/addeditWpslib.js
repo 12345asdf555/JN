@@ -198,7 +198,7 @@ function addMainWps() {
 		CPVETINIT();
 		$('#mwdlg').window('open');
 		return;
-	} else if (wlrow.manu == 149) {
+	} else {
 		$('#editSxDlg').window({
 			title : "新增工艺",
 			modal : true
@@ -401,6 +401,7 @@ function saveMainWps() {
 	var fwarn_ele_down = $('#fwarn_ele_down').numberbox('getValue');
 	var fwarn_vol_up = $('#fwarn_vol_up').numberbox('getValue');
 	var fwarn_vol_down = $('#fwarn_vol_down').numberbox('getValue');
+//	var farc_delay_time = $('#farc_delay_time').numberbox('getValue');
 	url2 = url + "&finitial=" + finitial + "&fcontroller=" + fcontroller + "&fmode=" + fmode + "&fselect=" + fselect 
 	+ "&farc=" + farc + "&fmaterial=" + fmaterial + "&fgas=" + fgas + "&fdiameter=" + fdiameter + "&chanel=" + chanel 
 	+ "&ftime=" + ftime + "&fadvance=" + fadvance + "&fini_ele=" + fini_ele + "&fweld_ele=" + fweld_ele + "&farc_ele=" + farc_ele 
@@ -423,10 +424,10 @@ function saveMainWps() {
 				});
 				oldchanel = 0;
 			} else {
-				$('#ddv-'+index).datagrid('reload');
 				$.messager.alert("提示", messager);
 				oldchanel = 0;
 				$('#mwdlg').dialog('close');
+				$('#ddv-'+index).datagrid('reload');
 		//		$('#wpslibTable').datagrid('reload');
 			}
 		},
@@ -654,9 +655,9 @@ function saveSxWps(){
 						msg : result.errorMsg
 					});
 				}else{
-					$('#ddv-'+index).datagrid('reload');
 					$.messager.alert("提示", messager);
 					$('#editSxDlg').dialog('close');
+					$('#ddv-'+index).datagrid('reload');
 //					$('#wpslibTable').datagrid('reload');
 				}
 			}

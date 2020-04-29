@@ -1,10 +1,11 @@
 /**
  * 
  */
-var websocketUrl;
+var websocketURL,mqttClintId;
 var selectflag;
 var wpslibindex;
 var wpslibId;
+var datagridFlag=0;
 $(function() {
 	itemcombobox();
 	$.ajax({
@@ -15,13 +16,15 @@ $(function() {
 		dataType : "json", //返回数据形式为json  
 		success : function(result) {
 			if (result) {
-				websocketUrl = eval(result.web_socket);
+				websocketURL = eval(result.web_socket);
+				mqttClintId = result.userName;
 			}
 		},
 		error : function(errorMsg) {
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	});
+	mqttTest();
 })
 
 //选择工艺
@@ -490,6 +493,7 @@ function selectMachineList(value){
 		title : "选择焊机",
 		modal : true
 	});
+	if(datagridFlag==0){
 	$("#weldingmachineTable").datagrid( {
 		height : $("#smdlg").height()-40,
 		width : $("#smdlg").width(),
@@ -631,6 +635,8 @@ function selectMachineList(value){
             }
         }
 	});
+	datagridFlag = 1;
+	}
 	if(value==1){
 		$("#weldingmachineTable").datagrid({
 			singleSelect: false
@@ -756,13 +762,13 @@ function requestWps() {
 		return;
 	}
 	var flag = 0;
-	var websocket = null;
-	if (typeof (WebSocket) == "undefined") {
-		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
-		WEB_SOCKET_DEBUG = true;
-	}
-	websocket = new WebSocket(websocketUrl);
-	websocket.onopen = function() {
+//	var websocket = null;
+//	if (typeof (WebSocket) == "undefined") {
+//		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+//		WEB_SOCKET_DEBUG = true;
+//	}
+//	websocket = new WebSocket(websocketUrl);
+//	websocket.onopen = function() {
 		var chanel = $('#fchanel').combobox('getValue').toString(16);
 		if (chanel.length < 2) {
 			var length = 2 - chanel.length;
@@ -790,25 +796,64 @@ function requestWps() {
 		var a2 = checksend.length;
 		checksend = checksend.substring(a2 - 2, a2);
 		checksend = checksend.toUpperCase();
-		websocket.send(xxx + checksend + "7D");
-		if (flag == 0) {
-			var jctimer = window.setTimeout(function() {
-				if (flag == 0) {
-					websocket.close();
-					alert("焊机长时间未响应，索取失败!!!");
-				}
-			}, 60000)
-		}
-		websocket.onmessage = function(msg) {
-			var da = msg.data;
+		var symbol = 0;
+		var message = new Paho.MQTT.Message(xxx + checksend + "7D");
+		message.destinationName = "weldmes/downparams";
+		client.send(message);
+//		websocket.send(xxx + checksend + "7D");
+//		if (flag == 0) {
+//			var jctimer = window.setTimeout(function() {
+//				if (flag == 0) {
+//					websocket.close();
+//					alert("焊机长时间未响应，索取失败!!!");
+//				}
+//			}, 60000)
+//		}
+		var oneMinuteTimer = window.setTimeout(function() {
+			if (symbol == 0) {
+				client.unsubscribe("weldmes/upparams", {
+					onSuccess : function(e) {
+						console.log("取消订阅成功");
+					},
+					onFailure : function(e) {
+						console.log(e);
+					}
+				})
+//				$('#buttonCancel').linkbutton('enable');
+//				$('#buttonOk').linkbutton('enable');
+				alert("下发超时");
+			}
+		}, 5000);
+		client.subscribe("weldmes/upparams", {
+			qos: 0,
+			onSuccess:function(e){  
+	            console.log("订阅成功");  
+	        },
+	        onFailure: function(e){  
+	            console.log(e);  
+	        }
+		})
+		client.onMessageArrived = function(e){
+			console.log("onMessageArrived:" + e.payloadString);
+			var da = e.payloadString;
 			if (da.substring(0, 2) == "7E" && da.substring(10, 12) == "56") {
 				if (da.substring(18, 20) == "FF") {
 					flag++;
-					websocket.close();
-					if (websocket.readyState != 1) {
-						alert("此通道没有规范!!!");
-						flag = 0;
-					}
+//					websocket.close();
+//					if (websocket.readyState != 1) {
+					client.unsubscribe("weldmes/upparams", {
+						onSuccess : function(e) {
+							console.log("取消订阅成功");
+						},
+						onFailure : function(e) {
+							console.log(e);
+						}
+					});
+					alert("此通道没有规范!!!");
+					flag = 0;
+					window.clearTimeout(oneMinuteTimer);
+					symbol = 1;
+//					}
 				} else {
 					var wpslibrow = $('#wpslibTable').datagrid("getSelected");
 					if (wpslibrow.model == 174) {
@@ -825,19 +870,25 @@ function requestWps() {
 						CPVEWGET(da);
 					}
 					flag++;
-					websocket.close();
-					if (websocket.readyState != 1) {
-						window.clearTimeout(jctimer);
-						alert("索取成功");
-						flag = 0;
-						$('#smdlg').window('close');
-						$('#weldingmachineTable').datagrid('clearSelections');
-						$('#smdlg').form('clear');
-					}
+					client.unsubscribe("weldmes/upparams", {
+						onSuccess : function(e) {
+							console.log("取消订阅成功");
+						},
+						onFailure : function(e) {
+							console.log(e);
+						}
+					});
+					flag = 0;
+					window.clearTimeout(oneMinuteTimer);
+					symbol = 1;
+					alert("索取成功");
+					$('#smdlg').window('close');
+					$('#weldingmachineTable').datagrid('clearSelections');
+					$('#smdlg').form('clear');
 				}
 			}
 		}
-	}
+//	}
 }
 
 //下发规范
@@ -1140,19 +1191,19 @@ function setSxMainWps() {
 		}
 	}
 	var symbol = 0;
-	var websocket = null;
-	if (typeof (WebSocket) == "undefined") {
-		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
-		WEB_SOCKET_DEBUG = true;
-	}
-	symbol = 0;
-	websocket = new WebSocket(websocketUrl);
+//	var websocket = null;
+//	if (typeof (WebSocket) == "undefined") {
+//		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+//		WEB_SOCKET_DEBUG = true;
+//	}
+//	symbol = 0;
+//	websocket = new WebSocket(websocketUrl);
 	var sochet_send_data = new Array();
 	var giveArray = new Array();
 	var resultData = new Array();
 	var noReceiveGiveChanel = new Array();
 	var realLength = 0;
-	websocket.onopen = function() {
+//	websocket.onopen = function() {
 		var checkLength = selectMachine.length * selectMainWpsRows.length;
 		for (var smindex = 0; smindex < selectMachine.length; smindex++) {
 			noReceiveGiveChanel.length = 0;
@@ -1641,7 +1692,15 @@ function setSxMainWps() {
 			}
 		}
 		var oneMinuteTimer = window.setTimeout(function() {
-			websocket.close();
+//			websocket.close();
+			client.unsubscribe("weldmes/upparams", {
+				onSuccess : function(e) {
+					console.log("取消订阅成功");
+				},
+				onFailure : function(e) {
+					console.log(e);
+				}
+			});
 			alert("下发超时");
 			$('#sxSelectdlg').window('close');
 			$('#sxMachinedlg').window('close');
@@ -1660,14 +1719,25 @@ function setSxMainWps() {
 		var timer = window.setInterval(function() {
 			if (sochet_send_data.length != 0) {
 				var popdata = sochet_send_data.pop();
-				websocket.send(popdata);//下发
+//				websocket.send(popdata);//下发
+				var message = new Paho.MQTT.Message(popdata);
+				message.destinationName = "weldmes/downparams";
+				client.send(message);
 			} else {
 				window.clearInterval(timer);
 			}
 		}, 300)
-		
-		websocket.onmessage = function(msg) {
-			var fan = msg.data;
+		client.subscribe("weldmes/upparams", {
+			qos: 0,
+			onSuccess:function(e){  
+	            console.log("订阅成功");  
+	        },
+	        onFailure: function(e){  
+	            console.log(e);  
+	        }
+		})
+		client.onMessageArrived = function(e){
+			var fan = e.payloadString;
 			if (fan.substring(0, 6) == "FE5AA5" && fan.substring(6,10) == "001A") {
 				var rows = $('#giveResultTable').datagrid("getRows");
 				if (parseInt(fan.substring(44, 46), 16) != 2) {//控制，2表示OK
@@ -1696,8 +1766,15 @@ function setSxMainWps() {
 						$('#giveResultTable').datagrid('refreshRow', (indexNum - 1) / 5);
 					}
 					if (realLength == checkLength) {//焊机数据*工艺数据=收到的数目
-						websocket.close();
-						if (websocket.readyState != 1) {
+						client.unsubscribe("weldmes/upparams", {
+							onSuccess : function(e) {
+								console.log("取消订阅成功");
+							},
+							onFailure : function(e) {
+								console.log(e);
+							}
+						});
+//						if (websocket.readyState != 1) {
 							window.clearTimeout(oneMinuteTimer);
 							$.ajax({  
 							      type : "post",  
@@ -1727,7 +1804,7 @@ function setSxMainWps() {
 							          alert("数据请求失败，请联系系统管理员!");  
 							      }  
 							}); 
-						}
+//						}
 					}
 				} else {
 					realLength++;
@@ -1755,8 +1832,15 @@ function setSxMainWps() {
 						$('#giveResultTable').datagrid('refreshRow', (indexNum - 1) / 5);
 					}
 					if (realLength == checkLength) {
-						websocket.close();
-						if (websocket.readyState != 1) {
+						client.unsubscribe("weldmes/upparams", {
+							onSuccess : function(e) {
+								console.log("取消订阅成功");
+							},
+							onFailure : function(e) {
+								console.log(e);
+							}
+						});
+//						if (websocket.readyState != 1) {
 							window.clearTimeout(oneMinuteTimer);
 							$.ajax({  
 							      type : "post",  
@@ -1786,12 +1870,12 @@ function setSxMainWps() {
 							          alert("数据请求失败，请联系系统管理员!");  
 							      }  
 							});
-						}
+//						}
 					}
 				}
 			}
 		}
-	}
+//	}
 }
 
 
@@ -1808,13 +1892,13 @@ function getSxMainWps() {
 		return;
 	}
 	var flag = 0;
-	var websocket = null;
-	if (typeof (WebSocket) == "undefined") {
-		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
-		WEB_SOCKET_DEBUG = true;
-	}
-	websocket = new WebSocket(websocketUrl);
-	websocket.onopen = function() {
+//	var websocket = null;
+//	if (typeof (WebSocket) == "undefined") {
+//		WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
+//		WEB_SOCKET_DEBUG = true;
+//	}
+//	websocket = new WebSocket(websocketUrl);
+//	websocket.onopen = function() {
 		var crc7_str = [];
 		crc7_str.push("FE");
 		crc7_str.push("5A");
@@ -1864,7 +1948,9 @@ function getSxMainWps() {
 							}
 						}
 						var sendMesssager = "FE5AA5"+ data_length + mach + "000000000000000000000000" + CRC7_check + "021101" + chanel + "0000";
-						websocket.send(sendMesssager);
+						var message = new Paho.MQTT.Message(sendMesssager);
+						message.destinationName = "weldmes/downparams";
+						client.send(message);
 		          }  
 		      },
 		      error : function(errorMsg) {  
@@ -1875,21 +1961,43 @@ function getSxMainWps() {
 		if (flag == 0) {
 			var jctimer = window.setTimeout(function() {
 				if (flag == 0) {
-					websocket.close();
+//					websocket.close();
+					client.unsubscribe("weldmes/upparams", {
+						onSuccess : function(e) {
+							console.log("取消订阅成功");
+						},
+						onFailure : function(e) {
+							console.log(e);
+						}
+					})
 					alert("焊机长时间未响应，索取失败!!!");
 				}
-			}, 60000)
+			}, 30000)
 		}
-		websocket.onmessage = function(msg) {
-			var da = msg.data;
+		client.subscribe("weldmes/upparams", {
+			qos: 0,
+			onSuccess:function(e){  
+	            console.log("订阅成功");  
+	        },
+	        onFailure: function(e){  
+	            console.log(e);  
+	        }
+		})
+		client.onMessageArrived = function(e){
+			var da = e.payloadString;
 			if (da.substring(0, 6) == "FE5AA5") {
 				if (da.substring(6,10) == "001A") {
 					flag++;
-					websocket.close();
-					if (websocket.readyState != 1) {
-						alert("此通道没有规范!!!");
-						flag = 0;
-					}
+					client.unsubscribe("weldmes/upparams", {
+						onSuccess : function(e) {
+							console.log("取消订阅成功");
+						},
+						onFailure : function(e) {
+							console.log(e);
+						}
+					})
+					alert("此通道没有规范!!!");
+					flag = 0;
 				} else {
 					$('#sxfwpsnum').combobox('select', parseInt(da.substring(46, 48), 16));
 					$("#sxfpreset_ele_top").numberbox('setValue', (parseInt(da.substring(52, 56), 16)).toFixed(1));
@@ -1960,19 +2068,24 @@ function getSxMainWps() {
 					$("#sxffixed_cycle").numberbox('setValue', (parseInt(da.substring(216, 218), 16) / 10).toFixed(1));
 
 					flag++;
-					websocket.close();
-					if (websocket.readyState != 1) {
-						window.clearTimeout(jctimer);
-						alert("索取成功");
-						flag = 0;
-						$('#sxMachinedlg').window('close');
-						$('#sxMachineTable').datagrid('clearSelections');
-						$('#sxmachinefm').form('clear');
-					}
+					client.unsubscribe("weldmes/upparams", {
+						onSuccess : function(e) {
+							console.log("取消订阅成功");
+						},
+						onFailure : function(e) {
+							console.log(e);
+						}
+					})
+					window.clearTimeout(jctimer);
+					alert("索取成功");
+					flag = 0;
+					$('#sxMachinedlg').window('close');
+					$('#sxMachineTable').datagrid('clearSelections');
+					$('#sxmachinefm').form('clear');
 				}
 			}
 		}
-	}
+//	}
 }
 
 function itemcombobox(){
@@ -2208,4 +2321,42 @@ function itemcombobox(){
 			})
 	　　　　}
 	});
+}
+
+var client,clientId;
+function mqttTest(){
+//	var clientId = Math.random().toString().substr(3,8) + Date.now().toString(36);
+	var clientId = mqttClintId+"_upLoad";
+	client = new Paho.MQTT.Client(websocketURL.split(":")[0], parseInt(websocketURL.split(":")[1]), clientId);
+	var options = {
+        timeout: 5,  
+        keepAliveInterval: 60,  
+        cleanSession: false,  
+        useSSL: false,  
+        onSuccess: onConnect,  
+        onFailure: function(e){  
+            console.log(e);  
+        },
+        reconnect : true
+	}
+	
+	//set callback handlers
+	client.onConnectionLost = onConnectionLost;
+//	client.onMessageArrived = onMessageArrived;
+
+	//connect the client
+	client.connect(options);
+}
+
+//called when the client connects
+function onConnect() {
+	// Once a connection has been made, make a subscription and send a message.
+	console.log("onConnect");
+}
+
+//called when the client loses its connection
+function onConnectionLost(responseObject) {
+	if (responseObject.errorCode !== 0) {
+		console.log("onConnectionLost:"+responseObject.errorMessage);
+	}
 }

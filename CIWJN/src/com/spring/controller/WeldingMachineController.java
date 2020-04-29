@@ -354,7 +354,8 @@ public class WeldingMachineController {
 		JSONArray ary = new JSONArray();
 		JSONObject obj = new JSONObject();
 		try{
-			List<Insframework> list = im.getOperateArea(null,23);
+			String str = " and (i.fid='"+im.getUserInsframework()+"' or ins.fid='"+im.getUserInsframework()+"' or insf.fid='"+im.getUserInsframework()+"' or insf.fparent='"+im.getUserInsframework()+"')";
+			List<Insframework> list = im.getOperateArea(str,23);
 			for(Insframework i:list){
 				json.put("id", i.getId());
 				json.put("name", i.getName());

@@ -83,28 +83,6 @@ $(function(){
 		      }  
 		 });
  })
- 
- function w() {
-	if(typeof(WebSocket) == "undefined") {
-    	WEB_SOCKET_SWF_LOCATION = "resources/js/WebSocketMain.swf";
-    	WEB_SOCKET_DEBUG = true;
-	}
-	ws();
-};
-
-function ws() {
-	//实现化WebSocket对象，指定要连接的服务器地址与端口
-	try{
-		socketfc = new WebSocket(data1);
-	}catch(err){getWeldItemInCount
-		alert("地址请求错误，请清除缓存重新连接！！！")
-	}
-/*		dingshiqi1 = window.setvarerval(function() {
-		dingshiqi++;
-	}, 1000);*/
-	//打开事件
-	socketfc.onopen = function() {};
-};
 
 $(document).ready(function () {
 	$("#chanel").combobox({

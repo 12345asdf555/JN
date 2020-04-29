@@ -107,33 +107,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		
 		<!-- 删除 -->
-		<div id="rdlg" class="easyui-dialog" style="width: 720px; height: 98%; padding:10px 20px" closed="true" buttons="#remove-buttons">
+		<div id="rdlg" class="easyui-dialog" style="width: 700px; height: 70%; padding:10px 20px" closed="true" buttons="#remove-buttons">
 			<form id="rfm" class="easyui-form" method="post" data-options="novalidate:true"><br/>
 				<div class="fitem">
 	                <input name="id" id="id" type="hidden" >
 	            </div>
 	            <div class="fitem" style="padding-right:120px;">
-	            	<lable>用户名</lable>
+	            	<lable style="width: 200px;">用户名</lable>
 	                <input name="userName" id="userName" class="easyui-textbox" readonly="true">
-	            	<lable>&nbsp;&nbsp;登录名</lable>
+	            	<lable style="width: 100px;">&nbsp;&nbsp;登录名</lable>
 	                <input name="userLoginName" class="easyui-textbox" readonly="true">
 	            </div>
 	            <div class="fitem" style="padding-right:120px;">
-	            	<lable>密码</lable>
+	            	<lable style="width: 200px;">密码</lable>
 	                <input name="userPassword" class="easyui-textbox" type="password" readonly="true">
-	            	<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话</lable>
+	            	<lable style="width: 100px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话</lable>
 	                <input name="userPhone" class="easyui-textbox" readonly="true" >
 	            </div>
 	            <div class="fitem" style="padding-right:120px;">
-	            	<lable>邮箱</lable>
+	            	<lable style="width: 200px;">邮箱</lable>
 	                <input name="userEmail" class="easyui-textbox" readonly="true" >
-	            	<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;岗位</lable>
+	            	<lable style="width: 100px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;岗位</lable>
 	                <input id="userPosition" name="userPosition" class="easyui-textbox" readonly="true">
 	            </div>
 	            <div class="fitem" style="padding-right:120px;">
-	            	<lable>部门</lable>
+	            	<lable style="width: 200px;">部门</lable>
 	            	<input class="easyui-textbox" name="users_insframework" id="users_insframework"  readonly="true" />
-					<lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态</lable>
+					<lable style="width: 100px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态</lable>
 					<input name="status" class="easyui-textbox" readonly="true"/>
 	            </div>
 		        <div align="center">

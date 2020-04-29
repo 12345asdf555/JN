@@ -22,7 +22,7 @@ var work = new Array();
 var wait = new Array();
 var worktime = new Array();
 var dglength;
-var websocketURL;
+var websocketURL,mqttClintId;
 var welderName;
 var taskNum;
 var symbol = 0;
@@ -81,6 +81,7 @@ $(function() {
 		success : function(result) {
 			if (result) {
 				websocketURL = eval(result.web_socket);
+				mqttClintId = result.userName;
 			}
 		},
 		error : function(errorMsg) {
@@ -135,7 +136,8 @@ $(function() {
 			          alert("数据请求失败，请联系系统管理员!");  
 			      }  
 			 });*/
-	websocket();
+//	websocket();
+	mqttTest();
 
 	function serach(){
 		var timebuf = historytime;
@@ -150,6 +152,68 @@ $(function() {
 	}
 	setInterval(serach,60000);// 注意函数名没有引号和括弧！
 })
+
+var client,clientId;
+function mqttTest(){
+//	clientId = Math.random().toString().substr(3,8) + Date.now().toString(36);
+	clientId = mqttClintId+"_RTC_TWO";
+	client = new Paho.MQTT.Client(websocketURL.split(":")[0], parseInt(websocketURL.split(":")[1]), clientId);
+	var options = {
+        timeout: 5,  
+        keepAliveInterval: 60,  
+        cleanSession: false,  
+        useSSL: false,  
+        onSuccess: onConnect,  
+        onFailure: function(e){  
+            console.log(e);  
+        },
+        reconnect : true
+	}
+	
+	//set callback handlers
+	client.onConnectionLost = onConnectionLost;
+	client.onMessageArrived = onMessageArrived;
+
+	//connect the client
+	client.connect(options);
+}
+
+//called when the client connects
+function onConnect() {
+	// Once a connection has been made, make a subscription and send a message.
+	console.log("onConnect");
+//	client.publish('/public/TEST/SHTH', 'SHTHCS', 0, false);
+	client.subscribe("weldmes/rtcdata", {
+			qos: 0,
+			onSuccess:function(e){  
+	            console.log("订阅成功");  
+				var loadingMask = document.getElementById('loadingDiv');
+				loadingMask.parentNode.removeChild(loadingMask);
+	        },
+	        onFailure: function(e){  
+	            console.log(e);  
+				var loadingMask = document.getElementById('loadingDiv');
+				loadingMask.parentNode.removeChild(loadingMask);
+	        }
+		})
+}
+
+//called when the client loses its connection
+function onConnectionLost(responseObject) {
+	if (responseObject.errorCode !== 0) {
+		console.log("onConnectionLost:"+responseObject.errorMessage);
+	}
+}
+
+//called when a message arrives
+function onMessageArrived(message) {
+//	console.log("onMessageArrived:"+message.payloadString);
+	redata = message.payloadString;
+	iview();
+/*	message = new Paho.MQTT.Message("1");
+	message.destinationName = "api2";
+	client.send(message);*/
+}
 
 function websocket() {
 	if (typeof (WebSocket) == "undefined") {
@@ -441,7 +505,7 @@ function iview() {
 	vol.length = 0;
 	ele.length = 0;
 
-	if(redata.length==333||redata.length==111){
+	if(redata.length%111==0){
 	for (var i = 0; i < redata.length; i += 111) {
 		//				if(redata.substring(8+i, 12+i)!="0000"){
 		if (parseInt(redata.substring(4 + i, 8 + i),10) == $("#machineid").val()) {

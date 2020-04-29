@@ -27,7 +27,7 @@ function insframworkCombobox(){
 	   $.ajax({
 	   type: "post", 
 	   async : false,
-	   url: "weldingMachine/getInsframeworkAll",
+	   url: "weldingMachine/getUserInsAll",
 	   dataType: "json",
 	   data: {},
 	   success: function (result) {
@@ -147,12 +147,12 @@ function save(){
     var insframework = $('#owner').combobox('getValue');
     var leve;
     var qua;
-    if($('#leveid').val()){
+    if($('#leveid').combobox('getValue')){
     	leve = $('#leveid').combobox('getValue');
     }else{
     	leve = 0;
     }
-    if($('#quali').val()){
+    if($('#quali').combobox('getValue')){
     	qua = $('#quali').combobox('getValue');
     }else{
     	qua = 0;

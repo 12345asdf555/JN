@@ -1327,7 +1327,7 @@
 		</if>
 		) k where k.fname NOT IN 
 		(SELECT DISTINCT m.fequipment_no FROM tb_taskresult t 
-		left join tb_welding_machine m on t.fmachineid=m.fid WHERE 1=1 
+		left join tb_welding_machine m on t.fmachineid=m.fid WHERE 1=1 AND m.fequipment_no IS NOT NULL 
 		<if test="time1!=null and time1!=''">
 			and t.frealstarttime &gt;= #{time1}
 		</if>

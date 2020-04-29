@@ -40,14 +40,17 @@
 	</select>
 	
 	<select id="getUserInsAll"  resultMap="insMap">
-		select fid, fname from tb_insframework where 1=1
+		select fid, fname from tb_insframework where 1=1 and (ftype=22 or ftype=23) 
 		<if test="str!=null and str!=''">
 			and ${str}
 		</if>
 	</select>
 	
 	<select id="getOperateArea"  resultMap="insMap">
-		select i.fid, i.fname from tb_insframework i where 1=1 and i.ftype=#{type}
+		select i.fid, i.fname from tb_insframework i 
+		INNER JOIN tb_insframework ins on ins.fid = i.fparent
+		INNER JOIN tb_insframework insf on insf.fid = ins.fparent
+		where 1=1 and i.ftype=#{type}
 		<if test="str!=null and str!=''">
 			${str}
 		</if>

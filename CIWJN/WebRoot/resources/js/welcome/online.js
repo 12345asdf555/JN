@@ -6,7 +6,7 @@ var mall = new Array();
 var warn = new Array();
 var machineary = [],
 	mallary = [];
-var websocketURL;
+var websocketURL,mqttClintId;
 var socket;
 var redata;
 var symbol = 0;
@@ -25,7 +25,8 @@ $(function() {
 	welder();
 	machine();
 	websocketurl();
-	websocket();
+//	websocket();
+//	mqttTest();
 })
 
 $(document).ready(function() {
@@ -84,12 +85,162 @@ function websocketurl() {
 		success : function(result) {
 			if (result) {
 				websocketURL = eval(result.web_socket);
+				mqttClintId = result.userName;
+				mqttTest();
 			}
 		},
 		error : function(errorMsg) {
 			alert("数据请求失败，请联系系统管理员!");
 		}
 	});
+}
+
+function mqttTest(){
+//	var clientId = Math.random().toString().substr(3,8) + Date.now().toString(36);
+	var clientId = mqttClintId+"_RTC_INDEX";
+	index_client = new Paho.MQTT.Client(websocketURL.split(":")[0], parseInt(websocketURL.split(":")[1]), clientId);
+	var options = {
+        timeout: 5,  
+        keepAliveInterval: 60,  
+        cleanSession: false,  
+        useSSL: false,  
+        onSuccess: onConnect,  
+        onFailure: function(e){  
+            console.log(e);  
+        },
+        reconnect : true
+	}
+	
+	//set callback handlers
+	index_client.onConnectionLost = onConnectionLost;
+	index_client.onMessageArrived = onMessageArrived;
+
+	//connect the client
+	index_client.connect(options);
+}
+
+//called when the client connects
+function onConnect() {
+	// Once a connection has been made, make a subscription and send a message.
+	console.log("onConnect");
+//	client.publish('/public/TEST/SHTH', 'SHTHCS', 0, false);
+	index_client.subscribe("weldmes/rtcdata", {
+			qos: 0,
+			onSuccess:function(e){  
+//	            console.log("订阅成功");  
+				var loadingMask = document.getElementById('loadingDiv');
+				loadingMask.parentNode.removeChild(loadingMask);
+	        },
+	        onFailure: function(e){  
+	            console.log(e);  
+				var loadingMask = document.getElementById('loadingDiv');
+				loadingMask.parentNode.removeChild(loadingMask);
+	        }
+		})
+}
+
+//called when the client loses its connection
+function onConnectionLost(responseObject) {
+	if (responseObject.errorCode !== 0) {
+//		console.log("onConnectionLost:"+responseObject.errorMessage);
+	}
+}
+
+//called when a message arrives
+function onMessageArrived(message) {
+//	console.log("onMessageArrived:"+message.payloadString);
+	redata = message.payloadString;
+	if (redata.length % 111 == 0) {
+			if (symbol == 0) {
+				window.setTimeout(function() {
+					showWelderChart();
+					showPersonChart();
+				}, 5000)
+				symbol = 1;
+			}
+
+			for (var i = 0; i < redata.length; i += 111) {
+				if (redata.substring(0 + i, 4 + i) != "0000" && $.inArray(parseInt(redata.substring(0+i, 4+i),10),namex)!=-1) {
+					//组织机构与焊工编号都与数据库中一致则录入
+					if (weld.length == 0) {
+						weld.push(redata.substring(0 + i, 4 + i));
+					} else {
+						if ($.inArray(redata.substring(0 + i, 4 + i), weld) == -1) {
+							weld.push(redata.substring(0 + i, 4 + i));
+						} else {
+							break;
+						}
+					}
+				}
+				if(parseInt(redata.substring(4+i, 8+i),10)!=0 && $.inArray(parseInt(redata.substring(4+i, 8+i),10),machineary)!=-1){
+					var cleardataIndex = $.inArray(parseInt(redata.substring(4+i, 8+i),10), cleardata);
+					if(cleardataIndex==(-1)){
+						cleardata.push(parseInt(redata.substring(4+i, 8+i),10));
+						cleardata.push(new Date().getTime());
+					}else{
+						cleardata.splice(cleardataIndex+1, 1, new Date().getTime());
+					}
+					var mstatus = redata.substring(36 + i, 38 + i);
+					var livestatus,livestatusid,liveimg;
+					if(mstatus=="00"){
+						var num;
+						num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), stand);
+						if(num==(-1)){
+							stand.push(parseInt(redata.substring(4+i, 8+i),10));
+						}
+						num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), warn);
+						if(num!=(-1)){
+							warn.splice(num, 1);
+						}
+						num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), off);
+						if(num!=(-1)){
+							off.splice(num, 1);
+						}
+						num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), on);
+						if(num!=(-1)){
+							on.splice(num, 1);
+						}
+					}else if(mstatus=="03"||mstatus=="05"||mstatus=="07"){
+						var num;
+						num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), on);
+						if(num==(-1)){
+							on.push(parseInt(redata.substring(4+i, 8+i),10));
+						}
+						num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), warn);
+						if(num!=(-1)){
+							warn.splice(num, 1);
+						}
+						num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), off);
+						if(num!=(-1)){
+							off.splice(num, 1);
+						}
+						num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), stand);
+						if(num!=(-1)){
+							stand.splice(num, 1);
+						}
+					}else{
+						var num;
+						num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), warn);
+						if(num==(-1)){
+							warn.push(parseInt(redata.substring(4+i, 8+i),10));
+						}
+						num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), on);
+						if(num!=(-1)){
+							on.splice(num, 1);
+						}
+						num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), off);
+						if(num!=(-1)){
+							off.splice(num, 1);
+						}
+						num = $.inArray(parseInt(redata.substring(4+i, 8+i),10), stand);
+						if(num!=(-1)){
+							stand.splice(num, 1);
+						}
+					}
+				}
+				
+			}
+	}
 }
 
 function websocket() {
