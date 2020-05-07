@@ -243,13 +243,13 @@ public class WeldingTaskController {
 				serach=serach+" or j.fitemId="+userinsid+")";
 			}
 		}
-		serach+=" foperatetype is null";
-//		if(!"".equals(request.getParameter("searchStr"))&&request.getParameter("searchStr")!=null&&serach!=null&&serach!=""){
-//			serach=serach+" and "+request.getParameter("searchStr");
-//		}
-//		if(!"".equals(request.getParameter("searchStr"))&&request.getParameter("searchStr")!=null&&(serach==null||serach=="")){
-//			serach=request.getParameter("searchStr");
-//		}
+		serach+=" AND foperatetype is null";
+		if(!"".equals(request.getParameter("searchStr"))&&request.getParameter("searchStr")!=null&&serach!=null&&serach!=""){
+			serach=serach+" and "+request.getParameter("searchStr");
+		}
+		if(!"".equals(request.getParameter("searchStr"))&&request.getParameter("searchStr")!=null&&(serach==null||serach=="")){
+			serach=request.getParameter("searchStr");
+		}
 //		page = new Page(pageIndex,pageSize,total);
 		List<WeldedJunction> list = wjm.getWeldedJunctionAll(serach);
 //		long total = 0;
