@@ -117,18 +117,24 @@ function getMachine(insfid) {
 				machine = eval(result.rows);
 				for(var i=0;i<machine.length;i++){
 					var type = machine[i].type,imgnum=0;
+					var manufacture = machine[i].manufacture;
 					if(type==41){
 						imgnum = 1;
 					}else if(type==42){
 						imgnum = 3;
 					}else if(type==43){
+						if(manufacture == 147){
+							imgnum = 4;
+						}
+						else{
 						imgnum = 2;
+						}
 					}
 					if(offFlag==0){
 						off.push(machine[i].fid);
 					}
 					var str = '<div id="machine'+machine[i].fid+'" style="width:240px;height:120px;float:left;margin-right:10px;display:none">'+
-					'<div style="float:left;width:40%;height:100%;"><a href="td/goNextcurve?value='+machine[i].fid+'&valuename='+machine[i].fequipment_no+'&type='+machine[i].type+'&model='+machine[i].model+'"><img id="img'+machine[i].fid+'" src="resources/images/welder_4'+imgnum+'.png" style="height:110px;width:100%;padding-top:10px;"></a></div>'+
+					'<div style="float:left;width:40%;height:100%;"><a href="td/goNextcurve?value='+machine[i].fid+'&valuename='+machine[i].fequipment_no+'&type='+machine[i].type+'&model='+machine[i].model+'&manufacture='+machine[i].manufacture+'"><img id="img'+machine[i].fid+'" src="resources/images/welder_4'+imgnum+'.png" style="height:110px;width:100%;padding-top:10px;"></a></div>'+
 					'<div style="float:left;width:60%;height:100%;">'+
 					'<ul><li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">设备编号：<span id="m1'+machine[i].fid+'">'+machine[i].fequipment_no+'</span></li>'+
 					'<li style="width:100%;height:19px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">任务编号：<span id="m2'+machine[i].fid+'">--</span></li>'+
@@ -356,12 +362,17 @@ function iview(){
 				for(var f=0;f<machine.length;f++){
 					if(machine[f].fid==(parseInt(redata.substring(4+i, 8+i),10))){
 						var type = machine[f].type,imgnum=0;
+						var manufacture = machine[f].manufacture;
 						if(type==41){
 							imgnum = 1;
 						}else if(type==42){
 							imgnum = 3;
 						}else if(type==43){
-							imgnum = 2;
+							if(manufacture == 147){
+								imgnum = 4;
+							}else{
+								imgnum = 2;
+							}
 						}
 						var cleardataIndex = $.inArray(parseInt(redata.substring(4+i, 8+i),10), cleardata);
 						if(cleardataIndex==(-1)){

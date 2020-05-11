@@ -84,6 +84,7 @@ public class TdController {
 	    String valuename = request.getParameter("valuename");
 	    String type = request.getParameter("type");
 	    String model = request.getParameter("model");
+	    String manufacture = request.getParameter("manufacture");
 	    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
 //	    String time = tdService.getBootTime(df.format(new Date())+" 00:00:00", new BigInteger(value));
 	    request.setAttribute("value", value);
@@ -91,6 +92,7 @@ public class TdController {
 	    request.setAttribute("type", type);
 	    request.setAttribute("model", model);
 	    request.setAttribute("time", "--");
+	    request.setAttribute("manufacture", manufacture);
 /*	    if("".equals(time)||time==null||"null".equals(time)){
 		    request.setAttribute("time", "--");
 	    }else{
@@ -451,6 +453,7 @@ public class TdController {
 					json.put("finsname", td.getFcn());
 					json.put("type", td.getTypeid());
 					json.put("model", td.getFpp());
+					json.put("manufacture", td.getFpt());
 					ary.add(json);
 				}
 			}catch(Exception e){
@@ -635,17 +638,19 @@ public class TdController {
 	public String getLiveTime(HttpServletRequest request){
 		JSONObject json = new JSONObject();
 		try{
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String time = sdf.format(new Date());
 /*			Calendar calendar = Calendar.getInstance();
 			calendar.add(Calendar.DATE, 1); //得到后一天
 			String totime = sdf.format(calendar.getTime());*/
-			Td list = tdService.getLiveTime(time.substring(0,11)+"00:00:00", time.substring(0,14)+"00:00", new BigInteger(request.getParameter("machineid")));
+			//Td list = tdService.getLiveTime(time.substring(0,11)+"00:00:00", time.substring(0,14)+"00:00", new BigInteger(request.getParameter("machineid")));
+			Td list = tdService.getLiveTime(time, new BigInteger(request.getParameter("machineid")));
 			WeldingMachine machinelist = wm.getWeldingMachineById(new BigInteger(request.getParameter("machineid")));
 			json.put("machineno", machinelist.getTypename());
 			if(list!=null){
 				json.put("worktime",list.getWorktime());
-				json.put("time",list.getWorktime());
+				json.put("time",list.getTime());
 			}
 		}catch(Exception e){
 			e.printStackTrace();

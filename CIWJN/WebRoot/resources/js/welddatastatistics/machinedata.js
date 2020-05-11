@@ -92,6 +92,35 @@ function itemcombobox(){
       }  
 	}); 
 	$("#item").combobox();*/
+	$("#zitem").combobox({
+		onChange : function(newValue,oldValue){
+			if(oldValue!=""){
+				$.ajax({  
+				    type : "post",  
+				    async : false,
+				    url : "weldtask/getTeam?searchStr="+" and i.fparent="+newValue,  
+				    data : {},  
+				    dataType : "json", //返回数据形式为json  
+				    success : function(result) {  
+				        if (result) {
+				        		var boptionStr = '<option value="0">请选择</option>';
+				                for (var i = 0; i < result.ary.length; i++) {  
+				                    boptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
+				                            + result.ary[i].name + "</option>";
+				                }
+				                $("#bitem").html(boptionStr);
+					        	$("#bitem").combobox();
+					        	$("#bitem").combobox('select',0);
+					        	$("#bitem").combobox({disabled: false});
+				        }  
+				    },  
+				    error : function(errorMsg) {  
+				        alert("数据请求失败，请联系系统管理员!");  
+				    }  
+					}); 
+			}
+		}
+	})
 	
 	$.ajax({  
 	    type : "post",  
@@ -147,7 +176,7 @@ function itemcombobox(){
 	                }
 	                $("#zitem").html(zoptionStr);
 		        	$("#zitem").combobox();
-		        	$("#zitem").combobox('select',0);
+		        	$("#zitem").combobox('select',result.ary[i].id);
 	        	}
 	        	
 	        }  
@@ -157,37 +186,6 @@ function itemcombobox(){
 	    }  
 		}); 
 	
-	$("#zitem").combobox({
-		onChange : function(newValue,oldValue){
-			if(oldValue!=""){
-				$.ajax({  
-				    type : "post",  
-				    async : false,
-				    url : "weldtask/getTeam?searchStr="+" and i.fparent="+newValue,  
-				    data : {},  
-				    dataType : "json", //返回数据形式为json  
-				    success : function(result) {  
-				        if (result) {
-				        		var boptionStr = '<option value="0">请选择</option>';
-				                for (var i = 0; i < result.ary.length; i++) {  
-				                    boptionStr += "<option value=\"" + result.ary[i].id + "\" >"  
-				                            + result.ary[i].name + "</option>";
-				                }
-				                $("#bitem").html(boptionStr);
-					        	$("#bitem").combobox();
-					        	$("#bitem").combobox('select',0);
-					        	$("#bitem").combobox({disabled: false});
-				        }  
-				    },  
-				    error : function(errorMsg) {  
-				        alert("数据请求失败，请联系系统管理员!");  
-				    }  
-					}); 
-			}
-		}
-	})
-
-	$("#zitem").combobox('select',0);
 }
 
 function serach(){

@@ -67,6 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<input  id="machineid" type="hidden" value="${value }"/>
 	<input id="type" type="hidden" value="${type }"/>
 	<input id="machinemodel" type="hidden" value="${model }"/>
+	<input id="manufacture" type="hidden" value="${manufacture }"/>
 	<input name="afresh" id="afresh" type="hidden" value="${afreshLogin }"/>
 	<div style="float:left; width:100%;height:30px;background-color: #474960;color:#ffffff;font-size:14px;line-height:30px;">
 		<div style="float:left;">设备运行参数监控</div>

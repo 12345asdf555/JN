@@ -28,6 +28,6 @@ public interface TdService {
 	 * @param machineid 焊机id
 	 * @return
 	 */
-	Td getLiveTime(String time,String totime,BigInteger machineid);
+	Td getLiveTime(String time,BigInteger machineid);
 	String getBootTime(String time,BigInteger machineId);
 }

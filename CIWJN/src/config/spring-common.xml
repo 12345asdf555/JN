@@ -49,7 +49,6 @@
 		<property name="basePackage" value="com.spring.dao"></property>
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
 	</bean>
-    
     <aop:aspectj-autoproxy />
 
 	<aop:config>

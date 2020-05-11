@@ -52,7 +52,7 @@ function controlfun(){
 			websocket.close();
 			return;
 	    }else{
-			machine = selectMachine.gatherId.toString(16);
+			machine = parseInt(selectMachine.gatherId).toString(16);
 			if(machine.length<4){
 				var length = 4 - machine.length;
 		        for(var i=0;i<length;i++){
@@ -170,7 +170,7 @@ function passfun(){
 					websocket.close();
 					return;
 			    }else{
-					machine = selectMachine.gatherId.toString(16);
+					machine = parseInt(selectMachine.gatherId).toString(16);
 					if(machine.length<4){
 						var length = 4 - machine.length;
 				        for(var i=0;i<length;i++){

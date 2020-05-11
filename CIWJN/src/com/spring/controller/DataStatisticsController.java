@@ -595,7 +595,7 @@ public class DataStatisticsController {
 				}*/
 			}
 			//表头
-			String [] str = {"设备编码","所属班组","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
+			String [] str = {"所属班组","设备编码","累计焊接时间","正常段时长","超规范时长","规范符合率(%)"};
 			for(int i=0;i<str.length;i++){
 				title.put("title", str[i]);
 				titleary.add(title);

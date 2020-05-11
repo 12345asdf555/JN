@@ -153,6 +153,7 @@ function onMessageArrived(message) {
 	if (redata.length % 111 == 0) {
 			if (symbol == 0) {
 				window.setTimeout(function() {
+					clearDataFun();
 					showWelderChart();
 					showPersonChart();
 				}, 5000)
@@ -238,7 +239,6 @@ function onMessageArrived(message) {
 						}
 					}
 				}
-				
 			}
 	}
 }
@@ -706,8 +706,8 @@ function showWelderChart() {
 //	warn.length = 0;
 //	mall.length = 0;
 }
-
 function clearDataFun(){
+	var temp = 0;
 	window.setInterval(function() {
 		var timeflag = new Date().getTime();
 		for(var i=0;i<cleardata.length;i=i+2){
@@ -731,8 +731,10 @@ function clearDataFun(){
 					off.push(cleardata[i]);
 				}
 				cleardata.splice(i, 1);
+				temp = 1;
 			}
 		}
+		
 		var option = weldercharts.getOption();
 		option.series[0].data = [
             {value:on.length,
@@ -764,8 +766,12 @@ function clearDataFun(){
 					}
 				}}
         ];
+		if(temp == 1){
+			temp = 0;
+			location.reload();
+		}
 		weldercharts.setOption(option);
-	}, 30000)
+	}, 10000)
 }
 
 //window.setInterval(function() {

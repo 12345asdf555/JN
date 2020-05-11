@@ -221,7 +221,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div id="sdlg-buttons">
 			<a href="javascript:saveWeldingnumber();" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
-			<a href="javascript:dlgclose('sdlg');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+			<a href="javascript:closeDialog('sdlg');" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 		</div>
 		
 		<!-- 批量删除 -->
@@ -230,7 +230,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    </div>
 	    <div id="cdt-buttons">
 	      <a href="javascript:batchDelete();" class="easyui-linkbutton" iconCls="icon-ok">删除</a>
-	      <a href="javascript:" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
+	      <a href="javascript:closeDialog('bdt')" class="easyui-linkbutton" iconCls="icon-cancel" >取消</a>
 	    </div>
 		
 		<div id="load" style="width:100%;height:100%;"></div>

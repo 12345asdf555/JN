@@ -51,12 +51,19 @@ var led = [ "0,1,2,4,5,6", "2,5", "0,2,3,4,6", "0,2,3,5,6", "1,2,3,5", "0,1,3,5,
 var lockReconnect = false;//避免重复连接
 $(function() {
 	var type = $("#type").val(),imgnum=0;
+	var manuturer =$("#manufacture").val();
 	if(type==41){
 		imgnum = 1;
 	}else if(type==42){
 		imgnum = 2;
 	}else if(type==43){
-		imgnum = 3;
+		if(manuturer == 147){
+			imgnum = 4;
+		}
+		else{
+		imgnum = 2;
+		}
+		//imgnum = 3;
 	}
 	$("#mrjpg").attr("src", "resources/images/welder_4"+imgnum+".png");
 	var livewidth = $("#livediv").width() * 0.9;
@@ -137,6 +144,35 @@ $(function() {
 			      }  
 			 });*/
 //	websocket();
+	
+	//获取工作、焊接时间以及设备类型
+//	$.ajax({
+//		type : "post",
+//		async : false,
+//		url : "td/getLiveTime?machineid="+$("#machineid").val(),
+//		data : {},
+//		dataType : "json", //返回数据形式为json  
+//		success : function(result) {
+//			if (result) {
+//				worktime = eval(result);
+//				if(worktime.worktime!=null && worktime.worktime!=''){
+//					time1 = worktime.time;
+//				}
+//				if(worktime.time!=null && worktime.time!=''){
+//					time2 = worktime.worktime;
+//				}
+//				/*var t1 = secondToDate(time2);
+//				$("#r3").html(t1);*/
+//			   // $("#r3").textbox('setValue',t1);
+//			    var t2 = secondToDate(time1);
+//			    $("#r4").html(t2);
+//			}
+//		},
+//		error : function(errorMsg) {
+//			alert("数据请求失败，请联系系统管理员!");
+//		}
+//	});
+	
 	mqttTest();
 
 	function serach(){
@@ -265,32 +301,6 @@ function webclient() {
 		redata = msg.data;
 		iview();
 		if(timeFlag==0){
-			//获取工作、焊接时间以及设备类型
-			$.ajax({
-				type : "post",
-				async : false,
-				url : "td/getLiveTime?machineid="+$("#machineid").val(),
-				data : {},
-				dataType : "json", //返回数据形式为json  
-				success : function(result) {
-					if (result) {
-						worktime = eval(result);
-						if(worktime.worktime!=null && worktime.worktime!=''){
-							time1 = worktime.time;
-						}
-						if(worktime.time!=null && worktime.time!=''){
-							time2 = worktime.worktime;
-						}
-						var t1 = secondToDate(time1);
-					    $("#r3").textbox('setValue',t1);
-					    var t2 = secondToDate(time2);
-					    $("#r4").textbox('setValue',t2);
-					}
-				},
-				error : function(errorMsg) {
-					alert("数据请求失败，请联系系统管理员!");
-				}
-			});
 			timeFlag = 1;
 		}
 	};
@@ -564,13 +574,19 @@ function iview() {
 				}
 			}
 			$("#l2").html(worktime.machineno);
-			var type = $("#type").val(),imgnum=0;;
+			var type = $("#type").val(),imgnum=0;
+			var manuturer = $("#manufacture").val();
 			if(type==41){
 				imgnum = 1;
 			}else if(type==42){
 				imgnum = 3;
 			}else if(type==43){
+				if(manuturer == 147){
+					imgnum = 4;
+				}
+				else{
 				imgnum = 2;
+				}
 			}
 			var mstatus = redata.substring(36 + i, 38 + i);
 			switch (mstatus) {

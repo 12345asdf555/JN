@@ -776,7 +776,7 @@ function requestWps() {
 				chanel = "0" + chanel;
 			}
 		}
-		var mach = selectMachine.gatherId;
+		var mach = parseInt(selectMachine.gatherId).toString(16);
 		if (mach.length < 4) {
 			var length = 4 - mach.length;
 			for (var i = 0; i < length; i++) {

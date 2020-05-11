@@ -645,11 +645,10 @@ public class ImportExcelController {
 		List<WeldingMachine> wm = new ArrayList<WeldingMachine>();
 		InputStream stream = new FileInputStream(path);
 		Workbook workbook = create(stream);
-		Sheet sheet = workbook.getSheetAt(0);
-		
+		for(int h=0;h<workbook.getNumberOfSheets();h++) {
+		Sheet sheet = workbook.getSheetAt(h);
 		int rowstart = sheet.getFirstRowNum()+1;
 		int rowEnd = sheet.getLastRowNum();
-	    
 		for(int i=rowstart;i<=rowEnd;i++){
 			Row row = sheet.getRow(i);
 			if(null == row){
@@ -777,9 +776,10 @@ public class ImportExcelController {
 			}
 			wm.add(dit);
 		}
-		
+		}	
 		return wm;
 	}
+
 	
 	/**
 	 * 导入Welder表数据
